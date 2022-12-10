@@ -1,0 +1,130 @@
+\documentclass[12pt]{uh_thesis}
+%\usepackage[hyphens]{url}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{enumerate}
+%% Tentative: newtx for better-looking Times
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+
+\newsubfloat{figure}
+
+\usepackage[
+    backend=biber,natbib,
+    % IMPORTANT: load a style suitable for your discipline
+    style=phys
+]{biblatex}
+
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=red,urlcolor=blue]{hyperref}
+
+\addbibresource{references.bib}
+
+\begin{document}
+
+
+\date{April 2023}
+
+\title{Development of a Pixelated Liquid Argon Time Projection Chamber Detector: Q-Pix}
+\author{Kevin Keefe}
+
+\degreeaward{Doctor of Philosophy}                 % Degree to be awarded
+\department{Physics}
+\university{Ke Kulanui o Hawai`i ma M\={a}noa}    % Institution name
+\address{M\={a}noa, Hawai`i}                     % Institution address
+\unilogo{manoa_seal.eps}                                 % Institution logo
+\copyyear{April 2023}  % Year (of graduation) on diploma
+\committee{Kurtis Nishimura
+
+Chairpersons\\ Jason Kumar, John Learned, Scott Rowland, Peter Sadowski, Gary Varner}
+\keywords{Field Programmable Gate Array, Time Projection Chamber, Diffusion}
+
+\orcid{0000-0000}
+
+%% IMPORTANT: Select ONE of the rights statement below.
+\rightsstatement{All rights reserved except where otherwise noted}
+% \rightsstatement{Some rights reserved. This thesis is distributed under a [name license, e.g., ``Creative Commons Attribution-NonCommercial-ShareAlike License'']}
+
+\maketitle[logo]
+
+\begin{acknowledgements}
+
+\end{acknowledgements}
+
+\begin{abstract}
+The Standard Model (SM) of physics has proven remarkably successful in past decades, yet some measurements such as neutrino oscillations show that this model is still an incomplete description of nature.
+The hunt for New Physics (NP) continues at higher energies ($>> 1 GeV$) with larger detectors ($\approx 10 kT$); the data acquired continually hint at Beyond Standard Model (BSM) physics.
+One such future detector is The Deep Underground Neutrino (DUNE) detector, which has recently begun construction. 
+This 40-kT scale detector requires high precision in both timing ($<< \mu s$) and spatial resolutions ($\approx 1 mm$) for vertex reconstruction of interesting neutrino events.
+DUNE (as any beam detector) is a combination of two detectors, a near-detector (ND) and a far-detector (FD) for long-baseline neutrino oscillation measurements.
+In order to meet the required timing and spatial resolution the DUNE-FD is a Liquid Argon Time Projection Chamber (LArTPC) design.
+Recent work has been done to show that LArTPCs can transition from a traditional wire readout to a pixelated readout, and thus further improve vertex reconstruction.
+This dissertation discusses recent progress and characterizations of a novel implementation of new a pixelated LArTPC readout technology.
+This novel readout is based on a charge-integrate-reset circuit at the pixel level (Q-Pix).
+We present the basic pixel-level readout circuit and the implications such an implementation has when applied at DUNE-FD scales.
+Further, we demonstrate results from the first-prototype implementation based on Q-Pix has been successfully used with solely over-the-counter electronics to acquire new Liquid Argon diffusion measurements. 
+One crucial problem of any pixelated readout is the the ability to handle a large number of unique data channels ($\approx 100k$).
+To address the scaling problem we developed and tested a modular digital back-end prototype, and implemented it within the first LArTPC prototype.
+Next, we discuss nominal DUNE-FD APA system level requirements to achieve a projected required sensitivity, remove backgrounds, pixel-level calibration techniques, and possible methods for particle-identification (PID).
+Simulation results are also performed based on projected background and high-energy neutrino beam-line events.
+Finally, based on these results of the prototypes and simulation we discuss the nominal digital back-end readout constraints of a fully realized QPix implementation for DUNE-FD APA.
+% include incoming ASIC comments
+\end{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\printnomenclature
+
+\mainmatter
+
+%% chapter 1, introduce TPCs, DUNE, BSM Physics
+\chapter{Introduction}
+\label{chap:intro}
+
+\input{chapters/intro.tex}
+
+%% chapter 2, the QPix Design concept
+\chapter{A Novel Readout Technique for LArTPCs: QPix}
+\label{chap:qpix}
+
+\input{chapters/qpix.tex}
+
+
+%% chapter 3
+\chapter{Digital Back-end Characterization Studies}
+\label{chap:qdb}
+
+\input{chapters/qdb.tex}
+
+%% chapter 4
+\chapter{New Diffusion Measurements: LArTPC Studies within SAQ}
+\label{chap:saq}
+
+\input{chapters/saq.tex}
+
+%% Summary
+\chapter{Summary and Outlook}
+\label{chap:summary}
+
+\input{chapters/summary.tex}
+
+
+\printbibliography[heading=bibintoc]
+
+%% appendix work on SVSC?
+\appendix
+\chapter{SVSC OS1}
+\label{chap:OS1}
+
+\chapter{SVSC OS2}
+\label{chap:OS2}
+
+\printindex
+
+\end{document}
