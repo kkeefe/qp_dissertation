@@ -1,0 +1,26 @@
+##############
+Detector Notes
+##############
+
+Geiger Counters
+
+proportional counters
+
+bubble chambers
+
+spark chambers
+
+multiwire proportional counter
+
+time projection chamber
+
+LArTPC
+
+QPix
+
+
+##############
+Neutrino Notes:
+##############
+
+https://neutrinos.fnal.gov/history/

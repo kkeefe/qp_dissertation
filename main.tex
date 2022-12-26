@@ -17,6 +17,8 @@
 
 \usepackage[
     backend=biber,natbib,
+    maxbibnames=15,
+    maxcitenames=2,
     % IMPORTANT: load a style suitable for your discipline
     style=phys
 ]{biblatex}
@@ -72,7 +74,7 @@ One crucial problem of any pixelated readout is the the ability to handle a larg
 To address the scaling problem we developed and tested a modular digital back-end prototype, and implemented it within the first LArTPC prototype.
 Next, we discuss nominal DUNE-FD APA system level requirements to achieve a projected required sensitivity, remove backgrounds, pixel-level calibration techniques, and possible methods for particle-identification (PID).
 Simulation results are also performed based on projected background and high-energy neutrino beam-line events.
-Finally, based on these results of the prototypes and simulation we discuss the nominal digital back-end readout constraints of a fully realized QPix implementation for DUNE-FD APA.
+Finally, based on these results of the prototypes and simulation we discuss the nominal digital back-end readout constraints of a fully realized QPix implementation for a DUNE-FD Module.
 % include incoming ASIC comments
 \end{abstract}
 
@@ -83,21 +85,21 @@ Finally, based on these results of the prototypes and simulation we discuss the 
 
 \mainmatter
 
-%% chapter 1, introduce TPCs, DUNE, BSM Physics
+%% chapter 1, introduce SM Physics, history of detectors leading to TPCs, DUNE, and how this relates
 \chapter{Introduction}
 \label{chap:intro}
 
 \input{chapters/intro.tex}
 
 %% chapter 2, the QPix Design concept
-\chapter{A Novel Readout Technique for LArTPCs: Q-Pix}
+\chapter{A Novel Readout Technique for TPCs: Q-Pix}
 \label{chap:qpix}
 
 \input{chapters/qpix.tex}
 
 
 %% chapter 3
-\chapter{New Diffusion Measurements: LArTPC Studies within SAQ}
+\chapter{New Diffusion Measurements: Studies within SAQ}
 \label{chap:saq}
 
 \input{chapters/saq.tex}
