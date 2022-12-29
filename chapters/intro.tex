@@ -47,12 +47,12 @@ In order to address the issues posed within this frontier the large scale detect
 
 Many times since the early 20th century it was thought that the goal of physics was accomplished.
 % Even during Max Plank's time (1858-1947) physics he was told (according to Planck himself) was nearly a complete and mature science, such a geometry.
-However, during each of these moments of false triumph some new detector was built to take a new measurement; thus, the door to new understanding of nature is never shut.
+However, during each of these moments of false triumph some new detector was built to take a new measurement; thus, the door to new understanding of nature is never closed.
 This section provides a brief and (necessarily) incomplete history of significant measurements and detector developments relevant to particle physics.
 In order to clear an obstacle, it is often helpful to remember the previous ones.
 
 
-\subsection{A Century of new Detectors}
+\subsection{A Century of New Physics}
 
 At the turn of the 20th century particle physics was in its infancy.
 In 1900 Max Planck first introduces the concept of energy quanta for the first time concerning photons to eliminate the infamous ultra-violet catastrophe problem introduced by statistical mechanics.
@@ -70,7 +70,99 @@ Next the spark chamber eventually lead to the gradual development of the wire-sp
 In 1968 Georges Charpak developed the Multi-Wire Proportional Chamber (MWPC) for which he (much later) won the Nobel Prize in 1992.
 From this key insight a new detector concept was made possible.
 
-\subsubsection{Time Projection Chambers}
+
+\subsection{An Escape: Catch the Neutrino}
+
+More than 100 years ago Chadwick was able to show that the energy sprectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
+This prompted Wolfgang Pauli to predict a particle which he origianlly called the neutron to also be a decay product, but not easily observable.
+Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
+
+The discovery of the neutron and the continuous spectrum of beta decay caused Pauli to come up with a new theory attempting to describe it~\citep{pauli_1934}.
+
+This even lead some physicists to belief that perhaps the conservation of energy was violated.
+However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
+Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
+
+A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
+
+The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{donut_first_tau_n_measure}.
+this detector used nuclear emulsions.
+
+After this first discovery is when the the answers, and mostly the questions started to pile in.
+
+%% what are the problems of neutrinos and which ones do we care about (electron / muon from a beam)
+Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
+
+\citep{SNO_2002_neutrino_PhysRevLett.89.011301, neutrino_measurement_NOvA_2019_prl, t2k_2011_neutrino_PhysRevLett.107.041801}
+\cite{reno_2012_neutrino_PhysRevLett.108.191802}
+%\cite{minos_2006_neutrino_PhysRevLett.97.191801}
+\citep{FUKUDA2002_solar_neutrino_oscillation}
+\citep{kamland_2003_neutrino_PhysRevLett.90.021802}
+\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803}
+\citep{doubleChooz_2012_neutrino_PhysRevLett.108.131801}
+
+% Double Chooz used two identical gadolinium-doped liquid scintillator detectors
+% t2k is (Tokai to Kamioka) is a long-baseline neutrino experiment, over 295 km
+%% nd is at j-parc, far detector is at superk
+
+
+%% physical interaction of neutrino scattering here
+\subsubsection{Neutrino Oscillation}
+
+% t2k neutrino oscillation measurement
+Tokai to Kamioka (T2k)~\citep{PhysRevD.91.072010_t2k_2015} has well established neutrino oscillation measurements.
+
+Daya bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
+
+Of all known particles the most elusive (hardest to detect and measure) is the neutrino.
+For this reason the least is known about the neutrino.
+What we do know about the neutrino is there are three pairs of them, associated with their leptonic partners: the electron, muon, and tau.
+
+It came as a welcome shock that neutrino oscillation was first measured.
+This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
+This happens because the mass eigenstate and flavor eigenstates which govern the neutrino are not equal.
+
+%% neutrino mass oscillations
+\begin{equation}
+\begin{pmatrix}
+\nu_e\\
+\nu_{\mu}\\
+\nu_{\tau}
+\end{pmatrix}
+=
+\begin{pmatrix}
+U_{e1}, U_{e2}, U_{e3} \\
+U_{u1}, U_{u2}, U_{u3} \\
+U_{\tau1}, U_{\tau2}, U_{\tau3}
+\end{pmatrix}
+\begin{pmatrix}
+\nu_1\\
+\nu_2\\
+\nu_3
+\end{pmatrix}
+\end{equation}
+
+
+\section{Modern Particle Detectors}
+
+It is could said that any definition defining a ``new'' age of a types of detectors is subjective.
+Nevertheless, we proceed to define that modern particle detectors were the age that began to use modern electronics based on metal–oxide–semiconductor field-effect transistor (MOS-FET).
+If there was any invention which was able to drive the development of computers and  measuring electronics, it was the transistor.
+
+Therefore, the beginning of the modern particle detection age began with the transistor, and it saw to the end of the spark chamber and bubble chamber detectors.
+
+\subsection{Multi-Wire Proportional Chamber}
+
+The middle of the 20th century saw a dramatic increase in the ability and reduction of the cost of electronics.
+These (then) new electronics allowed for fast digitizing measurements of voltage or current.
+Thus, new propotional counter detectors were capable of using computers to do the measuring or counting of the events within the detector.
+The rate at particles could then be detected increased by orders of magnitude.
+
+Using the fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the firstWire MWPC in 1968~\citep{Charpak:1968kd}.
+This new detector was one which paved the way for modern detector development, for which Charpak won the 1992 Nobel Prize.
+
+
+\subsection{Time Projection Chambers}
 
 Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
 This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
@@ -100,63 +192,8 @@ Energy resolution of the LArTPCs within DUNE are still unknown to within a facto
 
 
 
-\subsection{An Escape: Catch the Neutrino}
-
-More than 100 years ago in 1899 Ernest Rutherford observed beta decay.
-Not too long afterward it was determined that the energy spectrum of the electrons resulting from this decay produced a spectrum.
-This even lead some physicists to belief that perhaps the conservation of energy was violated.
-However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
-Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
-
-
-After this first discovery is when the the answers, and mostly the questions started to pile in.
-
-
-%% neutrino oscillation measurement here
-
-%% solar neutrinos
-
-%% neutrino mass oscillations
-\begin{equation}
-\begin{pmatrix}
-\nu_e\\
-\nu_{\mu}\\
-\nu_{\tau}
-\end{pmatrix}
-=
-\begin{pmatrix}
-U_{e1}, U_{e2}, U_{e3} \\
-U_{u1}, U_{u2}, U_{u3} \\
-U_{\tau1}, U_{\tau2}, U_{\tau3}
-\end{pmatrix}
-\begin{pmatrix}
-\nu_1\\
-\nu_2\\
-\nu_3
-\end{pmatrix}
-\end{equation}
-
-%% what are the problems of neutrinos and which ones do we care about (electron / muon from a beam)
-Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
-
-\citep{SNO_2002_neutrino_PhysRevLett.89.011301, neutrino_measurement_NOvA_2019_prl, t2k_2011_neutrino_PhysRevLett.107.041801}
-\cite{reno_2012_neutrino_PhysRevLett.108.191802}
-%\cite{minos_2006_neutrino_PhysRevLett.97.191801}
-\citep{FUKUDA2002_solar_neutrino_oscillation}
-\citep{kamland_2003_neutrino_PhysRevLett.90.021802}
-\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803}
-\citep{doubleChooz_2012_neutrino_PhysRevLett.108.131801}
-
-% Double Chooz used two identical gadolinium-doped liquid scintillator detectors
-% t2k is (Tokai to Kamioka) is a long-baseline neutrino experiment, over 295 km
-%% nd is at j-parc, far detector is at superk
-
-
-%% physical interaction of neutrino scattering here
-
-
 %% Highlight what DUNE is and its purpose
-\section{The Deep Underground Neutrino Experiment}
+\subsection{The Deep Underground Neutrino Experiment}
 
 The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment \cite{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}. 
 DUNE is composed two detectors, a near (ND) and a far (FD) which are separated by a distance of 1300 km. 
@@ -185,14 +222,14 @@ We will discuss the relevance of each of these items, and in \ref{chap:qpix} we 
 Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
 
 
-\subsection{Hadron Decay}
+\subsubsection{Hadron Decay}
 \label{sect:intro_decay}
 
 Second generation proton decay studies in the ICARUS experiment: \citep{ICARUS_2001}.
 
 %% why do we care about hadron decay
 
-\subsection{Supernova Studies}
+\subsubsection{Supernova Studies}
 \label{sect:intro_supernova}
 
 %% why do we care about supernova neutrinos, what will they tell us?
@@ -233,25 +270,11 @@ The principal decay chain follows the pattern:
 % Majorons), neutrino magnetic moments, new gauge bosons (“dark photons”), “unparticles” and
 % extra-dimensional gauge bosons
 
-\subsection{Neutrino Oscillation}
-
-Of all known particles the most elusive (hardest to detect and measure) is the neutrino.
-For this reason the least is known about the neutrino.
-What we do know about the neutrino is there are three pairs of them, associated with their leptonic partners: the electron, muon, and tau.
-
-It came as a welcome shock that neutrino oscillation was first measured.
-This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
-This happens because the mass eigenstate and flavor eigenstates which govern the neutrino are not equal.
-
-%% why do we care about neutrino beam oscillations
-\section{Towards Understanding}
-
-
 %% what is the difference between NC and CC neutrino interactions.
 
-\subsection{Pixelated Detectors in the Current Century}
+\section{Even Further: Detectors in the Current Century}
 
-Finally, in this last section we discuss recent progress of various detector technologies moving towards pixelization.
+Finally, in this last section we discuss recent development of various detector technologies.
 There are many motivating pressures for new detectors to adopt pixelated designs. 
 Below we discuss two contributing factors: the development of electronics and computing algorithms.
 
@@ -273,20 +296,31 @@ These ML algorithms provied a developed tool to automate the analysis of huge am
 %% LArPix / Argon Cube
 \subsection{Current Pixelization Efforts in TPCs}
 
-
 %% goeldi inspiration here from LArPix
 
 Additional work has been performed in recent years which show that LArTPCs can also utilized a pixel-based readout \citep{larpix:Dwyer_2018}, \citep{Asaadi_2018}.
 
-%% SVSC
-\subsection{Comments on Other applications of Pixelization}
 
-\subsubsection{SANDD}
+
+\subsection{SANDD}
 
 Another Example of a pixelated detector is \citep{SUTANTO2021_sandd_165409}.
 
 
-\subsubsection{The Single Volume Scatter Camera}
+\subsection{The Single Volume Scatter Camera}
 
 This work is presented in greater detail in (Appendicies-\ref{chap:OS1}/\ref{chap:OS2}) and represents a substantial amount of my own individual contribution. 
 I am the 2nd author on the the paper described in Appendix-\ref{chap:OS1} and the corresponding author of Appendix-\ref{chap:OS2}, where I also collected and analyzed all presented data therein.
+
+\subsection{Future Detectors}
+
+The end of the Standard Model era is inevitable.
+SM simply fails to account for physics with all major frontiers for physicists to accept its completeness; we know there is much and more to learn about nature.
+
+The 20th century saw unprecented progress in its sophistication of its detectors from ray tubes, to spark chambers, to proportional counters, and to huge (>20 km) particle accelerators.
+This century shows no signs holding any less promise than its predecessor.
+Continued development in electronics, computing, and analysis methods will lead to more and newer frontiers of physics.
+
+The work presented in this introduction aims to not only encapsulate the massive progress particle physics has made since the electron's discovery, but also to server as a reminder of how extraordinally surprising nature is.
+At every turn and at every point where physicists think they've arrived at the end (or at an impossible roadblock) there always remains more to discover.
+If we have learned anything, we have learned to knock and the door shall be opened.
