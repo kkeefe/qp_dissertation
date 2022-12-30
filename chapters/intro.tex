@@ -10,11 +10,108 @@ Finally, we relate the work presented in this dissertation is based on TPCs and 
 
 %% what is the SM: Summarize what it does well and what it doesn't do well
 In the history of science, it is easily argued that the most successful of all models has been the Standard Model of physics.
-The standard model was originally developed in mid to late 1970's, and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
+The Standard Model (SM) was originally developed in mid to late 1970's, and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
 It has been made remarkable predictions about the existance of elusive neutrinos, and an extensive number of other particles.
 
-%% elaborate more here on the standard model, what is it really?
+In this section we briefly describe the SM and highlight some (certainly not all) key aspects of its formulation understood today.
+The SM has stood the test of time, despite many known failures and holes in its predictions.
+Therefore, we hope to elaborate a bit on its status and predictions to help the reader better appreciate the significance of looking for physics beyond the SM.
 
+\subsection{The basics of the Standard Model}
+
+The SM itself dictates what the fundamental constiuents of matter and energy are.
+As any theory in science its purpose is to explain observed phenomena.
+In this case, the observed phenomena is simply all particle interactions which involve mass or energy.
+
+The interactions described by the standard model involve the fundamental particle interactions via three of the four known fundamental forces observed in nature: electromagnetic, weak, and strong forces.
+One of the current failings of the SM is its inability to incorporate a quantum description of gravity.
+The discussion of the renormalization of quantum-gravity is beyond the scope of the work presented here, and so we only mention that it has to be achieved.
+
+
+All known fundamental particles are represented in Fig.~\ref{fig:cern_sm}.
+
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/STDM_higgs_and_field_D.png}
+\caption{Image of Fundamental Particles in the Standard Model, taken from CERN website~\citep{dominguez_2015}.}
+\end{figure}
+~\label{fig:cern_sm}
+
+
+%% TODO
+\subsubsection{Quarks}
+
+The quarks represent particles in the top left of~\ref{fig:cern_sm}.
+Quarks are the fundamental particles which constitute the ``normal'' heavy particles, such as protons and neutrons.
+
+Quarks also have unique anti-particles partners of each other.
+The anti-quark counter-parts have the same mass as the normal partners with all quantum numbers interchanged.
+
+A unique feature of Quarks compared to the leptons is that no ``free'' Quark has ever been observed.
+Quarks instead combine either in pairs or in threes to make mesons or baryons, respectively.
+The mesons contain a quark and an anti-quark, whereas the baryons contain three quarks.
+Collectively, all particles constituted by any combination of quarks are known as hadrons.
+
+Since quarks are not freely observable a common place to infer their existence (and to create heavier hadrons) are in particle accelerators.
+The most well known particle accelerator is the Large Hadron Collider (LHC) in Geneva.
+These Particle accelerators generate extremely high energy ($\approx \mathcal{O}(10 TeV)$) protons which when collided can generate new compositie hadrons of any mass so that the total energy is conserved.
+
+
+%% TODO
+\subsubsection{Leptons}
+
+The leptons represent particles in the bottom left of~\ref{fig:cern_sm}.
+
+The first lepton discovered, and the most easily recognized, is the electron.
+Just like the quarks, the leptons come in three families (electron, $\mu$, $\tau$).
+Also like the quarks, the leptons have charge, mass, and flavour which means they can decay.
+
+Unlike the quarks the leptonic particles do not have a color quantum number and therefore do not combine together to create compositive particles.
+Additionally, free leptons are observed, e.g. the electron.
+
+The most difficult to measure particles of all in the SM are the neutrinos.
+This is because these leptons carry no net charge.
+However, since they carry flavour and can decay (or be absorbed) and they also carry their respective lepton number, the neutrinos in the family can be identified by measuring their partner.
+
+For example, a common process to observe an anti-electron neutrino ($\hat{\nu_{e}}$) is through inverse beta-decay (IBD) following the reaction:
+\begin{equation}
+\hat{\nu_{e}} + p \rightarrow e^{+} + n
+\end{equation}
+
+This IBD reaction is a common measurement tool for identifying neutrinos because of the distinguisable detection signature of the produced particles.
+The position ($e^{+}$) annailates very quickly ($\approx \mathcal{O}(ns)$) and will produce back-to-back 511 $keV$ photons.
+The produced neutron, on the other hand, wobbles around much longer ($\mathcal{O}(us)$) before being captured, which produces scintillation light of energy proportional to the neutrons energy when captured.
+
+\subsubsection{Forces}
+
+All forces within the standard model (electromagnetism, weak, and strong) interact via a ``carrier'' particle.
+These carrier particles are represented on the center-right of~\ref{fig:cern_sm}.
+
+The electromagnetic force is governed by particle exchanges of a photon.
+Other than perhaps gravity, which isn't explained by the SM, this is the most well known and described force.
+All particles which carry charge interfact with this force, therefore the neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force (this is why detecting them is so hard).
+The full theoretical description of this force is governed by Quantum-Electrodynamics (QED).
+
+The weak-nuclear force is goverened by particles exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$.
+This force involves a change in flavor of a particle, and involves both quarks and leptons.
+It is also responsible for all decay processes.
+The theoretical description of these mechanics are called Quantum-Flavourdynamics (QFD).
+
+The strong-nuclear force is goverened by the exchange of the gluon ($g$).
+This force is responsible for color changes of matter and describes why nuclei are held together.
+Since this force only involves exchanges of a gluon, the leptons are therefore unaffected since these particles carry no color quantum number.
+The full theoretical description for the strong-nuclear force is Quantum-Chromodynamics (QCD).
+
+\subsubsection{Higgs}
+
+The last particle to be discovered in the SM was the Higgs particle.
+The Higgs particle was originally predicted in 1964 by Peter Higgs~\ref{HIGGS1964132}.
+This particle is important to describe how mass is given the the elementary particles described by the SM.
+Finally, in 2012 the Large Hadron Collider (LHC) was able to infer the massive higgs particle~\ref{higgs_discovery_20121}.
+
+%% elaborate more here on the standard model, what is it really?
+\subsection{The Frontiers of the Standard Model}
 Yet, despite its numerous achievements in predictive power and experimental verification we know today that it has crucial shortcomings. 
 The Standard Model (SM) has no ability to account for Dark Matter or Dark Energy in the universe, nor the distribution (or the hierarchy) of neutrino masses, nor is it able to relate how gravity interacts with the other fundamental forces of nature (Unification).
 It also doesn't account for some 'basic' properties it has, such as: why are there only three generations of laptonic particles (electron, muon, and tau)?
@@ -48,7 +145,7 @@ In order to address the issues posed within this frontier the large scale detect
 Many times since the early 20th century it was thought that the goal of physics was accomplished.
 % Even during Max Plank's time (1858-1947) physics he was told (according to Planck himself) was nearly a complete and mature science, such a geometry.
 However, during each of these moments of false triumph some new detector was built to take a new measurement; thus, the door to new understanding of nature is never closed.
-This section provides a brief and (necessarily) incomplete history of significant measurements and detector developments relevant to particle physics.
+This section provides a brief and (necessarily) incomplete history of significant measurements and detector developments relevant to particle physics in the creation of the SM.
 In order to clear an obstacle, it is often helpful to remember the previous ones.
 
 
@@ -88,24 +185,30 @@ A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brook
 The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{donut_first_tau_n_measure}.
 this detector used nuclear emulsions.
 
-After this first discovery is when the the answers, and mostly the questions started to pile in.
 
 %% what are the problems of neutrinos and which ones do we care about (electron / muon from a beam)
-Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 
-\citep{SNO_2002_neutrino_PhysRevLett.89.011301, neutrino_measurement_NOvA_2019_prl, t2k_2011_neutrino_PhysRevLett.107.041801}
-\cite{reno_2012_neutrino_PhysRevLett.108.191802}
-%\cite{minos_2006_neutrino_PhysRevLett.97.191801}
-\citep{FUKUDA2002_solar_neutrino_oscillation}
-\citep{kamland_2003_neutrino_PhysRevLett.90.021802}
-\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803}
-\citep{doubleChooz_2012_neutrino_PhysRevLett.108.131801}
+% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
+After this first discovery is when the the answers, and mostly the questions started to pile in.
+Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos~\ref{
+SNO_2002_neutrino_PhysRevLett.89.011301, neutrino_measurement_NOvA_2019_prl, t2k_2011_neutrino_PhysRevLett.107.041801,
+reno_2012_neutrino_PhysRevLett.108.191802,
+FUKUDA2002_solar_neutrino_oscillation,
+kamland_2003_neutrino_PhysRevLett.90.021802,
+daya_bay_2012_neutrino_PhysRevLett.108.171803,
+doubleChooz_2012_neutrino_PhysRevLett.108.131801
+}
+
+Originally the mass of the neutrino predicted by the SM was massless.
+That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\ref{solar_neutrino_problem_PhysRevLett.20.1205}.
+The solution for this was oscillation.
 
 % Double Chooz used two identical gadolinium-doped liquid scintillator detectors
 % t2k is (Tokai to Kamioka) is a long-baseline neutrino experiment, over 295 km
 %% nd is at j-parc, far detector is at superk
 
 
+%% TODO most of particle physics to go here!
 %% physical interaction of neutrino scattering here
 \subsubsection{Neutrino Oscillation}
 
@@ -237,38 +340,6 @@ The principal decay chain follows the pattern:
 \begin{equation}
     \nu_{e} + ^{40}Ar \rightarrow e^- + ^{40}Kr^*
 \end{equation}
-
-%% text from the cdr 
-% The neutrinos from a core-collapse supernova are emitted in a burst of a few tens of seconds
-% duration, with about half the signal emitted in the first second. The neutrino energies are mostly
-% 4The lifetime shown here is divided by the branching fraction for this decay mode, $\tau$ /B, and as such is a partial
-% lifetime.
-% Volume 1: The LBNF and DUNE Projects LBNF/DUNE Conceptual Design Report
-% Chapter 2: DUNE Science 2–18
-% in the range 5–50 MeV, and the luminosity is divided roughly equally between the three known
-% neutrino flavors. Current experiments are sensitive primarily to electron antineutrinos ($\nu_e$), with
-% detection through the inverse-beta decay process on free protons5
-% , which dominates the interaction
-%rate in water and liquid-scintillator detectors. Liquid argon has a unique sensitivity to the electronneutrino (νe) component of the flux, via the absorption interaction on 40Ar,
-
-% This interaction can be tagged via the coincidence of the emitted electron and the accompanying
-% photon cascade from the 40K∗ de-excitation. About 3000 events would be expected in a 40−kt
-% fiducial mass liquid argon detector for a supernova at a distance of 10 kpc. In the neutrino channel
-% the oscillation features are in general more pronounced, since the νe spectrum is always significantly
-%different from the νµ (ντ ) spectrum in the initial core-collapse stages, to a larger degree than is
-%the case for the corresponding ν¯e spectrum. Detection of a large neutrino signal in DUNE would
-% help provide critical information on key astrophysical phenomena such as
-%  the neutronization burst,
-%  formation of a black hole,
-%  shock wave effects,
-%  shock instability oscillations, and
-%  turbulence effects.
-% In addition to yielding unprecedented information on the mechanics of the supernova explosion,
-% the observation of a core-collapse supernova in DUNE will also probe particle physics, providing
-% neutrino oscillation signatures (with sensitivity to mass hierarchy and “collective effects” due to
-% neutrino-neutrino interactions), as well as tests for new physics such as Goldstone bosons (e.g.,
-% Majorons), neutrino magnetic moments, new gauge bosons (“dark photons”), “unparticles” and
-% extra-dimensional gauge bosons
 
 %% what is the difference between NC and CC neutrino interactions.
 
