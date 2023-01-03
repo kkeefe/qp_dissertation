@@ -1,19 +1,19 @@
 \documentclass[12pt]{uh_thesis}
-%\usepackage[hyphens]{url}
-\usepackage{lipsum}
-\usepackage{graphicx}
-%\usepackage{pdflscape}
+
+
+\usepackage[hyphens]{url}
+% \usepackage{lipsum}
+% \usepackage{graphicx}
+% \usepackage{pdflscape}
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{enumerate}
+% \usepackage{siunitx}
+% \usepackage{enumerate}
 %% Tentative: newtx for better-looking Times
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{newtxtext,newtxmath}
-
-\newsubfloat{figure}
+% \usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage{newtxtext,newtxmath}
 
 \usepackage[
     backend=biber,natbib,
@@ -22,6 +22,9 @@
     % IMPORTANT: load a style suitable for your discipline
     style=phys
 ]{biblatex}
+
+\newsubfloat{figure}
+
 
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=red,urlcolor=blue]{hyperref}
 
@@ -122,7 +125,8 @@ Finally, based on these results of the prototypes and simulation we discuss the 
 \input{chapters/summary.tex}
 
 
-\printbibliography[heading=bibintoc]
+% \printbibliography[heading=bibintoc]
+\printbibliography
 
 %% appendix work on SVSC?
 \appendix
