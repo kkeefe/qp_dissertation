@@ -1,19 +1,26 @@
 %% heading for this chapter
 This chapter outlines and highlights useful background that will be explored in further detail in upcoming chapters as well as provides an outline for the thesis.
+
 We begin with an introduction on the standard model, and how both its success and short comings drive larger and more expensive detectors at the intensity frontier.
-To elucidate the issues at the forefront of the standard model we provide a brief history, with an emphasis on the detectors and experiments which lead to its formulation.
+To elucidate the issues at the forefront of the standard model we provide a brief history, with an emphasis on the detectors and experiments which helped lead to its formulation.
 Next, we become more specific and discuss DUNE which is an example of a new, large, and expensive detector which aims to push beyond the Standard Model.
-Finally, we relate the work presented in this dissertation is based on TPCs and how the novel readout design used here is suited for future expansion into larger detectors.
+Finally, we finish this section on a discussion on the developments of relevant new detectors and their relevance to the work presented here.
 
 %% Where we are
 \section{The State of Things: The Standard Model}
+~\label{sec:intro_now}
 
 %% what is the SM: Summarize what it does well and what it doesn't do well
 In the history of science, it is easily argued that the most successful of all models has been the Standard Model of physics.
-The Standard Model (SM) was originally developed in mid to late 1970's, and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
+The Standard Model (SM)~\ref{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} was originally developed in mid to late 1970's, and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
 It has been made remarkable predictions about the existence of elusive neutrinos, and an extensive number of other particles.
 
-In this section we briefly describe the SM and highlight some (certainly not all) key aspects of its formulation understood today.
+The extensive comprehensive list of known particles as well as various cross-sections and lifetimes can be found from the bi-annually published Particle Data Group (PDG)~\ref{Workman:2022ynf}.
+The SM has been experimentally tested to limits unlike any other theory.
+It was gradually developed in the 1970's as a result of the boom of particle detectors in the middle and late 1960's.
+The history of the particles originally theorized date back to much earlier in the century.
+
+In this section we briefly describe the SM and highlight some (certainly not all) key aspects of its formulation as understood today.
 The SM has stood the test of time, despite many known failures and holes in its predictions.
 Therefore, we hope to elaborate a bit on its status and predictions to help the reader better appreciate the significance of looking for physics beyond the SM.
 
@@ -27,14 +34,13 @@ The interactions described by the standard model involve the fundamental particl
 One of the current failings of the SM is its inability to incorporate a quantum description of gravity.
 The discussion of the re-normalization of quantum-gravity is beyond the scope of the work presented here, and so we only mention that it has to be achieved.
 
-
 All known fundamental particles are represented in Fig.~\ref{fig:cern_sm}.
-
+These particles represent the current best knowledge of the building blocks of all observed matter in the universe.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/STDM_higgs_and_field_D.png}
-\caption{Image of Fundamental Particles in the Standard Model, taken from CERN website~\citep{dominguez_2015}.}
+\caption{Image of Fundamental Particles in the Standard Model, taken from CERN website~\citep{dominguez_2015}. All known matter and particle interactions involves combinations of the particles listed here.}
 \end{figure}
 ~\label{fig:cern_sm}
 
@@ -42,7 +48,7 @@ All known fundamental particles are represented in Fig.~\ref{fig:cern_sm}.
 %% TODO
 \subsubsection{Quarks}
 
-The quarks represent particles in the top left of~\ref{fig:cern_sm}.
+The quarks represent particles in the top left of Figure~\ref{fig:cern_sm}.
 Quarks are the fundamental particles which constitute the ``normal'' heavy particles, such as protons and neutrons.
 
 Quarks also have unique anti-particles partners of each other.
@@ -52,20 +58,28 @@ A unique feature of Quarks compared to the leptons is that no ``free'' Quark has
 Quarks instead combine either in pairs or in threes to make mesons or baryons, respectively.
 The mesons contain a quark and an anti-quark, whereas the baryons contain three quarks.
 Collectively, all particles constituted by any combination of quarks are known as hadrons.
+In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\ref{eightfold_way_osti_4008239} which provided a method of grouping the hadrons.
 
 Since quarks are not freely observable a common place to infer their existence (and to create heavier hadrons) are in particle accelerators.
 The most well known particle accelerator is the Large Hadron Collider (LHC) in Geneva.
 These Particle accelerators generate extremely high energy ($\approx \mathcal{O}(10 TeV)$) protons which when collided can generate new composite hadrons of any mass so that the total energy is conserved.
 
+Since quarks, due to their color, readily combine to create more easily observed composit particles.
+The Quark model was then propossed by Gell-Mann in 1964~\ref{quark_model_GELLMANN1964214}.
+This model is a group theory concept (known as SU(3) symmetry) and is the means for which the fundamental particles (quarks) combine into the composite particles (hadrons) which are more readily and easily measured today.
+Eventually experiments conducted at the Stanford Linear Accelerator (SLAC) between 1967-1973 verified the existence of these quarks and Gell-Mann won the Nobel Prize in 1969.
+
+The rescue of the quark model came with the measurement of~\ref{Jpsi_PhysRevLett.33.1404}.
 
 %% TODO
 \subsubsection{Leptons}
 
-The leptons represent particles in the bottom left of~\ref{fig:cern_sm}.
+The leptons represent particles in the bottom left of Figure~\ref{fig:cern_sm}.
 
-The first lepton discovered, and the most easily recognized, is the electron.
+The first lepton discovered, and the most easily recognized, is the electron which was discovered by J .
 Just like the quarks, the leptons come in three families (electron, $\mu$, $\tau$).
 Also like the quarks, the leptons have charge, mass, and flavour which means they can decay.
+
 
 Unlike the quarks the leptonic particles do not have a color quantum number and therefore do not combine together to create composite particles.
 Additionally, free leptons are observed, e.g. the electron.
@@ -83,6 +97,42 @@ This IBD reaction is a common measurement tool for identifying neutrinos because
 The position ($e^{+}$) annailates very quickly ($\approx \mathcal{O}(ns)$) and will produce back-to-back 511 $keV$ photons.
 The produced neutron, on the other hand, wobbles around much longer ($\mathcal{O}(us)$) before being captured, which produces scintillation light of energy proportional to the neutrons energy when captured.
 
+The muon ($\mu$) was discovered by Anderson and Neddermeyer in 1936 by observing cosmic ray showers~\ref{muon_discovery_PhysRev.51.884}.
+
+The tau ($\tau$) was discovered by SLAC in 1975~\ref{tau_discovery_PhysRevLett.35.1489}.
+
+The first measurements of the neutrinos in each family were much harder than their charged partners.
+The electron neutrino ($\nu_{e}$) and the muon neutrino ($\nu_{\mu}$) are observed in decay interactions.
+
+The tau neutrino ($\nu_{\tau}$) was exceptionally difficult to measure.
+Like the previous neutrino partners, the $\nu_{\tau}$ is discovered by looking for the creation of its partner ($\tau$) during a CC interaction.
+As a comparison the $\tau$ has a lifetime of only $10^{-13}$ s whereas the muon life time $T_{\mu}\approx \mathcal{O}(1 \mu s)$ or seven orders of magnitude shorter!
+
+The first successful experiment came in 2000~\ref{tau_neutrino_discovery_KODAMA2001218}.
+DONUT utilized a much more complicated emulsion detector to collect tracks from a 800 GeV proton beam offline.
+The exxperiment collected a total of 203 neutrino interactions, of which it found evidence for a total of only four interactions.
+
+\begin{center}
+\begin{tabular}{||c c c c c||}
+ \hline
+ Lepton & Charge & $N_{e}$ & $N_{\mu}$ & $N_{\tau}$ \\ [0.5ex]
+ \hline\hline
+ electron & 1 & 1 & 0 & 0 \\
+ \hline
+ $\nu_{e}$ & 0 & 1 & 0 & 0 \\
+ \hline
+ $\mu$ & 1 & 0 & 1 & 0 \\
+ \hline
+ $\nu_{\mu}$ & 0 & 0 & 1 & 0 \\
+ \hline
+ $\tau$ & 1 & 0 & 0 & 1 \\
+ \hline
+ $\nu_{\tau}$ & 0 & 0 & 0 & 1 \\
+ \hline
+\end{tabular}
+\end{center}
+~\label{table:lepton_qn}
+
 \subsubsection{Forces}
 
 All forces within the standard model (electromagnetism, weak, and strong) interact via a ``carrier'' particle.
@@ -90,7 +140,8 @@ These carrier particles are represented on the center-right of~\ref{fig:cern_sm}
 
 The electromagnetic force is governed by particle exchanges of a photon.
 Other than perhaps gravity, which isn't explained by the SM, this is the most well known and described force.
-All particles which carry charge interdict with this force, therefore the neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force (this is why detecting them is so hard).
+All particles which carry charge  interact via this force.
+Therefore the neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force (this is why detecting them is so hard).
 The full theoretical description of this force is governed by Quantum-Electrodynamics (QED).
 
 The weak-nuclear force is governed by particles exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$.
@@ -103,6 +154,28 @@ This force is responsible for color changes of matter and describes why nuclei a
 Since this force only involves exchanges of a gluon, the leptons are therefore unaffected since these particles carry no color quantum number.
 The full theoretical description for the strong-nuclear force is Quantum-Chromodynamics (QCD).
 
+Measurement of the intermediate bosons were much harder.
+The $W^{\pm}$ boson were measured in 1983~\ref{wboson_measure_ARNISON1983103}.
+Followed by the Z boson which was measured shortly afterwards in the same experiment~\ref{zboson_measure_1983398}.
+
+\begin{center}
+\begin{tabular}{||c c c c||}
+ \hline
+ Force & Scale & Theory & Carrier \\ [0.5ex]
+ \hline\hline
+ Strong & 10 & Chromodynamics & gluon \\
+ \hline
+ Electromagnetic & $10^{-2} $ & Electrodynamics & photon \\
+ \hline
+ Weak & $10^{-13}$ & Flavourdynamics & $W^{\pm}$,Z \\
+ \hline
+ Gravity & $10^{-42}$ & General Relativity & graviton \\
+ \hline
+ \hline
+\end{tabular}
+\end{center}
+~\label{table:forces}
+
 \subsubsection{Higgs}
 
 The last particle to be discovered in the SM was the Higgs particle.
@@ -112,15 +185,16 @@ Finally, in 2012 the Large Hadron Collider (LHC) was able to infer the massive H
 
 %% elaborate more here on the standard model, what is it really?
 \subsection{The Frontiers of the Standard Model}
-Yet, despite its numerous achievements in predictive power and experimental verification we know today that it has crucial shortcomings. 
-The Standard Model (SM) has no ability to account for Dark Matter or Dark Energy in the universe, nor the distribution (or the hierarchy) of neutrino masses, nor is it able to relate how gravity interacts with the other fundamental forces of nature (Unification).
+
+Despite its (SM) numerous achievements in predictive power and experimental verification we know today that it has crucial shortcomings.
+The Standard Model (SM)~\ref{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} has no ability to account for Dark Matter or Dark Energy in the universe, nor the distribution (or the hierarchy) of neutrino masses, nor is it able to relate how gravity interacts with the other fundamental forces of nature (Unification).
 It also doesn't account for some 'basic' properties it has, such as: why are there only three generations of leptonic particles (electron, muon, and tau)?
 These short-comings offer hints for where to search for physics.
 Physicists have known about these short comings from the conception of the Standard Model and have (to no avail) sought out what's next.
 
-With a plethora of hints to search for NP, it can be useful to organize the efforts of search.
-In 2008 the p5 committee did just this and labeled the three frontiers of physics as the cosmological, energy, and intensity frontiers.
-Each of these frontiers offer different kinds of challenges and aim to search at the
+With a plethora of hints to search for New Physics (NP), it can be useful to organize the efforts of search.
+In 2008 the Particle Physics Project Prioritization Panel (P5) did just this and labeled the three frontiers of physics: the cosmological, energy, and intensity frontiers.
+Each of these frontiers offer different kinds of challenges and serve as guides to look for physics beyond the SM.
 
 %% cosmological frontier problems
 \subsubsection{Cosmological}
@@ -133,16 +207,29 @@ The search for these dark causes of the universe lie within the realm of the cos
 %% energy frontier problems
 \subsubsection{Energy}
 The energy frontier is concerned with the origin of mass.
-The Large-Hadron Collider experiment is the archetypal experiment aimed at solving problems within this frontier.
+The Large-Hadron Collider (LHC)~\ref{higgs_discovery_20121} experiment is the archetypal experiment aimed at solving problems within this frontier.
+The LHC itself consists of other large-scale tracking and calioremtry experiments such as ATLAS~\ref{ATLAS:1999vwa} and CMS~\ref{CMS:2006myw}.
+
+
+Large particle accelerators are used to generator source particles of ever increasing energy.
+Due to the conservation of mass, the higher the energy of the particle accelerated the higher the mass (energy) of the particles created after certain collisions can be.
+
+There also exist lepton collidors~\ref{belle2_tdr_arxiv} which offer unique areas of search along this frontier too.
+More detailed descriptions of such collider experiments are beyond the scope of the work presented here, and further reading may be pursued from the extremely detailed technical design reports cited here of Belle-II and the ATLAS experiments.
 
 %% intensity frontier problems (and the focus of this thesis)
 \subsubsection{Intensity}
-The third (and final) frontier to mention is the Intensity frontier.
-The Intensity Frontier of Physics (\citep{intensityfrontier2012_Hewett}) is one which requires very large and very precise measurements to gain the statistics to declare an observation.
+
+The third (and final) frontier we'll discuss is the Intensity frontier.
+The Intensity Frontier of Physics (\citep{intensityfrontier2012_Hewett}) is one which today requires very large and very precise measurements to gain the statistics to declare an observation.
 In order to address the issues posed within this frontier the large scale detectors hunting for New Physics (NP) have continued to grow in size, energy sensitivity, and importantly cost: \citep{Juno:2022103927}.
 
+As compared to the energy frontier which normally relies on creating new particles from accelerators the Intensity Frontier often searches for rare events, like a proton decay.
 
-%% how we got here
+Neutrino searches also lie within this frontier.
+Neutrinos are notoriously difficult to detect and measure since they can only be probed via the weak-nuclear force, and even then only indirectly since they carry no charge themselves.
+
+%%
 \section{How we got here.}
 
 Many times since the early 20th century it was thought that the goal of physics was accomplished.
@@ -170,6 +257,102 @@ Next the spark chamber eventually lead to the gradual development of the wire-sp
 In 1968 Georges Charpak developed the Multi-Wire Proportional Chamber (MWPC) for which he (much later) won the Nobel Prize in 1992.
 From this key insight a new detector concept was made possible.
 
+\subsection{Modern Tracking Detectors}
+
+It is could said that any definition defining a ``new'' age of a types of detectors is subjective.
+Nevertheless, we proceed to define that modern particle detectors were the age that began to use modern electronics, or electronics after the development of the metal–oxide–semiconductor field-effect transistor (MOS-FET).
+If there was any invention which was able to drive the development of computers and  measuring electronics, it was the transistor.
+Therefore, the beginning of the modern particle detection age began with the transistor, and it saw to the end of the spark chamber and bubble chamber detectors.
+
+\subsubsection{Multi-Wire Proportional Chamber}
+
+The middle of the 20th century saw a dramatic increase in the ability and reduction of the cost of electronics.
+These (then) new electronics allowed for fast digitizing measurements of voltage or current.
+Thus, new propotional counter detectors were capable of using computers to do the measuring or counting of the events within the detector.
+The rate at particles could then be detected increased by orders of magnitude.
+
+Using the fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the firstWire MWPC in 1968~\citep{Charpak:1968kd}.
+This new detector was one which paved the way for modern detector development, for which Charpak won the 1992 Nobel Prize.
+
+
+\subsubsection{Time Projection Chambers}
+
+Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
+This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
+The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second (compared to 1-10) and provide full 3-D event reconstruction.
+
+
+It did not take long for other experimentalists to generalize this concept to different elements or even to liquid.
+
+
+\subsubsection{Noble Gases and Time Projection Chambers}
+
+The technology of TPCs has greatly matured since their original inception.
+in many kinds of detectors across HEP. TPCs can also incorporate two phases of a substance (liquid and gas), called Dual Phase (DP) TPCs.
+
+the Xenon-1T is a dark matter experiment which is a dual-phase TPC \citep{Aprile_2017_xenon1T}.
+
+The LUX experiment is a single phase TPC also hunting for dark matter.
+
+
+A specific kind of TCP is a Liquid Argon Time Projection Chamber (LArTPC) \citep{rubbia1977liquid}.
+
+%% include relevant LArTPCs here
+recent work on LArTPCs (\citep{ArgoNeuT:PhysRevD.99.012002}, \citep{MicroBooNE:Acciarri_2017}, \citep{LArIAT:Acciarri_2020}).
+
+
+Energy resolution of the LArTPCs within DUNE are still unknown to within a factor of 4 \citep{lartpc_energy_resolution:PhysRevD.99.036009}.
+
+%% Highlight what DUNE is and its purpose
+\subsection{The Deep Underground Neutrino Experiment}
+
+The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment \cite{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
+DUNE is composed two detectors, a near (ND) and a far (FD) which are separated by a distance of 1300 km.
+The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
+The FD is composed of four separate 10 kiloton modules, all of which will be a single-phase (SP) LArTPC based detector.
+Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
+The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
+A purpose of this dissertation is show the viability of a novel readout technology.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
+\caption{Simple Draw up of DUNE FD taken from \citep{dune_cdr_2016_arxiv}}
+\end{figure}
+
+DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
+\begin{itemize}
+    \item Hadron Decay
+    \item Neutrinos from Core-collapse supernovae
+    \item Beamline neutrino interactions.
+\end{itemize}
+~\label{item:dune_props}
+
+We will discuss the relevance of each of these items, and in \ref{chap:qpix} we will further discuss how the work presented here relates to each of these topics.
+
+DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
+We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\ref{DUNE_FD_TDRv2_2020}.
+
+Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
+
+
+\section{Ways Forward}
+
+\subsubsection{Hadron Decay}
+\label{sect:intro_decay}
+
+Second generation proton decay studies in the ICARUS experiment: \citep{ICARUS_2001}.
+
+%% why do we care about hadron decay
+
+\subsubsection{Supernova Studies}
+\label{sect:intro_supernova}
+
+%% why do we care about supernova neutrinos, what will they tell us?
+The principal decay chain follows the pattern:
+\begin{equation}
+    \nu_{e} + ^{40}Ar \rightarrow e^- + ^{40}Kr^*
+\end{equation}
 
 \subsection{An Escape: Catch the Neutrino}
 
@@ -185,14 +368,14 @@ Finally, some 26 years later in 1956 was the first observation of the electron n
 
 A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
 
-The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{donut_first_tau_n_measure}.
+The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
 this detector used nuclear emulsions.
 
 
 %% what are the problems of neutrinos and which ones do we care about (electron / muon from a beam)
 
 % Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
-After this first discovery is when the the answers, and mostly the questions started to pile in.
+After this first discovery is when the the answers, followed by more questions, came.
 Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos~\ref{
 SNO_2002_neutrino_PhysRevLett.89.011301, neutrino_measurement_NOvA_2019_prl, t2k_2011_neutrino_PhysRevLett.107.041801,
 reno_2012_neutrino_PhysRevLett.108.191802,
@@ -209,7 +392,6 @@ The solution for this was oscillation.
 % Double Chooz used two identical gadolinium-doped liquid scintillator detectors
 % t2k is (Tokai to Kamioka) is a long-baseline neutrino experiment, over 295 km
 %% nd is at j-parc, far detector is at superk
-
 
 %% TODO most of particle physics to go here!
 %% physical interaction of neutrino scattering here
@@ -248,105 +430,9 @@ U_{\tau1}, U_{\tau2}, U_{\tau3}
 \end{pmatrix}
 \end{equation}
 
-
-\section{Modern Tracking Detectors}
-
-It is could said that any definition defining a ``new'' age of a types of detectors is subjective.
-Nevertheless, we proceed to define that modern particle detectors were the age that began to use modern electronics based on metal–oxide–semiconductor field-effect transistor (MOS-FET).
-If there was any invention which was able to drive the development of computers and  measuring electronics, it was the transistor.
-
-Therefore, the beginning of the modern particle detection age began with the transistor, and it saw to the end of the spark chamber and bubble chamber detectors.
-
-\subsection{Multi-Wire Proportional Chamber}
-
-The middle of the 20th century saw a dramatic increase in the ability and reduction of the cost of electronics.
-These (then) new electronics allowed for fast digitizing measurements of voltage or current.
-Thus, new propotional counter detectors were capable of using computers to do the measuring or counting of the events within the detector.
-The rate at particles could then be detected increased by orders of magnitude.
-
-Using the fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the firstWire MWPC in 1968~\citep{Charpak:1968kd}.
-This new detector was one which paved the way for modern detector development, for which Charpak won the 1992 Nobel Prize.
-
-
-\subsection{Time Projection Chambers}
-
-Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
-This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
-The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second (compared to 1-10) and provide full 3-D event reconstruction.
-
-
-It did not take long for other experimentalists to generalize this concept to different elements or even to liquid.
-
-
-\subsubsection{Noble Gases and Time Projection Chambers}
-
-The technology of TPCs has greatly matured since their original inception.
-in many kinds of detectors across HEP. TPCs can also incorporate two phases of a substance (liquid and gas), called Dual Phase (DP) TPCs.
-
-the Xenon-1T is a dark matter experiment which is a dual-phase TPC \citep{Aprile_2017_xenon1T}.
-
-The LUX experiment is a single phase TPC also hunting for dark matter.
-
-
-A specific kind of TCP is a Liquid Argon Time Projection Chamber (LArTPC) \citep{rubbia1977liquid}.
-
-%% include relevant LArTPCs here
-recent work on LArTPCs (\citep{ArgoNeuT:PhysRevD.99.012002}, \citep{MicroBooNE:Acciarri_2017}, \citep{LArIAT:Acciarri_2020}).
-
-
-Energy resolution of the LArTPCs within DUNE are still unknown to within a factor of 4 \citep{lartpc_energy_resolution:PhysRevD.99.036009}.
-
-
-
-%% Highlight what DUNE is and its purpose
-\subsection{The Deep Underground Neutrino Experiment}
-
-The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment \cite{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}. 
-DUNE is composed two detectors, a near (ND) and a far (FD) which are separated by a distance of 1300 km. 
-The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
-The FD is composed of four separate 10 kiloton modules, all of which will be a single-phase (SP) LArTPC based detector.
-Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
-The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
-A purpose of this dissertation is show the viability of a novel readout technology.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
-\caption{Simple Draw up of DUNE FD taken from \citep{dune_cdr_2016_arxiv}}
-\end{figure}
-
-DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
-\begin{itemize}
-    \item Hadron Decay
-    \item Neutrinos from Core-collapse supernovae
-    \item Beamline neutrino interactions.
-\end{itemize}
-
-We will discuss the relevance of each of these items, and in \ref{chap:qpix} we will further discuss how the work presented here relates to each of these topics. 
-
-
-Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
-
-
-\subsubsection{Hadron Decay}
-\label{sect:intro_decay}
-
-Second generation proton decay studies in the ICARUS experiment: \citep{ICARUS_2001}.
-
-%% why do we care about hadron decay
-
-\subsubsection{Supernova Studies}
-\label{sect:intro_supernova}
-
-%% why do we care about supernova neutrinos, what will they tell us?
-The principal decay chain follows the pattern:
-\begin{equation}
-    \nu_{e} + ^{40}Ar \rightarrow e^- + ^{40}Kr^*
-\end{equation}
-
 %% what is the difference between NC and CC neutrino interactions.
 
-\subsection{Pixelated Tracking Detectors}
+% \subsection{Pixelated Tracking Detectors}
 
 \section{Even Further: Detectors in the Current Century}
 
