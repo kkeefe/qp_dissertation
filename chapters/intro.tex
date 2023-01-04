@@ -1,24 +1,28 @@
 %% heading for this chapter
 This chapter outlines and highlights useful background that will be explored in further detail in upcoming chapters as well as provides an outline for the thesis.
 
-We begin with an introduction on the standard model, and how both its success and short comings drive larger and more expensive detectors at the intensity frontier.
+We begin with an overview of the standard model, and how both its success and short comings drive larger and more expensive detectors at the intensity frontier.
 To elucidate the issues at the forefront of the standard model we provide a brief history, with an emphasis on the detectors and experiments which helped lead to its formulation.
 Next, we become more specific and discuss DUNE which is an example of a new, large, and expensive detector which aims to push beyond the Standard Model.
-Finally, we finish this section on a discussion on the developments of relevant new detectors and their relevance to the work presented here.
+Finally, we finish this section on a discussion on the developments of new tracking detectors and their relevance to the work presented here.
 
 %% Where we are
 \section{The State of Things: The Standard Model}
 ~\label{sec:intro_now}
 
+What is the universe made of?
+What are the fundamental building blocks of matter?
+Since time immemorial thinkers have questioned the nature of the universe and wondered what the basic building blocks of nature are.
+The answer to these fundamental questions is the motivation for particle physics.
+
 %% what is the SM: Summarize what it does well and what it doesn't do well
 In the history of science, it is easily argued that the most successful of all models has been the Standard Model of physics.
 The Standard Model (SM)~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} was originally developed in mid to late 1970's, and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
-It has been made remarkable predictions about the existence of elusive neutrinos, and an extensive number of other particles.
+It has been made remarkable predictions about the existence of elusive neutrinos, quarks and vector bosons before their discovery, and more.
 
-The extensive comprehensive list of known particles as well as various cross-sections and lifetimes can be found from the bi-annually published Particle Data Group (PDG)~\citep{Workman:2022ynf}.
+The comprehensive and extensive list of known particles as well as various cross-sections and lifetimes can be found from the bi-annually published Particle Data Group (PDG)~\citep{Workman:2022ynf}.
 The SM has been experimentally tested to limits unlike any other theory.
 It was gradually developed in the 1970's as a result of the boom of particle detectors in the middle and late 1960's.
-The history of the particles originally theorized date back to much earlier in the century.
 
 In this section we briefly describe the SM and highlight some (certainly not all) key aspects of its formulation as understood today.
 The SM has stood the test of time, despite many known failures and holes in its predictions.
@@ -49,14 +53,16 @@ These particles represent the current best knowledge of the building blocks of a
 \subsubsection{Quarks}
 
 The quarks represent particles in the top left of Figure~\ref{fig:cern_sm}.
-Quarks are the fundamental particles which constitute the ``normal'' heavy particles, such as protons and neutrons.
 
+Quarks are the fundamental particles which constitute the ``normal'' heavy particles, such as protons and neutrons.
 Quarks also have unique anti-particles partners of each other.
-The anti-quark counter-parts have the same mass as the normal partners with all quantum numbers interchanged.
+As do all anti-particles, the anti-quark counter-parts have the same mass as the normal partners with all quantum numbers interchanged.
 
 A unique feature of Quarks compared to the leptons is that no ``free'' Quark has ever been observed.
-Quarks instead combine either in pairs or in threes to make mesons or baryons, respectively.
-The mesons contain a quark and an anti-quark, whereas the baryons contain three quarks.
+Most commonly, the quarks combine in pairs or in triplets to make mesons or baryons, respectively.
+Even more complicated constituents can be made of additional quarks, such as tetra and penta quarks, so long as all of the quantum numbers are unique for each quark.
+
+The mesons contain a quark and an anti-quark, whereas the baryons a contain three quarks.
 Collectively, all particles constituted by any combination of quarks are known as hadrons.
 In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\citep{eightfold_way_osti_4008239} which provided a method of grouping the hadrons.
 
@@ -70,6 +76,32 @@ This model is a group theory concept (known as SU(3) symmetry) and is the means 
 Eventually experiments conducted at the Stanford Linear Accelerator (SLAC) between 1967-1973 verified the existence of these quarks and Gell-Mann won the Nobel Prize in 1969.
 
 The rescue of the quark model came with the measurement of~\citep{Jpsi_PhysRevLett.33.1404}.
+The $J/psi$ particle indicated the existence of a fourth since then unmeasured quark, which we now know as the charm ($c$).
+
+
+\begin{table}
+\begin{center}
+\begin{tabular}{||c c c c c||}
+ \hline
+ Quark & Charge & Mass (MeV) & Year Discovered & Ref.\\ [0.5ex]
+ \hline\hline
+ up & $\frac{2}{3}$ & 2.16 & 1968 & SLAC~\citep{1969PhRvL..23..930B, 1969PhRvL..23..935B} \\
+ \hline
+ down & $\frac{-1}{3}$ & 4.67 & 1968 & SLAC~\citep{1969PhRvL..23..930B, 1969PhRvL..23..935B} \\
+ \hline
+ strange & $\frac{-1}{3}$ & 93.4 & 1968 & SLAC~\citep{1969PhRvL..23..930B, 1969PhRvL..23..935B} \\
+ \hline
+ charm & $\frac{2}{3}$ & 1270 & 1974 & SLAC~\citep{Jpsi_PhysRevLett.33.1404} \\
+ \hline
+ bottom & $\frac{-1}{3}$ & 4180 & 1977 & Fermilab~\citep{bottom_PhysRevLett.39.252}\\
+ \hline
+ top & $\frac{2}{3}$ & 173000 & 1995 & Fermilab~\citep{topquark_Abachi_1995} \\
+ \hline
+\end{tabular}
+\caption{Description of the discovery of quarks. Notice that as the mass increases for a particular quark the year of discovery also increases. This is a property of how we create and observe the quarks in our accelerators, and also the reason why physicists continue to want to build bigger ones. Interesting physics happens at higher and higher energies, which require larger and more expensive detectors to probe these energy scales. Note that the lighter quark masses are not well understood for other experimental reasons, and the presented data are rounded to three significant figures based on~\citep{Workman:2022ynf}.}
+\end{center}
+\end{table}
+~\label{table:quark}
 
 %% TODO
 \subsubsection{Leptons}
@@ -84,7 +116,7 @@ Also like the quarks, the leptons have charge, mass, and flavour which means the
 Unlike the quarks the leptonic particles do not have a color quantum number and therefore do not combine together to create composite particles.
 Additionally, free leptons are observed, e.g. the electron.
 
-The most difficult to measure particles of all in the SM are the neutrinos.
+The most difficult to measure fundamental particles of within the SM are the neutrinos.
 This is because these leptons carry no net charge.
 However, since they carry flavour and can decay (or be absorbed) and they also carry their respective lepton number, the neutrinos in the family can be identified by measuring their partner.
 
@@ -135,7 +167,7 @@ The exxperiment collected a total of 203 neutrino interactions, of which it foun
 
 \subsubsection{Forces}
 
-All forces within the standard model (electromagnetism, weak, and strong) interact via a ``carrier'' particle.
+All forces within the standard model (electromagnetism, weak, and strong) are governed via a ``carrier'' particle.
 These carrier particles are represented on the center-right of~\ref{fig:cern_sm}.
 
 The electromagnetic force is governed by particle exchanges of a photon.
@@ -154,7 +186,9 @@ This force is responsible for color changes of matter and describes why nuclei a
 Since this force only involves exchanges of a gluon, the leptons are therefore unaffected since these particles carry no color quantum number.
 The full theoretical description for the strong-nuclear force is Quantum-Chromodynamics (QCD).
 
-Measurement of the intermediate bosons were much harder.
+The gluon was discovered in at the TASSO experiment 1979~\citep{tasso_1978_BRANDELIK1979243, PETRA_PhysRevLett.43.830}.
+
+Measurements of the intermediate bosons were much harder.
 The $W^{\pm}$ boson were measured in 1983~\citep{wboson_measure_ARNISON1983103}.
 Followed by the Z boson which was measured shortly afterwards in the same experiment~\citep{zboson_measure_1983398}.
 
@@ -386,16 +420,15 @@ this detector used nuclear emulsions.
 
 % Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 After this first discovery is when the the answers, followed by more questions, came.
-Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos~\ref{
-  SNO_2002_neutrino_PhysRevLett.89.011301,
-  neutrino_measurement_NOvA_2019_prl,
-  t2k_2011_neutrino_PhysRevLett.107.041801,
-  reno_2012_neutrino_PhysRevLett.108.191802,
-  FUKUDA2002_solar_neutrino_oscillation,
-  kamland_2003_neutrino_PhysRevLett.90.021802,
-  daya_bay_2012_neutrino_PhysRevLett.108.171803,
-  doubleChooz_2012_neutrino_PhysRevLett.108.131801
-}
+Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos
+~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
+neutrino_measurement_NOvA_2019_prl,
+t2k_2011_neutrino_PhysRevLett.107.041801,
+reno_2012_neutrino_PhysRevLett.108.191802,
+FUKUDA2002_solar_neutrino_oscillation,
+kamland_2003_neutrino_PhysRevLett.90.021802,
+daya_bay_2012_neutrino_PhysRevLett.108.171803,
+doubleChooz_2012_neutrino_PhysRevLett.108.131801}
 
 Originally the mass of the neutrino predicted by the SM was massless.
 That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
@@ -459,7 +492,7 @@ Cheap, high channel FPGAs directly solve this problem.
 Other electronics development, such as the Silicon-Photomultiplier, offer much cheaper alternatives for large pixel counters compared to their historical counter-parts. 
 
 %% antihydrogen
-\ref{Sadowski_2017}
+\citep{Sadowski_2017}
 Another driving factor is the the development of Machine Learning (ML) algorithms, particularly Convectional Neural Network (CNN \citep{Sadowski2017DeepLI}).
 Recent industry has driven the need for CNNs to be able to correctly identify and label 2-D images of various kinds, and thus championed much of progress in this field and spawned many kinds of CNN algorithms. 
 %% cite sadowski here

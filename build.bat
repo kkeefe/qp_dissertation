@@ -2,7 +2,7 @@ echo 'configuring status of main'
 pdflatex main
 
 echo 'running Biber on main'
-Biber main
+bibtex main
 
 echo 'running pdflatex on main'
 pdflatex main
