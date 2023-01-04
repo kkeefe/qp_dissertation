@@ -144,12 +144,13 @@ The first successful experiment came in 2000~\citep{tau_neutrino_discovery_KODAM
 DONUT utilized a much more complicated emulsion detector to collect tracks from a 800 GeV proton beam offline.
 The exxperiment collected a total of 203 neutrino interactions, of which it found evidence for a total of only four interactions.
 
+\begin{table}
 \begin{center}
 \begin{tabular}{||c c c c c||}
  \hline
  Lepton & Charge & $N_{e}$ & $N_{\mu}$ & $N_{\tau}$ \\ [0.5ex]
  \hline\hline
- electron & 1 & 1 & 0 & 0 \\
+ $e^{-}$ & 1 & 1 & 0 & 0 \\
  \hline
  $\nu_{e}$ & 0 & 1 & 0 & 0 \\
  \hline
@@ -162,7 +163,9 @@ The exxperiment collected a total of 203 neutrino interactions, of which it foun
  $\nu_{\tau}$ & 0 & 0 & 0 & 1 \\
  \hline
 \end{tabular}
+\caption{Description of the quantum numbers of the fundamental lepton families. There are three unique families within the leptons: electron, muon, and tau. The charge carrier as well as the neutrino each carry a value of one for this number. Their anti-particle counterparts carry -1 of this number.}
 \end{center}
+\end{table}
 ~\label{table:lepton_qn}
 
 \subsubsection{Forces}
@@ -192,22 +195,25 @@ Measurements of the intermediate bosons were much harder.
 The $W^{\pm}$ boson were measured in 1983~\citep{wboson_measure_ARNISON1983103}.
 Followed by the Z boson which was measured shortly afterwards in the same experiment~\citep{zboson_measure_1983398}.
 
+\begin{table}
 \begin{center}
-\begin{tabular}{||c c c c||}
+\begin{tabular}{||c c c c c||}
  \hline
- Force & Scale & Theory & Carrier \\ [0.5ex]
+ Force & Scale & Theory & Carrier & Ref. \\ [0.5ex]
  \hline\hline
- Strong & 10 & Chromodynamics & gluon \\
+ Strong & 10 & Chromodynamics & gluon & TASSO~\citep{tasso_1978_BRANDELIK1979243} \\
  \hline
- Electromagnetic & $10^{-2} $ & Electrodynamics & photon \\
+ Electromagnetic & $10^{-2} $ & Electrodynamics & photon & Planck? \\
  \hline
- Weak & $10^{-13}$ & Flavourdynamics & $W^{\pm}$,Z \\
+ Weak & $10^{-13}$ & Flavourdynamics & $W^{\pm}$,Z & CERN~\citep{wboson_measure_ARNISON1983103},\citep{zboson_measure_1983398}\\
  \hline
- Gravity & $10^{-42}$ & General Relativity & graviton \\
+ Gravity & $10^{-42}$ & General Relativity & graviton  & ?? \\
  \hline
  \hline
 \end{tabular}
+\caption{Relative strength chart of the four fundamental fources of nature. Although gravity is not included within the SM it is included, as well as its theoretical force carrier the graviton.}
 \end{center}
+\end{table}
 ~\label{table:forces}
 
 \subsubsection{Higgs}
@@ -328,12 +334,6 @@ the Xenon-1T is a dark matter experiment which is a dual-phase TPC \citep{Aprile
 
 The LUX experiment is a single phase TPC also hunting for dark matter.
 
-
-%% last
-%% err
-%% err
-%% err
-%% err
 A specific kind of TCP is a Liquid Argon Time Projection Chamber (LArTPC)~\citep{rubbia1977liquid}.
 
 %% include relevant LArTPCs here
@@ -373,10 +373,6 @@ DUNE plans to offer an incredibly rich searches across the sectors listed above~
 We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
 
 Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
-%% err
-%% err
-%% err
-%% err
 
 
 \section{Ways Forward}
@@ -474,6 +470,65 @@ U_{\tau1}, U_{\tau2}, U_{\tau3}
 \nu_3
 \end{pmatrix}
 \end{equation}
+
+The matrix elements within $U_{li}$ represent the mixing coeffecients and are used to calculate the prabability that a certain neutrino will oscillate from one family to another.
+We identify $U_{ij}$ as the commonly known $U_{PMNS}$ matrix, where PMNS stands for: Pontecorvo–Maki–Nakagawa–Sakata, or the four theorists who helped developed this convention.
+Luckily, there are not a total of nine free parameters within the SM that determine this.
+The $U_{li}$ matrix can be additionally rewritten following~\citep{Pontecorvo:1957qd, 1962PThPh..28..870M} as:
+\begin{equation}
+U_{PMNS}
+=
+U_{sol} \times U_{rea} \times U_{atm} \times U_{maj}
+\end{equation}
+~\label{eq:uij_matrix_simp}
+
+After expanding the matrix representations, equation~\ref{eq:uij_matrix_simp} becomes:
+\begin{equation}
+U_{PMNS}
+=
+\begin{pmatrix}
+1 & 0 & 0 \\
+0 & C_{23} & S_{23} \\
+0 & -S_{23} & C_{23} \\
+\end{pmatrix}
+\times
+\begin{pmatrix}
+C_{13} & 0 & S_{13}e^{-1\delta_{cp}} \\
+0 & 1 & 0 \\
+-S_{13}e^{-1\delta_{cp}} & 0 & C_{13} \\
+\end{pmatrix}
+\times
+\begin{pmatrix}
+C_{12} & S_{12} & 0 \\
+-S_{12} & C_{12} & 0 \\
+0 & 0 & 1 \\
+\end{pmatrix}
+\times
+\begin{pmatrix}
+e^{i\alpha_{1}} & 0 & 0 \\
+0 & e^{i\alpha_{2}} & 0 \\
+0 & 0 & 1 \\
+\end{pmatrix}
+\end{equation}
+
+
+We identify above the additional matrix components where historically these values are measured.
+Therefore, instead of nine unknown parameters for the SM, there are only six.
+The components $C_{ij}$ and $S_{ij}$ in the matrices are defined to be $cos(\theta_{ij})$ and $sin(\theta_{ij})$, respectively.
+
+Then, the six parameters of the $U_{PMNS}$ are identified as:
+
+\begin{itemize}
+    \item $\theta_{13}$, reactor measurements.
+    \item $\theta_{12}$, atmospheric measurements.
+    \item $\theta_{23}$, solar measurements.
+    \item $\delta_{CP}$, Charge-conjugation parity violation.
+    \item $\alpha_{i}$, The two Majorana Phase parameters.
+\end{itemize}
+
+The Majorana phases are sensitive in experiments that can detect the Majorana nature of neutrions such as neutrinoless double beta decay.
+In neutrino oscillation measurements, these phases cancel out and not not measureable.
+Therefore, we ignore these two phases for the remainder of this work.
 
 %% what is the difference between NC and CC neutrino interactions.
 
