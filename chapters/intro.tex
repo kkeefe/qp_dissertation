@@ -112,7 +112,6 @@ The first lepton discovered, and the most easily recognized, is the electron whi
 Just like the quarks, the leptons come in three families (electron, $\mu$, $\tau$).
 Also like the quarks, the leptons have charge, mass, and flavour which means they can decay.
 
-
 Unlike the quarks the leptonic particles do not have a color quantum number and therefore do not combine together to create composite particles.
 Additionally, free leptons are observed, e.g. the electron.
 
@@ -416,7 +415,7 @@ this detector used nuclear emulsions.
 
 % Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 After this first discovery is when the the answers, followed by more questions, came.
-Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos
+Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
 ~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
 neutrino_measurement_NOvA_2019_prl,
 t2k_2011_neutrino_PhysRevLett.107.041801,
@@ -425,6 +424,8 @@ FUKUDA2002_solar_neutrino_oscillation,
 kamland_2003_neutrino_PhysRevLett.90.021802,
 daya_bay_2012_neutrino_PhysRevLett.108.171803,
 doubleChooz_2012_neutrino_PhysRevLett.108.131801}
+
+All reliable information we have about neutrinos come from these large scale detectors.
 
 Originally the mass of the neutrino predicted by the SM was massless.
 That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
@@ -514,7 +515,7 @@ e^{i\alpha_{1}} & 0 & 0 \\
 
 We identify above the additional matrix components where historically these values are measured.
 Therefore, instead of nine unknown parameters for the SM, there are only six.
-The components $C_{ij}$ and $S_{ij}$ in the matrices are defined to be $cos(\theta_{ij})$ and $sin(\theta_{ij})$, respectively.
+The components $C_{ij}$ and $S_{ij}$ in the matrices are defined to be $\cos(\theta_{ij})$ and $\sin(\theta_{ij})$, respectively.
 
 Then, the six parameters of the $U_{PMNS}$ are identified as:
 
@@ -526,11 +527,37 @@ Then, the six parameters of the $U_{PMNS}$ are identified as:
     \item $\alpha_{i}$, The two Majorana Phase parameters.
 \end{itemize}
 
-The Majorana phases are sensitive in experiments that can detect the Majorana nature of neutrions such as neutrinoless double beta decay.
+The Majorana phases ($\alpha_{i}$) are sensitive in experiments that can detect the Majorana nature of neutrions such as neutrinoless double beta decay.
 In neutrino oscillation measurements, these phases cancel out and not not measureable.
 Therefore, we ignore these two phases for the remainder of this work.
 
-%% what is the difference between NC and CC neutrino interactions.
+Finally, the frequency of the oscillation between neutrino states depends on the difference of the square their masses ($\Delta m_{ij}^{2}$), where three neutrino masses imply two independent differences.
+Thus, two additional parameters are needed to fully describe neutrino mixing.
+The six values of interest and their current best known fits are shown in Table~\ref{table:pmns_params}:
+
+\begin{table}
+\begin{center}
+\begin{tabular}{||c c c||}
+ \hline
+ Paramater & Best Fit & Unit \\ [0.5ex]
+ \hline\hline
+  $\theta_{13}$ & $8.57^{+0.12}_{-0.12}$ & na \\
+ \hline
+  $\theta_{12}$ & $33.44^{+0.77}_{-0.74}$ & na \\
+ \hline
+  $\theta_{23}$ & $49.2^{+0.9}_{-1.2}$ & na \\
+ \hline
+  $\delta_{cp}$ & $197^{+27}_{-24}$ & na \\
+ \hline
+  $\Delta m_{21}^{2}$ & $7.42^{0.21}_{-0.20}$ & $10^{-5}eV^{2}$ \\
+ \hline
+  $\Delta m_{3l}^{2}$ & $2.517^{+0.026}_{-0.028}$ & $10^{-3}eV^{2}$ \\
+ \hline
+\end{tabular}
+\caption{Known Oscillation Parameters of Interest. Values are taken from the global fit~\citep{2020JHEP...09..178E}. The values shown assume normal mass ordering for neutrinos and include atmospheric Super-Kamikonde Data.}
+\end{center}
+\end{table}
+~\label{table:pmns_params}
 
 % \subsection{Pixelated Tracking Detectors}
 

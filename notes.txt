@@ -18,6 +18,31 @@ LArTPC
 
 QPix
 
+T2K
+Tokai to Kamika
+long baseline neutrino oscillation experiment
+Wants to measure dM23 and theta23
+Uses proton beam created at J-parc
+295 km baseline
+main goal is to measure theta13 by observing ve appearance from vu disappearance.
+uses 0.6 GeV beam
+
+
+NOvA (previous generation such as MINOS / MINERvA)
+liquid scintillator, oscillator from Fermilab
+Far detector in Minnesota uses liquid scintillator as its target
+810 km baseline
+Measures NuMI (Neutrinos at main injector) beam
+muon neutrinos come from pion decay
+
+beam is governed by pion decays.
+electron decay is the second most common, but is surpressed by an effect known as helicity supression.
+Re ~ 1.3 x10^-4
+
+
+Daya Bay
+Measured theta12 to be non-zero by >5 sigma
+
 
 ##############
 Neutrino Notes:
