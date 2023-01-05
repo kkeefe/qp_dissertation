@@ -341,69 +341,89 @@ recent work on LArTPCs (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_
 
 Energy resolution of the LArTPCs within DUNE are still unknown to within a factor of 4 \citep{lartpc_energy_resolution:PhysRevD.99.036009}.
 
-%% Highlight what DUNE is and its purpose
-\subsection{The Deep Underground Neutrino Experiment}
-
-The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
-DUNE is composed two detectors, a near (ND) and a far (FD) which are separated by a distance of 1300 km.
-The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
-The FD is composed of four separate 10 kiloton modules, all of which will be a single-phase (SP) LArTPC based detector.
-Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
-The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
-A purpose of this dissertation is show the viability of a novel readout technology.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
-\caption{Simple Draw up of DUNE FD taken from~\citep{dune_cdr_2016_arxiv}}
-\end{figure}
-
-DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
-\begin{itemize}
-    \item Hadron Decay
-    \item Neutrinos from Core-collapse supernovae
-    \item Beamline neutrino interactions.
-\end{itemize}
-~\label{item:dune_props}
-
-We will discuss the relevance of each of these items, and in~\ref{chap:qpix} we will further discuss how the work presented here relates to each of these topics.
-
-DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
-We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
-
-Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
-
 
 \section{Ways Forward}
 
-\subsubsection{Hadron Decay}
-\label{sect:intro_decay}
+Despite the passing of generations of detectors and developments in electronics the SM holds fast.
+For nearly 50 years now the SM has been our best attempt at describing nature as we know it, despite also knowing that there must be more.
+Here in this section we describe in some more detail current searches at the intensity frontier where physicists are looking to go beyond the SM.
 
-Second generation proton decay studies in the ICARUS experiment: \citep{ICARUS_2001}.
+We give special attention to neutrino oscillation at the end of this section since later chapters simulation studies will be based off results hoping to measure this effect.
 
-%% why do we care about hadron decay
+\subsection{Hadron Decay}
 
-\subsubsection{Supernova Studies}
+Does a proton decay?
+This is the fundamental question for physicists looking at hadron decay.
+The SM predicts that the proton itself is stable, thus it should never decay.
+However, physicists know that the SM is itself not a complete theory since, among other reasons, it does not incporate gravity.
+Attempts to unify all of the fundamental forces of nature into one unified theory are considered Grand-Unified Theories (GUTs), and according to many GUTs the proton does, in fact, decay.
+
+Current measurements on the proton lifetime indicate that its lifetime is on the order of magnitude (or above) $10^{34}$ years.
+Even at its most frequent, this is an exceedingly rare event considering that the lifetime of the universe is $\approx \mathcal{O}(10^{10} yrs)$
+
+Since these events are so rare, extremely large detectors with large numbers of protons inside of them are required to constantly observe many protons.
+An example of a second generation proton decay studies is the Imaging Cosmic and Rare Underground Signals(ICARUS) experiment~\citep{ICARUS_2001}.
+
+There are at least two prominant decay chains that are expected to be dominant, depending on the Grand-Unification-Theory (GUT) that hopes to go beyond the SM.
+The first one is:
+
+\begin{equation}
+  p^{+} \rightarrow e^{+} + \pi^{0} + 2 \gamma
+\end{equation}
+~\label{eq:rxn_proton_decay1}
+
+This interaction is easily detectable in cherenkov based detectors due to the emission of both the gammas as well as the high energy of the emitted positron.
+In fact, the worlds best estimate for proton lifetime comes from this decay-chain~\ref{Abe_2017}.
+
+Other Supersymmetric GUT models predict instead~\ref{PhysRevD.38.1479}:
+
+\begin{equation}
+  p^{+} \rightarrow K^{+} + \nu
+\end{equation}
+~\label{eq:rxn_proton_decay2}
+
+In this case the Kaon is generally moving too slow to be measurable by cherenkov detectors.
+However, a TPC style detectors are still sensitive to its signature charge deposition.
+This is an interesting reaction since the worlds best limits are currently provided by the Super-Kamiokande experiment, which is itself a cherenkov based detector in water.
+
+These searches are interesting, if albeit difficult, both due to the rareness of such an event.
+If any detector was able to clearly measure even a single proton decay, that would provide direct evidence for physics beyond the SM.
+Future detectors that will continue to probe for nucleon decay are DUNE, Hyper-Kamiokande, and JUNO~\citep{DUNE_TDR_V1_Abi_2020, https://doi.org/10.48550/arxiv.1805.04163, Juno:2022103927}.
+
+\subsection{Supernova Studies}
 \label{sect:intro_supernova}
 
+A supernova occurs when a massive star runs out of the necessary elemental fuel for fusion at its core.
+When this happens the inward pull of gravity due to the mass of the star overcomes the reduced outward pressure from the nuclear fusion.
+
+It has been nearly 30 years since the last observed neutrinos from a galactic core collapse supernova, SN 1987A~\citep{1987ApJ...322..795F}.
+Sensitivity to supernova neutrinos is curical for understanding the mechanisms that govern particles at these extreme densities and pressures.
+Interestingly, because neutrinos are so weakly interacting, it is possible to observe their signature and arrival before the photons arrival of a Type-II supernova.
+
 %% why do we care about supernova neutrinos, what will they tell us?
-The principal decay chain follows the pattern:
+The principal interaction chain observable in a TPC is:
 \begin{equation}
-    \nu_{e} + ^{40}Ar \rightarrow e^- + ^{40}Kr^*
+    \nu_{e} + ^{40}Ar \rightarrow e^- + ^{40}Kr^{+}
 \end{equation}
 
-\subsection{An Escape: Catch the Neutrino}
+A LArTPC is sensitive to $\nu_{e}$ by measuring the signture of both the $e^{-}$ and $^{40}Kr^{+}$.
 
-%% err
+\subsection{More on Neutrinos}
+~\label{sec:an_escape}
+
+Another possible route beyond the standard model is the study neutrinos.
+
+Hints at the existence of neutrinos began early last century.
 More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
 This prompted Wolfgang Pauli to predict a particle which he originally called the neutron to also be a decay product, but not easily observable.
 Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
+The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
 
-The discovery of the neutron and the continuous spectrum of beta decay caused Pauli to come up with a new theory attempting to describe it~\citep{pauli_1934}.
-
+Originally physicists held little hope that such an elusive particle would ever be detected.
 This even lead some physicists to belief that perhaps the conservation of energy was violated.
 However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
 Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
+
 
 A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
 
@@ -411,8 +431,11 @@ The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later 
 this detector used nuclear emulsions.
 
 
-%% what are the problems of neutrinos and which ones do we care about (electron / muon from a beam)
+Tokai to Kamioka (T2k)~\citep{PhysRevD.91.072010_t2k_2015} has well established neutrino oscillation measurements.
 
+Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
+
+% t2k neutrino oscillation measurement
 % Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 After this first discovery is when the the answers, followed by more questions, came.
 Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
@@ -431,26 +454,28 @@ Originally the mass of the neutrino predicted by the SM was massless.
 That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
 The solution for this was oscillation.
 
-% Double Chooz used two identical gadolinium-doped liquid scintillator detectors
-% t2k is (Tokai to Kamioka) is a long-baseline neutrino experiment, over 295 km
-%% nd is at j-parc, far detector is at superk
 
 %% TODO most of particle physics to go here!
 %% physical interaction of neutrino scattering here
-\subsubsection{Neutrino Oscillation}
+\subsection{Neutrino Oscillation}
 
-% t2k neutrino oscillation measurement
-Tokai to Kamioka (T2k)~\citep{PhysRevD.91.072010_t2k_2015} has well established neutrino oscillation measurements.
-
-Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
+Here we provide a very general description of a model to describing neutrino oscillation.
+We elucidate the measureable parameters which govern this oscillation and describe how these values are currently measured in experiments today.
 
 Of all known particles the most elusive (hardest to detect and measure) is the neutrino.
 For this reason the least is known about the neutrino.
-What we do know about the neutrino is there are three pairs of them, associated with their leptonic partners: the electron, muon, and tau.
+What we do know about the neutrino is there are three flavors each associated with their leptonic partners: the electron, muon, and tau.
 
 It came as a welcome shock that neutrino oscillation was first measured.
 This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
 This happens because the mass eigenstate and flavor eigenstates which govern the neutrino are not equal.
+
+The standard notation which relates the mass eigenstates ($v_{i}$) and flavor eigenstates ($v_{\alpha}$) ,
+
+\begin{equation}
+  v_{i} = U_{i\alpha}v_{\alpha}
+\end{equation}
+\label{eq:relate_eigenstates}
 
 %% neutrino mass oscillations
 \begin{equation}
@@ -471,11 +496,13 @@ U_{\tau1}, U_{\tau2}, U_{\tau3}
 \nu_3
 \end{pmatrix}
 \end{equation}
+~\label{eq:mass_eigenstates}
 
 The matrix elements within $U_{li}$ represent the mixing coeffecients and are used to calculate the prabability that a certain neutrino will oscillate from one family to another.
 We identify $U_{ij}$ as the commonly known $U_{PMNS}$ matrix, where PMNS stands for: Pontecorvo–Maki–Nakagawa–Sakata, or the four theorists who helped developed this convention.
 Luckily, there are not a total of nine free parameters within the SM that determine this.
-The $U_{li}$ matrix can be additionally rewritten following~\citep{Pontecorvo:1957qd, 1962PThPh..28..870M} as:
+The $U_{PMNS}$ matrix can be additionally rewritten following~\citep{Pontecorvo:1957qd, 1962PThPh..28..870M} as:
+
 \begin{equation}
 U_{PMNS}
 =
@@ -512,7 +539,6 @@ e^{i\alpha_{1}} & 0 & 0 \\
 \end{pmatrix}
 \end{equation}
 
-
 We identify above the additional matrix components where historically these values are measured.
 Therefore, instead of nine unknown parameters for the SM, there are only six.
 The components $C_{ij}$ and $S_{ij}$ in the matrices are defined to be $\cos(\theta_{ij})$ and $\sin(\theta_{ij})$, respectively.
@@ -531,9 +557,74 @@ The Majorana phases ($\alpha_{i}$) are sensitive in experiments that can detect 
 In neutrino oscillation measurements, these phases cancel out and not not measureable.
 Therefore, we ignore these two phases for the remainder of this work.
 
-Finally, the frequency of the oscillation between neutrino states depends on the difference of the square their masses ($\Delta m_{ij}^{2}$), where three neutrino masses imply two independent differences.
-Thus, two additional parameters are needed to fully describe neutrino mixing.
+
+Next we demonstrate the calculation of the probability of oscillation from one mass eigenstate to another.
+Namely we calculate the probablity $P(\mu \rightarrow e)$ which is the probability of interest in a long beamline experiment.
+First we identify that equation~\ref{eq:relate_eigenstates} can be rewritten to isolate the flavor-eigenstate terms ($v_{\alpha}$) by multiplying by the adjoint of the PMNS matrix ($U^{*}_{PMNS}$).
+Then the relationship between the mass and flavor eigenstates become:
+
+\begin{equation}
+v_{\alpha} = U^{*}_{PMNS}v_{i}
+\end{equation}
+~\label{eq:flavor_relation}
+
+The value of interest is $P(\mu \rightarrow e)$.
+The probability to end up in state $v_{e}$ beginning from $v_{\mu}$ is:
+
+\begin{equation}
+P(\mu \rightarrow e) = \lvert \braket{ v_{e} | v_{\mu} }\rvert^{2}
+\end{equation}
+~\label{eq:prob_calc1}
+
+We then use equation~\ref{eq:flavor_relation} to represent the matrix elements of $U_{PMNS}$ from $v_{e}$ and $v_{\mu}$  to obtain:
+
+\begin{equation}
+  P(\mu \rightarrow e)
+  = \lvert \sum_{i} U_{e i} U^{*}_{\mu i} e^{-i E_{i}t}  \rvert^{2}
+  = \sum_{i} {\lvert U_{ei}U^{*}_{\mu i} \rvert}^{2}
+  +
+  2 \Re( \sum_{i>j}  U^{*}_{ej}U_{\mu j}U_{ei}U^{*}_{\mu i} e^{-i \Delta_{ij}t} )
+\end{equation}
+~\label{eq:prob_calc2}
+
+Where we identify that the cross terms introduce a phase difference shown as $\Delta_{ij}$ in the second term in equation~\ref{eq:prob_calc2}.
+This represents the neutrino oscillation term and represents the difference in the mass states of the neutrinos:
+\begin{equation}
+\Delta_{ij} = (E_{i} - E_{j})
+\end{equation}
+
+The energy of the neutrino in each state can be approximated to first order following:
+
+\begin{equation}
+E_{i} = \sqrt{p^2 + m_{i}^{2}} \approx p + \frac{m^{2}_{i}}{2p}
+\end{equation}
+
+The momentumum of all of the mass eigenstates is the constant.
+Then oscillation parameter becomes:
+
+\begin{equation}
+\Delta_{ij} \approx \frac{1}{2p}(m^2_{i}-m^{2}_{j}) = \frac{\Delta m_{ij}^2}{2p}
+\end{equation}
+
+Finally, the last two parameters which govern the neutrino oscillations are identified as the mass differences between the three mass states.
+Now, the frequency of the oscillation between neutrino states depends on the difference of the square their masses ($\Delta m_{ij}^{2}$), where three neutrino masses imply two independent differences.
+The mass differences provide two additional parameters are needed to fully describe neutrino mixing.
 The six values of interest and their current best known fits are shown in Table~\ref{table:pmns_params}:
+
+The the sign of $m_{13}$ is unknown.
+This leads to two possible ordernigs of the masses, known as normal and inverted, NO and IO respectively.
+The normal ordering indicates that the masses of the neutrinos follow the ordering of their charged partners.
+That is, NO implies a mass ordering of: $\nu_{e} < \nu_{\mu} < \nu_{\tau}$.
+Whereas, the IO has a mass ordering: $\nu_{\tau} < \nu_{e} < \nu_{\mu}$.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/mass_hierarchy.jpg}
+\caption{Representation of the mass hierarchy scales. This is a represntation of the two possible orderings of neutrino massses, due to the uncertain sign of $m_{13}$. It is also interesting to observe that the absolute mass scale is not measured since oscillation measurements only give difference mass squares. Image was taken from~\citep{QIAN20151}.}
+\end{figure}~\label{fig:mass_hierarchy}
+
+Neutrino oscillations in matter are slightly different than those in vacuum~\citep{PhysRevD.17.2369}.
+The Mikheyev-Smirnov-Wolfenstein (MSW) effect~\citep{Smirnov2004TheME}.
 
 \begin{table}
 \begin{center}
@@ -559,11 +650,9 @@ The six values of interest and their current best known fits are shown in Table~
 \end{table}
 ~\label{table:pmns_params}
 
-% \subsection{Pixelated Tracking Detectors}
+\section{Detectors in the Current Century}
 
-\section{Even Further: Detectors in the Current Century}
-
-Finally, in this last section we discuss recent development of various detector technologies.
+Finally, in this last section we discuss the development of various upcoming detector technologies.
 There are many motivating pressures for new detectors to adopt pixelated designs. 
 Below we discuss two contributing factors: the development of electronics and computing algorithms.
 
@@ -611,3 +700,46 @@ Continued development in electronics, computing, and analysis methods will lead 
 The work presented in this introduction aims to not only encapsulate the massive progress particle physics has made since the electron's discovery, but also to server as a reminder of how extraordinarily surprising nature is.
 At every turn and at every point where physicists think they've arrived at the end (or at an impossible roadblock) there always remains more to discover.
 If we have learned anything, we have learned to knock and the door shall be opened.
+
+
+%% Highlight what DUNE is and its purpose
+\subsection{The Deep Underground Neutrino Experiment}
+
+The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
+DUNE is composed two detectors, a near detector (ND) and a far detector (FD) which are separated by a distance of 1300 km.
+
+The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
+The ND serves many purposes.
+To name a few
+
+The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
+This detector represents an enormous engineering challenge to place such large, cold, and complicated detector.
+The FD will be composed of up to four separate 10 kiloton modules.
+
+
+The physics program
+
+Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
+The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
+A purpose of this dissertation is show the viability of a novel readout technology.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
+\caption{Representation of the Near and Far Detectors for the DUNE experiment. The Near Detector is located within the image labeled as the Particle Detector. One of the key purposes for the Near Detector is to tag outgoing particles from the proton beam. Image was taken from~\citep{dune_cdr_2016_arxiv}.}
+\end{figure}
+
+DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
+\begin{itemize}
+    \item Hadron Decay
+    \item Core-collapse Supernovae
+    \item Neutrino Oscillation.
+\end{itemize}
+~\label{item:dune_props}
+
+We will discuss the relevance of each of these items, and in~\ref{chap:qpix} we will further discuss how the work presented here relates to each of these topics.
+
+DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
+We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
+
+Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.

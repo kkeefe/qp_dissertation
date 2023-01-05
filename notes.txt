@@ -19,14 +19,16 @@ LArTPC
 QPix
 
 T2K
-Tokai to Kamika
+t2k is (Tokai to Kamioka) is a long-baseline neutrino experiment, over 295 km
 long baseline neutrino oscillation experiment
 Wants to measure dM23 and theta23
 Uses proton beam created at J-parc
 295 km baseline
 main goal is to measure theta13 by observing ve appearance from vu disappearance.
 uses 0.6 GeV beam
+%% nd is at j-parc, far detector is at superk
 
+% Double Chooz used two identical gadolinium-doped liquid scintillator detectors
 
 NOvA (previous generation such as MINOS / MINERvA)
 liquid scintillator, oscillator from Fermilab
@@ -47,5 +49,8 @@ Measured theta12 to be non-zero by >5 sigma
 ##############
 Neutrino Notes:
 ##############
+
+Mikheyev-Smirnov-Wolfenstein (MSW) effect [45, 46] can be used to determine the mass ordering
+
 
 https://neutrinos.fnal.gov/history/
