@@ -235,20 +235,29 @@ With a plethora of hints to search for New Physics (NP), it can be useful to org
 In 2008 the Particle Physics Project Prioritization Panel (P5) did just this and labeled the three frontiers of physics: the cosmological, energy, and intensity frontiers.
 Each of these frontiers offer different kinds of challenges and serve as guides to look for physics beyond the SM.
 
+\begin{figure}[]
+\centering
+\includegraphics[width=0.5\textwidth]{images/frontiers_physics.jpg}
+\caption{Image based on the 2008 P5 report~\citep{intensityfrontier2012_Hewett}. The white text labeled within each frontier describes the search for some physics beyond the SM within that frontier.}
+\end{figure}
+
 %% cosmological frontier problems
 \subsubsection{Cosmological}
 The cosmological frontier aims to search for NP on extremely large time and distance scales by relying on observational techniques.
 Cosmological measurements have shown the that majority of the universe's matter is not visible to light, and so we call it dark matter.
 Additionally, the universe is expanding at an accelerated rate, which we can tell from the blueshift of distance galaxies.
 Likewise, cosmologists have also discovered that the universe is expanding due to some invisible energy in the universe, and so we call it dark energy.
+
 The search for these dark causes of the universe lie within the realm of the cosmological frontier.
+
+Dark energy currently resides as the explanation for the observed accelerated expansion of the universe.
+Dark matter is commonly used to explain the deviation of the rotational frequency of galaxy clusters.
 
 %% energy frontier problems
 \subsubsection{Energy}
 The energy frontier is concerned with the origin of mass.
 The Large-Hadron Collider (LHC)~\citep{higgs_discovery_20121} experiment is the archetypal experiment aimed at solving problems within this frontier.
 The LHC itself consists of other large-scale tracking and calioremtry experiments such as ATLAS~\citep{ATLAS:1999vwa} and CMS~\citep{CMS:2006myw}.
-
 
 Large particle accelerators are used to generator source particles of ever increasing energy.
 Due to the conservation of mass, the higher the energy of the particle accelerated the higher the mass (energy) of the particles created after certain collisions can be.
@@ -331,21 +340,25 @@ in many kinds of detectors across HEP. TPCs can also incorporate two phases of a
 
 the Xenon-1T is a dark matter experiment which is a dual-phase TPC \citep{Aprile_2017_xenon1T}.
 
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/dune_tdrv12020_lartpc-sp.jpg}
+\caption{Image of a Time Projection Chamber (TPC). Charge is accumlated within the volume as ions are removed from the fidicial volume from another charged ion as it passes through the material. An uniform electric field drifts the free now electrons towards the anode plane. The collection and readout of charge on this anode plane is what is recorded within the detector. Image is taken from~\citep{DUNE_TDR_V1_Abi_2020}.}
+\end{figure}
+
 The LUX experiment is a single phase TPC also hunting for dark matter.
 
 A specific kind of TCP is a Liquid Argon Time Projection Chamber (LArTPC)~\citep{rubbia1977liquid}.
 
 %% include relevant LArTPCs here
-recent work on LArTPCs (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_2017, LArIAT_Acciarri_2020}.)
-
+Recent work on LArTPCs (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_2017, LArIAT_Acciarri_2020}.)
 
 Energy resolution of the LArTPCs within DUNE are still unknown to within a factor of 4 \citep{lartpc_energy_resolution:PhysRevD.99.036009}.
 
-
 \section{Ways Forward}
 
-Despite the passing of generations of detectors and developments in electronics the SM holds fast.
-For nearly 50 years now the SM has been our best attempt at describing nature as we know it, despite also knowing that there must be more.
+Despite the passing of generations of detectors and developments in electronics the SM remains.
+For nearly 50 years now the SM is still our best model at describing nature as we know it, despite also knowing that there must be more.
 Here in this section we describe in some more detail current searches at the intensity frontier where physicists are looking to go beyond the SM.
 
 We give special attention to neutrino oscillation at the end of this section since later chapters simulation studies will be based off results hoping to measure this effect.
@@ -373,9 +386,9 @@ The first one is:
 ~\label{eq:rxn_proton_decay1}
 
 This interaction is easily detectable in cherenkov based detectors due to the emission of both the gammas as well as the high energy of the emitted positron.
-In fact, the worlds best estimate for proton lifetime comes from this decay-chain~\ref{Abe_2017}.
+In fact, the worlds best estimate for proton lifetime comes from this decay-chain~\citep{PhysRevD.95.012004}.
 
-Other Supersymmetric GUT models predict instead~\ref{PhysRevD.38.1479}:
+Other Supersymmetric GUT models predict instead~\citep{PhysRevD.38.1479}:
 
 \begin{equation}
   p^{+} \rightarrow K^{+} + \nu
@@ -397,7 +410,7 @@ A supernova occurs when a massive star runs out of the necessary elemental fuel 
 When this happens the inward pull of gravity due to the mass of the star overcomes the reduced outward pressure from the nuclear fusion.
 
 It has been nearly 30 years since the last observed neutrinos from a galactic core collapse supernova, SN 1987A~\citep{1987ApJ...322..795F}.
-Sensitivity to supernova neutrinos is curical for understanding the mechanisms that govern particles at these extreme densities and pressures.
+Sensitivity to supernova neutrinos is crucial for understanding the mechanisms that govern particles at these extreme densities and pressures.
 Interestingly, because neutrinos are so weakly interacting, it is possible to observe their signature and arrival before the photons arrival of a Type-II supernova.
 
 %% why do we care about supernova neutrinos, what will they tell us?
@@ -411,31 +424,28 @@ A LArTPC is sensitive to $\nu_{e}$ by measuring the signture of both the $e^{-}$
 \subsection{More on Neutrinos}
 ~\label{sec:an_escape}
 
-Another possible route beyond the standard model is the study neutrinos.
+Another possible route beyond the standard model are detailed studies of neutrinos.
 
 Hints at the existence of neutrinos began early last century.
 More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
-This prompted Wolfgang Pauli to predict a particle which he originally called the neutron to also be a decay product, but not easily observable.
+This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
+Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
+This third particle in the decay would explain the energy spectrum of the electron.
 Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
 The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
 
 Originally physicists held little hope that such an elusive particle would ever be detected.
-This even lead some physicists to belief that perhaps the conservation of energy was violated.
 However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
 Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
 
-
+The discovery of the electron neutrino $v_{e}$ was the first of the three families to be discovered.
 A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
 
 The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
 this detector used nuclear emulsions.
 
-
-Tokai to Kamioka (T2k)~\citep{PhysRevD.91.072010_t2k_2015} has well established neutrino oscillation measurements.
-
 Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
 
-% t2k neutrino oscillation measurement
 % Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 After this first discovery is when the the answers, followed by more questions, came.
 Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
@@ -454,9 +464,7 @@ Originally the mass of the neutrino predicted by the SM was massless.
 That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
 The solution for this was oscillation.
 
-
-%% TODO most of particle physics to go here!
-%% physical interaction of neutrino scattering here
+%%
 \subsection{Neutrino Oscillation}
 
 Here we provide a very general description of a model to describing neutrino oscillation.
@@ -465,6 +473,8 @@ We elucidate the measureable parameters which govern this oscillation and descri
 Of all known particles the most elusive (hardest to detect and measure) is the neutrino.
 For this reason the least is known about the neutrino.
 What we do know about the neutrino is there are three flavors each associated with their leptonic partners: the electron, muon, and tau.
+
+Tokai to Kamioka (T2k)~\citep{PhysRevD.91.072010_t2k_2015} has well established neutrino oscillation measurements.
 
 It came as a welcome shock that neutrino oscillation was first measured.
 This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
@@ -710,14 +720,14 @@ DUNE is composed two detectors, a near detector (ND) and a far detector (FD) whi
 
 The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
 The ND serves many purposes.
-To name a few
+To name a few..TODO
 
 The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
 This detector represents an enormous engineering challenge to place such large, cold, and complicated detector.
 The FD will be composed of up to four separate 10 kiloton modules.
 
-
-The physics program
+DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
+We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
 
 Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
 The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
@@ -737,9 +747,6 @@ DUNE has three main science goals, all of which are geared towards pushing beyon
 \end{itemize}
 ~\label{item:dune_props}
 
-We will discuss the relevance of each of these items, and in~\ref{chap:qpix} we will further discuss how the work presented here relates to each of these topics.
-
-DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
-We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
+We will discuss the relevance of each of these items, and in chapter~\ref{chap:qpix} where we will further discuss how the work presented here relates to each of these topics.
 
 Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
