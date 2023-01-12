@@ -48,7 +48,6 @@ These particles represent the current best knowledge of the building blocks of a
 \end{figure}
 ~\label{fig:cern_sm}
 
-
 %% TODO
 \subsubsection{Quarks}
 
@@ -241,18 +240,6 @@ Each of these frontiers offer different kinds of challenges and serve as guides 
 \caption{Image based on the 2008 P5 report~\citep{intensityfrontier2012_Hewett}. The white text labeled within each frontier describes the search for some physics beyond the SM within that frontier.}
 \end{figure}
 
-%% cosmological frontier problems
-\subsubsection{Cosmological}
-The cosmological frontier aims to search for NP on extremely large time and distance scales by relying on observational techniques.
-Cosmological measurements have shown the that majority of the universe's matter is not visible to light, and so we call it dark matter.
-Additionally, the universe is expanding at an accelerated rate, which we can tell from the blueshift of distance galaxies.
-Likewise, cosmologists have also discovered that the universe is expanding due to some invisible energy in the universe, and so we call it dark energy.
-
-The search for these dark causes of the universe lie within the realm of the cosmological frontier.
-
-Dark energy currently resides as the explanation for the observed accelerated expansion of the universe.
-Dark matter is commonly used to explain the deviation of the rotational frequency of galaxy clusters.
-
 %% energy frontier problems
 \subsubsection{Energy}
 The energy frontier is concerned with the origin of mass.
@@ -265,8 +252,17 @@ Due to the conservation of mass, the higher the energy of the particle accelerat
 There also exist lepton collidors~\citep{belle2_tdr_arxiv} which offer unique areas of search along this frontier too.
 More detailed descriptions of such collider experiments are beyond the scope of the work presented here, and further reading may be pursued from the extremely detailed technical design reports cited here of Belle-II and the ATLAS experiments.
 
-%% intensity frontier problems (and the focus of this thesis)
-\subsubsection{Intensity}
+%%
+\subsubsection{The Cosmological and Intensity Frontiers}
+The cosmological frontier aims to search for NP on extremely large time and distance scales by relying on observational techniques.
+Cosmological measurements have shown the that majority of the universe's matter is not visible to light, and so we call it dark matter.
+Additionally, the universe is expanding at an accelerated rate, which we can tell from the blueshift of distance galaxies.
+Likewise, cosmologists have also discovered that the universe is expanding due to some invisible energy in the universe, and so we call it dark energy.
+
+The search for these dark causes of the universe lie within the realm of the cosmological frontier.
+
+Dark energy currently resides as the explanation for the observed accelerated expansion of the universe.
+Dark matter is commonly used to explain the deviation of the rotational frequency of galaxy clusters.
 
 The third (and final) frontier we'll discuss is the Intensity frontier.
 The Intensity Frontier of Physics (\citep{intensityfrontier2012_Hewett}) is one which today requires very large and very precise measurements to gain the statistics to declare an observation.
@@ -304,6 +300,47 @@ These detectors proved significant in the discover of the W and Z bosons and ult
 Next the spark chamber eventually lead to the gradual development of the wire-spark chamber.
 In 1968 Georges Charpak developed the Multi-Wire Proportional Chamber (MWPC) for which he (much later) won the Nobel Prize in 1992.
 From this key insight a new detector concept was made possible.
+
+\subsubsection{More on Neutrinos}
+~\label{sec:an_escape}
+
+Hints at the existence of neutrinos began early last century.
+More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
+This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
+Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
+This third particle in the decay would explain the energy spectrum of the electron.
+Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
+The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
+
+Originally physicists held little hope that such an elusive particle would ever be detected.
+However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
+Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
+
+The discovery of the electron neutrino $v_{e}$ was the first of the three families to be discovered.
+A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
+
+The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
+this detector used nuclear emulsions.
+
+Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
+
+% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
+After this first discovery is when the the answers, followed by more questions, came.
+Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
+~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
+neutrino_measurement_NOvA_2019_prl,
+t2k_2011_neutrino_PhysRevLett.107.041801,
+reno_2012_neutrino_PhysRevLett.108.191802,
+FUKUDA2002_solar_neutrino_oscillation,
+kamland_2003_neutrino_PhysRevLett.90.021802,
+daya_bay_2012_neutrino_PhysRevLett.108.171803,
+doubleChooz_2012_neutrino_PhysRevLett.108.131801}
+
+All reliable information we have about neutrinos come from these large scale detectors.
+
+Originally the mass of the neutrino predicted by the SM was massless.
+That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
+The solution for this was oscillation.
 
 \subsection{Modern Tracking Detectors}
 
@@ -355,7 +392,33 @@ Recent work on LArTPCs (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_
 
 Energy resolution of the LArTPCs within DUNE are still unknown to within a factor of 4 \citep{lartpc_energy_resolution:PhysRevD.99.036009}.
 
+
+%% LAr table
+\begin{table}
+  \begin{center}
+    \begin{tabular}{||c c c c||}
+ \hline
+      Property & Symbol & Value & Unit \\
+ \hline\hline
+      Density & $\rho$ &  1.3973 & $g cm^{-3}$ \\
+      Fano Factor & F & 0.107 & - \\
+      Dielectric Constant & $\epsilon$ & 1.505 & - \\
+      electron drift velocity & $v_{e}$ & 0.1601 & $\unit{cm/\mu s}$ \\
+      Ionization Energy of single $e^{-}$ & $W_{i}$ & 23.6 & eV/$e^{-}$ \\
+      Ionization Energy of single $e^{-}$ from photon & $W_{scint}$ & 19.5 & eV/$\gamma$ \\
+      Minimum Specific energy loss & $(dE/dX)_{MIP}$ & 2.12 & MeV/cm \\
+      Hadronic Interaction Length & $\lambda_{int}$ &85.7 & cm \\
+      Scintillation Emission Wavelength & $\lambda_{scint}$ & 128 & nm \\
+      Longitudinal Diffusion Coeffecients & $D_{L}$ & 6.6270 & $cm^{2}/s$ \\
+      Transverse Diffusion Coeffecients & $D_{T}$ & 13.2327 & $cm^{2}/s$ \\
+ \hline
+    \end{tabular}
+    \caption{Relevant Liquid Argon parameter information. Values are taken from~\citep{lardata_lbnl}, with temperature $T_{s} = 87 K$ and electric field $E_{f} = 0.5 kV cm^{-1}$.}
+  \end{center}
+\end{table}~\label{tab:lar_prop}
+
 \section{Ways Forward}
+
 
 Despite the passing of generations of detectors and developments in electronics the SM remains.
 For nearly 50 years now the SM is still our best model at describing nature as we know it, despite also knowing that there must be more.
@@ -421,51 +484,10 @@ The principal interaction chain observable in a TPC is:
 
 A LArTPC is sensitive to $\nu_{e}$ by measuring the signture of both the $e^{-}$ and $^{40}Kr^{+}$.
 
-\subsection{More on Neutrinos}
-~\label{sec:an_escape}
-
-Another possible route beyond the standard model are detailed studies of neutrinos.
-
-Hints at the existence of neutrinos began early last century.
-More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
-This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
-Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
-This third particle in the decay would explain the energy spectrum of the electron.
-Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
-The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
-
-Originally physicists held little hope that such an elusive particle would ever be detected.
-However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
-Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
-
-The discovery of the electron neutrino $v_{e}$ was the first of the three families to be discovered.
-A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
-
-The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
-this detector used nuclear emulsions.
-
-Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
-
-% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
-After this first discovery is when the the answers, followed by more questions, came.
-Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
-~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
-neutrino_measurement_NOvA_2019_prl,
-t2k_2011_neutrino_PhysRevLett.107.041801,
-reno_2012_neutrino_PhysRevLett.108.191802,
-FUKUDA2002_solar_neutrino_oscillation,
-kamland_2003_neutrino_PhysRevLett.90.021802,
-daya_bay_2012_neutrino_PhysRevLett.108.171803,
-doubleChooz_2012_neutrino_PhysRevLett.108.131801}
-
-All reliable information we have about neutrinos come from these large scale detectors.
-
-Originally the mass of the neutrino predicted by the SM was massless.
-That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
-The solution for this was oscillation.
-
 %%
 \subsection{Neutrino Oscillation}
+
+Another possible route beyond the standard model are detailed studies of neutrinos.
 
 Here we provide a very general description of a model to describing neutrino oscillation.
 We elucidate the measureable parameters which govern this oscillation and describe how these values are currently measured in experiments today.

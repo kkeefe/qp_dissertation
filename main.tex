@@ -10,6 +10,7 @@
 \usepackage{siunitx}
 \usepackage{enumerate}
 \usepackage{braket}
+\usepackage{subcaption}
 %% Tentative: newtx for better-looking Times
 \usepackage[T1]{fontenc}
 \usepackage[utf8x]{inputenc}
@@ -95,33 +96,27 @@ Finally, based on these results of the prototypes and simulation we discuss the 
 %% chapter 2, the QPix Design concept
 \chapter{A Novel Readout Technique for TPCs: Q-Pix}
 \label{chap:qpix}
-
 \input{chapters/qpix.tex}
 
-
 %% chapter 3
-\chapter{New Diffusion Measurements: Studies within SAQ}
-\label{chap:saq}
-
-\input{chapters/saq.tex}
-
-%% chapter 4
 \chapter{The Digital Back-end and Viability Studies}
 \label{chap:qdb}
-
 \input{chapters/qdb.tex}
 
-%% chapter 5 - cap everything off with extended simulation studies based on results
-\chapter{Simulation Studies and Future Q-Pix Prototypes}
-
+%% chapter 4
+\chapter{Simulation Studies and Future Q-Pix Prototypes}~\label{chap:sim}
+\label{chap:sim}
 \input{chapters/simulation.tex}
+
+%% chapter 5 - cap everything off with extended simulation studies based on results
+\chapter{New Diffusion Measurements: Studies within SAQ}
+\label{chap:saq}
+\input{chapters/saq.tex}
 
 %% chapter 6 - Summary and Outlook
 \chapter{Summary and Outlook}
 \label{chap:summary}
-
 \input{chapters/summary.tex}
-
 
 \printbibliography[heading=bibintoc]
 %\printbibliography
