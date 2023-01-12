@@ -22,6 +22,9 @@ Such a design choice then allows this readout to only provided data when there i
 The circuit input is connected to the anode of a TPC where drifted electron charge accumulates.
 Voltage is then built up from the charge stored on the pixel based on the capacitance according to the equation:
 
+% what to say about genetic multiplexing?
+% This differs from other concepts such as Genetic Multiplexing (\citep{PROCUREUR2013888_genetic_multiplexing}) and using only regions of interest (ROI).
+
 \begin{equation}
 Q_{i} = C_{i}V_{i}
 \end{equation}
@@ -213,7 +216,7 @@ Here we briefly describe potential issues of the readout circuit presented here.
 
 \subsubsection{Near Maximum Reset Rate}
 
-Equation ~\ref{eq:icalc_max} relates the maximum measurable current ($I_{max}$ in a QPix system to the frequency of a digital clock.
+Equation ~\ref{eq:icalc_max} relates the maximum measurable current ($I_{max}$) in a QPix system to the frequency of a digital clock.
 
 The general relationship for the curret is given in equation~\ref{eq:icalc_max}.
 This can be rewritten explicitly in terms of the number of measured clock counts at the remote ASIC:
@@ -390,14 +393,12 @@ T_{loop} = \frac{2^{32}}{30*10^{6}} \approx 143 seconds
 \end{equation}
 
 This time ($T_{loop}$) indicates the minimum reset time to occur within each responsible digital block.
-Since this time is much greater than the antipcated reset rates to be produced from backgrounds, discussed in a later section~\ref{sec:background}, we expect the looping of the 32-bit recorded value to not present a design concern.
-
-This differs from other concepts such as Genetic Multiplexing (\citep{PROCUREUR2013888_genetic_multiplexing}) and using only regions of interest (ROI).
+Since this time is much greater than the antipcated reset rates to be produced from backgrounds, discussed in section~\ref{sec:background}, we expect the looping of the 32-bit recorded value to not present a design concern.
 
 The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
 \begin{equation}
 N_{osc} = \frac{6.3 \unit{m} * 2.5 \unit{m} }{16\times10^{-6}\unit{m^{2}} * 16 \unit{channel^{-1}}} \approx 61524
-\end{equation}
+\end{equation}~\label{eq:nosc}
 
 $N_{osc}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
 Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
@@ -429,21 +430,35 @@ Maximum diameter of conduit enclosing the cold cables while they are routed thro
 \end{center}
 \end{table}
 
+The goal of a digital backend design is how to handle the data from the $10^{5}$ free running oscillators, and how to ensure that the free running local oscillator clocks can be calibrated to a known frequency.
+Additionally,
+
 \subsection{Single Point Failures}
+
+Here we comment on an overall design guideline for QPix: ``robust resilience'' against single point failure (SPF).
+The readout technology presented here relies on huge numbers of readout channels ($10^{8}$) compared to current MWPC designs ($10^{5}$).
+As such, extra care must be made in designing new technology to improve over established, seemingly simpler means.
+
+This principal guides design choices such as the use of independent local oscillators at the pixel-level instead of a provided distributed clock.
+This design choice, in particular, is discussed at length in chapter~\ref{chap:qdb}, and the findings presented there are one of the major contributions presented in this work.
+
+The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of $N_{osc} \approx 10^{5}$ is a goal of this work.
 
 \section{QPix and Light Detection}
 
-We take a brief pause here to mention the inclusion of an optical system within the charge readout technology presented here.
-
-Any reconstructed event requires some $T_{o}$ time to indicate the start of the event.
-Typically this is done via scintillation photons, which arrive instantly at the collection planes compared to the slow drift speed of the electrons.
-
+Other recent progress~\citep{https://doi.org/10.48550/arxiv.2207.11127} has been made towards inclusion of an optical system combined the readout technology presented here.
+Such a system would integrate well with a charge-integrate-reset style presented here, as the charge collection area is much smaller than the total pixel area.
 The pixel dimensions are 4 $\unit{mm}$ $\times$ 4 $\unit{mm} $ for a total active area of 16$\unit{mm^{2}}$.
-Most of this active area is unused for the charge collection pad, which could be as small as drill-hole via.
-Then, most of the remaining area could be plated with a photo-sensitive material, which can additionally be stored and readout.
+Most of this active area is unused for the charge collection pad, which could be as small as drill-hole via (6 mil $<<$ 16\unit{mm^2}).
+Then, most of the remaining area could be plated with a photo-sensitive material.
+
+Such a photosensitive material could capture incoming scintillation photons and provide an additional voltage measurement at each pixel.
+Depending on the sensitivity, such a measurement could be used to reconstruct tracks by providing a $\frac{dE}{dX}$ measurement, or even as a time-tag and a trigger.
+
+The use of a reference trigger could be useful to establish event-time within the same system, and allow adjacent pixels which would receive photons, but not charge, to contribute to time reconstruction.
+Any reconstructed event requires some $T_{o}$ time to indicate the start of the event.
+Typically this is done via scintillation photons from a secondary system, where the photons arrive nearly instantly at the collection planes compared to the slow drift speed of the electrons.
 
 The natural pixelization of QPix required the charge collection can also be used to be sensitive to scintillation photons.
 These photons could not only provide the required timing but also provide an additional means of calorimetry, and track reconstruction.
 Additional work is currently underway to demonstrate the viability.
-
-Recent work has been accomplished to show viable plans to detect light within cold LAr temperatures~\citep{https://doi.org/10.48550/arxiv.2207.11127}.
