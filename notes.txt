@@ -52,5 +52,8 @@ Neutrino Notes:
 
 Mikheyev-Smirnov-Wolfenstein (MSW) effect [45, 46] can be used to determine the mass ordering
 
+BooNE : Booster Neutrino Experiment, MiniBooNE (cherenkov), MicroBooNE (liquid argon), both at fermilab
+CC-QE : Stands for charge-current quasi-elastic. neutrino-nucleus scattering events, originated from miniBooNE
+Liquid Scintillator Neutrino Detector (LSND) was a scintillation counter at Los Alamos National Laboratory that measured the number of neutrinos being produced by an accelerator neutrino source
 
 https://neutrinos.fnal.gov/history/

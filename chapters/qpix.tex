@@ -9,7 +9,7 @@ Additionally, the pixelated readout method presented here cuts the total require
 
 However, the advantages also come with the cost of increased design complexity as the number of readout channels increases by more than three orders of magnitude. 
 The traditional wire based readout within a DUNE module will include hundreds to thousands of channels, whereas a full DUNE module with a pixel-based readout will have 10's of millions of channels.
-This number of required channels to be stably readout during DUNE's expected lifetime ($> 10$ years), where the electronics continually operate at liquid argon temperatures is likely the largest hurtle for a pixel-based design.
+This number of required channels to be stably readout during DUNE's expected lifetime ($\approx 20$ years), where the electronics continually operate at liquid argon temperatures is likely the largest hurtle for a pixel-based design.
 The aim of this dissertation is to address the channel-size problem.
 
 \section{Q-Pix: The Circuit Level Design}
@@ -44,8 +44,7 @@ Since the capacitor reset happens at the same time as the issued trigger the dig
 This timestamp value is recorded against a free running local oscillator ($f_{o} = 30\unit{MHz}$ ).
 The number of free running clocks in the entire system is expected to be the number of channels ($N_{c}$) divided by the number of digitally multiplexed channels ($N_{d}$), which are taken to be 16.
 
-
-\subsection{Reconstructing Voltage from Time Resets}
+\subsection{Waveforms from Time Resets}
 
 Here we describe the basic principle of reconstructing the input current from a collection of reset measurements.
 The key insight for this readout technology is that time (instead of voltage as in a MWPC) is recorded.
@@ -53,7 +52,7 @@ Therefore, measurements only taken place when there is enough charge to cause a 
 This concept follows the detector concept of least action in that all measurements are detector responses.
 
 A measurement of a reset indicates that a certain amount of charge was discharged from the integrating capacitor.
-Since total charge is conserved, we can say that the total amount of charge that accumulates onto the pixel is equal to total amount of charge discharged from each reset, plus any residual charge still on the pixel.
+Since total charge is conserved (and assume drift current around the integrator is small compared to backgrounds), we can say that the total amount of charge that accumulates onto the pixel is equal to total amount of charge discharged from each reset, plus any residual charge still on the pixel.
 Therefore, we can relate the total accumulated charge to the total charge discharged with the following equation:
 
 \begin{equation}
@@ -74,7 +73,7 @@ I_{o} = \frac{d}{dt}(Q_{o} \times N(t)) = Q_{o}\frac{dN}{dt} = \frac{Q_{o}f_{o}}
 \end{equation}
 ~\label(eq:irecon)
 
-Where we identify $\frac{dN}{dt} = \frac{f_{o}}{N_{clk}}$, as the as the clock frequency ($f_{o}$) of the local clock and the difference between the two resets.
+Where we identify $\frac{dN}{dt} = \frac{f_{o}}{N_{clk}}$ as the as the clock frequency ($f_{o}$) of the local clock and the difference between the two resets.
 Equation~\ref{eq:irecon} can be used to determine the maximum current with the digital clock frequency by noting that the minimal value of $N_{clk}$ is one.
 We take as the nominal expected frequency (30~\unit{MHz}), capacitance (1~\unit{fF}), and voltage (1~\unit{V}) values to calculate an approximate max current, $I_{max}$:
 
@@ -419,30 +418,51 @@ Since each 10 kt module uses 150 APAs the total number of ASICs would be multipl
  \hline
   Signal Saturation & 500,000 $e^{-}$ & Maintain calorimetric performance for multi-proton final state. \\
  \hline
-  Cold Electronics Power Consumption & < 50 \unit{mW} /channel & No bubbles in LAr to reduce HV discharge risk\\
+  Cold Electronics Power Consumption & < 50 mW pre channel & No bubbles in LAr to reduce HV discharge risk\\
  \hline
   Number of Channels per front-end motherboard & 128 &  The total number of wires on one side of an APA, 1,280, must be an integer multiple of the number of channels on the FEMBs. \\
  \hline
 Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Avoid the need for further changes to the APA frame and for routing the cables along the cryostat walls \\
  \hline
 \end{tabular}
-\caption{Selected Requirements of DUNE TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison. DUNE TPC electronic data and rationale are taken from~\citep{DUNE-FD_TDRv4:Abi_2020.}}
+\caption{Selected Requirements of DUNE TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison. TPC electronic data and rationale are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}}
 \end{center}
-\end{table}
+\end{table}~\label{tab:dune_tpc_elec}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|| p{50mm} | p{50mm} | p{50mm} ||}
+ \hline
+ Description & Specification & Rationale \\ [0.5ex]
+ \hline\hline
+  System Noise & $\approx 300 e^{-}$ & Provides $\approx$ 17:1 S/N ratio, a component of front-end integrator. \\
+ \hline
+  Signal Saturation & >30\unit{nA}? & Upper limit from local oscillator frequency and integrator reset. \\
+ \hline
+  Cold Electronics Power Consumption &  $< 100 \unit{\mu W}$ per channel & Equivalent power consumption for heating \\
+ \hline
+  Number of Channels per Tile & ?? &  Design parameter to be calculated. \\
+ \hline
+Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Same as~\citep{DUNE-FD_TDRv4:Abi_2020}, an engineering goal is to aim to use existing APA frame designs. \\
+ \hline
+\end{tabular}
+\caption{Q-Pix based Requirements, which can be compared against~\ref{tab:dune_tpc_elec}. Results here are necessarily speculative, but provide a design goal baseline.}
+\end{center}
+\end{table}~\label{tab:qpix_tpc_elec}
 
 The goal of a digital backend design is how to handle the data from the $10^{5}$ free running oscillators, and how to ensure that the free running local oscillator clocks can be calibrated to a known frequency.
 Additionally,
 
 \subsection{Single Point Failures}
 
-Here we comment on an overall design guideline for QPix: ``robust resilience'' against single point failure (SPF).
+Here we comment on an overall design guideline for Q-Pix: ``robust resilience'' against single point failure (SPF).
 The readout technology presented here relies on huge numbers of readout channels ($10^{8}$) compared to current MWPC designs ($10^{5}$).
 As such, extra care must be made in designing new technology to improve over established, seemingly simpler means.
 
 This principal guides design choices such as the use of independent local oscillators at the pixel-level instead of a provided distributed clock.
 This design choice, in particular, is discussed at length in chapter~\ref{chap:qdb}, and the findings presented there are one of the major contributions presented in this work.
 
-The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of $N_{osc} \approx 10^{5}$ is a goal of this work.
+The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of each local oscillator ($N_{osc} \approx 10^{5}$) is a goal of this work.
 
 \section{QPix and Light Detection}
 
