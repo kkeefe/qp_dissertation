@@ -389,7 +389,7 @@ Therefore, the minimum time before the recorded timestamp value resets is calcul
 
 \begin{equation}
 T_{loop} = \frac{2^{32}}{30*10^{6}} \approx 143 seconds
-\end{equation}
+\end{equation}~\label{eq:tloop}
 
 This time ($T_{loop}$) indicates the minimum reset time to occur within each responsible digital block.
 Since this time is much greater than the antipcated reset rates to be produced from backgrounds, discussed in section~\ref{sec:background}, we expect the looping of the 32-bit recorded value to not present a design concern.

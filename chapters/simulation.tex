@@ -1,7 +1,84 @@
+This chapter highlights the requirements of a digital back-end suited to a Q-Pix based readout implemented in a LArTPC design.
+
+The first part of this chapter details the design problem which must solve data collection rates, total data aggretation, and hardware constraints for a successful deployment.
+The Q-Pix readout~\ref{chap:qpix} relies on several key factors which promise possible improvements over a traditional MWPC readout: automatic calibration from quesicent background, an overall reduction in data collection, and simpler analysis and data reconstruction, to name a few.
+However, this novel readout technique not only changes the front-end analog structure but also dramatically increases the number of digitization channels.
+The increase of the number digital channels and required ASICs creates the need for a new digital-backend design.
+
+The second part of this chapter describes a simulation framework which aims to parameterize the search for an optimal digital design.
+We use a simulation framework to address these questions, since any sufficiently complicated design offers an intractible number of possible choices which can signficantly alter the performance (good or bad) of a detector.
+The Q-Pix readout is no different.
+A few examples of crucial design choices for the digital back-end are: the use of free-running local oscillators, the selection of an inter-ASIC communication protocol, the choice of inter-ASIC connections or routing profiles, and the buffer sizes of FIFOs to store charge-reset data.
+
+The final part of this chapter summarizes the results of the simulations and provides, to the best of its ability, a description of the effects of the most important parameters determined from these results.
+We use as inputs to the simulation the expected input charge from radiogenic background and beamline neutrino interaction over a DUNE-FD APA.
+The goal of the next chapter~\ref{chap:qdb.tex} is to provide a hardware verification of the simulation results presented here.
+
+The vast majority of the work presented in this chapter is my own individual work.
+
+%%
+\section{The Digital Back-end problem}
+
+The main objectives of the digital back-end are to correctly measure the data presented to it by the analog front-end and ensure lossless transport of that data to disk.
+More simply, the goals of the digital portion of the Q-Pix readout are to record and send data.
+We note that the successful completion of these two objectives to be goal of these studies.
+
+\subsection{The Basic Datum}
+
+We begin with a discussion of the basic datum recorded and mention initial design choices at this interface.
+The structure of this datum motivates the buffer widths and depths required to store the data at the local ASIC level as well as the protocol used to transfer this data between ASICs and eventually out of the detector.
+
+The minimum data which needs to be recorded are the time, the relative location of the digitizing ASIC within the detector, plus any channels which were responsible for this reset.
+Each of the number of bits assigned to recording these parameters are a design consideration.
+We choose the number of bits for the timestamp ($N_{T}$) to be 32, which prevents frequency wrap-around based on a fast clock frequency (Equation~\ref{{eq:tloop}}).
+We choose as the number of bits to assign a location ($N_{loc}$) to be 8, which provides a maximum possible number of unique positions before aggregation to be 256.
+Next, since the number of pixels (required by analog front-end design) is 16 we choose this number as the number of bits to represent a ``mask'' ($N_{bits} = 16$).
+We need to record all of the channels during each reset since it is technically possible (even if less likely) for multiple analog channels to provide a reset within the same clock window.
+
+We calculate the minimum number of bits per datum to be:
+\begin{equation}
+  N_{bits} = N_{T} + N_{pix} + N_{loc} = 32 + 16 + 8 = 56
+\end{equation}~\label{eq:nbits_datum}
+
+Since buffer memory addresses and widths are normally characterized by powers of two, we can construct the basic datum size above the minimum number of bits provided by~\ref{eq:nbits_datum} to get $N_{datum} = 64$.
+The remaining bits are useful for constructing different types of packets to be used by the digital ASICs for additional uses such as register configuration or to provide packet identification.
+
+\subsection{Communication of the Datum}
+
+There exist many asynchronous protocols of communication of digital information.
+Most of the differences between protocols exist based on the number of connections between devices and whether or not one pin is allocated to share a clock, etc.
+
+Our design considerations for this readout include reduction of SPF risk, low power, and minimal routing.
+In part to these reasons, the design choice for communication relies on only two connections between ASICs with one defined as a data receiver (Rx) and the other as a data transmitter (Tx).
+This choice of interface dramaticlaly limits a choice of possible protocols.
+Here, we describe the difference between two that we tested: Universal Asynchronous receiver-transmitter (UART) and endeavor.
+We discuss and test only these two protocols for simplicity and find it instructive to compare a proven and custom protocol (endeavor) against a very common one (UART).
+
+The importance of choosing a correct protocl is to ensure lossless data transmission.
+Since there are free running clocks, an asynchronous communication protocol is required.
+The way to ensure that data can be moved between clocks of different speeds is to stretch the signal or to repeat bits.
+The more the word is stretched in time, the larger the allowable difference in frequency between the two devices.
+However, this lengthening can't proceed forever, obviously, otherwise words would become too long.
+
+It is another important design consideration in this design to ensure that transactions do not take too long.
+Unnecessarily long transactions which take up more clock cycles use more power and increase the noise risk to leak to the analog front-end.
 
 
+%% appendix??
+\subsubsection{UART}
+This common protocol is typically stable between devices with a maximum difference of clock frequency to be 10\%.
+
+%% appendix??
+\subsubsection{Endeavor}
+This protocol is slower than UART, but allows for double the frequency difference: $\approx$ 20\%.
+
+%%
+\section{Constrainting the Digital-Backend}
+
+%%
 \section{Physical Simulation Studies}
 
+%%
 \section{Background Rates and Calibration}
 
 sources of backgrounds are taken from \citep{DUNE-FD_TDRv4:Abi_2020}
@@ -17,4 +94,4 @@ Simulation studies which involved particle interactions were based on Geant4 \ci
 
 \section{Neutrino Beam High Energy Studies}
 
-\section{Further Studies}
+\section{Summary and Further Studies}
