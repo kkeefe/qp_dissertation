@@ -141,13 +141,13 @@ We use $I_{min}$ to calculate an average charge line-density above the pixel, an
 \begin{equation}
 \lambda_{min} = \frac{10^{-14} A}{1600 \frac{m}{s}} = 6.25\times 10^{-18} \frac{C}{m} \approx 6.25 \frac{aC}{m}
 \end{equation}
-~\label{eq:lambdaCalc}
+~\label{eq:lambdaMin}
 
 Finally, we calculate the minimum $\frac{dE}{dX}$ following~\ref{eq:dedxCalc}:
 \begin{equation}
 \frac{dE}{dx}_{min} = 6.25\times 10^{-18} \frac{C}{m} \times  \frac{23.6 keV}{1.602\times 10^{-19} C} \approx 0.921 \frac{keV}{mm}
 \end{equation}
-~\label{eq:dedxCalc}
+~\label{eq:dedxMin}
 
 \begin{figure}[]
 \centering
@@ -314,14 +314,14 @@ The drift, $v_{e^{-}}$ is $\approx$ 1.6 $\unit{\frac{mm}{\mu s}}$, multiplied by
   \hat{z} = v_{e^{-}}t_{drift} \approx 3.33 \cdot 1.6 = 5.33 \unit{mm} \pm 0.05 \unit{mm}
 \end{equation}~\label{eq:zdriftnclk}
 
-We can rewrite equation~\label{eq:zdriftnclk} explicitly in terms of $N_{clk}$ to get a worst case:
+We can rewrite equation~\ref{eq:zdriftnclk} explicitly in terms of $N_{clk}$ to get a worst case:
 \begin{equation}
   \hat{z} = v_{e^{-}}\frac{N_{clk}}{f_{o}}
 \end{equation}~\label{eq:zdriftworse}
 
 The maximal percent error in the drift distance due to timing increases as $N_{clk}$ decreases, however because the drift distance is also calcuated using.
 
-\section{How Q-Pix fits into a DUNE APA}
+\section{How Q-Pix fits into a DUNE APA}~\label{sec:qpix_apa}
 
 Here we briefly describe QPix system requirements at DUNE module size (10 kt).
 A full technical design report for a kt module implementing QPix is clearly beyond the scope of the work presented here, yet we still offer comments on the requirements, particularly on the digital back-end related to a DUNE APA.
@@ -464,7 +464,7 @@ This design choice, in particular, is discussed at length in chapter~\ref{chap:q
 
 The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of each local oscillator ($N_{osc} \approx 10^{5}$) is a goal of this work.
 
-\section{QPix and Light Detection}
+\section{Q-Pix and Light Detection}
 
 Other recent progress~\citep{https://doi.org/10.48550/arxiv.2207.11127} has been made towards inclusion of an optical system combined the readout technology presented here.
 Such a system would integrate well with a charge-integrate-reset style presented here, as the charge collection area is much smaller than the total pixel area.
