@@ -57,3 +57,12 @@ CC-QE : Stands for charge-current quasi-elastic. neutrino-nucleus scattering eve
 Liquid Scintillator Neutrino Detector (LSND) was a scintillation counter at Los Alamos National Laboratory that measured the number of neutrinos being produced by an accelerator neutrino source
 
 https://neutrinos.fnal.gov/history/
+
+##############
+General Notes:
+##############
+
+- Why not needed: cocotb
+-- by its own definition: "cocotb is a COroutine based COsimulation TestBench environment for verifying VHDL and SystemVerilog RTL using Python".
+-- therefore, its purpose is to verify hdl, not motivate hdl design (the purpose of this work).
+-- these simulations constrain the hardware requirements of a digital node, the discussions motivate a basis for what the FSM which governs the digital node should be.

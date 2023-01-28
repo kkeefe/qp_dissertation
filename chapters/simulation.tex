@@ -51,6 +51,12 @@ We calculate the minimum number of bits per datum to be:
 Since buffer memory addresses and widths are normally characterized by powers of two, we can construct the basic datum size above the minimum number of bits provided by~\ref{eq:nbits_datum} to get $N_{datum} = 64$.
 The remaining bits are useful for constructing different types of packets to be used by the digital ASICs for additional uses such as register configuration or to provide packet identification.
 
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/qpix_word_format.pdf}
+\caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.}
+\end{figure}~\label{fig:datum}
+
 \subsection{Communication of the Datum}~\label{sec:comms}
 
 There exist many asynchronous protocols of communication of digital information.
@@ -289,16 +295,17 @@ Again, this result can be obtained intuitively, since as the number of columns (
 
 \subsubsection{Broadcasts to avoid SPF}~\label{sec:broadcast}
 
-In order to protect against SPF we consider a design which uses the FCT.
+In order to protect against SPF we only consider a designs which implement the FCT, since SPF can occur on any node the most robust connection scheme is the FCT.
 A FCT allows searches to probe all possible paths to any node via a ``broadcast'' produced from packets sent by the aggregator to the base-node.
 Therefore the broadcast algorithm can be represented by a complete circuit which begins at the base-node and proceeds to a target node with no repeated nodes until the target node is reached.
 The backward path is then completed in reverse by following the edges (connections) between each node until arriving finally again at the base-node.
 
+In practice, we encode the broadcast packet with a special header, to separate it from a request packet, and include an identification number.
+Then, any node which receives a broadcast packet will record the identification number of the most recent broadcast, which it can use to discard additional broadcast packets that arrive with the same number.
+
 In the event that a particular node becomes inactive it will ``block'' data comming from the nodes along its path.
 In this case, there must be some sort of ``broadcast'' originating from the base-node that would allow information tranverse regardless of the effective routing path.
 
-Since SPF, by definition, can occur on any node the most robust connection scheme is the full connection.
-A full connection
 
 \begin{figure}[]
 \centering
@@ -310,10 +317,10 @@ A full connection
 
 We discuss here the case of a FCT with an edge base node.
 An edge base node (EBN) is a digital channel that connects to the aggregator and to three other digital channels within a tile.
-Like before, this base-node must provide a unique path to all digital channels within the tile.
+Like before, this base-node must provide a unique path during data transmission to all digital channels within the tile.
 In this configuration the adjacency matrix is still the same as given in Equation~\ref{eq:adjacency_comp}.
 
-Also as before we wish to inspect different routing scenarios for a tile of a given square dimension of $R$ rows and $C$ columns.
+Also, as before, we wish to inspect different routing scenarios for a tile of a given square dimension of $R$ rows and $C$ columns.
 We can proceed by dividing the FCT graph into two subgraphs, $S1$ and $S2$, where $S1$ represets the rectangular section of the graph below and to the left of the EBN, while $S2$ are the remaining channels.
 
 We identify that while the number of columns ($C$) in tile is equal to both subgraphs, the total number of rows $R$ of the tile is equal to the sum of the rows from these two subgraphs: $R = R_{1} + R_{2}$.

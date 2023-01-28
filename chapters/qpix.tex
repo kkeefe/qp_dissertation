@@ -103,24 +103,24 @@ We can now use this result to calculate a maximum $\frac{dE}{dx}$ measurement:
 \end{equation}
 ~\label{eq:dedxMax}
 
-We can take the ionization energy of $Ar^{39}$ to be $\approx 23.6 keV$, then:
+We can take the ionization energy of $Ar^{39}$ to be $W_{ion} \approx 23.6 eV$, then:
 $$
-1 e^{-} = 23.6 keV
+W_{ion} = \frac{23.6 eV}{e^{-}}
 $$
 and
 $$
-1 e^{-} = 1.602*10^{-19} C
+Q = 1.602*10^{-19} C
 $$
 
 Then $\frac{dE}{dQ}$ becomes:
 \begin{equation}
-\frac{dE}{dQ} = \frac{23.6 keV}{1.602\times 10^{-19} C}
+\frac{dE}{dQ} = \frac{23.6 eV}{1.602\times 10^{-19} C}
 \end{equation}
 ~\label{eq:dedxValue}
 
 Finally, we calculate the result of equation~\ref{} and convert to units of~$\frac{GeV}{mm}$.
 \begin{equation}
-\frac{dE}{dx}_{max} = 1.875\times 10^{-11} \frac{C}{m} \times  \frac{23.6 keV}{1.602\times 10^{-19} C} \approx 2.76 \frac{GeV}{mm}
+\frac{dE}{dx}_{max} = 1.875\times 10^{-11} \frac{C}{m} \times  \frac{23.6 eV}{1.602\times 10^{-19} C} \approx 2.76 \frac{MeV}{mm}
 \end{equation}
 ~\label{eq:dedxCalc}
 
@@ -145,7 +145,7 @@ We use $I_{min}$ to calculate an average charge line-density above the pixel, an
 
 Finally, we calculate the minimum $\frac{dE}{dX}$ following~\ref{eq:dedxCalc}:
 \begin{equation}
-\frac{dE}{dx}_{min} = 6.25\times 10^{-18} \frac{C}{m} \times  \frac{23.6 keV}{1.602\times 10^{-19} C} \approx 0.921 \frac{keV}{mm}
+\frac{dE}{dx}_{min} = 6.25\times 10^{-18} \frac{C}{m} \times  \frac{23.6 eV}{1.602\times 10^{-19} C} \approx 0.921 \frac{eV}{mm}
 \end{equation}
 ~\label{eq:dedxMin}
 
@@ -356,7 +356,7 @@ To have a comparable power draw compared to DUNE, which has 2560 channels, then 
 Too much energy disappated in the LAr creates bubbles which is a high voltage (HV) discharge risk.
 The total channel count for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
 
-Thus, the total number of extra analog channels that QPix is required to measure, compared to the typical wire readout, is $915399 / 2560 \approx 357$.
+Thus, the number of extra analog channels that QPix is required to measure, compared to the typical wire readout, increases by a factor of $915399 / 2560 \approx 357$.
 This is an increase of $\mathcal{O}(10^{3})A$ orders of magnitude.
 
 
@@ -396,7 +396,7 @@ Since this time is much greater than the antipcated reset rates to be produced f
 
 The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
 \begin{equation}
-N_{osc} = \frac{6.3 \unit{m} * 2.5 \unit{m} }{16\times10^{-6}\unit{m^{2}} * 16 \unit{channel^{-1}}} \approx 61524
+N_{osc} = \frac{915399}{16} \approx 57213
 \end{equation}~\label{eq:nosc}
 
 $N_{osc}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
