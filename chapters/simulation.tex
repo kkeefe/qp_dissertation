@@ -63,24 +63,47 @@ There exist many asynchronous protocols of communication of digital information.
 Most of the differences between protocols exist based on the number of connections between devices and whether or not one pin is allocated to share a clock, etc.
 
 Our design considerations for this readout include reduction of SPF risk, low power, and minimal routing.
-In part to these reasons, the design choice for communication relies on only two connections between ASICs with one defined as a data receiver (Rx) and the other as a data transmitter (Tx).
-This choice of interface dramaticlaly limits a choice of possible protocols.
-Here, we describe the difference between two that we tested: Universal Asynchronous receiver-transmitter (UART) and endeavor.
-We discuss and test only these two protocols for simplicity and find it instructive to compare a proven and custom protocol (endeavor) against a very common one (UART).
+Partly for these reasons, the design choice for communication relies on only two connections between ASICs.
+One connection is defined as a data receiver (Rx) and the other as a data transmitter (Tx).
+This choice of interface dramatically limits a choice of possible protocols.
+Here, we describe the difference between two that we tested: Universal Asynchronous Receiver-Transmitter (UART) and Endeavor.
+We discuss and test only these two protocols for simplicity, and find it instructive to compare a proven and custom protocol (Endeavor) with a very common one (UART).
 
 The importance of choosing a correct protocol is to ensure lossless data transmission.
 Since there are free running clocks, an asynchronous communication protocol is required.
 The way to ensure that data can be moved between clocks of different speeds is to stretch the signal or to repeat bits.
 The more the word is stretched in time, the larger the allowable difference in frequency between the two devices.
-However, this lengthening can't proceed forever, obviously, otherwise words would become too long.
+However, this lengthening can't proceed forever, obviously, otherwise data transmission time could exceed data capture rates.
 
-It is another important design consideration in this design to ensure that transactions do not take too long.
-Unnecessarily long transactions which take up more clock cycles use more power and increase the noise risk to leak to the analog front-end.
-
+It is another important design consideration, then, to ensure that transactions proceed as quickly as possibly without data loss.
+Additional concerns of long data transactions include the use of more clock cycles which use more power and increase the risk noise to leak to the analog front-end.
 
 %% appendix??
 \subsubsection{UART}~\label{sec:uart}
 This common protocol is typically stable between devices with a maximum difference of clock frequency to be 10\%.
+
+\begin{tikztimingtable}[%
+    timing/dslope=0.1,
+    timing/.style={x=5ex,y=2ex},
+    x=5ex,
+    timing/rowdist=3ex,
+    timing/name/.style={font=\sffamily\scriptsize}
+]
+\centering
+% \busref{$CLK_{base-tx}$} & 0.10L 156{.1428570c} \\
+% \busref{$CLK_{base-rx}$} & 0.35L 156{0.12857c} \\
+\busref{$CLK_{tx}$} & 0.10L 18{c} \\
+\busref{$CLK_{rx}$} & 0.35L 20{0.9c} \\
+\busref*{Tx} & 0.10L 2u 1D{START} 10d{DATA} 1D{STOP} 2U \\
+\busref*{Rx} & 0.35L 1.80u 0.9D{START} 10.8d{DATA} 0.9D{STOP} 1.8U \\
+\extracode
+\begin{pgfonlayer}{background}
+\begin{scope}[semitransparent ,thick]
+\vertlines[darkgray,dotted]{0.10,1.10,...,2.1}
+\vertlines[black,solid]{0.35,1.25,...,10.25}
+\end{scope}
+\end{pgfonlayer}
+\end{tikztimingtable}~\label{tikz:uart}
 
 %% appendix??
 \subsubsection{Endeavor}~\label{sec:endeavor}
@@ -199,9 +222,13 @@ With this convention we obtain the general adjacency matrix with values defined 
 An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the kroniker-deltas.
 
 The length between the nodes represets the time it takes for a packet to transact from one node to the next.
-This is determined by both the number of bits to be sent in the communication protocol ($N_{bits}$ and the frequency of the local oscillator ($f_{i}$).
+This is determined by both the number of bits to be sent in the communication protocol ($N_{bits}$) and the frequency of the local oscillator ($f_{i}$).
 We note that the receiving local oscillator also affects the true transaction time up to a single clock cycle.
-However, since the transaction time of a packet is much larger than a single clock cycle ($N_{bits} \simeq \mathcal{O}10^{2} \gg 1$), we can approximate: $T_{i\rightarrow j} \approx T_{i} = N_{bits}/f_{i}$.
+However, since the transaction time of a packet is much larger than a single clock cycle ($N_{bits} \simeq \mathcal{O}(10^{2}) \gg 1$), we can approximate:
+
+\begin{equation}
+T_{i\rightarrow j} \approx T_{i} = N_{bits}/f_{i}
+\end{equation}~\label{eq:t_packet}
 
 This representation is also useful to model certain SPF where a node becomes inactive.
 Dead or inactive nodes are ones in which all of their connections are effectively disconnected.
@@ -397,6 +424,170 @@ We use this result to obtain the relation of the general $C_{SPF}$:
 if we identify that $N = C(R_{1}+R_{2})$ and use $R_{2} = R - R_{1}$:
 \begin{equation}
   C_{SPF} = \frac{1}{2CR^{2}}(2R_{1}^{2}-2R_{1}R+R^{2}+CR+2(R-R_{1}))
+\end{equation}
+
+
+\section{Frequency Calibration of Local Oscillators}~\label{sec:calib}
+
+The Q-Pix calibration requirements are described in detail in Section~\ref{sec:qpix_calib}.
+The important parameters which must be calibrated for each pixel are the charge per reset and the frequency of the local oscillator.
+An aim of this work is to demonstrate an additional frequency calibration method using the minimal required connections between each digital node.
+
+Any method of a frequency calibration must synchronize time measurements between all digital nodes within a tile and the aggregator.
+There are several possibile methods to achieve this, but ultimately the data that are recorded must be some time at the aggregator, $T_{a}$, and the time at any specific node, $T_{j}$.
+
+%% distribute clock for calibration of time
+A direct method is one where the aggregator distributes its own clock to all nodes in the tile.
+This scenario removes the need for a calculation of the frequency of each node altogether since the clock of each node is already known from the aggregator.
+This is the simplest case for timing calibration: remove all free running oscillators.
+However, this method also introduces complex routing and power requirements within every tile.
+
+A distributed clock network indeed removes ambiguity of the remote oscillator frequencies, but at the cost of hardware complexity.
+Whether or not this design choice is preferred is entirely detector dependent.
+
+We comment, however, that we ignore this scenario because it may altogether be unnecessary depending on future ASIC performance.
+In the event that frequency calibrations of sufficient precision ($\bar{f} \approx 1 ppm$) are possible occur on free-running local oscillators future detectors would need only to acquire these ASICs and place them with minimal cost in terms of both time and money.
+
+%% distribute trigger for calibration of time
+Another simple scenario is one where the aggregator itself connects directly to all nodes within a tile via a single connection which can be used as a reference trigger.
+This means that some trigger from the aggregator would issue directly into each node at the same time: $T_{a} = T_{n}$.
+To calcuate the frequency in this manner, the controller would issue two triggers from the aggregator with a known time separation, $T_{o} = T_{a2} - T_{a1}$.
+The remote nodes would each record and send their timestamps back to the aggregator, where the time difference would be calculated as:
+
+\begin{equation}
+  T_{o} = T_{a2} - T_{a1} = T_{n2} - T_{n1}
+\end{equation}
+
+this is rewritten in terms of frequency as follows:
+\begin{equation}
+  f_{n} = \frac{T_{n2} - T_{n1}}{T_{o}}
+\end{equation}
+
+This calibration method extremely simple but introduces an additional connection to each node between itself and the aggregator.
+For a large scale system such as Q-Pix even this simple connection scheme introduces $\approx 60k$ hardware points of failure per APA.
+
+Both of these scenarios are valid implementations of a Q-Pix readout system.
+In both of these scenarios, however, there is added complexity into the hardware design of the system in the form of additional routing where each route which represents a possible point of failure.
+
+In a world of perfect hardware and costless routing in terms of both time and money these routing schemes would clearly be sufficient.
+However, no hardware is perfect.
+Therefore we introduce and discuss a calibration technique which relies on no additional routing and could be optionally implemented even in the above schemes in the event of a failure.
+Therefore, even if not the primary implemented calibration technqiue, since this calibration introduces no superfluous routing it could still be used regardless of the actual future hardware implementation.
+
+%% distribute packet for calibration of time
+\subsection{A Minimal Connection Calibration Procedure}~\label{sec:min_calib}
+
+As stated in the previous section, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a node within a tile.
+
+This time calibration procedure requires only the communication pathways in the system, where we assume time-dependent free-running local oscillators at each node within the tile.
+
+%% issue 1
+The calibration procedure begins at a time ($T_{0}$) where the aggregator sends a calibration packet.
+
+%% recv1
+Next, the packet propagates through the tile to some remote node, $N_{j}$.
+This node receives the packet later at some time $T_{n1}$:
+
+\begin{equation}
+  T_{n1} = T_{o} + T_{f1}
+\end{equation}
+
+Where $T_{f1}$ is the propogation time through the array.
+
+%% meas1
+This remote node then sends the packet with its time ($T_{n1}$) back to the aggregator.
+
+%% wait
+The aggregator will wait some calibration time ($T_{cal}$) before issuing another calibration packet.
+This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time $(\mathcal{O}(10^{-5})$) of a packet through the entire node.
+
+%% issue 1
+After the wait period, the aggregator will issue a second calibration packet to be sent to a remote node at time:
+\begin{equation}
+  T_{1} = T_{cal} + T_{0}
+\end{equation}
+
+%% recv2 and meas2
+Similarly to the first packet this packet will propagate forward with a new time $T_{f2}$ and backward $T_{b2}$ :
+\begin{equation}
+  T_{n2} = T_{1} + T_{f2}
+\end{equation}
+
+Now, we define $T_{j}$ as the difference in the two time measurements from the two packets sent from the aggregator.
+In this case the time difference is related to the number of clocks that occured between the two different measured values of the clock, $T_{n1}$ and $T_{n2}$.
+
+\begin{equation}
+  \Delta T_{j} = T_{n2} - T_{n1}
+\end{equation}
+
+We use the known relationships for $T_{n2}$ and $T_{n1}$ to obtain:
+\begin{equation}
+  \Delta T_{j} = (T_{1} + T_{f2}) - (T_{o} + T_{f1}) = (T_{1} - T_{0}) + (T_{f2} - T_{f1}) = T_{cal} + \Delta T_{f}
+\end{equation}
+
+Where we defined $\Delta T_{f}$ as the difference in forward propagation times from the packets sent from the aggregator node at $T_{1}$ and $T_{0}$.
+
+We arrive at the result which compares the measured time at the aggregator $T_{cal}$ and the time measured at each node, $\Delta T_{j}$:
+\begin{equation}
+  \Delta T_{j} = T_{cal} + \Delta T_{f}
+\end{equation}
+
+A perfect reconstruction of the nodal frequency would follow if $\Delta T_{f} = 0$.
+But it is sufficient to note that the wait period happens on the order of seconds, whereas $\Delta T_{f}$ is on the order of $\mu s$ or at least a six order of magnitude difference.
+We then use $\Delta T_{f} \ll T_{cal}$ to obtain:
+\begin{equation}
+  \Delta T_{j} \approx T_{cal}
+\end{equation}
+
+We convert time into frequency with the difference of the timestamps measured and a known aggregator frequency ($f_{a}$):
+\begin{equation}
+   \frac{\Delta N_{j}}{f_{j}} = \frac{\Delta N_{a}}{f_{a}}
+\end{equation}
+
+or,
+\begin{equation}
+   \boxed{f_{j} = \frac{\Delta N_{j}}{\Delta N_{a}}f_{a}}
+\end{equation}
+
+Where $\Delta N_{j}$ and $\Delta N_{a}$ are the differences in the timestamps of the 32-bit clocks at the remote node and aggregator, respectively.
+
+
+\subsubsection{Packet Transaction Time}
+
+ We next examine the approximation that $\Delta T_{f} \ll T_{cal}$ and consider its contribution to the error in the reconstruction of $T_{j}$.
+This analysis also provides a constraint on the duration of $T_{cal}$ to ensure an accurate measurement of each $T_{j}$ in a tile.
+We begin by discussing how long it takes for a packet to traverse a tile.
+
+The time it takes for each packet to be received by the next node is given in Equation~\ref{eq:t_packet}.
+The value, $N_{bit}$, is the number of clock cycles used for the packet and is protocol-dependent.
+Since the protocol must be deterministic for each packet, $N_{bits}$ must be the same for each transaction on the path from the base-node to the remote node.
+
+As an example, the time it takes for a packet to go from the base-node, $N_{1}$, to a remote node, $N_{3}$, via the path $1\rightarrow 2 \rightarrow 3$ is determined by:
+%% packet transaction time
+\begin{equation}
+  T_{1\rightarrow 3} = T_{1\rightarrow 2} + T_{2\rightarrow 3} \approx \frac{N_{bits}}{f_{1}} + \frac{N_{bits}}{f_{2}} = N_{bits}(\frac{1}{f_{1}} + \frac{1}{f_{2}})
+\end{equation}~\label{eq:t_packetTransfer}
+
+Where, $f_{i}$, is the frequency of the clock at sending node. The approximation is within a single clock cycle of the receiving digital node ($\approx 33~\unit{ns}$).
+
+Therefore the time it takes for a packet for go from the base-node to any remote node is proportional to $N_{bits}$ multiplied by the sum of the edges in the full adjacency matrix given by Equation~\ref{eq:adjacency_comp}.
+
+We generalize Equation~\ref{eq:t_packetTransfer} to represent the time it takes a packet to go from the aggregator ($i = 0$) to any remote node, $N_{j}$:
+\begin{equation}
+  T_{f} = T_{0\rightarrow j} = N_{bits}\sum_{i=0}^{i=j-1}\frac{1}{f_{i}}
+\end{equation}
+
+We require that every calibration packet on the protocol uses the same number of clocks ($N_{bits}$ is constant) and follows the same path. $\Delta T_{f}$ becomes:
+\begin{equation}
+  \Delta T_{f} = N_{bits}\sum_{i=0}^{i=j-1}\frac{1}{\Delta f_{i}} = N_{bits} \sum_{i=0}^{i=j-1}\Delta T_{i}
+\end{equation}
+
+We recognize $\Delta T_{i}$ as the nominal time-dependent clock drift of the each local oscillator in the path between the base-node to the remote-node.
+We can provide an order of magnitude estimate for $\Delta T_{f}$ if we assume a (very poor) $\approx 1\%$ drift in each of the remote clocks within the tile during a period of $T_{cal} \approx 1~\unit{s}$.
+In this approximation we also assume that the mean of the periods of the nodes are the designed value ($\approx 33~\unit{ns}$) for which a 1\% error gives $\sigma_{T_{f}} \approx 3~\unit{ps}$.
+If we assume that all of the clocks (for whatever reason) drift have error which drifts int he same direction (the sum doesn't cancel) then for 100 transactions with 200 bits per transaction, we obtain for $\Delta T_{f}$:
+\begin{equation}
+  \Delta T_{f} \approx 200 * 100 * 3\times 10^{-12} \approx 6~\unit{ns}
 \end{equation}
 
 

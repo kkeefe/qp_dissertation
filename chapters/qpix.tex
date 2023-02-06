@@ -164,7 +164,7 @@ Finally, we calculate the minimum $\frac{dE}{dX}$ following~\ref{eq:dedxCalc}:
 ~\label{fig:qpixRecon2}
 
 \subsection{Pixel Calibration}
-~\label{sec:background}
+~\label{sec:qpix_calib}
 
 Calibration measurements are essential for any detector, as they provide a means to differentiate signal from noise.
 Here we briefly describe an automatic use of existing $Ar^{39}$ decays as a source of calibration at the pixel level.
@@ -388,11 +388,11 @@ We consider that the digital blocks responsible for digitizing the reset to have
 Therefore, the minimum time before the recorded timestamp value resets is calculated by:
 
 \begin{equation}
-T_{loop} = \frac{2^{32}}{30*10^{6}} \approx 143 seconds
+T_{loop} = \frac{2^{32}}{30\times 10^{6}} \approx 143 seconds
 \end{equation}~\label{eq:tloop}
 
 This time ($T_{loop}$) indicates the minimum reset time to occur within each responsible digital block.
-Since this time is much greater than the antipcated reset rates to be produced from backgrounds, discussed in section~\ref{sec:background}, we expect the looping of the 32-bit recorded value to not present a design concern.
+Since this time is much greater than the antipcated reset rates to be produced from backgrounds, discussed in section~\ref{sec:qpix_calib}, we expect the looping of the 32-bit recorded value to not present a design concern.
 
 The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
 \begin{equation}
