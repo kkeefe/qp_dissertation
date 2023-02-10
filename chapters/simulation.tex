@@ -92,8 +92,8 @@ This common protocol is typically stable between devices with a maximum differen
 \centering
 % \busref{$CLK_{base-tx}$} & 0.10L 156{.1428570c} \\
 % \busref{$CLK_{base-rx}$} & 0.35L 156{0.12857c} \\
-\busref{$CLK_{tx}$} & 0.10L 18{c} \\
-\busref{$CLK_{rx}$} & 0.35L 20{0.9c} \\
+\busref{$CLK_{tx}$} & 0.10L 20{c} \\
+\busref{$CLK_{rx}$} & 0.35L 22{0.9c} \\
 \busref*{Tx} & 0.10L 2u 1D{START} 10d{DATA} 1D{STOP} 2U \\
 \busref*{Rx} & 0.35L 1.80u 0.9D{START} 10.8d{DATA} 0.9D{STOP} 1.8U \\
 \extracode
@@ -175,7 +175,7 @@ Therefore, an analysis of the constraints of a FCT with corner base-nodes can be
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/CBN.pdf}
-\caption{Example of an Corner base-node configuration. The base-node is colored and highlighted in red.}
+\caption{Example of an Corner Base-Node configuration. The base-node is colored and highlighted in red.}
 \end{figure}~\label{fig:cbn}
 
 
@@ -205,6 +205,7 @@ M =
  \end{pmatrix}
 \end{equation}~\label{eq:adjacency_matr}
 
+
 Where each non-zero value of $M_{ij}$ represents a connection between nodes $i$ and $j$.
 As an unweighted, undirected graph this is a symmetric matrix.
 
@@ -219,15 +220,27 @@ With this convention we obtain the general adjacency matrix with values defined 
   M_{ij} = T_{i\rightarrow j}(\delta_{i,j=i\pm 1} + \delta_{i,j=i\pm r})
 \end{equation}~\label{eq:adjacency_comp}
 
-An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the kroniker-deltas.
+An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the kroniker-deltas factors.
 
 The length between the nodes represets the time it takes for a packet to transact from one node to the next.
-This is determined by both the number of bits to be sent in the communication protocol ($N_{bits}$) and the frequency of the local oscillator ($f_{i}$).
-We note that the receiving local oscillator also affects the true transaction time up to a single clock cycle.
-However, since the transaction time of a packet is much larger than a single clock cycle ($N_{bits} \simeq \mathcal{O}(10^{2}) \gg 1$), we can approximate:
+This is determined by both the number of bits to be sent in the communication protocol ($N_{bits}$) and the period of the transmitting and receiving oscillators, $T_{i}$ and $T_{j}$, respectively.
+Unlike the transmitter, the receiver only affects the transaction time with a single clock cycle, as the protocls we test here, (UART and Endeavor), each conclude a packet transaction when the receiver records the last bit transaction from the transmitter.
+
+The full length between two nodes, $i$ and $j$, connected by an edge is represented by:
+\begin{equation}
+T_{i\rightarrow j} = N_{bits}T_{i} + T_{j}(t)
+\end{equation}~\label{eq:t_packet_full}
+
+where $T_{j}(t)$ represents the time dependent fractional part of one nominal clock period of the receiving node.
+The expectation value of $T_{j}(t)$ is half of the nominal window so that mean Equation~\ref{eq:t_packet_full} is:
+\begin{equation}
+\bar{T}_{i\rightarrow j} \simeq N_{bits}T_{i} + \frac{T_{j}}{2}
+\end{equation}~\label{eq:t_packet_avg}
+
+Since the transaction time of a packet is much larger than a single clock cycle ($N_{bits} \simeq \mathcal{O}(10^{2}) \gg \frac{1}{2}$), we can approximate Equation~\ref{eq:t_packet_avg}:
 
 \begin{equation}
-T_{i\rightarrow j} \approx T_{i} = N_{bits}/f_{i}
+\bar{T}_{i\rightarrow j} \approx N_{bits}T_{i}
 \end{equation}~\label{eq:t_packet}
 
 This representation is also useful to model certain SPF where a node becomes inactive.
@@ -253,7 +266,6 @@ For example, the number of nodes which are lost if a leaf-node fails is one sinc
 Likewise, the number of nodes which are lost in the event of a base-node failure is the total tile, $N$.
 
 We can then calculate a mean cost SPF, $C_{SPF}$, :
-
 \begin{equation}
   C_{SPF} = \frac{1}{N}\sum_{node} \frac{n_{i}}{N} = \frac{1}{N^{2}}\sum_{node} n_{i}
 \end{equation}~\label{eq:cspf}
@@ -333,12 +345,25 @@ Then, any node which receives a broadcast packet will record the identification 
 In the event that a particular node becomes inactive it will ``block'' data comming from the nodes along its path.
 In this case, there must be some sort of ``broadcast'' originating from the base-node that would allow information tranverse regardless of the effective routing path.
 
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/Broadcast.pdf}
+%% colored matrix
+\def\r{\color{red}1}
+\def\b{\color{blue}1}
+\begin{figure}[h]
+  \begin{tabular}{p{5cm}c}
+    {${\renewcommand{\arraystretch}{2.0}}
+        \begin{pmatrix}
+          0 & \r & 0 & \r & 0 & 0 \\
+          \b & 0 & \r & 0 & \r & 0 \\
+          0 & \b & 0 & 0 & 0 & \r \\
+          \b & 0 & 0 & 0 & \r & 0 \\
+          0 & \b & 0 & \b & 0 & \r \\
+          0 & 0 & \b & 0 & \b & 0 \\
+        \end{pmatrix}$}
+    &
+    $\vcenter{\hbox{\includegraphics[scale=0.5]{images/Broadcast.pdf}}}$
+  \end{tabular}
 \caption{Minimal Routing Path of a FCT. This routing path ensures that the number of input connections equal the number of output paths for the node.}
-\end{figure}~\label{fig:broadcast}
+\end{figure}~\label{fig:FCT_colored}
 
 \subsection{Comments on the Edge Base-node and Other Routings}~\label{sec:base_node}
 
@@ -443,7 +468,7 @@ This is the simplest case for timing calibration: remove all free running oscill
 However, this method also introduces complex routing and power requirements within every tile.
 
 A distributed clock network indeed removes ambiguity of the remote oscillator frequencies, but at the cost of hardware complexity.
-Whether or not this design choice is preferred is entirely detector dependent.
+Whether or not this design choice is preferred is entirely detector dependent, but likely increases in difficulty with the scale of the TPC.
 
 We comment, however, that we ignore this scenario because it may altogether be unnecessary depending on future ASIC performance.
 In the event that frequency calibrations of sufficient precision ($\bar{f} \approx 1 ppm$) are possible occur on free-running local oscillators future detectors would need only to acquire these ASICs and place them with minimal cost in terms of both time and money.
@@ -464,7 +489,7 @@ this is rewritten in terms of frequency as follows:
 \end{equation}
 
 This calibration method extremely simple but introduces an additional connection to each node between itself and the aggregator.
-For a large scale system such as Q-Pix even this simple connection scheme introduces $\approx 60k$ hardware points of failure per APA.
+For a large scale system such as Q-Pix even this simple connection scheme introduces $\approx 60\times 10^{3}$ hardware points of failure per APA.
 
 Both of these scenarios are valid implementations of a Q-Pix readout system.
 In both of these scenarios, however, there is added complexity into the hardware design of the system in the form of additional routing where each route which represents a possible point of failure.
@@ -479,7 +504,7 @@ Therefore, even if not the primary implemented calibration technqiue, since this
 
 As stated in the previous section, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a node within a tile.
 
-This time calibration procedure requires only the communication pathways in the system, where we assume time-dependent free-running local oscillators at each node within the tile.
+the time calibration procedure presented here requires only the minimal routing required in any Q-Pix readout system, where we assume time-dependent free-running local oscillators at each node within the tile.
 
 %% issue 1
 The calibration procedure begins at a time ($T_{0}$) where the aggregator sends a calibration packet.
@@ -492,14 +517,14 @@ This node receives the packet later at some time $T_{n1}$:
   T_{n1} = T_{o} + T_{f1}
 \end{equation}
 
-Where $T_{f1}$ is the propogation time through the array.
+Where $T_{f1}$ is the propogation time of the packet from the aggregator to the $N_{j}$ node.
 
 %% meas1
 This remote node then sends the packet with its time ($T_{n1}$) back to the aggregator.
 
 %% wait
 The aggregator will wait some calibration time ($T_{cal}$) before issuing another calibration packet.
-This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time $(\mathcal{O}(10^{-5})$) of a packet through the entire node.
+This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time to the $N_{j}$ node $(\mathcal{O}(j*10^{-5})$).
 
 %% issue 1
 After the wait period, the aggregator will issue a second calibration packet to be sent to a remote node at time:
@@ -508,13 +533,13 @@ After the wait period, the aggregator will issue a second calibration packet to 
 \end{equation}
 
 %% recv2 and meas2
-Similarly to the first packet this packet will propagate forward with a new time $T_{f2}$ and backward $T_{b2}$ :
+Similarly to the first packet this packet will propagate to $N_{j}$ with some new time $T_{f2}$ where $N_{j}$ will record time $T_{n2}$:
 \begin{equation}
   T_{n2} = T_{1} + T_{f2}
 \end{equation}
 
-Now, we define $T_{j}$ as the difference in the two time measurements from the two packets sent from the aggregator.
-In this case the time difference is related to the number of clocks that occured between the two different measured values of the clock, $T_{n1}$ and $T_{n2}$.
+Now, we define $\Delta T_{j}$ as the difference in the two time measurements from the two packets sent from the aggregator.
+The time difference is related to the number of clocks that occured between the two different measured values of the clock, $T_{n1}$ and $T_{n2}$.
 
 \begin{equation}
   \Delta T_{j} = T_{n2} - T_{n1}
@@ -587,12 +612,14 @@ We can provide an order of magnitude estimate for $\Delta T_{f}$ if we assume a 
 In this approximation we also assume that the mean of the periods of the nodes are the designed value ($\approx 33~\unit{ns}$) for which a 1\% error gives $\sigma_{T_{f}} \approx 3~\unit{ps}$.
 If we assume that all of the clocks (for whatever reason) drift have error which drifts int he same direction (the sum doesn't cancel) then for 100 transactions with 200 bits per transaction, we obtain for $\Delta T_{f}$:
 \begin{equation}
-  \Delta T_{f} \approx 200 * 100 * 3\times 10^{-12} \approx 6~\unit{ns}
+  \Delta T_{f} \approx 200 * 100 * 3\times 10^{-12} \approx 6~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
 \end{equation}
-
 
 %%
 \section{Physical Simulation Studies}
+
+
+
 
 %%
 \section{Background Rates and Calibration}
