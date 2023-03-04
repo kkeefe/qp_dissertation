@@ -104,6 +104,7 @@ This common protocol is typically stable between devices with a maximum differen
 \end{scope}
 \end{pgfonlayer}
 \end{tikztimingtable}~\label{tikz:uart}
+% wavedrom - improvement to avoid difficult tikz
 
 %% appendix??
 \subsubsection{Endeavor}~\label{sec:endeavor}
@@ -223,7 +224,7 @@ With this convention we obtain the general adjacency matrix with values defined 
 An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the kroniker-deltas factors.
 
 The length between the nodes represets the time it takes for a packet to transact from one node to the next.
-This is determined by both the number of bits to be sent in the communication protocol ($N_{bits}$) and the period of the transmitting and receiving oscillators, $T_{i}$ and $T_{j}$, respectively.
+This is determined by both the number of clocks to be sent in the communication protocol ($N_{bits}$) and the period of the transmitting and receiving oscillators, $T_{i}$ and $T_{j}$, respectively.
 Unlike the transmitter, the receiver only affects the transaction time with a single clock cycle, as the protocls we test here, (UART and Endeavor), each conclude a packet transaction when the receiver records the last bit transaction from the transmitter.
 
 The full length between two nodes, $i$ and $j$, connected by an edge is represented by:
@@ -467,6 +468,8 @@ This scenario removes the need for a calculation of the frequency of each node a
 This is the simplest case for timing calibration: remove all free running oscillators.
 However, this method also introduces complex routing and power requirements within every tile.
 
+% TODO
+% cross-talk
 A distributed clock network indeed removes ambiguity of the remote oscillator frequencies, but at the cost of hardware complexity.
 Whether or not this design choice is preferred is entirely detector dependent, but likely increases in difficulty with the scale of the TPC.
 
@@ -610,30 +613,34 @@ We require that every calibration packet on the protocol uses the same number of
 We recognize $\Delta T_{i}$ as the nominal time-dependent clock drift of the each local oscillator in the path between the base-node to the remote-node.
 We can provide an order of magnitude estimate for $\Delta T_{f}$ if we assume a (very poor) $\approx 1\%$ drift in each of the remote clocks within the tile during a period of $T_{cal} \approx 1~\unit{s}$.
 In this approximation we also assume that the mean of the periods of the nodes are the designed value ($\approx 33~\unit{ns}$) for which a 1\% error gives $\sigma_{T_{f}} \approx 3~\unit{ps}$.
-If we assume that all of the clocks (for whatever reason) drift have error which drifts int he same direction (the sum doesn't cancel) then for 100 transactions with 200 bits per transaction, we obtain for $\Delta T_{f}$:
+If we assume that all of the clocks (for whatever reason) drift have error which drifts int he same direction (the sum doesn't cancel) then for 100 transactions with 1000 clocks per transaction, we obtain for $\Delta T_{f}$:
 \begin{equation}
-  \Delta T_{f} \approx 200 * 100 * 3\times 10^{-12} \approx 6~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
+  \Delta T_{f} \approx 1000 * 100 * 3\times 10^{-12} \approx 30~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
 \end{equation}
 
-%%
+%% Example sim of forward-prop calibration
 \section{Physical Simulation Studies}
+%% TODO - channel level heatmap for neutrino event
+
+We now discuss the implementation of the simulation based on the previous sections.
 
 
+\subsection{Simulated Detector Properties}
 
 
 %%
-\section{Background Rates and Calibration}
+\section{Radiogenic Backgrounds as a Calibration Source}
 
-sources of backgrounds are taken from \citep{DUNE-FD_TDRv4:Abi_2020}
+sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}
 
+
+% ref to paper
 \section{Supernova Studies}
 
-Work has been done to understand how a Q-Pix based DUNE-FD would measure core collapse supernovae \citep{qpix:shion}.
+Work has been done to understand how a Q-Pix based DUNE-FD would measure core collapse supernovae~\citep{qpix:shion}.
 
-Simulation studies which involved particle interactions were based on Geant4 \citep{geant4:AGOSTINELLI2003250}.
+Simulation studies which involved particle interactions were based on Geant4~\citep{geant4:AGOSTINELLI2003250}.
 
-
-\section{Looking for Hadron Decay}
 
 \section{Neutrino Beam High Energy Studies}
 
