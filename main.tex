@@ -54,7 +54,7 @@
 
 \date{May 2023}
 
-\title{Development of a Novel Pixelated Time Projection Chamber Detector: Q-Pix}
+\title{Development of Digital Architectures for Pixelated Readout of Time Projection Chambers: Q-Pix}
 \author{Kevin Keefe}
 
 \degreeaward{Doctor of Philosophy}                 % Degree to be awarded
@@ -65,10 +65,13 @@
 \copyyear{2023}  % Year (of graduation) on diploma
 \committee{Kurtis Nishimura 
 
-Chairpersons\\ Jason Kumar, John Learned, Scott Rowland, Peter Sadowski, Gary Varner}
+Chairpersons\\ Jason Kumar, John Learned, Robert Wright, Peter Sadowski, Gary Varner}
 \keywords{Field Programmable Gate Array, Time Projection Chamber, Diffusion}
 
-\orcid{0000-0000}
+%% contact emails
+%% kurtisn@phys.hawaii.edu; John G. Learned <jgl@phys.hawaii.edu>; Gary Varner <varner@phys.hawaii.edu>; Jason Kumar <jkumar@hawaii.edu>; Peter Sadowski <psadow@hawaii.edu>;
+
+\orcid{0000-0001-5794-879X}
 
 %% IMPORTANT: Select ONE of the rights statement below.
 \rightsstatement{All rights reserved except where otherwise noted}
@@ -85,18 +88,18 @@ The Standard Model (SM) of physics has proven annoyingly successful in past deca
 The hunt for New Physics (NP) continues at higher energies ($>> 1 GeV$) with larger detectors ($\approx 10 kT$).
 One such future detector is The Deep Underground Neutrino (DUNE) detector.
 DUNE (as any beam detector) is a combination of two detectors, a near-detector (ND) and a far-detector (FD) for long-baseline neutrino oscillation measurements.
-The DUNE FD will be a large scale ($\approx 40 kiloton$) Liquid Argon Time Projection Chabmer (LArTPC).
+The DUNE FD will be a large scale ($\approx 40 kT$) Liquid Argon Time Projection Chabmer (LArTPC).
 This 40-kT scale detector requires high precision in both timing ($<< \mu s$) and spatial resolutions ($\approx 1 mm$) for vertex reconstruction of interesting neutrino events.
 
-This dissertation discusses recent progress and characterizations of a novel implementation of new a pixelated LArTPC readout technology.
-This novel readout is based on a charge-integrate-reset circuit at the pixel level: Q-Pix.
-We present the basic pixel level readout circuit and the implications such an implementation has when applied at kiloton LArTPC scales.
-Further, we demonstrate results from the first-prototype implementation based on the Q-Pix readout which was designed with solely over-the-counter electronics.
-One problem of any pixelated readout is the the ability to handle a large number of unique data channels, which in the DUNE-FD is $\approx 10^8$.
-To address the scaling problem we developed and tested a modular digital back-end prototype as a proof of concept.
-In this dissertation, we discuss nominal system requirements to achieve DUNE-FD APA scale for radiogenic background sensitivity, as well as pixel-level calibration techniques for both timing and charge.
-Simulations were also performed based on projected radiogenic backgrounds and high-energy neutrino beam-line events which provide first estimates for the requirements of the digital back-end in both the quiescent and active states.
-Finally, based on these results from the simulations and prototypes presented here we discuss the nominal digital back-end readout constraints of a fully realized Q-Pix implementation for a DUNE-FD APA~.
+This dissertation discusses recent progress and characterization of a novel implementation of a new pixelated LArTPC readout technology.
+This novel readout is based on a pixel-level charge-integrate-reset circuit: Q-Pix.
+We present the basic pixel-level readout circuit and the implications of such an implementation when applied at kiloton LArTPC scales.
+We also show results from the first prototype implementation based on the Q-Pix readout, which was designed using only off-the-shelf electronics.
+One problem with any pixelated readout is the ability to handle a large number of unique data channels, which in the case of the DUNE FD is $\approx 10^8$.
+To address the scaling problem, we have developed and tested a modular digital back-end prototype as a proof of concept.
+In this dissertation, we discuss nominal system requirements to achieve the DUNE-FD APA scale for radiogenic background sensitivity, as well as pixel-level calibration techniques for both timing and charge.
+Simulations have also been performed based on projected radiogenic backgrounds and high-energy neutrino beamline events, providing initial estimates of the digital back-end requirements in both the quiescent and active states.
+Finally, based on these results from the simulations and prototypes presented here, we discuss the nominal digital back-end readout constraints of a fully realized Q-Pix implementation for a DUNE-FD APA~.
 
 % include incoming ASIC comments
 \end{abstract}
@@ -118,20 +121,20 @@ Finally, based on these results from the simulations and prototypes presented he
 \label{chap:qpix}
 \input{chapters/qpix.tex}
 
-%% chapter 3
-\chapter{The Q-Pix Back-end and Simulation Studies for Future Q-Pix Prototypes}
-\label{chap:sim}
-\input{chapters/simulation.tex}
+%% chapter 3 - cap everything off with extended simulation studies based on results
+\chapter{The First Prototype: First Resets and Leakage Measurements}
+\label{chap:saq}
+\input{chapters/saq.tex}
 
 %% chapter 4
 \chapter{Digital Back-end Viability Studies}
 \label{chap:qdb}
 \input{chapters/qdb.tex}
 
-%% chapter 5 - cap everything off with extended simulation studies based on results
-\chapter{New Diffusion Measurements: Studies within SAQ}
-\label{chap:saq}
-\input{chapters/saq.tex}
+%% chapter 5
+\chapter{The Q-Pix Back-end and Simulation Studies for Future Q-Pix Prototypes}
+\label{chap:sim}
+\input{chapters/simulation.tex}
 
 %% chapter 6 - Summary and Outlook
 \chapter{Summary and Outlook}
