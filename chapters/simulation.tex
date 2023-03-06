@@ -51,12 +51,6 @@ We calculate the minimum number of bits per datum to be:
 Since buffer memory addresses and widths are normally characterized by powers of two, we can construct the basic datum size above the minimum number of bits provided by~\ref{eq:nbits_datum} to get $N_{datum} = 64$.
 The remaining bits are useful for constructing different types of packets to be used by the digital ASICs for additional uses such as register configuration or to provide packet identification.
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/qpix_word_format.pdf}
-\caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.}
-\end{figure}~\label{fig:datum}
-
 \subsection{Communication of the Datum}~\label{sec:comms}
 
 There exist many asynchronous protocols of communication of digital information.

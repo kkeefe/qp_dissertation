@@ -1,16 +1,91 @@
-In this chapter we introduce the first implementation of the Q-Pix based design using purely "over-the-counter" electronics.
+In this chapter, we present the first implementation of the Q-Pix-based design using off-the-shelf electronics.
 
+This section describes the first prototype based on the Q-Pix readout: The Simplified Analog Q-Pix (SAQ).
+First we discuss the design goals of the prototype and highlight the basic building blocks of any Q-Pix based prototype.
+Next, We describe the prototype status as well as lessons learned in characterizing noise and performing calibrations.
+
+In the final part of this section we describe the future goals of this prototype, including the addition of GEMs to the experimental setup.
+The full results of the planned diffusion measurements are beyond the scope of this work, but we provide the initial details here because these measurements will ultimately provide the complete description of the prototype.
 
 \section{Simplified Analog Q-Pix: System Design}
 
+The SAQ prototype is designed as a first physical proof-of-concept for a Q-Pix readout.
+The intended use
+
 \section{The SAQ Protoype Design}
 
-Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500 V/cm have been performed before \citep{lar_diffusion_measurement_LI2016160}.
 
-\section{Measurements of Leakage Current}
 
-\section{Xenon Gas Lamp Measurements}
+%%
+% \begin{figure}[]
+% \centering
+% \includegraphics[width=\textwidth]{images/SAQ_setup_flat.pdf}
+% \caption{The SAQ Physical Setup.}
+% \end{figure}~\label{fig:saq_setup_physical}
+
+%%
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/SAQ_setup.jpeg}
+\caption{The SAQ Setup model based on~\ref{fig:saq_setup_physical}.}
+\end{figure}~\label{fig:saq_setup_flatten}
+
+\subsection{The TPC Design}
+%% closeup image of the TPC here
+
+\subsection{The Integrator Circuit}
+
+
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/SAQ_spice_circuit.pdf}
+\caption{The SAQ circuit in a Spice Simulation. The IVC~\citep{ivc_datasheet} chip chosen as the off-the-shelf integrator for this experiment. The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.}
+\end{figure}~\label{fig:saq_circuit_spice}
+
+
+\subsection{The SAQ Data Acquisition}
+
+All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq based archticture.
+The reference manual for the Zybo Z7 board used in SAQ can be found at \citep{zybo_zy_reference}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/SAQ_zybo_daq.pdf}
+\caption{An image of the data acquisition board from Digilent, Zybo Z7-20. This board was chosen for its multiple configurable input chanels, as well as the Zynq-based archiecture of the onboard FPGA. Additionally, the use of the ethernet provides $1~\unit{GB}$ transfer speeds, which is more than sufficient for the application.}
+\end{figure}~\label{fig:saq_zybo}
+
+
+\section{Noise Measurements}
+
+The Q-Pix readout is dependent on the integrator, which provides the basic datum of the reset time.
+Therefore, a dominant source of noise are electrons which accumulate on the integrator which are not signal electrons.
+There are two possible sources for these noise electrons: excess electrons produced from the target volume or leakage current due to transistor effects from the integrator circuit.
+In this section we focus on the noise electrons due to the leakage current.
 
 \subsection{Integrating towards background Current}
 
+Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
+Measurements of this leakage current then are performed by measuring voltage difference across the terminals as well as directly using a pico-ammeter.
+
+\subsection{Integrating towards background Current}
+
+%% describe setup / filling of TPC here
+The second source of noise electrons are produced from the target volume.
+The target volume is an ultra pure Argon Gas at TODO militorr.
+% 14 psi with argon (0.069 bar)
+% And ~3mtorr of vacuum before that
+In this case the excess electrons come from the nominal decay of Ar-39, which provide excess electrons from the natural $\beta$ decay, at a rate of $\approx 1~\unit{Bq}{Kg^{-1}}$
+
+\subsection{Digital Noise Sources and Clock Stability}
+
+
+\section{Xenon Gas Lamp Measurements}
+
+
 \section{Results and Discussion}
+
+
+\subsection{Current Status and Planned Measurements}
+
+Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500 V/cm have been performed before \citep{lar_diffusion_measurement_LI2016160}.
