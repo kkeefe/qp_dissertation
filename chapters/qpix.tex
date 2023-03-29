@@ -1,16 +1,16 @@
-In this chapter we introduce a novel pixel-based readout concept for TPCs.
-Pixel based readouts offer several advantages over the traditional wire readout \citep{lartpc_recon_problems_joshi_2015}.
-A key improvement offered from pixelization is true 3-D image reconstruction.
-This allows for sharper vertex reconstruction, thereby improving the overall resolution of DUNE and decreasing the required time for a NP measurement.
+In this chapter, we introduce a novel pixel-based readout concept for TPCs.
+Pixel-based readouts offer several advantages over the traditional wire readout \citep{lartpc_recon_problems_joshi_2015}.
+A key improvement offered by pixelization is true 3-D image reconstruction.
+This allows for sharper vertex reconstruction, improving the overall resolution of DUNE and reducing the time required for an NP measurement.
 
-Other advantages are ease of data analysis and a reduction in total data storage.
-A pixel based readout automatically records two of the three spatial dimensions, and thereby provides for simpler analysis.
-Additionally, the pixelated readout method presented here cuts the total required data storage and data acquisition rate (without loss to precision) by several orders of magnitude.
+Other benefits include ease of data analysis and a reduction in the amount of data storage required.
+A pixel-based readout automatically captures two of the three spatial dimensions for easier analysis.
+In addition, the pixelated readout method presented here reduces the total data storage required and the data acquisition rate (without loss of accuracy) by potentially several orders of magnitude.
 
-However, the advantages also come with the cost of increased design complexity as the number of readout channels increases by more than three orders of magnitude. 
-The traditional wire based readout within a DUNE module will include hundreds to thousands of channels, whereas a full DUNE module with a pixel-based readout will have 10's of millions of channels.
-This number of required channels to be stably readout during DUNE's expected lifetime ($\approx 20$ years), where the electronics continually operate at liquid argon temperatures is likely the largest hurtle for a pixel-based design.
-The aim of this dissertation is to address the channel-size problem.
+However, these advantages come at the cost of increased design complexity, as the number of readout channels increases by more than three orders of magnitude.
+The traditional wire-based readout within a DUNE module will have hundreds to thousands of channels, while a full DUNE module with a pixel-based readout will have tens of millions of channels.
+This number of channels required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are continuously operating at liquid argon temperatures, is probably the biggest hurdle for a pixel-based design.
+A goal of this dissertation is to address the channel size problem.
 
 \section{Q-Pix: The Circuit Level Design}
 
@@ -41,7 +41,7 @@ Since the capacitor reset happens at the same time as the issued trigger the dig
 \end{figure}
 ~\label{fig:qpixCircuit}
 
-This timestamp value is recorded against a free running local oscillator ($f_{o} = 30\unit{MHz}$ ).
+This timestamp value is recorded against a free running local oscillator ($f_{o} = 30~\unit{MHz}$ ).
 The number of free running clocks in the entire system is expected to be the number of channels ($N_{c}$) divided by the number of digitally multiplexed channels ($N_{d}$), which are taken to be 16.
 
 \subsection{Waveforms from Time Resets}
@@ -163,24 +163,6 @@ Finally, we calculate the minimum $\frac{dE}{dX}$ following~\ref{eq:dedxCalc}:
 \end{figure}
 ~\label{fig:qpixRecon2}
 
-\subsection{Pixel Calibration}
-~\label{sec:qpix_calib}
-
-Calibration measurements are essential for any detector, as they provide a means to differentiate signal from noise.
-Here we briefly describe an automatic use of existing $Ar^{39}$ decays as a source of calibration at the pixel level.
-A full discussion of simulations using backgrounds is found in~\ref{chap:sim}.
-
-The target volume (LAr) is stable nobel but still provides a quiescent background from the charge deposited $\beta$ decay ($\approx 6\unit{MeV}$).
-The total volume continually observed by any pixel a drift distance $\approx$ 3.5\unit{m} yields an average reset on the order of 10s of seconds $\mathcal{O}(10^{1})$.
-This value is much lower than the wrap-around rate of the 32-bit sample clock, which in practice will provide continually increasing reset values and prevent errors in identifying the correct reset time.
-
-The pixel leevl value which needs to be calibrated is the pixel's response to an input charge $Q_{in}$ in equation~\ref{eq:capacitor}.
-The capacitance ($C_{i}$) for each pixel is a systematic which can be calibrated periodically using the background current from $Ar^{39}$ decay.
-Given some stable input charge, there is a known number of reset measurements to calibrate against.
-
-LAr purity over the detector volume is essential for background calibration.
-Differents in purity, electric, and maagnetic fields affect the major contributions to charge loss in the LAr: recombination, lifetime, and diffusion.
-
 \subsection{Making a 3-D Image}
 
 One of the important features of a TPC is the ability to reconstruct full 3-D images.
@@ -208,6 +190,24 @@ The drift distance in equation~(\ref{eq:driftDistance}) becomes:
 \begin{equation}
   z = v_{e} * (T_{ri} - T_{e})
 \end{equation}~\label{eq:driftDistanceCalc}
+
+\subsection{Pixel Calibration}
+~\label{sec:qpix_calib}
+
+Calibration measurements are essential for any detector, as they provide a means to differentiate signal from noise.
+Here we briefly describe an automatic use of existing $Ar^{39}$ decays as a source of calibration at the pixel level.
+A full discussion of simulations using backgrounds is found in~\ref{chap:sim}.
+
+The target volume (LAr) is stable nobel but still provides a quiescent background from the charge deposited $\beta$ decay ($\approx 6\unit{MeV}$).
+The total volume continually observed by any pixel a drift distance $\approx$ 3.5\unit{m} yields an average reset on the order of 10s of seconds $\mathcal{O}(10^{1})$.
+This value is much lower than the wrap-around rate of the 32-bit sample clock, which in practice will provide continually increasing reset values and prevent errors in identifying the correct reset time.
+
+The pixel leevl value which needs to be calibrated is the pixel's response to an input charge $Q_{in}$ in equation~\ref{eq:capacitor}.
+The capacitance ($C_{i}$) for each pixel is a systematic which can be calibrated periodically using the background current from $Ar^{39}$ decay.
+Given some stable input charge, there is a known number of reset measurements to calibrate against.
+
+LAr purity over the detector volume is essential for background calibration.
+Differents in purity, electric, and maagnetic fields affect the major contributions to charge loss in the LAr: recombination, lifetime, and diffusion.
 
 \subsection{Bad Scenarios}
 
@@ -326,6 +326,8 @@ The maximal percent error in the drift distance due to timing increases as $N_{c
 Here we briefly describe QPix system requirements at DUNE module size (10 kt).
 A full technical design report for a kt module implementing QPix is clearly beyond the scope of the work presented here, yet we still offer comments on the requirements, particularly on the digital back-end related to a DUNE APA.
 
+\subsection{The DUNE Far Detector Electronics}
+
 %% section 1.8 of TDR
 DUNE's Anode Plane Assemblies (APA) full description can be found at~\citep{DUNE-FD_TDRv4:Abi_2020}.
 Expected noise level of 1000 $e^{-}$.
@@ -344,36 +346,13 @@ The final ASIC, called the COLDATA ASIC, merges the data streams from the previo
 Maximum expected data collection is to exceed no more than 30 PB/year, which corresponds roughly to $\approx 1 Gb/s$ of continuous collection.
 
 Each 10 kT module consists of 150 APAs.
-Dune expects to draw less than 50 mW per channel, and less than 1\% dead channels.
-
-Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
-Therefore, the expected channel count of a QPix APA is
-\begin{equation}
-  N_{pix} = 14.646 m^{2} * \frac{1 pixel}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
-\end{equation}
-
-To have a comparable power draw compared to DUNE, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power draw per channel.
-Too much energy disappated in the LAr creates bubbles which is a high voltage (HV) discharge risk.
-The total channel count for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
-
-Thus, the number of extra analog channels that QPix is required to measure, compared to the typical wire readout, increases by a factor of $915399 / 2560 \approx 357$.
-This is an increase of $\mathcal{O}(10^{3})A$ orders of magnitude.
-
-
-QPix instead offes conversion from analog (charge) to digital (32 bit time) signals on the front-end ASIC.
-These front-end ASICs would be arrayed in tiles, and the tiles themselves would spread out to cover the entire area of an APA.
-Each tile would interface with a single FPGA chip would would concentrate the digital data for each tile; we refer to this FPGA as the DAQ-Node (DN).
-Then, each DAQ-Node interfaces with at least a single concentrator FPGA that sends the digital data to the Warm-Interface-Cards (WIC) out of the cold electronics (CE).
-The final concentrator FPGA we refer to as the Super-DAQ-node (SDN).
-
-The exact description and characteriziation of the WIC for a QPix depends on the final implementation of the SDN and is thus beyond the scope of the presented here.
+Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead channels.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_apa_motherboards.jpg}
 \caption{Image taken from~\citep{DUNE-FD_TDRv4:Abi_2020}, Fig 1.12 of section 1.8. Image shows an overlay the the relevant charge collection wires within a SP DUNE LArTPC.}
 \end{figure}~\label{fig:dune_tpc_electronics}
-
 
 %% example image of DUNE-APA from DUNE-FD TDR.
 \begin{figure}[]
@@ -382,7 +361,70 @@ The exact description and characteriziation of the WIC for a QPix depends on the
 \caption{A simple caption \citep{DUNE-FD_TDRv4:Abi_2020}}
 \end{figure}
 
-\section{Digital-Backend Requirements}
+Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
+From these dimensions the expected channel count of the QPix readout on the DUNE-FD APA is
+\begin{equation}
+  N_{pix} = 14.646 m^{2} * \frac{1 pixel}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
+\end{equation}
+
+To have a comparable power draw compared to DUNE-FD, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power draw per channel.
+Too much energy disappated in the LAr creates bubbles which is a high voltage (HV) discharge risk.
+The total channel count for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
+
+Thus, the number of extra analog channels that QPix is required to measure, compared to the typical wire readout, increases by a factor of $915399 / 2560 \approx 357$.
+This is an increase of $\mathcal{O}(10^{3})A$ orders of magnitude.
+
+QPix instead offes conversion from analog (charge) to digital (32 bit time) signals on the front-end ASIC.
+These front-end ASICs are arrayed in tiles, and the tiles themselves would spread out to cover the entire area of an APA.
+Each tile would interface with a single FPGA chip would would concentrate the digital data for each tile; we refer to this FPGA as the DAQ-Node (DN).
+Then, each DAQ-Node interfaces with at least a single concentrator FPGA that sends the digital data to the Warm-Interface-Cards (WIC) out of the cold electronics (CE).
+The final concentrator FPGA we refer to as the Super-DAQ-node (SDN).
+
+The exact description and characteriziation of the WIC for a QPix depends on the final implementation of the SDN and is thus beyond the scope of the presented here.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|| p{50mm} | p{50mm} | p{50mm} ||}
+ \hline
+ Description & Specification & Rationale \\ [0.5ex]
+ \hline\hline
+  System Noise & < 1000 $e^{-}$ & Provides >5:1 S/N on induction planes for pattern recognition and two-track separation. \\
+ \hline
+  Signal Saturation & 500,000 $e^{-}$ & Maintain calorimetric performance for multi-proton final state. \\
+ \hline
+  Cold Electronics Power Consumption & < 50 mW pre channel & No bubbles in LAr to reduce HV discharge risk\\
+ \hline
+  Number of Channels per front-end motherboard & 128 &  The total number of wires on one side of an APA, 1,280, must be an integer multiple of the number of channels on the FEMBs. \\
+ \hline
+Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Avoid the need for further changes to the APA frame and for routing the cables along the cryostat walls \\
+ \hline
+\end{tabular}
+\caption{Selected Requirements of DUNE-FD TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison. TPC electronic data and rationale are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}}
+\end{center}
+\end{table}~\label{tab:dune_tpc_elec}
+
+\section{The Digital-Backend}~\label{sec:digital_backend}
+
+We define the digital-backend as the part of the larger Q-Pix readout system that is responsible for handling the data after a reset is recorded.
+This sub-system must be able to record and store data, be robust against SPF, define error states, and more.
+
+\subsection{Initial Desgin Choices}~\label{sec:design_choices}
+
+All first designs require choices; the digital backend is no exception.
+In order to make any set of first choices there must be a definition for a successful design.
+
+Total Number of Nodes - Pixel Depedendent - Based on Pixels - Fixed
+Local Oscillator Frequency - Fixed
+Input Connections - Fixed
+Communication Protocol - TBD
+Configuration Connections - , None -> Eventually TBD
+Local Counter Bits - Fixed
+Buffer Depth - TBD, here
+Configuration Registers - Fixed, possibly TBD
+State Machine Logic - Fixed, but Tested
+Tile Size - TBD, here
+Aggregator Connection - Fixed, here
+Interface to Warm - TBD,
 
 We consider that the digital blocks responsible for digitizing the reset to have a nominal frequency of $\approx 30 MHz$.
 Therefore, the minimum time before the recorded timestamp value resets is calculated by:
@@ -414,27 +456,6 @@ Since each 10 kt module uses 150 APAs the total number of ASICs would be multipl
  \hline
  Description & Specification & Rationale \\ [0.5ex]
  \hline\hline
-  System Noise & < 1000 $e^{-}$ & Provides >5:1 S/N on induction planes for pattern recognition and two-track separation. \\
- \hline
-  Signal Saturation & 500,000 $e^{-}$ & Maintain calorimetric performance for multi-proton final state. \\
- \hline
-  Cold Electronics Power Consumption & < 50 mW pre channel & No bubbles in LAr to reduce HV discharge risk\\
- \hline
-  Number of Channels per front-end motherboard & 128 &  The total number of wires on one side of an APA, 1,280, must be an integer multiple of the number of channels on the FEMBs. \\
- \hline
-Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Avoid the need for further changes to the APA frame and for routing the cables along the cryostat walls \\
- \hline
-\end{tabular}
-\caption{Selected Requirements of DUNE TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison. TPC electronic data and rationale are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}}
-\end{center}
-\end{table}~\label{tab:dune_tpc_elec}
-
-\begin{table}
-\begin{center}
-\begin{tabular}{|| p{50mm} | p{50mm} | p{50mm} ||}
- \hline
- Description & Specification & Rationale \\ [0.5ex]
- \hline\hline
   System Noise & $\approx 300 e^{-}$ & Provides $\approx$ 17:1 S/N ratio, a component of front-end integrator. \\
  \hline
   Signal Saturation & >30\unit{nA}? & Upper limit from local oscillator frequency and integrator reset. \\
@@ -443,7 +464,7 @@ Maximum diameter of conduit enclosing the cold cables while they are routed thro
  \hline
   Number of Channels per Tile & ?? &  Design parameter to be calculated. \\
  \hline
-Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Same as~\citep{DUNE-FD_TDRv4:Abi_2020}, an engineering goal is to aim to use existing APA frame designs. \\
+  Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Same as~\citep{DUNE-FD_TDRv4:Abi_2020}, an engineering goal is to aim to use existing APA frame designs. \\
  \hline
 \end{tabular}
 \caption{Q-Pix based Requirements, which can be compared against~\ref{tab:dune_tpc_elec}. Results here are necessarily speculative, but provide a design goal baseline.}
