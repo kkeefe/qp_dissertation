@@ -1,6 +1,6 @@
-This chapter tests the requirements of a digital back-end suited to a Q-Pix based readout implemented in a LArTPC design.
+This chapter explores the requirements of a digital back-end suited to a Q-Pix based readout implemented in a LArTPC design at DUNE-FD scales.
 
-The first part of this chapter describes the simulation methodology used to evaluate the design presented in the previous chapter.
+The first part of this chapter describes the simulation methodology used to evaluate the possible designs presented in the previous chapter.
 The Q-Pix readout~(Chapter~\ref{chap:qpix}) relies on several key factors which promise possible improvements over a traditional MWPC readout: automatic calibration from quesicent background, an overall reduction in data collection, and simpler analysis chain and vertex reconstruction, to name a few.
 However, this novel readout technique not only changes the front-end analog structure but also dramatically increases the number of digitization channels.
 The increase of the number digital channels and required ASICs creates the need for a new digital-backend design.
@@ -11,7 +11,7 @@ The Q-Pix readout is no different.
 A few examples of crucial design choices for the digital back-end are: the use of free-running local oscillators, the selection of an inter-ASIC communication protocol, the choice of inter-ASIC connections or routing profiles, and the buffer sizes of FIFOs to store charge-reset data.
 The goal of the simulation is to parameterize these design choices.
 
-The final part of this chapter summarizes the results of the simulations and provides, to the best of its ability, a description of the effects of the most important parameters determined from these results.
+The final part of this chapter synthesizes the results of the simulations and provides, to the best of its ability, a description of the effects of the most important parameters determined from these results.
 We use as inputs to the simulation the expected input charge from radiogenic background and beamline neutrino interaction over a DUNE-FD APA.
 The characterization of the analog front-end, namely the charge characteristics per channel is an on-going collaborative work, whose results (when available) should be able to be applied here.
 The goal of the next chapter~\ref{chap:qdb.tex} is to provide a hardware verification of the simulation results presented here.
@@ -20,12 +20,47 @@ All results from simulation in this chapter, with the exception of Section~\ref{
 
 \section{The Tile Simulation Framework}
 
-The previous chapter introduced the digital backend as well as discussed different design choices, namely tile size, routing configuration, and daq-node location.
+The previous chapter introduced the digital backend as well as discussed different design choices, namely tile size, routing configurations, and the effects of Aggregator position.
 Here we describe how we simulate events of interested for these different tile configurations.
 
 A successful design is able to record and send loss-less data for all events of interest.
-In a DUNE-FD LArTPC these sources range in intensity from MeV-scale radiogenic backgrounds native to the LAr to 10's of GeV scale beam neutrinos, or atmospheric neutrinos.
-we consider the design to be successful if and only if a full capture and transmission of all neutrino events from 500 MeV to 10 GeV is possible.
+In a DUNE-FD LArTPC these sources range in intensity from sub-MeV-scale radiogenic backgrounds native to the LAr to 10's of GeV scale of beam neutrinos or atmospheric neutrinos.
+we consider the back-end design to be successful if and only if it provides the ability to fully capture and tramsit of all RTDs from these sources.
+
+%%% Example of Digital Neutrino Events
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/example_16_local_stack_slow.pdf}
+      \caption[Network2]%
+      {{\small Network 1}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_16_remote_stack_slow.pdf}
+      \caption[]%
+      {{\small remote stack}}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_16_remote_transact_slow.pdf}
+      \caption[]%
+      {{\small transact}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_16_route_fits_slow.pdf}
+      \caption[]%
+      {{\small route fits}}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small all of the data } 
+  \label{fig:example_plots_for_digital_sim}
+\end{figure*}
 
 \subsection{Tile Parameters}
 
@@ -37,7 +72,7 @@ we consider the design to be successful if and only if a full capture and transm
  \hline\hline
   Frequency Drift & 1\%, 5\% & Packet buildup within the tile \\
  \hline
-  Tile Size & 4x4, 8x8, 10x14, 15x15 & Affects total number of resets which must be routed to aggregator.\\
+  Tile Size & 4x4, 8x8, 10x14, 16x16 & Affects total number of resets which must be routed to aggregator.\\
  \hline
   Routing & Snake, Left, and Trunk & Different trees affect packet buildup as well as transaction count  \\
  \hline
@@ -56,6 +91,27 @@ we consider the design to be successful if and only if a full capture and transm
 
 \subsection{Tile Events}
 
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/push_arch_buff.pdf}
+\caption{A simulated push Architecture with injected hits.}
+\end{figure}~\label{fig:push_arch_verification}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/snake_timer.pdf}
+\caption{Example of packet drift in the simulation framework.
+  Packets drift apart in time as they are sent from slower to faster ASICs.
+  Therefore, there is a possiblity of packet drift and asynchronous packet sending which depends on the magnitude of the frequency drift between neighbor ASICs.}
+\end{figure}~\label{fig:packet_drift}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/fullApaResets.png}
+\caption{Full 1000s radiogenic background source simulation input into all pixels.}
+\end{figure}~\label{fig:background_simulation}
+
+
 \section{Physical Simulation Studies}
 %% TODO - channel level heatmap for neutrino event
 
@@ -64,13 +120,38 @@ We now discuss the implementation of the simulation based on the previous sectio
 \subsection{Simulated Detector Properties}
 
 
+
 %%
-\section{Radiogenic Backgrounds as a Calibration Source}
+\subsection{Radiogenic Backgrounds as a Calibration Source}
 
 sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}
 Radiological Backgrounds~\citep{ar39_backgrounds, phd_backgrounds}
 
 %% list of sources here
+We use the following list of radiogenic sources of 10 separate iterations of runs of 1000 seconds.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c c c c c c|}
+ \hline
+ Isotope & Rate [Bq/kg] & Region & Region Mass [kg] & Rate [Bq] & Number of Decays (per 10 s window) \\ [0.5ex]
+ \hline\hline
+  $^{210}$Po & 0.2 & PD [Bq/$m^2$] & 2.46856 & 0.493712 & 5 \\
+  $^{60}$Co & 0.0455 & CPA & 90 & 4.095 & 41 \\
+  $^{40}$K & 0.49 & APA & 258 & 1,264.2 & 12,642 \\
+  $^{39}$Ar & 1.010 & bulk LAr & ~70,000 & 70,700 & 707,000 \\
+  $^{42}$Ar & 0.000092 & bulk LAr & ~70,000 & 6.44 & 64 \\
+  $^{42}$K  & 0.000092 & bulk LAr & ~70,000 & 6.44 & 64 \\
+  $^{222}$Rn & 0.04 & bulk LAr & ~70,000 & 2800 & 28,000 \\
+  $^{214}$Pb & 0.01 & bulk LAr & ~70,000 & 700 & 7,000 \\
+  $^{214}$Bi & 0.01 & bulk LAr & ~70,000 & 700 & 7,000 \\
+  $^{85}$Kr & 0.115 & bulk LAr & ~70,000 & 8050 & 80,500 \\
+ \hline
+\end{tabular}
+\caption{The radiogenic background distribution is the same as that found in previous work~\citep{qpix:shion}.}
+\end{center}
+\end{table}
+~\label{table:radiogenic_backgrounds}
 
 %%
 
@@ -88,7 +169,6 @@ Simulation studies which involved particle interactions were based on Geant4~\ci
 
 
 \section{Neutrino Beam High Energy Studies}~\label{sec:neutrino_studies}
-
 
 Here we discuss the verification of the digital framework within the high energy regime.
 For this we use as an input source neutrino events from the FNAL accelerate
@@ -124,12 +204,141 @@ A valid reconstruction requires all packets to be collected regardless of neutri
  \hline
   Horn Current & Forward and Reverse & Beam horn current selection affects which neutrino is present. \\
  \hline
-  Z-position & 10~\unit{cm}, 80~\unit{cm}, 180~\unit{cm}, 280~\unit{cm}, 350~\unit{cm}  & Interaction z-position above the anode plane. \\
+  Z-position & 10\unit{cm}, 80\unit{cm}, 180\unit{cm}, 280\unit{cm}, 350\unit{cm}  & Interaction z-position above the anode plane. \\
+ \hline
+  Momentum Angle & 0\unit{\degree}, $\pm$2\unit{\degree}, $\pm$90\unit{\degree} & Different momentum angles are different Z-positions give larger track lengths within the active volume. \\
  \hline
 \end{tabular}
-\caption{}
+\caption{The different neutrino simulation parameters which are passed into Geant4 based simulation.
+  The original interaction products are created using GENIE~\citep{Andreopoulos:2009rq}.
+  The output products from this generator are then configured using the different parameters described above.
+}
 \end{center}
 \end{table}
 ~\label{table:neutrino_params}
+
+\subsection{Neutrino Event Results}
+
+% lego plot of all of the events
+
+% image example th2i of a single event in the full APA
+
+% image example of a full waveform
+ 
+
+
+% we put everything together here
+\section{Neutrinos, Backgrounds, and Routing}
+
+%%% Example of Digital Simulation Reconstruction
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/example_16_local_stack_slow.pdf}
+      \caption[Network2]%
+      {{\small Network 1}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_16_remote_stack_slow.pdf}
+      \caption[]%
+      {{\small remote stack}}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_16_remote_transact_slow.pdf}
+      \caption[]%
+      {{\small transact}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_16_route_fits_slow.pdf}
+      \caption[]%
+      {{\small route fits}}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small all of the data } 
+  \label{fig:example_plots_for_digital_sim}
+\end{figure*}
+
+%%% Example of Digital Simulation Reconstruction
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/example_16_route_fits_slow.pdf}
+      \caption[]%
+      {\small 16 Sized Tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_64_route_fits_slow.pdf}
+      \caption[]%
+      {\small 64 Sized tile}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_140_route_fits_slow.pdf}
+      \caption[]%
+      {\small 140 Sized tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_256_route_fits_slow.pdf}
+      \caption[]%
+      {\small 256 Sized Tile}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small all of the data } 
+  \label{fig:compare_slow_plots_for_digital_sim_slow}
+\end{figure*}
+
+%%% Example of Digital Simulation Reconstruction
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/example_16_route_fits.pdf}
+      \caption[]%
+      {\small 16 Sized Tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_64_route_fits.pdf}
+      \caption[]%
+      {\small 64 Sized tile}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_140_route_fits.pdf}
+      \caption[]%
+      {\small 140 Sized tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/example_256_route_fits.pdf}
+      \caption[]%
+      {\small 256 Sized Tile}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small all of the data } 
+  \label{fig:compare_fast_plots_for_digital_sim_slow}
+\end{figure*}
+
+%% table information
+\input{chapters/tables/transaction_data.tex}
+\input{chapters/tables/buffer_data.tex}
+\input{chapters/tables/fit_data.tex}
+
 
 \section{Summary and Further Studies}~\label{sec:further_studies}

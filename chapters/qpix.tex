@@ -412,19 +412,47 @@ This sub-system must be able to record and store data, be robust against SPF, de
 
 All first designs require choices; the digital backend is no exception.
 In order to make any set of first choices there must be a definition for a successful design.
+Table
 
-Total Number of Nodes - Pixel Depedendent - Based on Pixels - Fixed
-Local Oscillator Frequency - Fixed
-Input Connections - Fixed
-Communication Protocol - TBD
-Configuration Connections - , None -> Eventually TBD
-Local Counter Bits - Fixed
-Buffer Depth - TBD, here
-Configuration Registers - Fixed, possibly TBD
-State Machine Logic - Fixed, but Tested
-Tile Size - TBD, here
-Aggregator Connection - Fixed, here
-Interface to Warm - TBD,
+\begin{table}
+\begin{center}
+\begin{tabular}{||c c c||}
+ \hline
+ Parameter Name & Value & Description \\ 
+ \hline\hline
+Total Number of Nodes & Pixel Depedendent & Based on Pixels \\
+ \hline
+Local Oscillator Frequency & Fixed & 30 \\
+ \hline
+Input Connections & Fixed & val \\
+ \hline
+Communication Protocol & Endeavor & val \\
+ \hline
+Configuration Connections & Eventually TBD & val \\
+ \hline
+Local Counter Bits & 32 & val \\
+ \hline
+Local Buffer Depth & 64 & val \\
+ \hline
+Remote Buffer Depth & 256TBD, here & val \\
+ \hline
+Configuration Registers & Fixed, possibly TBD & 8 \\
+ \hline
+State Machine Logic & Fixed, but Tested & val \\
+ \hline
+Tile Size & TBD, here & val \\
+ \hline
+Aggregator Connection & Fixed, here & val \\
+ \hline
+Interface to Warm & TBD, & val \\
+ \hline
+ \hline
+\end{tabular}
+\caption{Design Parameters}
+\end{center}
+\end{table}
+~\label{table:digital_design_params}
+
 
 We consider that the digital blocks responsible for digitizing the reset to have a nominal frequency of $\approx 30 MHz$.
 Therefore, the minimum time before the recorded timestamp value resets is calculated by:
@@ -501,5 +529,7 @@ Any reconstructed event requires some $T_{o}$ time to indicate the start of the 
 Typically this is done via scintillation photons from a secondary system, where the photons arrive nearly instantly at the collection planes compared to the slow drift speed of the electrons.
 
 The natural pixelization of QPix required the charge collection can also be used to be sensitive to scintillation photons.
-These photons could not only provide the required timing but also provide an additional means of calorimetry, and track reconstruction.
+These photons could not only provide the required event timing but also provide an additional means of calorimetry and track reconstruction.
 Additional work is currently underway to demonstrate the viability.
+
+% TODO discuss two different types of physical architectures currently thought of here
