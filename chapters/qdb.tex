@@ -243,7 +243,7 @@ The Finite State Machine (FSM) of the remote digital ASIC outlines the designed 
 \centering
 \includegraphics[width=\textwidth]{images/digital_fsm_overview.jpg}
 \caption{Diagram of the Digital node's FSM which determines how to respond to incoming packets.}
-\end{figure}
+\end{figure}~\label{fig:digital_fsm}
 
 \begin{itemize}
     \item Idle, Acquisition State
@@ -351,28 +351,28 @@ Additional concerns of long data transactions include the use of more clock cycl
 \subsubsection{UART}~\label{sec:uart}
 This common protocol is typically stable between devices with a maximum difference of clock frequency to be 10\%.
 
-\begin{tikztimingtable}[%
-    timing/dslope=0.1,
-    timing/.style={x=5ex,y=2ex},
-    x=5ex,
-    timing/rowdist=3ex,
-    timing/name/.style={font=\sffamily\scriptsize}
-]
-\centering
-% \busref{$CLK_{base-tx}$} & 0.10L 156{.1428570c} \\
-% \busref{$CLK_{base-rx}$} & 0.35L 156{0.12857c} \\
-\busref{$CLK_{tx}$} & 0.10L 20{c} \\
-\busref{$CLK_{rx}$} & 0.35L 22{0.9c} \\
-\busref*{Tx} & 0.10L 2u 1D{START} 10d{DATA} 1D{STOP} 2U \\
-\busref*{Rx} & 0.35L 1.80u 0.9D{START} 10.8d{DATA} 0.9D{STOP} 1.8U \\
-\extracode
-\begin{pgfonlayer}{background}
-\begin{scope}[semitransparent ,thick]
-\vertlines[darkgray,dotted]{0.10,1.10,...,2.1}
-\vertlines[black,solid]{0.35,1.25,...,10.25}
-\end{scope}
-\end{pgfonlayer}
-\end{tikztimingtable}~\label{tikz:uart}
+% \begin{tikztimingtable}[%
+%     timing/dslope=0.1,
+%     timing/.style={x=5ex,y=2ex},
+%     x=5ex,
+%     timing/rowdist=3ex,
+%     timing/name/.style={font=\sffamily\scriptsize}
+% ]
+% \centering
+% % \busref{$CLK_{base-tx}$} & 0.10L 156{.1428570c} \\
+% % \busref{$CLK_{base-rx}$} & 0.35L 156{0.12857c} \\
+% \busref{$CLK_{tx}$} & 0.10L 20{c} \\
+% \busref{$CLK_{rx}$} & 0.35L 22{0.9c} \\
+% \busref*{Tx} & 0.10L 2u 1D{START} 10d{DATA} 1D{STOP} 2U \\
+% \busref*{Rx} & 0.35L 1.80u 0.9D{START} 10.8d{DATA} 0.9D{STOP} 1.8U \\
+% \extracode
+% \begin{pgfonlayer}{background}
+% \begin{scope}[semitransparent ,thick]
+% \vertlines[darkgray,dotted]{0.10,1.10,...,2.1}
+% \vertlines[black,solid]{0.35,1.25,...,10.25}
+% \end{scope}
+% \end{pgfonlayer}
+% \end{tikztimingtable}~\label{tikz:uart}
 % wavedrom - improvement to avoid difficult tikz
 
 %% appendix??
@@ -652,46 +652,45 @@ We identify that while the number of columns ($C$) in tile is equal to both subg
 \caption{Example of an Edge base-node configuration. The base-node is colored and highlighted in red.}
 \end{figure}~\label{fig:ebn}
 
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.25cm,
-                    ,auto=center]
-                    % ,auto=center,every node/.style={circle,fill=blue!20}]
-  \tikzstyle{every node}=[fill=blue,draw=none,text=white]
+% \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.25cm,
+%                     ,auto=center]
+%                     % ,auto=center,every node/.style={circle,fill=blue!20}]
+%   \tikzstyle{every node}=[fill=blue,draw=none,text=white]
 
-  \node (1) at (0,0) {1};
-  %% row 1
-  \node (2) at (1,-1) {2};
-  \node (3) at (2,-2) {3};
-  \node (4) at (3,-3) {4};
-  % row 2
-  \node (5) at (0, -1) {5};
-  \node (6) at (1,-2) {6};
-  \node (7) at (2,-3) {7};
-  \node (8) at (3,-4) {8};
+%   \node (1) at (0,0) {1};
+%   %% row 1
+%   \node (2) at (1,-1) {2};
+%   \node (3) at (2,-2) {3};
+%   \node (4) at (3,-3) {4};
+%   % row 2
+%   \node (5) at (0, -1) {5};
+%   \node (6) at (1,-2) {6};
+%   \node (7) at (2,-3) {7};
+%   \node (8) at (3,-4) {8};
 
-  %% end nodes
-  \node (10) at (0, -5) {$C$}; % must be at 0 x
-  \node (11) at (5, -5) {$R$}; % must be 1:1 slope
-  \node (12) at (5, -10) {$R+C$}; % must be 1:1 slope
+%   %% end nodes
+%   \node (10) at (0, -5) {$C$}; % must be at 0 x
+%   \node (11) at (5, -5) {$R$}; % must be 1:1 slope
+%   \node (12) at (5, -10) {$R+C$}; % must be 1:1 slope
 
-  %% paths
-  % \path (4) -- (11) [red, midway, sloped] {$\dots$};
-  % \path (5) -- (10) [red, midway, sloped] {$\dots$};
-  \draw[red,thick,dashed] (4) -- (11);
-  \draw[red,thick,dashed] (5) -- (10);
-  \draw[red,thick,dashed] (10) -- (12);
-  \draw[red,thick,dashed] (11) -- (12);
+%   %% paths
+%   % \path (4) -- (11) [red, midway, sloped] {$\dots$};
+%   % \path (5) -- (10) [red, midway, sloped] {$\dots$};
+%   \draw[red,thick,dashed] (4) -- (11);
+%   \draw[red,thick,dashed] (5) -- (10);
+%   \draw[red,thick,dashed] (10) -- (12);
+%   \draw[red,thick,dashed] (11) -- (12);
 
-  \path (1) edge (2);
-  \path (1) edge (5);
-  \path (2) edge (3);
-  \path (3) edge (4);
-  \path (5) edge (6);
-  \path (6) edge (7);
-  \path (7) edge (8);
-\end{tikzpicture}
+%   \path (1) edge (2);
+%   \path (1) edge (5);
+%   \path (2) edge (3);
+%   \path (3) edge (4);
+%   \path (5) edge (6);
+%   \path (6) edge (7);
+%   \path (7) edge (8);
+% \end{tikzpicture}
 
-The EBN then is actually just a composition of two subgraphs which are each equivalent to
-The tree characteristics which determine requirements for the digital channels are the tree height and total occupancy at each level.
+The EBN then is actually just a composition of two subgraphs which are each equivalent to The tree characteristics which determine requirements for the digital channels are the tree height and total occupancy at each level.
 Therefore, since the EBN provides no difference in either of these characteristics and is a suposition of two fundamental CBN, an analysis of an EBN is equivalent to the analysis of a CBN.
 
 However, we do remark comment that the average difference of the relative weights of each node in a SPF analysis are different in a EBN compared to the CBN case.

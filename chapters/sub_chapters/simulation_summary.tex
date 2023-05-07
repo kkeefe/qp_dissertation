@@ -1,0 +1,159 @@
+\section{Neutrinos, Backgrounds, and Routing}
+
+A valid reconstruction requires all packets to be collected regardless of neutrino type, energy within the valid range, interaction vertex, and should also be able to accept a range of incoming momentum angles.
+
+\subsection{Combining the Digital and Physical Simulations}
+
+
+
+%%% Example of Digital Simulation Reconstruction
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/mp60_16_slow_local_stack.pdf}
+      \caption[Network2]%
+      {{\small Network 1}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_16_slow_remote_stack.pdf}
+      \caption[]%
+      {{\small remote stack}}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_16_slow_remote_transactions.pdf}
+      \caption[]%
+      {{\small transact}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_16_slow_route_fits.pdf}
+      \caption[]%
+      {{\small route fits}}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small all of the data } 
+  \label{fig:mp60_fast_plots_for_digital_sim}
+\end{figure*}
+
+%%% Example of Digital Simulation Remote Parameterization
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/mp60_16_slow_route_fits.pdf}
+      \caption[]%
+      {\small 16 Sized Tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_64_slow_route_fits.pdf}
+      \caption[]%
+      {\small 64 Sized tile}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_140_slow_route_fits.pdf}
+      \caption[]%
+      {\small 140 Sized tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_256_slow_route_fits.pdf}
+      \caption[]%
+      {\small 256 Sized Tile}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small all of the data } 
+  \label{fig:compare_slow_plots_for_digital_sim_slow}
+\end{figure*}
+
+
+%%% 4x4 Example Digital simulation results
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/mp60_16_fast_local_stack.pdf}
+      \caption[Network2]%
+      {{\small Network 1}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_16_fast_remote_stack.pdf}
+      \caption[]%
+      {{\small remote stack}}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_16_fast_remote_transactions.pdf}
+      \caption[]%
+      {{\small transact}}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_16_fast_route_fits.pdf}
+      \caption[]%
+      {{\small route fits}}    
+  \end{subfigure}
+  \caption[ Information on the 4 by 4 tile. ]
+  {\small example plots for a 4 $\times$ 4 tile. } 
+  \label{fig:mp60_plots_for_digital_sim}
+\end{figure*}
+
+%%% Example of Digital Simulation Results for 16x16 tile
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{./images/mp60_16_fast_route_fits.pdf}
+      \caption[]%
+      {\small 16 Sized Tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}  
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_64_fast_route_fits.pdf}
+      \caption[]%
+      {\small 64 Sized tile}    
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_140_fast_route_fits.pdf}
+      \caption[]%
+      {\small 140 Sized tile}    
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}   
+      \centering 
+      \includegraphics[width=\textwidth]{./images/mp60_256_fast_route_fits.pdf}
+      \caption[]%
+      {\small 256 Sized Tile}    
+  \end{subfigure}
+  \caption[ Information on the 16 by 16 tile. ]
+  {\small 16 $\times$ 16 tile of results} 
+  \label{fig:compare_fast_plots_for_digital_sim_fast}
+\end{figure*}
+
+%% table information
+\input{chapters/tables/transaction_data.tex}
+
+%% table information
+\input{chapters/tables/buffer_data.tex}
+
+%% table information
+\input{chapters/tables/fit_data.tex}
+
+\section{Summary and Further Studies}~\label{sec:further_studies}
