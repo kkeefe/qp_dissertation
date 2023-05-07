@@ -15,6 +15,32 @@ We now discuss the methodologies of the physical simulations used as input to th
 \caption{Full 1000 second of radiogenic background source simulation input into all pixels within the APA.}
 \end{figure}~\label{fig:background_simulation}
 
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/pixel_reset_truth_track_id.pdf}
+\caption{}
+\end{figure}~\label{fig:pixel_track_id}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/pixel_reset_truth_weight.pdf}
+\caption{Truth weight of the individual resets for all combined resets in a 1000 s APA run.}
+\end{figure}~\label{fig:pixel_truth_weight}
+
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/localHitsRadiogenic.pdf}
+\caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current.}
+\end{figure}~\label{fig:reference_input_noise}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/radiogenicRTDtimescale.pdf}
+\caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
+There are two clusters of resets on two different time scales.}
+\end{figure}~\label{fig:radiogenic_rtd_timescales}
+
 
 sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}
 Radiological Backgrounds~\citep{ar39_backgrounds, phd_backgrounds}
@@ -53,17 +79,19 @@ We use the following list of radiogenic sources of 10 separate iterations of run
 
 %% graphic for energy deposited by source
 
-% ref to paper
-\section{Supernova Studies}~\label{sec:supernova}
-
-Work has been done to understand how a Q-Pix based DUNE-FD would measure core collapse supernovae~\citep{qpix:shion}.
-Simulation studies which involved particle interactions were based on Geant4~\citep{geant4:AGOSTINELLI2003250}.
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Part 2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neutrino Beam High Energy Studies}~\label{sec:neutrino_studies}
 
 Here we discuss the verification of the digital framework within the high energy regime.
 For this we use as an input source neutrino events from the FNAL accelerate
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/dune_flux_energy_range.pdf}
+\caption{Flux spectrum of neutrinos from the neutrino beam used in this study. This figure is taken from~\cite{electron_flux_image_2020}.}
+\end{figure}~\label{fig:neutrino_flux}
 
 %% TODO - Citation of the beam here
 

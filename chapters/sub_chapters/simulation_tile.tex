@@ -24,6 +24,23 @@ If the node receives a hard interrogation request, the node will send local data
 If the node's local FIFO is emtpy, and it has not received an interrogation, it will check the empty status of the remote FIFO.
 If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly.
 
+%% example local vs remote of snake
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/asic_FIFO_image.pdf}
+  \caption{Individual node object stores a local FIFO and a remote FIFO object.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/asic_tile_FIFO_image.pdf}
+  \caption{Tile of node objects, each which have a local and remote FIFO.}
+\end{subfigure}
+\caption{Composition of  4$\times$4 tile.:W}
+\label{fig:node_fifo_objects}
+\end{figure}
+
 There are two types of remote data to send: broadcasts and responses.
 A broadcast is a register request sent to a digital node, which can only be created and sent from the aggregator node.
 The responses include all other kinds of packets sent from neighbor nodes which include: data packets, event-end packets, and register response packets.
@@ -174,7 +191,58 @@ The tile simulation is performed by injecting hits of some known sources which i
 \caption{Example of packet drift in the simulation framework.
   Packets drift apart in time as they are sent from slower to faster ASICs.
   Therefore, there is a possiblity of packet drift and asynchronous packet sending which depends on the magnitude of the frequency drift between neighbor ASICs.}
-\end{figure}~\label{fig:packet_drift}
+\end{figure}~\label{fig:snake_packet_drift}
+
+%% example snake route
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/snake_timer.pdf}
+  \caption{Snake Readout timing Diagram}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/snake_ex_read.pdf}
+  \caption{Data Path in Snake Readout}
+\end{subfigure}
+\caption{Snake Packet Transaction Example}
+\label{fig:snake_packet_drift}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/trunk_timer.pdf}
+  \caption{Trunk Readout timing Diagram}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/trunk_ex_read.pdf}
+  \caption{Data Path in Trunk Readout}
+\end{subfigure}
+\caption{Trunk Packet Transaction Example}
+\label{fig:trunk_packet_drift}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/left_timer.pdf}
+  \caption{Left Readout timing Diagram}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/left_ex_read.pdf}
+  \caption{Data Path in Left Readout}
+\end{subfigure}
+\caption{left Packet Transaction Example}
+\label{fig:left_packet_drift}
+\end{figure}
 
 %% example local vs remote of left
 \begin{figure}
