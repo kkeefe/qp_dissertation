@@ -34,12 +34,23 @@ We now discuss the methodologies of the physical simulations used as input to th
 \caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current.}
 \end{figure}~\label{fig:reference_input_noise}
 
-\begin{figure}[]
+%% example local vs remote of snake
+\begin{figure}
 \centering
-\includegraphics[width=\textwidth]{images/radiogenicRTDtimescale.pdf}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale.pdf}
+  \caption{4096 Pixel Resets in log scale of time.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_1d.pdf}
+  \caption{Flattend histogram against time}
+\end{subfigure}
 \caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
 There are two clusters of resets on two different time scales.}
-\end{figure}~\label{fig:radiogenic_rtd_timescales}
+~\label{fig:radiogenic_rtd_timescales}
+\end{figure}
 
 
 sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}

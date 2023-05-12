@@ -1,0 +1,67 @@
+%% QDB Hardware Discussion
+\section{The Digital Prototype Design}
+
+This section marks the second part of this chapter.
+We describe the design of a digital back-end prototype, which is configured as a 4$\times$4 array of nodes.
+Each node is implemented with the logic described in the previous sections.
+
+These nodes are used to test the cotrol logic, communication stability, buffer requirements, and calibration methods.
+The most important quantity that much be calibrated for the digital nodes is the frequency of the local oscillator.
+The Q-Pix reconstruction for both time and z position are dependent on this parameter, see Chapter~\ref{chap:qpix}.
+
+Since the frequency is the most important quantity, we also dedicate a full section to describe the results of the of local oscillator tests.
+
+Future implementations of the digital back-end for Q-Pix may, of course, use different oscillators.
+However, these results are still beneficial as a proof of concept for the frequency calibration, as well as tests to the packet loss susceptibility.
+Packet loss is a function of relative frequency drift between neighbor nodes.
+
+\subsection{Frequency Calibration of each Node}
+
+
+%% 4Hz interrogation calibration 
+\input{chapters/tables/fpga_fit.tex}
+
+%% 0.1 Hz interrogation calibration 
+\input{chapters/tables/fpga_slow_fit.tex}
+
+
+\subsection{Charge Auto-Calibration of each Pixel}~\label{sec:charge_calibration}
+
+Natural decay products produced by $^{39}$Ar provide a continous source of incoming current across a LArTPC.
+
+%% schematic of PCB
+
+\section{Timing Stability}
+
+We describe here the methods of measuring a stable time for different configurations of the nodes.
+We also comment on the results of the timing with resepect to the minimum required timing sensitivity in order to have accurate timestamp reconstruction.
+
+\section{Power and Current Characteristics}
+
+There are test pads on the PCBs used to measure the voltage stability of the different FPGA voltages.
+For each voltage, there is also a single 1~$\unit{\Omega}$ probe-resistor.
+This resistor is used to measure the relative current drawn from each of the voltage sections on the PCB.
+
+\section{Analysis of Systematics for Different System Implementations}
+
+The essential features of the digital node in the Q-Pix readout are the properties of the local oscillator.
+The frequency, relative phases, and stability of the oscillator determine the power consumption, packet transaction time, minimum timestamp resolution, which determines maximum current measurements, and affects packet loss probability in larger tile systems.
+It is not an understatement to say that the successful development of the digital node relies on the development of the local oscillator.
+
+\section{Towards the Integration of the Aggregator Node}
+
+In the studies presented here, The aggregator node which was used was the Zybo Z7-20.
+
+
+\section{Comments on A Super-DAQ-Node}
+
+Each APA module within a larger DUNE module must ultimately be interconnected so that the entire module can be readout.
+As described above, a single modular tile is controlled by an individual DAQ node, where many constitute a complete APA.
+Therefore, we refer to the device that digitally multiplexes all of the DAQ node data as the "Super DAQ Node" (SDN).
+Then, we imagine the final multiplexing stage for an entire DUNE module as an array of SDNs, each of which consistute an array of DAQ nodes, where each DAQ node is a 2-D array of Q-Pix based ASICs.
+
+The total number of request SDNs within the full dune module depends on the final size of a DAQ-node controlled tile.
+
+%% high level figure here from TPC -> Integrator -> Digital Node -> Aggregator -> SuperDAQ-Node -> WIC -> Disc
+
+\section{The Back-End Summary}
