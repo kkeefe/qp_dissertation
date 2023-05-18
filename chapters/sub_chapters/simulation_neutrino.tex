@@ -44,7 +44,7 @@ We now discuss the methodologies of the physical simulations used as input to th
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_1d.pdf}
+  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
   \caption{Flattend histogram against time}
 \end{subfigure}
 \caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
@@ -52,6 +52,22 @@ There are two clusters of resets on two different time scales.}
 ~\label{fig:radiogenic_rtd_timescales}
 \end{figure}
 
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_1d.pdf}
+  \caption{4096 Pixel Resets in log scale of time.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
+  \caption{Flattend histogram against time}
+\end{subfigure}
+\caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
+There are two clusters of resets on two different time scales.}
+~\label{fig:radiogenic_rtd_timescales_comparing_no_noise}
+\end{figure}
 
 sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}
 Radiological Backgrounds~\citep{ar39_backgrounds, phd_backgrounds}
@@ -205,4 +221,38 @@ The parameters used to vary the tiles for these neutrino input energies are show
 \end{subfigure}
 \caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.}
 \label{fig:example_asic_energy_comparison}
+\end{figure}
+
+%% comparing integral results here
+%% 
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/df_theta_cut.pdf}
+  \caption{Colored by $\theta_{z}$ direction.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/df_zpos_cut.pdf}
+  \caption{Colored by Z-position}
+\end{subfigure}
+\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.}
+\label{fig:compare_integral_zpos_theta}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/df_nolabel_line.pdf}
+  \caption{Comparison of all integrals to current prototype depths.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/df_horn_cut.pdf}
+  \caption{Colored by Z-position}
+\end{subfigure}
+\caption{Comparison of Buffer depths as in incoming prototype and horn current direction from neutrino beam.}
+\label{fig:compare_integral_nolabel}
 \end{figure}
