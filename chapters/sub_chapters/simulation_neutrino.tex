@@ -9,16 +9,82 @@ We now discuss the methodologies of the physical simulations used as input to th
 %%
 \subsection{Radiogenic Backgrounds as a Calibration Source}
 
+In this section we comment on the ability to, but do not perform, the auto-calibration of the reset loss per charge.
+The full calibration scheme is beyond the scope of the work presented here, with intracies that depend on the final implementation of the reset circuit as well as the replenishment circuit of the final Q-Pix ASIC.
+Since this ASIC does not yet exist, the true verification of this methodology is not yet possible.
+Nevertheless, we desribe the relevant portions to the problem here, since the charge calibration along with the frequnecy calibration and timestamp measurements determine Q-Pix's z-position reconstruction.
+
+The main idea behind the auto-calibration of charge at the pixel level relies on using the known (and near constant) input current from the radiogenic backgrounds (mostly $^{39}$Ar) in the detetor. 
+If a perfectly known and constant input current ($I_{o}$) source was input to a pixel it would produce a resets separated by a constant time ($\tau_{rtd}$).
+It would be a straight foward matter to calculate the charge per reset: $Q_{o} = I_{o}*\tau_{rtd}$.
+
+Then, to analyze the ability for an auto-calibration procedure for Q-Pix it is important to analyze and understand the long-running charge accumulation (resets) from backgrounds present in the LAr.
+We use the following list of radiogenic sources of 10 separate iterations of runs of 1000 seconds.
+
+\begin{table}
+\begin{centering}
+\begin{tabular}{|c c c c c c|}
+ \hline
+ Isotope & Rate [Bq/kg] & Region & Region Mass [kg] & Rate [Bq] & Number of Decays (per 10 s window) \\ [0.5ex]
+ \hline\hline
+  $^{210}$Po & 0.2 & PD [Bq/$m^2$] & 2.46856 & 0.493712 & 5 \\
+  $^{60}$Co & 0.0455 & CPA & 90 & 4.095 & 41 \\
+  $^{40}$K & 0.49 & APA & 258 & 1,264.2 & 12,642 \\
+  $^{39}$Ar & 1.010 & bulk LAr & ~70,000 & 70,700 & 707,000 \\
+  $^{42}$Ar & 0.000092 & bulk LAr & ~70,000 & 6.44 & 64 \\
+  $^{42}$K  & 0.000092 & bulk LAr & ~70,000 & 6.44 & 64 \\
+  $^{222}$Rn & 0.04 & bulk LAr & ~70,000 & 2800 & 28,000 \\
+  $^{214}$Pb & 0.01 & bulk LAr & ~70,000 & 700 & 7,000 \\
+  $^{214}$Bi & 0.01 & bulk LAr & ~70,000 & 700 & 7,000 \\
+  $^{85}$Kr & 0.115 & bulk LAr & ~70,000 & 8050 & 80,500 \\
+ \hline
+\end{tabular}
+\caption{The radiogenic background distribution is the same as that found in previous work~\citep{qpix:shion}.
+For the 1000 s analysis the pre-rounded values are scaled up by a factor of 100 to achieve the correct normalization of events for each isotope.}
+\end{centering}
+\end{table}
+~\label{table:radiogenic_backgrounds}
+
+The well-known C++ based Geant4~\citep{geant4:AGOSTINELLI2003250} simulation toolkit is used to simulate particle decay and ionizing particle interactions within the LAr volume.
+We use the energy deposited along the track from each ionizing particle with the W-value for liquid argon (23.6 eV) to determine the number of electrons deposited in the LAr.
+The resulting number of electrons are then unifromly deposited over the individual track.
+Then we calculate the probability of recombination for each electron following the "modified box" model~\citep{2013JInst...8P8005A}.
+
+The time and location of drift for each electron is calculated with an applied transverse and longitudinal diffusion with values taken from~\ref{tab:lar_prop}.
+The simulations for all particle interactions are run individually with randomly sampling some time interval within the 1000 second window.
+All of the hits are then sorted by increasing time, so that the first hits read are the hits which occur the earliest.
+
+This simulation procudes $\mathcal{O}(10^{11})$ hit interactions which produce $\mathcal{O}(10^{14})$ electrons, which in turn produces $\mathcal{O}(10^{9})$ resets.
+To reduce the memory utilization of the simulation the electrons are accumulated on a hit-by-hit bases and are subdivided into a pre-determined 4$\times$4 cross-sectional area of the detector.
+Each cross-sectional area defines a pixel.
+The dimension of the LArTPC volume is 2.3$\unit{m}$ $\times$ 6.0$\unit{m}$ which divides into 575 pixels in the x-direction and 1500 pixels in the y-direction.
+There are then a total of 862500 pixels, which store location and reset information.
+
+As an example, the total resets from 1000 seconds of the simulation are shown in Figure~\ref{fig:background_simulation}.
+The most active pixel receives $\approx 220$ resets during this simulation time.
+The bins for the histogram are at the pixel level, and represnt the 4$\times$4$\unit{mm^{2}}$ of each pixel.
+
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/fullApaResets.png}
-\caption{Full 1000 second of radiogenic background source simulation input into all pixels within the APA.}
+\caption{Full 1000 second of radiogenic background source simulation input into all pixels within the APA.
+A close examination of the resets can reveal the additional resets from the backgrounds which are location dependent.
+The majority of the uneven distribution of resets occur at the location of the APA bars due to the $^{40}$K isotope.
+}
 \end{figure}~\label{fig:background_simulation}
+
+Additional information is tracked for each reset to identify the contribution from each radiogenic background to each reset.
+A reset occurs when 6250 $e^{-}$ have accumulated on a pixel.
+Any combination of the backgrounds can contribute some or all of the electrons required to produce a reset.
+We refer to the contribution of the number of the electrons to the reset as the "weight" of the reset.
+A distribution of all of the weights for all resets are shown in Figure~\ref{fig:pixel_truth_weight}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/pixel_reset_truth_track_id.pdf}
-\caption{}
+\caption{The total number of electrons contributed to all of the resets shown in Figure~\ref{fig:background_simulation}. 
+The largest contribution, as expected, comes from the $^{39}$Ar source.
+}
 \end{figure}~\label{fig:pixel_track_id}
 
 \begin{figure}[]
@@ -34,7 +100,7 @@ We now discuss the methodologies of the physical simulations used as input to th
 \caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current.}
 \end{figure}~\label{fig:reference_input_noise}
 
-%% example local vs remote of snake
+%% example RTD for a 16x16 tile
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -47,8 +113,12 @@ We now discuss the methodologies of the physical simulations used as input to th
   \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
   \caption{Flattend histogram against time}
 \end{subfigure}
-\caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
-There are two clusters of resets on two different time scales.}
+\caption{all 4096 pixels in a 16$\times$16 tile for 1000 seconds of radiogenic data. 
+There are two clusters of resets on two different time scales.
+The first cluster of resets near at $\tau_{rtd} \simeq \mathcal{O}(10^{-7})$ is due to events which produce more than one reset.
+The second cluster of resets near at $\tau_{rtd} \simeq \mathcal{O}(10^{1})$ are from a "waiting" period where there is no charge buildup from decays and only background noise.
+The dominant source of electrons on each pixel is from the $^{39}$Ar.
+}
 ~\label{fig:radiogenic_rtd_timescales}
 \end{figure}
 
@@ -73,31 +143,6 @@ sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}
 Radiological Backgrounds~\citep{ar39_backgrounds, phd_backgrounds}
 
 %% list of sources here
-We use the following list of radiogenic sources of 10 separate iterations of runs of 1000 seconds.
-
-\begin{table}
-\begin{center}
-\begin{tabular}{|c c c c c c|}
- \hline
- Isotope & Rate [Bq/kg] & Region & Region Mass [kg] & Rate [Bq] & Number of Decays (per 10 s window) \\ [0.5ex]
- \hline\hline
-  $^{210}$Po & 0.2 & PD [Bq/$m^2$] & 2.46856 & 0.493712 & 5 \\
-  $^{60}$Co & 0.0455 & CPA & 90 & 4.095 & 41 \\
-  $^{40}$K & 0.49 & APA & 258 & 1,264.2 & 12,642 \\
-  $^{39}$Ar & 1.010 & bulk LAr & ~70,000 & 70,700 & 707,000 \\
-  $^{42}$Ar & 0.000092 & bulk LAr & ~70,000 & 6.44 & 64 \\
-  $^{42}$K  & 0.000092 & bulk LAr & ~70,000 & 6.44 & 64 \\
-  $^{222}$Rn & 0.04 & bulk LAr & ~70,000 & 2800 & 28,000 \\
-  $^{214}$Pb & 0.01 & bulk LAr & ~70,000 & 700 & 7,000 \\
-  $^{214}$Bi & 0.01 & bulk LAr & ~70,000 & 700 & 7,000 \\
-  $^{85}$Kr & 0.115 & bulk LAr & ~70,000 & 8050 & 80,500 \\
- \hline
-\end{tabular}
-\caption{The radiogenic background distribution is the same as that found in previous work~\citep{qpix:shion}.}
-\end{center}
-\end{table}
-~\label{table:radiogenic_backgrounds}
-
 %%
 
 \subsection{Reset Distribution of Sources}

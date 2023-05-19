@@ -1,11 +1,11 @@
 \section{The Tile Simulation Framework}
 
-The previous chapter introduced the digital backend as well as discussed different design choices, namely tile size, routing configurations, and the effects of Aggregator position.
+The previous chapter introduced the digital backend as well as discussed different design choices, namely tile size, routing configurations, and the effects of the aggregator position.
 Here we describe how we simulate events of interested for these different tile configurations.
 
 A successful design is able to record and send loss-less data for all events of interest.
 In a DUNE-FD LArTPC these sources range in intensity from sub-MeV-scale radiogenic backgrounds native to the LAr to 10's of GeV scale of beam neutrinos or atmospheric neutrinos.
-we consider the back-end design to be successful if and only if it provides the ability to fully capture and tramsit of all RTDs from these sources.
+We consider the back-end design to be successful if and only if it provides the ability to fully capture and tramsit of all colletected resets from these sources.
 
 \subsection{The Tile Representation}
 
@@ -13,12 +13,12 @@ We model a tile (a group of digital nodes, or ASICs) based on the description gi
 A tile is then represented in software (Python 3) as a linked list of nodes which store pointers to the adjacent nodes or neighbors.
 
 Every node in the tile holds two FIFO objects which store local and remote data. 
-The local and remote FIFOs keep track of the total number of resets or transactions, respectively.
-If a node receivs a new reset the local FIFO is written to, and the local FIFO transaction counter increases.
+The local and remote FIFOs keep track of the total number of resets or packet transactions, respectively.
+If a node records a new reset the local FIFO is then written to, and the local FIFO transaction counter increases.
 Similarly, the remote FIFO's transaction count is increased anytime the a write occurs on this FIFO, which happens everytime a digital node receives a packet from a neighbor node, including the aggregator node.
 
-In the current implementation all packets sent between neighbor nodes are initially recorded on the remote FIFO.
-At the beginning of a clock cycle, or a simulation step, each node first checks to see if its received an interrogation request.
+In the current implementation all packets, with the exception of broadcasts, sent between neighbor nodes are initially written on the remote FIFO.
+At the beginning of a simulation step each node first checks to see if its received an interrogation request.
 If the node has received a soft interrogation request, and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
 If the node receives a hard interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
 If the node's local FIFO is emtpy, and it has not received an interrogation, it will check the empty status of the remote FIFO.
@@ -37,7 +37,12 @@ If the remote FIFO is not empty, this packet will be read and transmitted to its
   \includegraphics[width=\textwidth]{images/asic_tile_FIFO_image.pdf}
   \caption{Tile of node objects, each which have a local and remote FIFO.}
 \end{subfigure}
-\caption{Composition of  4$\times$4 tile.:W}
+\caption{Composition of  4$\times$4 tile. Each node in the tile represents a digital ASIC which stores two FIFOs.
+One FIFO is used to store timestamps from reset data, which we refer to as the local FIFO.
+The other FIFO (remote) is used to store all packet words which come from neighbor nodes.
+Since the local FIFO needs to store only the 32-bit timestamp and the channels responsible for the reset it is 48 bits wide.
+The remote FIFO is 60 bits wide, since it must store all relevant bits for the 64 bit packet word, where there are 4 unused bits.
+}
 \label{fig:node_fifo_objects}
 \end{figure}
 
@@ -56,9 +61,9 @@ Nodes which require an interrogation in order to send local data we refer to as 
 
 \subsection{Injected Resets}~\label{sec:hits}
 
-In order to speed up the executation of the python simulation reset events are precalculated and loaded into separate lists for each node.
-At the beginning of every simulation time step a node checks its injected resets list against the current time.
-If the current time is larger than any of the timestamps in its resets list, the resets are then removed from this list and are written to the node's local FIFO.
+In order to speed up the executation of the python simulation reset events are precalculated and loaded into separate list containers for each node.
+At the beginning of every simulation time step every node checks its injected resets list against the new simulation step time.
+If the new time step is larger than any of the timestamps in its resets list, the resets are then removed from this list and are written to the node's local FIFO.
 
 Resets from simulated data whether radiogenic or neutrino data can occur at any pixel and at any time.
 The digital node (and the ASIC) is capable of recording multiple resets from multiple channels at the same time.
@@ -97,8 +102,9 @@ One goal of the simulations presented here is to parameterize different design c
 The different parameters which we test are described in Table~\ref{table:tile_params}.
 
 There are a total of four parameters to test: frequency stability, tile size, routing, and architecture.
-Of the four parameters, we note that the frequency stability is the one unadjustable parameter.
+Of the four parameters, we note that the frequency stability is the one parameter deteremined by the ASIC's physical design.
 Therefore, special care must be taken into account when designing the local oscillator for the digital nodes.
+The other variables: routing, architecture, and tile size are either programmable registers or easily configurable in hardware layout.
 
 It is intuitive (and the results indicate) that improved frequency stability leads to a more stable design.
 Nevertheless, we find it enlightening to demonstrate how remote buffer depths are affected in the case of a 5\% (0.5\%) clock deviation.
@@ -111,13 +117,13 @@ Since many ($\approx 10^4$) events are performed per tile configuration each til
  \hline
  Name & Values & Relation \\ [0.5ex]
  \hline\hline
-  Frequency Standard Deviation & 0.5\%, 5\% & Packet buildup within the tile \\
+  Oscillator Frequency & 0.5\%, 5\% & High variance causes packet buildup or drift within the tile depending on whether packets are sent from slow to fast, or fast to slow clocks. \\
  \hline
   Tile Size & 4x4, 8x8, 10x14, 16x16 & Affects total number of resets which must be routed to aggregator.\\
  \hline
-  Routing & Snake, Left, and Trunk & Different trees affect packet buildup as well as transaction count  \\
+  Routing & Snake, Left, and Trunk & Tiles with different routing are effectively different graphs affect packet buildup~(\ref{eq:adjacency_matr}). Different combinations of edges between nodes can cause packet buildup if nodes have more input edges than output edges.  \\
  \hline
-  Architecture & Push, Pull & Describes conditions for when node enters transmit-local state.~\ref{sec:local_data_packet}  \\
+  Architecture & Push, Pull & Describes conditions for when node enters transmit-local state.~\ref{sec:local_data_packet}. The push architecture allows individual nodes to transmit data when data are received, whereas pull architecture only send data upon reciving a special request packet from the aggregator.  \\
  \hline
 \end{tabular}
 \caption{The different tile parameters that are used for the effective tile search.
@@ -137,13 +143,13 @@ We show results for varying tile sizes to indicate that increasing tile size may
 For this reason, the largest tile size we tested was 16 $\times$ 16.
 
 The routing and architecture parameters help guide the digital design efforts design of the digital ASIC.
-In practice it is all but certain that implemented routing for a digital tile will take on a some combination of the routing styles described here.
+In practice it is all but certain that implemented routing for a digital tile will take on a combination of the routing styles described here.
 The reason for this is simply that is likely that some digital nodes will fail (for whatever reason) in the life time of a DUNE-FD 10 kT module.
-Therefore, for the future tiles that contain hybrid routing we suggest to those users to individually analyze the sub tiles with appropriating routing and frequency distribution.
+Therefore, future tiles that contain hybrid routing we suggest to those users to individually analyze the sub tiles with appropriating routing and frequency distribution and determine if the buffer depths are appropriate.
 
 \subsection{Oscillator Drift}
 
-Local oscillator drift was not included as a testing parameter since both the simulations and transactions occur over small time scales compared to any meaningful oscillator drift in a LArTPC.
+Local oscillator drift was not included as a testing parameter since transactions occur over small time scales compared to any likely meaningful oscillator drift.
 If these drifts occur on time scales much longer than the interrogation time than the oscillator, the frequency could be continually re-calculated with the method shown in the previous chapter.
 If these drifts are perodic about a mean frequency and on time scales much smaller than the interrogation time window then the drifts would average out.
 In the event that clock drift timescales are on the interrogation timescale ($\approx 1\unit{s}$), then this is equivalent to a frequency uncertainty for the entire transaction cycle.
@@ -152,48 +158,70 @@ Such a node would not be able to reconstruct timestamps, and therefore not be ab
 
 \section{Simulating The Tile Readout}~\label{sec:simulating_tile}
 
-The tile simulation is performed by injecting hits of some known sources which is a combination of radiogenic backgrounds and beam neutrinos.
+The tile simulation is performed by injecting hits from two known sources: radiogenic backgrounds and beam neutrinos.
+All results presented in this chapter are based on 11 seconds of simulated run time.
+Radiogenic data are collected and used to occupy 10 seconds of background noise resets.
+The higher intensity neutrino events are offset so that interaction occurs at $t = 5.1 s$.
+The simulation is run for a total of 11 seconds, instead of 10, to ensure that all of the packets are colletected by the aggregator node.
+In practice, there would be additional resets from backgrounds which occur in that final second of data.
+However, the number of resets from the radiogenic events are much smaller (by about two orders of magnitude) than the neutrino events.
 
+The full readout of the tile occurs based on the number of packets times the average transaction length.
+$$
+T_{readout} \approx 50 \mu s \times N_{packets}
+$$
 
-\subsection{The Pull Architecture}
+If we set $T_{readout}$ to 1 second:
+$$
+N_{packets} \approx  20000
+$$
 
-%% example local hits
-\begin{figure}[]
-\centering
-\includegraphics[width=0.5\textwidth]{images/left_asic_local.pdf}
-\caption{Example local FIFO distribution of a $\approx 3\unit{GeV} \nu_{e}$ event.}
-\end{figure}~\label{fig:local_buffer_hit_example}
+Since the simulation is run six seconds longer than the origin time of the neutrino events all reset events are be accounted for if neutrino events cause less than $\approx 120000$ resets.
 
+The configuration of each node and the tile happens before the beginning of the simulation.
+The frequency and the routing directions are configured for each node during its creation.
 
-\subsubsection{Example Neutrino Event}
+\subsection{Simulation Timing}
 
-%% example local vs remote of snake
-\begin{figure}
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/snake_asic_trans.pdf}
-  \caption{Local FIFO Depths}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/snake_asic_remote.pdf}
-  \caption{Remote FIFO Depths}
-\end{subfigure}
-\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event after processing.}
-\label{fig:snake_example_neutrino}
-\end{figure}
+The purpose of the simulation is the examine the communication behavior of digital nodes at different frequencies which communicate via packets of variable time width.
+For this reason, special care is taken to ensure that the timing of packet transactions in the simulation are accurate.
+The behavior of each node is determined by its state machine properties, as described in Fig.~\ref{fig:digital_fsm}.
+Therefore, an accurate representation of timing of each node is equivalent to ensuring that timing of ASIC state transactions are accurate.
 
 %% example snake route
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/snake_timer.pdf}
-\caption{Example of packet drift in the simulation framework.
-  Packets drift apart in time as they are sent from slower to faster ASICs.
-  Therefore, there is a possiblity of packet drift and asynchronous packet sending which depends on the magnitude of the frequency drift between neighbor ASICs.}
+\caption{Example of timing ASIC state transitions in the simulation framework.
+  The x-axis represents time in $\mu s$, and the different y-axis labels represent different ASICs within a 3$\times$3 tile shown.
+  The y-axis also indicates the relative frequencies of the ASICs in the tile, where the node at (0,0) has the fastest frequency, which is 12\% faster than 30 MHz.
+  The blue regions indicate that the ASIC is in the idle state.
+  The first orange state indicates that this ASIC (2,2) received a register request from the aggregator node and is now sending its local data, concluding in the purple state, which is sending the event end word.
+  The Packets drift apart in time as they are sent from slower to faster ASICs.
+  Shown here is the possiblity of packet drift due to asynchronous packet transfers that depends on the magnitude of the frequency drift between neighbor ASICs.
+}
 \end{figure}~\label{fig:snake_packet_drift}
 
-%% example snake route
+Not shown are times when an ASIC receives or resonds to a broadcast.
+Broadcast packets are uniquely handled by ASICs.
+An ASIC, instead of writing the request to the remote FIFO, immediately handles a broadcast by sending this packet to all neighbor ASICs, excluding the direction from which it received the broadcast.
+This means that an ASICs state does not change during a broadcast.
+This is handled by the simulation by tracking packet times on the ASIC connections.
+The broadcast packet is sent starting at the soonest avaiable time on each connection.
+The full broadcast procedure is described in Section~\ref{sec:broadcast}.
+
+
+\subsubsection{Snake Timing Example}
+
+Here we refer to the "snake" routing as the maximmal path routing.
+This routing is one that minimizes the number of input edges for all nodes within a tile.
+An example of a packet transfer which uses this routing is shown in Figure~\ref{fig:snake_packet_drift}.
+
+Since the snake routing minimizes the number of edges, it also maximizes the number of ASICs responsible for sending remote data in the tile.
+This increases the number of remote transactions in a tile readout.
+This demonstrated by the amount of time ASICs are in the transmit remote state shown in Figure~\ref{fig:snake_packet_drift}.
+
+%% example local vs remote of snake
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -206,27 +234,20 @@ The tile simulation is performed by injecting hits of some known sources which i
   \includegraphics[width=\textwidth]{images/snake_ex_read.pdf}
   \caption{Data Path in Snake Readout}
 \end{subfigure}
-\caption{Snake Packet Transaction Example}
+\caption{A snake packet transaction example is shown. The broadcast is received by the further node (2,2) and 10 data words are sent, followed by a event end word.
+Each packet tranverses through all nodes in the tile where remote packets are sent immediately.}
 \label{fig:snake_packet_drift}
 \end{figure}
 
+%% example left route
+\subsubsection{Left Timing Example}
 
-\begin{figure}
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/trunk_timer.pdf}
-  \caption{Trunk Readout timing Diagram}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/trunk_ex_read.pdf}
-  \caption{Data Path in Trunk Readout}
-\end{subfigure}
-\caption{Trunk Packet Transaction Example}
-\label{fig:trunk_packet_drift}
-\end{figure}
+The naming convention for the "left" routing is arbitrary since the tile can be viewed from the opposite direction and the routing would appear "right".
+By "left" routing we mean a routing configuration in which the routed direction for all ASICs in all rows are in the same direction, except for the nodes which have no neighbor in that direction.
+These nodes then are routed "up" towards the aggregator.
+An example of a packet transfer with this routing configuration is shown in Figure~\ref{fig:left_packet_drift}.
 
+This routing configuration minimizes the path length for all nodes in the tile when the base-node is at the corner.
 
 \begin{figure}
 \centering
@@ -240,9 +261,94 @@ The tile simulation is performed by injecting hits of some known sources which i
   \includegraphics[width=\textwidth]{images/left_ex_read.pdf}
   \caption{Data Path in Left Readout}
 \end{subfigure}
-\caption{left Packet Transaction Example}
+\caption{A left packet transaction example is shown. The packet transfers begin with the furthest node (2,2) receives a broadcast from the aggregator. 
+The data are then sent to the "left" and then "up" towards the base node, and finally to the aggregator node.}
 \label{fig:left_packet_drift}
 \end{figure}
+
+
+\subsubsection{Trunk Timing Example}
+
+The final routing scheme we simulate we call the "trunk" routing.
+We name this routing the "trunk" because all data are sent to a central column within the tile and then up towards the edge base node.
+An example of a simple data transfer is shown in Figure~\ref{fig:trunk_packet_drift}.
+
+For tiles of widths larger than three there are multiple choices for which column will be the trunk.
+In for example, a 4$\times$4 tile can have either the second or third columns be the trunk.
+In all even width cases we test, we choose the smaller row value for simplicity.
+In the 4$\times$4 case we choose the second column and in the 8$\times$8 case, we choose the fourth (3,0) column insted of the fifth (4,0).
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/trunk_timer.pdf}
+  \caption{Trunk Readout timing Diagram}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/trunk_ex_read.pdf}
+  \caption{Data Path in Trunk Readout}
+\end{subfigure}
+\caption{A trunk packet transaction example of two data words and a single event end word is shown. 
+This routing method allows for the fastest possible transaction time since it minimizes the edge lengths between the base node and all other nodes within the tile.
+In this 3$\times$3 example shown, the base node is at (1,0), or in the middle.}
+\label{fig:trunk_packet_drift}
+\end{figure}
+
+
+\subsection{The Pull Architecture and FIFO Depths}
+
+The "pull" architecture describes a tile configuration where data are only sent by ASICs within the tile when they receive a broadcast packet.
+We describe an example simulation event in this section with the pull architecture and the three routing methods to demonstate which variables are recorded.
+The example presented in Figure~\ref{fig:local_buffer_hit_example} stores resets accumlated over ten seconds from both radiogenic backgrounds and a 3$\unit{GeV}~\nu_{e}$ event.
+The data shown are the total local FIFO transactions (writes) that occured in the ten second run.
+
+The figures shown in~\cref{fig:snake_example_neutrino,fig:left_example_neutrino,fig:trunk_example_neutrino} demonstrate how the data are accumlated onto the remote FIFO depths for the snake, left, and trunk routings respectivey.
+
+%% example local hits
+\begin{figure}[]
+\centering
+\includegraphics[width=0.5\textwidth]{images/left_asic_local.pdf}
+\caption{Example local FIFO distribution of a $\approx 3\unit{GeV}~\nu_{e}$ event.
+The numbers over each tile represent the total number of writes which occured to each local FIFO in the array.
+Even with the lowered resolution (each ASIC accounts for 16 pixels), different tracks are noticable based on the FIFO depths.
+The maximum scale for the heatmap is chosen to be 512 resets.
+}
+\end{figure}~\label{fig:local_buffer_hit_example}
+
+%% example local hits
+\begin{figure}[]
+\centering
+\includegraphics[width=0.5\textwidth]{images/asic_frequency.pdf}
+\caption{Distribution of ASIC frequencies used in the 8$\times$8 tile, and in the example FIFO buffer depths for this chapter.
+The numbers plotted above each ASIC row and column indicate the relative frequency of this ASIC compared to the nominal 30$\unit{MHz}$ mean.
+For example, a number of 112 indicates an ASIC which is 12\% faster than 30MHz, a frequency of $\approx 33.6 MHz$.}
+\end{figure}~\label{fig:asic_frequency_example}
+
+
+
+%% example local vs remote of sneak
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/snake_asic_trans.pdf}
+  \caption{Local FIFO Depths}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/snake_asic_remote.pdf}
+  \caption{Remote FIFO Depths}
+\end{subfigure}
+\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing. 
+The colorbar to highlight the maximum number of transactions is used to indicate remote transactions which were happening for 2\% of the total readout time of 10 seconds.
+The node which has the largest remote buffer depth corresponds to the ASIC with the slowest frequency as shown in Figure~\ref{fig:asic_frequency_example}.
+The reason for this excess of buffer depth is due to packet buildup on the slow ASIC.
+}
+\label{fig:snake_example_neutrino}
+\end{figure}
+
 
 %% example local vs remote of left
 \begin{figure}
@@ -257,7 +363,8 @@ The tile simulation is performed by injecting hits of some known sources which i
   \includegraphics[width=\textwidth]{images/left_asic_remote.pdf}
   \caption{Remote FIFO Depths}
 \end{subfigure}
-\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event after processing.}
+\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing.
+ The ASIC which has the largest remote buffer depth also coresponds to the ASIC with the lowest frequnecy as shown in Figure~\ref{fig:asic_frequency_example}.}
 \label{fig:left_example_neutrino}
 \end{figure}
 
@@ -274,14 +381,61 @@ The tile simulation is performed by injecting hits of some known sources which i
   \includegraphics[width=\textwidth]{images/trunk_asic_remote.pdf}
   \caption{Remote FIFO Depths}
 \end{subfigure}
-\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event after processing.}
+\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing.
+The ASIC which has the largest packet buildup occurs at (4,1).
+This ASIC also corresponds to the ASIC which has the lowest frequency along the trunk column as shown in Figure~\ref{fig:asic_frequency_example}.
+}
 \label{fig:trunk_example_neutrino}
 \end{figure}
 
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|| p{30mm} | p{45mm} | p{45mm} | p{30mm} ||}
+ \hline
+ Routing & Local Max & Remote Maximum & Ratio of Remote:Local \\ [0.5ex]
+ \hline\hline
+  Snake & 153 & 208 & 1.36 \\
+ \hline
+  Left & 153 & 312 & 2.04 \\
+ \hline
+  Trunk & 153 & 306 & 2.00 \\
+ \hline
+ \hline
+\end{tabular}
+\caption{Example results obtained from the three simulation examples for the pull architectures shown in the previous figures.
+The value of interest in determining the required remote FIFO depths for each ASIC is the maximum depth that occured on any node.
+A memory optimized routing configuration is one that would introduce the least strain on the remote buffer depths for a given local buffer depth input.
+}
+\end{center}
+\end{table}
+~\label{table:example_analysis}
+
+The following figures demonstrate why it is important to design all ASICs within a tile to meet the same specifications.
+Future Q-Pix ASICs within a tile will be exposed to events of these energy scales, and there is no guaruntee (until the ASIC is in hand) what the frequency of its oscillator will be, or its location within a tile. 
+In all three routing examples shown it was not the base node which experienced the most strain on its buffer depth, but the ASIC along the route path which had the lowest.
+
+
 \subsection{The Push Architecture}
+
+The final simulated parameter to describe is the push architecture.
+Since the push architecture allows individual nodes to determine when packets can be sent all nodes must be inspected at each timestep to check if a reset occurs before this new time window.
+If a reset occurs at a time before the next simulation timestep, then the reset is removed from this node's hit list and is written to the node's local FIFO.
+The node will then see at this simulation timestep that the local FIFO is not empty, and leave its idle state to send this packet.
+An example of this process is shown in figure~\ref{fig:push_arch_verification}.
+
+Every simulated time step is shown and recorded along the x-axis.
+The distance in time between simulation steps increases during packet transfers since the nodes state is fully determined during this time.
+This simplification is performed to speed up simulation run time.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/push_arch_buff.pdf}
-\caption{A simulated push Architecture with injected hits.}
+\caption{A simulated push architecture with 20 injected hits at different times.
+Before the simulation is run a node has its hits injected into a storage (orange) list.
+Then, at each simulation time step ($\tau_{step}=1\unit{\mu s}$) the list is examined to see if a new hit will be written.
+When a hit is found, the simulation can move foward in time to when this packet will be completed in time, while all other writes can occur to the local FIFO.
+This is why the first local FIFO increases at first by one, and then moves to nine. It has sent the first of the 10 packets, and records nine.
+This example correctly shows a maximum local FIFO depth of nine.
+}
 \end{figure}~\label{fig:push_arch_verification}
