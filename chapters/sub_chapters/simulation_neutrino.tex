@@ -20,10 +20,11 @@ It would be a straight foward matter to calculate the charge per reset: $Q_{o} =
 
 Then, to analyze the ability for an auto-calibration procedure for Q-Pix it is important to analyze and understand the long-running charge accumulation (resets) from backgrounds present in the LAr.
 We use the following list of radiogenic sources of 10 separate iterations of runs of 1000 seconds.
+Further details on radiogenic backgrounds can be found at~\citep{DUNE-FD_TDRv4:Abi_2020, ar39_backgrounds, phd_backgrounds}
 
 \begin{table}
 \begin{centering}
-\begin{tabular}{|c c c c c c|}
+\begin{tabular}{|p{15mm} p{15mm} p{20mm} p{20mm} p{20mm} p{35mm} |}
  \hline
  Isotope & Rate [Bq/kg] & Region & Region Mass [kg] & Rate [Bq] & Number of Decays (per 10 s window) \\ [0.5ex]
  \hline\hline
@@ -73,9 +74,17 @@ The majority of the uneven distribution of resets occur at the location of the A
 }
 \end{figure}~\label{fig:background_simulation}
 
-Additional information is tracked for each reset to identify the contribution from each radiogenic background to each reset.
+Additional information is tracked for each reset to identify the contribution of each radiogenic background for each reset.
 A reset occurs when 6250 $e^{-}$ have accumulated on a pixel.
+The time recorded for the reset is the same as the time the simulation calculates the 6250 electron arriving at the designated pixel region.
+This is an optimization I added to the existing simulation framework for these resets.
+
+In practice, the analog front-end reset circuit obviously needs time to respond to added charge and to issue a replenishment and reset commands.
+There will always be some delay between the final electron's arrival and the time of the analog reset.
+However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the average local oscillator of the digital backend. 
+
 Any combination of the backgrounds can contribute some or all of the electrons required to produce a reset.
+The contribution of the total resets for each of the radiogenic sources are shown in Figure~\ref{fig:pixel_track_id}.
 We refer to the contribution of the number of the electrons to the reset as the "weight" of the reset.
 A distribution of all of the weights for all resets are shown in Figure~\ref{fig:pixel_truth_weight}.
 
@@ -90,57 +99,47 @@ The largest contribution, as expected, comes from the $^{39}$Ar source.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/pixel_reset_truth_weight.pdf}
-\caption{Truth weight of the individual resets for all combined resets in a 1000 s APA run.}
+\caption{Truth weight of the individual resets for all combined resets in a 1000 s APA run. 
+Two two largest bins correspond to either a small contribution of electrons (< 10) or instances where enough energy from a single event to cause a reset by itself (6250).
+}
 \end{figure}~\label{fig:pixel_truth_weight}
-
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/localHitsRadiogenic.pdf}
-\caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current.}
+\caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current. 
+This figure shows the total resets in the 10 second window for the 16$\times$16 tile array.
+The other tile size configurations (4$\times$4, 8$\times$8, 10$\times$14) also use these reset data for background noise.
+All of the tiles start with the top left node as their base node.
+}
 \end{figure}~\label{fig:reference_input_noise}
 
+The ability to perform a charge auto-calibration using radiogenic events depends on the background to provide a reliable average input current source.
+
+
 %% example RTD for a 16x16 tile
-\begin{figure}
+\begin{figure}[]
 \centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale.pdf}
-  \caption{4096 Pixel Resets in log scale of time.}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
-  \caption{Flattend histogram against time}
-\end{subfigure}
+\includegraphics[width=\textwidth]{images/radiogenicRTDtimescale.pdf}
 \caption{all 4096 pixels in a 16$\times$16 tile for 1000 seconds of radiogenic data. 
+The y-axis represents a different pixel, and the x-axis is a log-scale time axis with even bin widths.
+There is a large cluster of resets which occur for all pixels at $\approx$ 10 seconds.
+The ability to perform a charge calibration per pixel may depend on accurately resolving the mean for this "long period" RTD.
+ }
+\end{figure} ~\label{fig:radiogenic_rtd_timescales}
+
+%% time bin of 16x16 tile resets
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
+\caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
 There are two clusters of resets on two different time scales.
 The first cluster of resets near at $\tau_{rtd} \simeq \mathcal{O}(10^{-7})$ is due to events which produce more than one reset.
 The second cluster of resets near at $\tau_{rtd} \simeq \mathcal{O}(10^{1})$ are from a "waiting" period where there is no charge buildup from decays and only background noise.
 The dominant source of electrons on each pixel is from the $^{39}$Ar.
 }
-~\label{fig:radiogenic_rtd_timescales}
-\end{figure}
+\end{figure}~\label{fig:radiogenic_rtd_timescales_comparing_no_noise}
 
-\begin{figure}
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_1d.pdf}
-  \caption{4096 Pixel Resets in log scale of time.}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
-  \caption{Flattend histogram against time}
-\end{subfigure}
-\caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
-There are two clusters of resets on two different time scales.}
-~\label{fig:radiogenic_rtd_timescales_comparing_no_noise}
-\end{figure}
-
-sources of backgrounds are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}
-Radiological Backgrounds~\citep{ar39_backgrounds, phd_backgrounds}
 
 %% list of sources here
 %%
@@ -188,15 +187,15 @@ The parameters used to vary the tiles for these neutrino input energies are show
  \hline
  Name & Values & Relation \\ [0.5ex]
  \hline\hline
-  Neutrino Energy & 0.25~GeV to 10~GeV, in steps of 0.25GeV & neutrino energy determines output secondary energy, which causes more resents and directly affects buffer depths. \\
+  $\nu_{l}$ Energy & 0.25~GeV to 10~GeV, in steps of 0.25GeV & neutrino energy determines output secondary energy, which causes more resents and directly affects buffer depths. \\
  \hline
-  Neutrino Type & $\nu_{e}$, $\bar{\nu_{e}}$, $\nu_{\mu}$, $\bar{\nu_{\mu}}$ & Oscillation measurements require a measurement of electron flavor neutrino appearance, and muon disappearance.\\
+  $\nu_{l}$ Flavor & $\nu_{e}$, $\bar{\nu_{e}}$, $\nu_{\mu}$, $\bar{\nu_{\mu}}$ & Oscillation measurements require a measurement of electron flavor neutrino appearance, and muon disappearance.\\
  \hline
-  Horn Current & Forward and Reverse & Beam horn current selection affects which neutrino is present. \\
+  Horn Current & Forward and Reverse & Beam horn current direction affects neutrino flux, as shown in Figure~\ref{fig:neutrino_flux}. \\
  \hline
-  Z-position & 10\unit{cm}, 80\unit{cm}, 180\unit{cm}, 280\unit{cm}, 350\unit{cm}  & Interaction z-position above the anode plane. \\
+  Z-position & 10\unit{cm}, 80\unit{cm}, 180\unit{cm}, 280\unit{cm}, 350\unit{cm}  & Interaction z-position above the anode plane. Interactions which happen further from the collection plane have more time to diffuse or recombine. \\
  \hline
-  Momentum Angle & 0\unit{\degree}, $\pm$2\unit{\degree}, $\pm$90\unit{\degree} & Different momentum angles are different Z-positions give larger track lengths within the active volume. \\
+  Momentum Angle & 0\unit{\degree}, $\pm$2\unit{\degree}, $\pm$90\unit{\degree} & Different momentum angles are different Z-positions, in general, direct ionized particle tracks within the active volume. \\
  \hline
 \end{tabular}
 \caption{The different neutrino simulation parameters which are passed into Geant4 based simulation.
