@@ -199,9 +199,20 @@ This implies that leakage currents from the front circuit which are $\approx 100
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neutrino Beam High Energy Studies}~\label{sec:neutrino_studies}
 
-Here we discuss the verification of the digital framework within the high energy regime.
-For this we use as an input source neutrino events from the Long-Baseline Neutrino Facillity(~\citep{dune_cdr_2016_arxiv}) and take the unoscillated flux of neutrinos which were used in~\citep{dune_2021_near_detector_cdr}.
+Here we discuss the implementation of the digital framework within the high energy regime.
+For this we use as an input neutrino events from the Long-Baseline Neutrino Facillity (LBNF)~\citep{dune_cdr_2016_arxiv} and take the unoscillated flux of neutrinos which were used in~\citep{dune_2021_near_detector_cdr}.
 These neutrino flux are simulated using GENIE~\citep{Andreopoulos:2009rq}, v2.12.10.
+The interaction distributions for both the forward and reverse horn current directions are shown in Figure~\ref{fig:neutrino_interaction_flux}.
+
+We do not perform any calculation involving the oscillation on the input neutrino flux.
+The reason for this is that the digital backend should be able to fully record data from all possible $\nu_{l}$ events regardless of interaction type, not only the intended $\nu_{e}$ appearance spectra.
+It is equally important for a future readout to be able to correctly tag noise ($\nu_{\mu}$, or $\nu_{e}$ from the beam, etc.).
+For example, sensitivity to mass ordering and CP violation rely on the abiility to measure $\nu_{\mu}$ disappearance in addition to the $\nu_{e}$ appearance.
+
+What will be shown in the upcomming sections is that capability of the digital backend depends on the energy deposited in the volume of the LAr.
+By the virtue that oscillations change only the flavor (not the energy) of the $\nu$, the constraints of the backend do not depend on if more (or less) $\nu_{e}$ are measured compared to $\bar{\nu_{e}}$, provided the backend is capable of fully measuring both events.
+Furthermore, by using the unoscillated flux of the neutrinos at the near detector, the neutrinos will be of necessarily higher energy than the expected flux at the far detector.
+The use of high energy helps in establishing what we will show as the upper-bound for the required local and remote FIFO depths for each ASIC.
 
 \begin{figure}[]
 \centering
@@ -210,7 +221,6 @@ These neutrino flux are simulated using GENIE~\citep{Andreopoulos:2009rq}, v2.12
 Highlighted in blue is the reconstructed energy range of neutrinos that are used to seed the interaction with the APA LAr's volume.}
 \end{figure}~\label{fig:neutrino_flux}
 
-%% TODO - Citation of the beam here
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_cdr_2021_neutrino_flux.pdf}
@@ -221,12 +231,25 @@ The left image is for the reverse horn current.
 Both images assume an average exposure rate of 1.2 MW from LBNF beam.}
 \end{figure}~\label{fig:neutrino_interaction_flux}
 
-%% DUNE-FD TDR specification citation here
-The DUNE-FD Vol.2 TDR~\citep{DUNE_FD_TDRv2_2020} describes in detail the design requirements for a future single-phase module.
 
 \subsection{Neutrino Event Parameters}
 
+Table~\ref{table:neutrino_params} describes the parameters of each input for the simulation.
 The parameters used to vary the tiles for these neutrino input energies are shown on Table~\ref{table:tile_params}.
+
+The Q-Pix readout presented here is designed for use in a LArTPC at the scale of DUNE-FD 10kT module~\ref{sec:dune}.
+In order to test what kinds of requirements this readout will need we use high energy neutrino interactions as discussed in Section~\ref{sec:neutrino_studies}.
+The different selection parameters for each event are neutrino flavor, neutrino energy, horn current direction, Z-position vertex position, and source neutrino momentum direction ($\theta_{z})$.
+We define the beam direction (the direction parallel to the surface of the APA) as $\theta_{z} = 0$.
+The X and Y positions are held constant for all interactions, at X = 120\unit{cm} and Y = 3200 \unit{cm}.
+The coordinate system we use, as well as a slice of the APA within a module are shown in Figure~\ref{}.
+
+The LBNF beam is not the only source of high energy particles.
+Other high energy ($\simeq 10$\unit{GeV}) interactions may come from other sources.
+These other high energy events (such as nucleon decay, cosmic neutrinos) may also deposit energy on \unit{GeV} scales per interaction.
+These sources may interact with their net momentum vector pointing in any direction.
+For this reason we also test $\nu_{e}$ and $\nu_{\mu}$ interactions at $\theta_{z} \pm$ 90\unit{\degree}; this direction causes the secondary ionizing particles to carry momentum along the direction parallel to the pixel's surface normal.
+These two momentum directions, though unphysical for beam interactions, still present possible interactions types within the scope of DUNE's propossed physics program~\citep{DUNE_TDRv3_Abi_2020}.
 
 \begin{table}
 \begin{center}
@@ -234,11 +257,11 @@ The parameters used to vary the tiles for these neutrino input energies are show
  \hline
  Name & Values & Relation \\ [0.5ex]
  \hline\hline
+  $\nu_{l}$ & $\nu_{e}$, $\bar{\nu_{e}}$, $\nu_{\mu}$, $\bar{\nu_{\mu}}$ & Oscillation measurements require sensitivity to measurements for both $\nu_{e}$ appearance, and $\nu_{\mu}$ disappearance.\\
+ \hline
   $\nu_{l}$ Energy & 0.25~GeV to 10~GeV, in steps of 0.25GeV & neutrino energy determines output secondary energy, which causes more resents and directly affects buffer depths. \\
  \hline
-  $\nu_{l}$ Flavor & $\nu_{e}$, $\bar{\nu_{e}}$, $\nu_{\mu}$, $\bar{\nu_{\mu}}$ & Oscillation measurements require a measurement of electron flavor neutrino appearance, and muon disappearance.\\
- \hline
-  Horn Current & Forward and Reverse & Beam horn current direction affects neutrino flux, as shown in Figure~\ref{fig:neutrino_flux}. \\
+  Horn Current & Forward and Reverse & Beam horn current direction affects neutrino flux, as shown in Figure~\ref{fig:neutrino_flux}. Additionally, mass heirarchy measurements (according to the MSW effect~\citep{Smirnov2004TheME}) require difference in measurements of appearance probability for $\nu_{e}$ and $\bar{\nu_{e}}$. \\
  \hline
   Z-position & 10\unit{cm}, 80\unit{cm}, 180\unit{cm}, 280\unit{cm}, 350\unit{cm}  & Interaction z-position above the anode plane. Interactions which happen further from the collection plane have more time to diffuse or recombine. \\
  \hline
@@ -246,8 +269,11 @@ The parameters used to vary the tiles for these neutrino input energies are show
  \hline
 \end{tabular}
 \caption{The different neutrino simulation parameters which are passed into Geant4 based simulation.
-  The original interaction products are created using GENIE~\citep{Andreopoulos:2009rq}.
+  The original interaction products are generated using GENIE~\citep{Andreopoulos:2009rq} v2.12.10.
   The output products from this generator are then configured using the different parameters described above.
+  We select $\nu_{l}$ events for different energies in bin-widths of 250 MeV; We follow the same bin width as is done in~\citep{DUNE_FD_TDRv2_2020} for their neutrino oscillation analysis.
+  A selection of 100 events for each $\nu_{l}$ is taken within each energy bin, for a total of 3900 $\nu_{l}$ events for each horn current direction, z-position, and $\theta_{z}$ selection.
+  Since there are two current directions, four $\nu_{l}$, five z-positions, and five $\theta_{z}$ positions, a total of 780,000 neutrino events are simulated.
 }
 \end{center}
 \end{table}
@@ -271,7 +297,10 @@ The parameters used to vary the tiles for these neutrino input energies are show
 \end{subfigure}
 \caption{Same $\nu_{e}$ interaction at Z-position $= 180 cm$, which is in the middle of the drift length of the APA.
 Image (A) has the incident $\nu_{e}$ momentum rotated upwards ($\theta_{z} = +90$\unit{\degree}).
-Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\theta_{z} = 0$\unit{\degree})y.}
+Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\theta_{z} = 0$\unit{\degree})y.
+Since there are five different z-positions, and five different $\theta_{z}$ values, each of the 3900 $\nu_{l}$ interactions are repeated 25 times.
+These two plots show two of those 25 examples.
+}
 \label{fig:compare_integral}
 \end{figure}
  
@@ -281,14 +310,19 @@ Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\th
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/Const_Theta0_ASIC_stack_integral_pdg12_fhc.pdf}
-  \caption{Stack of ASIC local FIFO depths}
+  \caption{ASIC Local FIFO Depths}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/Const_Theta0_ASIC_integral_pdg12_fhc.pdf}
-  \caption{Remote FIFO Depths}
+  \caption{Integral of FIFO depths}
 \end{subfigure}
-\caption{Events for different beam directions for $\nu_{e}$ particle for different momentum directions.}
+\caption{Example $\nu_{e}$ events for different z-position of the vertex with $\theta_{z} = 0$ held constant.
+Plot (A) bins the maximum value of local FIFO depth for all 3900 events (energies between 250\unit{MeV} - 10\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
+Plot (B) shows the running integral for each histogram shown in plot (A).
+The integral continues until 99\% of all events are counted, or the integral reaches a value of 3861.
+This process is repeated for all 200 possible parameter choices as discussed in Table~\ref{table:neutrino_params}.
+}
 \label{fig:example_asic_integral_value_constTheta}
 \end{figure}
 
@@ -299,14 +333,17 @@ Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\th
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_stack_integral_pdg12_fhc.pdf}
-  \caption{Stack Of ASIC Buffer depths}
-\end{subfigure}%
+  \caption{ASIC Local FIFO Depths}
+\end{subfigure}
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_integral_pdg12_fhc.pdf}
-  \caption{Integral of ASIC local FIFO depths}
+  \caption{Integral of FIFO depths}
 \end{subfigure}
-\caption{Integral of the ASIC Buffers.}
+\caption{Example $\nu_{e}$ events for different $\theta_{z}$ with the vertex held constant with z-position = 180cm.
+This is a similar plot to Figure~\ref{fig:example_asic_integral_value_constTheta} with the exception that $\theta_{z}$ is varied and the z-position is held constant at z = 180\unit{cm}.
+A striking difference to note here is the run away effect of the large values of $\theta_{z}$.
+}
 \label{fig:example_asic_integral_value_constZpos}
 \end{figure}
 
@@ -323,7 +360,10 @@ Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\th
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_lepKE_multigraph_pdg12_fhc.pdf}
   \caption{Constant Z-Position: $Z = 180\unit{cm}$.}
 \end{subfigure}
-\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.}
+\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
+There is a large variance between the true $\nu_{l}$ incident energy and the actual energy deposited in the LAr.
+This is the reason why only the means are plotted for each energy bin.
+}
 \label{fig:example_asic_energy_comparison}
 \end{figure}
 
