@@ -3,10 +3,6 @@
 
 We now discuss the methodologies of the physical simulations used as input to the digital tile simulation described in the previous section.
 
-\subsection{Simulated Detector Properties}
-
-
-%%
 \subsection{Radiogenic Backgrounds as a Calibration Source}
 
 In this section we comment on the ability to, but do not perform, the auto-calibration of the reset loss per charge.
@@ -19,8 +15,8 @@ If a perfectly known and constant input current ($I_{o}$) source was input to a 
 It would be a straight foward matter to calculate the charge per reset: $Q_{o} = I_{o}*\tau_{rtd}$.
 
 Then, to analyze the ability for an auto-calibration procedure for Q-Pix it is important to analyze and understand the long-running charge accumulation (resets) from backgrounds present in the LAr.
-We use the following list of radiogenic sources of 10 separate iterations of runs of 1000 seconds.
-Further details on radiogenic backgrounds can be found at~\citep{DUNE-FD_TDRv4:Abi_2020, ar39_backgrounds, phd_backgrounds}
+We use the following list of radiogenic sources of 10 distinct runs of 1000 seconds each.
+Further details on radiogenic backgrounds in LAr can be found at~\citep{DUNE-FD_TDRv4:Abi_2020, ar39_backgrounds, phd_backgrounds}
 
 \begin{table}
 \begin{centering}
@@ -41,7 +37,11 @@ Further details on radiogenic backgrounds can be found at~\citep{DUNE-FD_TDRv4:A
  \hline
 \end{tabular}
 \caption{The radiogenic background distribution is the same as that found in previous work~\citep{qpix:shion}.
-For the 1000 s analysis the pre-rounded values are scaled up by a factor of 100 to achieve the correct normalization of events for each isotope.}
+For each 1000 ssecond analysis the pre-rounded values are scaled up by a factor of 100 to achieve the correct normalization of events for each isotope.
+A key difference between the backgrounds is the origin or source of each background.
+Of special note is $^{40}$K whose source location is the APA beams, and whose resets can be distinctly seen in Figure~\ref{fig:background_simulation} as the slightly more active (yellow) region of the APA.
+Due to this source alone, it is likely that precise auto-calibration for charges will likely have to account for the pixel location within the APA.
+}
 \end{centering}
 \end{table}
 ~\label{table:radiogenic_backgrounds}
@@ -51,19 +51,20 @@ We use the energy deposited along the track from each ionizing particle with the
 The resulting number of electrons are then unifromly deposited over the individual track.
 Then we calculate the probability of recombination for each electron following the "modified box" model~\citep{2013JInst...8P8005A}.
 
-The time and location of drift for each electron is calculated with an applied transverse and longitudinal diffusion with values taken from~\ref{tab:lar_prop}.
-The simulations for all particle interactions are run individually with randomly sampling some time interval within the 1000 second window.
+The time and location of drift for each electron is calculated with an applied transverse and longitudinal diffusion with values taken from Table~\ref{tab:lar_prop}.
+The simulations for all particle interactions are run individually with a uniform random sampling of the initial decay time interval within the 1000 second window.
 All of the hits are then sorted by increasing time, so that the first hits read are the hits which occur the earliest.
+Sorting the hits by time before accumulating charge ensures that the resets happen at the correct time.
 
 This simulation procudes $\mathcal{O}(10^{11})$ hit interactions which produce $\mathcal{O}(10^{14})$ electrons, which in turn produces $\mathcal{O}(10^{9})$ resets.
 To reduce the memory utilization of the simulation the electrons are accumulated on a hit-by-hit bases and are subdivided into a pre-determined 4$\times$4 cross-sectional area of the detector.
 Each cross-sectional area defines a pixel.
 The dimension of the LArTPC volume is 2.3$\unit{m}$ $\times$ 6.0$\unit{m}$ which divides into 575 pixels in the x-direction and 1500 pixels in the y-direction.
-There are then a total of 862500 pixels, which store location and reset information.
+There are then a total of 862,500 pixels, which store location and reset information.
 
 As an example, the total resets from 1000 seconds of the simulation are shown in Figure~\ref{fig:background_simulation}.
 The most active pixel receives $\approx 220$ resets during this simulation time.
-The bins for the histogram are at the pixel level, and represnt the 4$\times$4$\unit{mm^{2}}$ of each pixel.
+The bins for the histogram are at the pixel level, and represent the 4$\times$4$\unit{mm^{2}}$ of each pixel.
 
 \begin{figure}[]
 \centering
@@ -76,12 +77,14 @@ The majority of the uneven distribution of resets occur at the location of the A
 
 Additional information is tracked for each reset to identify the contribution of each radiogenic background for each reset.
 A reset occurs when 6250 $e^{-}$ have accumulated on a pixel.
-The time recorded for the reset is the same as the time the simulation calculates the 6250 electron arriving at the designated pixel region.
-This is an optimization I added to the existing simulation framework for these resets.
+The time recorded for the reset is the same as the time the simulation calculates the last of the required 6250 electrons to arrive at the designated pixel region.
+This optimization was added to the existing simulation framework for resets to separate the analog contribution to the timing uncertainty from the physical simulation.
 
 In practice, the analog front-end reset circuit obviously needs time to respond to added charge and to issue a replenishment and reset commands.
-There will always be some delay between the final electron's arrival and the time of the analog reset.
+There will always be some delay between the final electron's arrival, the time of the analog reset, the replenishment circuit, and the time recorded on the digital backend.
 However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the average local oscillator of the digital backend. 
+Therefore this analysis assumes the best timing measurement based on the digital backend.
+The time measurement is then limited only by the clock frequency of each local oscillator.
 
 Any combination of the backgrounds can contribute some or all of the electrons required to produce a reset.
 The contribution of the total resets for each of the radiogenic sources are shown in Figure~\ref{fig:pixel_track_id}.
@@ -93,6 +96,7 @@ A distribution of all of the weights for all resets are shown in Figure~\ref{fig
 \includegraphics[width=\textwidth]{images/pixel_reset_truth_track_id.pdf}
 \caption{The total number of electrons contributed to all of the resets shown in Figure~\ref{fig:background_simulation}. 
 The largest contribution, as expected, comes from the $^{39}$Ar source.
+The track id also corresponds to the total number of electrons, not resets, deposited by each source during the 1000 second run.
 }
 \end{figure}~\label{fig:pixel_track_id}
 
@@ -101,6 +105,7 @@ The largest contribution, as expected, comes from the $^{39}$Ar source.
 \includegraphics[width=\textwidth]{images/pixel_reset_truth_weight.pdf}
 \caption{Truth weight of the individual resets for all combined resets in a 1000 s APA run. 
 Two two largest bins correspond to either a small contribution of electrons (< 10) or instances where enough energy from a single event to cause a reset by itself (6250).
+The largest bin corresponds 6250, which means that the reset was produced by one source alone.
 }
 \end{figure}~\label{fig:pixel_truth_weight}
 
@@ -108,47 +113,86 @@ Two two largest bins correspond to either a small contribution of electrons (< 1
 \centering
 \includegraphics[width=\textwidth]{images/localHitsRadiogenic.pdf}
 \caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current. 
-This figure shows the total resets in the 10 second window for the 16$\times$16 tile array.
+This figure shows the total resets in the 10 second window for the 16$\times$16 tile.
 The other tile size configurations (4$\times$4, 8$\times$8, 10$\times$14) also use these reset data for background noise.
-All of the tiles start with the top left node as their base node.
+All of the tiles start with the top left node as their origin node.
 }
 \end{figure}~\label{fig:reference_input_noise}
-
-The ability to perform a charge auto-calibration using radiogenic events depends on the background to provide a reliable average input current source.
 
 
 %% example RTD for a 16x16 tile
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale.pdf}
-\caption{all 4096 pixels in a 16$\times$16 tile for 1000 seconds of radiogenic data. 
+\caption{All 4096 pixels in the 16$\times$16 tile for 1000 seconds of radiogenic data. 
 The y-axis represents a different pixel, and the x-axis is a log-scale time axis with even bin widths.
-There is a large cluster of resets which occur for all pixels at $\approx$ 10 seconds.
+There are to clusters of resets for different time intervals.
+The first large cluster of resets occurs at $\approx 10^{-7}$ seconds and is due to a single radiogenic decay event causing additional resets.
+The second large cluster of resets occurs at $\approx$ 10 seconds.
+This second cluster of resets is caused from the first reset of a new radiogenic decay event.
 The ability to perform a charge calibration per pixel may depend on accurately resolving the mean for this "long period" RTD.
  }
-\end{figure} ~\label{fig:radiogenic_rtd_timescales}
+\end{figure}~\label{fig:radiogenic_rtd_timescales}
 
 %% time bin of 16x16 tile resets
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/radiogenicRTDtimescale_stack_1d_noise.pdf}
-\caption{all 4096 pixels in a 16$\times$16 array for 1000 seconds of radiogenic data. 
+\caption{All 4096 pixels in the 16$\times$16 array for 1000 seconds of radiogenic data. 
+These data are the same as those shown in Figure~\ref{fig:radiogenic_rtd_timescales}, where all pixel RTDs are binned together.
 There are two clusters of resets on two different time scales.
 The first cluster of resets near at $\tau_{rtd} \simeq \mathcal{O}(10^{-7})$ is due to events which produce more than one reset.
 The second cluster of resets near at $\tau_{rtd} \simeq \mathcal{O}(10^{1})$ are from a "waiting" period where there is no charge buildup from decays and only background noise.
-The dominant source of electrons on each pixel is from the $^{39}$Ar.
+The dominant source of electrons on each pixel is from the $^{39}$Ar, with a non-zero contribution from leakage.
+The leakage current value used in this simulation is 10~\unit{aA}.
 }
 \end{figure}~\label{fig:radiogenic_rtd_timescales_comparing_no_noise}
 
+The ability to perform a charge auto-calibration using radiogenic events depends on the background to provide a reliable average input current source.
+We use only the data presented in Figure~\ref{fig:radiogenic_rtd_timescales} and calculate the mean time between resets for all pixels.
+For this simple calculation, we simply take the total number of pixels (4096) and divide by the total number of recorded resets (411152) and obtain and average RTD of 9.96 seconds.
 
-%% list of sources here
-%%
+A very rough expectation of background current is $I_o \approx$ 100\unit{aA}.
+We can then use the following equation to calculate:
+$$
+I_{o} = \frac{Q_{o}}{\tau_{rtd}}
+$$
 
-\subsection{Reset Distribution of Sources}
+solving for $Q_{o}$ with $\tau_{rtd} = 9.96$ and $I_{o} \approx 100$\unit{aA}, we obtain:
+$$
+Q_{o} \approx 100*10^{-18} * 9.96 / 1.6*10^{-19} \approx 6225
+$$
+
+More sophisticated analysis will be needed for pixel level charge calibration.
+The contrived derivation above assumes equal capacitance and replenishment on all pixels, which in practice is not necessarily true.
+Furthermore, additional tests can likely be done for each pixel by comparing the peak of the distributions as shown in Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise}.
+However, as shown in both Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise} and Figure~\ref{fig:compare_electron_contribution}, the contribution from noise is not negligable.
+Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awaits studies of both the leakage current and replenishment circuits of the analog frontend.
+
+\subsection{Reset Contribution of Sources}
 
 %% graphic for reset distribution from sources
-
 %% graphic for energy deposited by source
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/sim_electron_contribution_log.pdf}
+  \caption{Contribution of total electrons.}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/sim_electron_contribution_percent.pdf}
+  \caption{Contribution of electrons by percentage.}
+\end{subfigure}
+\caption{Both figures indicate a comparison of the amount of electrons deposited on all pixels in the tile shown in Figure~\ref{fig:reference_input_noise}.
+Plot (A) represents the total number of electrons on a log scale.
+As expcted, $^{39}$Ar contributes the majority of background charge.
+The leakage current used is 10\unit{aA}, and represents about 10\% of the total contribution of electrons.
+This implies that leakage currents from the front circuit which are $\approx 100$\unit{aA} will contribute nearly as much electrons to the steady-state RTDs as the radiogenic backgrounds.
+}
+\label{fig:compare_electron_contribution}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Part 2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,30 +200,33 @@ The dominant source of electrons on each pixel is from the $^{39}$Ar.
 \section{Neutrino Beam High Energy Studies}~\label{sec:neutrino_studies}
 
 Here we discuss the verification of the digital framework within the high energy regime.
-For this we use as an input source neutrino events from the FNAL accelerate
+For this we use as an input source neutrino events from the Long-Baseline Neutrino Facillity(~\citep{dune_cdr_2016_arxiv}) and take the unoscillated flux of neutrinos which were used in~\citep{dune_2021_near_detector_cdr}.
+These neutrino flux are simulated using GENIE~\citep{Andreopoulos:2009rq}, v2.12.10.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_flux_energy_range.pdf}
-\caption{Flux spectrum of neutrinos from the neutrino beam used in this study. This figure is taken from~\cite{electron_flux_image_2020}.}
+\caption{Flux spectrum of neutrinos from the neutrino beam used in this study. This figure is taken from~\cite{electron_flux_image_2020}. 
+Highlighted in blue is the reconstructed energy range of neutrinos that are used to seed the interaction with the APA LAr's volume.}
 \end{figure}~\label{fig:neutrino_flux}
 
 %% TODO - Citation of the beam here
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/dune_cdr_2021_neutrino_flux.pdf}
+\caption{Rate of CC neutrino interactions based on flavor as a functino of true neutrino energy.
+Figure is taken directly from~\citep{dune_2021_near_detector_cdr}.
+Right is shown the neutrino interaction distribution for the forward horn current.
+The left image is for the reverse horn current.
+Both images assume an average exposure rate of 1.2 MW from LBNF beam.}
+\end{figure}~\label{fig:neutrino_interaction_flux}
 
 %% DUNE-FD TDR specification citation here
 The DUNE-FD Vol.2 TDR~\citep{DUNE_FD_TDRv2_2020} describes in detail the design requirements for a future single-phase module.
 
-
-%% fig example neutrino event
-
-%% fig example neutrino pixelated event
-
-%%
-
 \subsection{Neutrino Event Parameters}
 
 The parameters used to vary the tiles for these neutrino input energies are shown on Table~\ref{table:tile_params}.
-
 
 \begin{table}
 \begin{center}
@@ -195,7 +242,7 @@ The parameters used to vary the tiles for these neutrino input energies are show
  \hline
   Z-position & 10\unit{cm}, 80\unit{cm}, 180\unit{cm}, 280\unit{cm}, 350\unit{cm}  & Interaction z-position above the anode plane. Interactions which happen further from the collection plane have more time to diffuse or recombine. \\
  \hline
-  Momentum Angle & 0\unit{\degree}, $\pm$2\unit{\degree}, $\pm$90\unit{\degree} & Different momentum angles are different Z-positions, in general, direct ionized particle tracks within the active volume. \\
+  $\theta_{z} $ & 0\unit{\degree}, $\pm$2\unit{\degree}, $\pm$90\unit{\degree} & Different momentum angles are different Z-positions, in general, direct ionized particle tracks within the active volume. \\
  \hline
 \end{tabular}
 \caption{The different neutrino simulation parameters which are passed into Geant4 based simulation.
@@ -208,25 +255,24 @@ The parameters used to vary the tiles for these neutrino input energies are show
 
 \subsection{Neutrino Event Results}
 
-% lego plot of all of the events
-
-% image example th2i of a single event in the full APA
-
+%% fig example neutrino event
 % image example of a full event with rotations
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/example_zdir_scatter.pdf}
-  \caption{Comparison of all integrals to current prototype depths.}
+  \caption{$\theta_{z} = +90$\unit{\degree}}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/example_xdir_scatter.pdf}
-  \caption{Event Rotated about X-direction, or beam direction.}
+  \caption{$\theta_{z} = 0$\unit{\degree}}
 \end{subfigure}
-\caption{Same $\nu_{e}$ event in the middle direction of the APA but rotated upwards ($\theta_{z} = +90\deg$) and in the beam direction ($\theta_{z} = +0\deg$), respectively.}
-\label{fig:compare_integral_nolabel}
+\caption{Same $\nu_{e}$ interaction at Z-position $= 180 cm$, which is in the middle of the drift length of the APA.
+Image (A) has the incident $\nu_{e}$ momentum rotated upwards ($\theta_{z} = +90$\unit{\degree}).
+Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\theta_{z} = 0$\unit{\degree})y.}
+\label{fig:compare_integral}
 \end{figure}
  
 %% example integral of ASIC buffer depths with constant theta

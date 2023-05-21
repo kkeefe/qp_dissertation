@@ -1,28 +1,34 @@
 \section{The Tile Simulation Framework}
 
 The previous chapter introduced the digital backend as well as discussed different design choices, namely tile size, routing configurations, and the effects of the aggregator position.
-Here we describe how we simulate events of interested for these different tile configurations.
+Here we describe how we simulate events of interest for these different configurations.
 
 A successful design is able to record and send loss-less data for all events of interest.
 In a DUNE-FD LArTPC these sources range in intensity from sub-MeV-scale radiogenic backgrounds native to the LAr to 10's of GeV scale of beam neutrinos or atmospheric neutrinos.
 We consider the back-end design to be successful if and only if it provides the ability to fully capture and tramsit of all colletected resets from these sources.
+
+We note that while it may be shown in the future that some resets may in fact not be needed for a reconstruction of particular events, we still assert that since Q-Pix is a novel readout, it is not yet possible to claim all scientific goals for which it may be used.
+For this reason we demand that no data be lost for any reason due to the digital backend design.
 
 \subsection{The Tile Representation}
 
 We model a tile (a group of digital nodes, or ASICs) based on the description given in Chapter~\ref{chap:qdb}.
 A tile is then represented in software (Python 3) as a linked list of nodes which store pointers to the adjacent nodes or neighbors.
 
+We note a distinction between the nomenclature used here. 
+The term "node" refers to the simulated backend ASIC whereas our use of "ASIC" refers to the first digital prototype.
+
 Every node in the tile holds two FIFO objects which store local and remote data. 
 The local and remote FIFOs keep track of the total number of resets or packet transactions, respectively.
 If a node records a new reset the local FIFO is then written to, and the local FIFO transaction counter increases.
-Similarly, the remote FIFO's transaction count is increased anytime the a write occurs on this FIFO, which happens everytime a digital node receives a packet from a neighbor node, including the aggregator node.
+Similarly, the remote FIFO's transaction count is increased when a write occurs on this FIFO, which happens every time a digital node receives a packet from a neighbor node, including the aggregator node.
 
-In the current implementation all packets, with the exception of broadcasts, sent between neighbor nodes are initially written on the remote FIFO.
+In the current Q-Pix digital ASIC design all packets, with the exception of broadcasts, sent between neighbor nodes are written on the remote FIFO.
 At the beginning of a simulation step each node first checks to see if its received an interrogation request.
 If the node has received a soft interrogation request, and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
 If the node receives a hard interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
 If the node's local FIFO is emtpy, and it has not received an interrogation, it will check the empty status of the remote FIFO.
-If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly.
+If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state.
 
 %% example local vs remote of snake
 \begin{figure}
@@ -30,16 +36,17 @@ If the remote FIFO is not empty, this packet will be read and transmitted to its
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/asic_FIFO_image.pdf}
-  \caption{Individual node object stores a local FIFO and a remote FIFO object.}
+  \caption{Individual node with local and remote FIFOs.}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/asic_tile_FIFO_image.pdf}
-  \caption{Tile of node objects, each which have a local and remote FIFO.}
+  \caption{Tile of node objects.}
 \end{subfigure}
-\caption{Composition of  4$\times$4 tile. Each node in the tile represents a digital ASIC which stores two FIFOs.
+\caption{Composition of an example 4$\times$4 tile.
+Each node in the tile represents a digital ASIC which stores two FIFOs.
 One FIFO is used to store timestamps from reset data, which we refer to as the local FIFO.
-The other FIFO (remote) is used to store all packet words which come from neighbor nodes.
+The other FIFO we call the remote FIFO and is used to store all packet transactions from neighbor nodes.
 Since the local FIFO needs to store only the 32-bit timestamp and the channels responsible for the reset it is 48 bits wide.
 The remote FIFO is 60 bits wide, since it must store all relevant bits for the 64 bit packet word, where there are 4 unused bits.
 }
@@ -83,7 +90,7 @@ Here we briefly describe the simulation procedure and how the results are obtain
 The simulation loop iteratively processes a single transaction from a queue of transactions and then processes all nodes in the tile at incremental timestamps.
 The timesteps used in the simulation results used here are steps 1$\unit{\mu s}$.
 It is not necessary to perform smaller time steps than this, as packet transactions themselves are on the order of $\approx 50 \unit{\mu s}$, based on the endeavor protocol.
-If any processed nodes generate new transactions those transactions are added to the transaction queue.
+If any processed node generates a new transaction(s) this transaction(s) is added to the transaction queue.
 
 A transaction represents a 64-bit packet that is transfered between two nodes.
 The sending node is reponsible for calculating the true time when this transaction would complete.
@@ -147,7 +154,12 @@ In practice it is all but certain that implemented routing for a digital tile wi
 The reason for this is simply that is likely that some digital nodes will fail (for whatever reason) in the life time of a DUNE-FD 10 kT module.
 Therefore, future tiles that contain hybrid routing we suggest to those users to individually analyze the sub tiles with appropriating routing and frequency distribution and determine if the buffer depths are appropriate.
 
-\subsection{Oscillator Drift}
+\subsection{Oscillator Frequency and Drift}
+
+Two different oscilaltor frequnecies are tested, as shown in Table~\ref{table:tile_params}.
+These different frequency variances indicate mean differences in oscillator frequency between adjacent nodes.
+An example of the 5\% oscillator variance is shown in Figure~\ref{fig:asic_frequency_example}.
+The values plotted in this figure indicate relative factors above or below the expected 30\unit{MHz} mean.
 
 Local oscillator drift was not included as a testing parameter since transactions occur over small time scales compared to any likely meaningful oscillator drift.
 If these drifts occur on time scales much longer than the interrogation time than the oscillator, the frequency could be continually re-calculated with the method shown in the previous chapter.
@@ -155,6 +167,14 @@ If these drifts are perodic about a mean frequency and on time scales much small
 In the event that clock drift timescales are on the interrogation timescale ($\approx 1\unit{s}$), then this is equivalent to a frequency uncertainty for the entire transaction cycle.
 This would mean that an oscillator has a $\approx 5\%$ uncertainty in its frequnecy on each interrogation.
 Such a node would not be able to reconstruct timestamps, and therefore not be able to reconstruct the z-position of charge with the required 1$\unit{ppm}$ estimated uncertainty for Q-Pix clocks~\citep{qpix:nygren:mei}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=0.5\textwidth]{images/asic_frequency.pdf}
+\caption{Distribution of ASIC frequencies used in the 8$\times$8 tile, and in the example FIFO buffer depths for this chapter.
+The numbers plotted above each ASIC row and column indicate the relative frequency of this ASIC compared to the nominal 30$\unit{MHz}$ mean.
+For example, a number of 112 indicates an ASIC which is 12\% faster than 30MHz, a frequency of $\approx 33.6 MHz$.}
+\end{figure}~\label{fig:asic_frequency_example}
 
 \section{Simulating The Tile Readout}~\label{sec:simulating_tile}
 
@@ -177,6 +197,7 @@ N_{packets} \approx  20000
 $$
 
 Since the simulation is run six seconds longer than the origin time of the neutrino events all reset events are be accounted for if neutrino events cause less than $\approx 120000$ resets.
+There are no simulated neutrino events which create these number of resets since this would require an energy of $\approx$ 15\unit{GeV} deposited into the LAr.
 
 The configuration of each node and the tile happens before the beginning of the simulation.
 The frequency and the routing directions are configured for each node during its creation.
@@ -184,9 +205,9 @@ The frequency and the routing directions are configured for each node during its
 \subsection{Simulation Timing}
 
 The purpose of the simulation is the examine the communication behavior of digital nodes at different frequencies which communicate via packets of variable time width.
-For this reason, special care is taken to ensure that the timing of packet transactions in the simulation are accurate.
+For this reason special care is taken to ensure that the timing of packet transactions in the simulation are accurate.
 The behavior of each node is determined by its state machine properties, as described in Fig.~\ref{fig:digital_fsm}.
-Therefore, an accurate representation of timing of each node is equivalent to ensuring that timing of ASIC state transactions are accurate.
+Therefore, an accurate measure of timing for each node is equivalent to ensuring that timing of ASIC state transitions are accurate.
 
 %% example snake route
 \begin{figure}[]
@@ -236,7 +257,7 @@ This demonstrated by the amount of time ASICs are in the transmit remote state s
 \end{subfigure}
 \caption{A snake packet transaction example is shown. The broadcast is received by the further node (2,2) and 10 data words are sent, followed by a event end word.
 Each packet tranverses through all nodes in the tile where remote packets are sent immediately.}
-\label{fig:snake_packet_drift}
+\label{fig:snake_timer}
 \end{figure}
 
 %% example left route
@@ -316,16 +337,6 @@ Even with the lowered resolution (each ASIC accounts for 16 pixels), different t
 The maximum scale for the heatmap is chosen to be 512 resets.
 }
 \end{figure}~\label{fig:local_buffer_hit_example}
-
-%% example local hits
-\begin{figure}[]
-\centering
-\includegraphics[width=0.5\textwidth]{images/asic_frequency.pdf}
-\caption{Distribution of ASIC frequencies used in the 8$\times$8 tile, and in the example FIFO buffer depths for this chapter.
-The numbers plotted above each ASIC row and column indicate the relative frequency of this ASIC compared to the nominal 30$\unit{MHz}$ mean.
-For example, a number of 112 indicates an ASIC which is 12\% faster than 30MHz, a frequency of $\approx 33.6 MHz$.}
-\end{figure}~\label{fig:asic_frequency_example}
-
 
 
 %% example local vs remote of sneak
@@ -412,8 +423,8 @@ A memory optimized routing configuration is one that would introduce the least s
 ~\label{table:example_analysis}
 
 The following figures demonstrate why it is important to design all ASICs within a tile to meet the same specifications.
-Future Q-Pix ASICs within a tile will be exposed to events of these energy scales, and there is no guaruntee (until the ASIC is in hand) what the frequency of its oscillator will be, or its location within a tile. 
-In all three routing examples shown it was not the base node which experienced the most strain on its buffer depth, but the ASIC along the route path which had the lowest.
+Future Q-Pix ASICs within a tile will be exposed to events at or above these energy scales, and there is no guaruntee (until the ASIC is in hand) what the frequency of its oscillator will be, or its location within a tile. 
+In all three routing examples shown it was not the base node which experienced the most strain on its buffer depth, but the ASIC along the route path which had the lowest frequnecy.
 
 
 \subsection{The Push Architecture}
@@ -432,10 +443,12 @@ This simplification is performed to speed up simulation run time.
 \centering
 \includegraphics[width=\textwidth]{images/push_arch_buff.pdf}
 \caption{A simulated push architecture with 20 injected hits at different times.
+The time of the injected reset is indicated by the green points.
 Before the simulation is run a node has its hits injected into a storage (orange) list.
 Then, at each simulation time step ($\tau_{step}=1\unit{\mu s}$) the list is examined to see if a new hit will be written.
-When a hit is found, the simulation can move foward in time to when this packet will be completed in time, while all other writes can occur to the local FIFO.
-This is why the first local FIFO increases at first by one, and then moves to nine. It has sent the first of the 10 packets, and records nine.
+When a hit is found the relative time of the node can move foward in time to when this packet will be completed in time, while all other writes can occur to the local FIFO.
+This is why the first local FIFO depth increases initially by one despite 10 nearly adjacent injected hits.
+On the next time step, the depth then moves to nine; the simiulation has sent the first of the 10 packets, and records nine.
 This example correctly shows a maximum local FIFO depth of nine.
 }
 \end{figure}~\label{fig:push_arch_verification}
