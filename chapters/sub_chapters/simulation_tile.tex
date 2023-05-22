@@ -156,7 +156,7 @@ Therefore, future tiles that contain hybrid routing we suggest to those users to
 
 \subsection{Oscillator Frequency and Drift}
 
-Two different oscilaltor frequnecies are tested, as shown in Table~\ref{table:tile_params}.
+Two different oscillator frequnecies are tested, as shown in Table~\ref{table:tile_params}.
 These different frequency variances indicate mean differences in oscillator frequency between adjacent nodes.
 An example of the 5\% oscillator variance is shown in Figure~\ref{fig:asic_frequency_example}.
 The values plotted in this figure indicate relative factors above or below the expected 30\unit{MHz} mean.
@@ -188,12 +188,12 @@ However, the number of resets from the radiogenic events are much smaller (by ab
 
 The full readout of the tile occurs based on the number of packets times the average transaction length.
 $$
-T_{readout} \approx 50 \mu s \times N_{packets}
+T_{readout} \approx 50 \mu s \times N_{max packets}
 $$
 
 If we set $T_{readout}$ to 1 second:
 $$
-N_{packets} \approx  20000
+N_{max packets} \approx  20000
 $$
 
 Since the simulation is run six seconds longer than the origin time of the neutrino events all reset events are be accounted for if neutrino events cause less than $\approx 120000$ resets.

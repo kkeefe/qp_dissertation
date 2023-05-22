@@ -164,9 +164,10 @@ Q_{o} \approx 100*10^{-18} * 9.96 / 1.6*10^{-19} \approx 6225
 $$
 
 More sophisticated analysis will be needed for pixel level charge calibration.
-The contrived derivation above assumes equal capacitance and replenishment on all pixels, which in practice is not necessarily true.
+The contrived derivation above assumes equal capacitance and charge replenishment on all pixels, which in practice is not necessarily true.
 Furthermore, additional tests can likely be done for each pixel by comparing the peak of the distributions as shown in Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise}.
-However, as shown in both Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise} and Figure~\ref{fig:compare_electron_contribution}, the contribution from noise is not negligable.
+Such an analysis is not appropriate yet since it is not yet known what the leakage current will be in the Q-Pix ASIC.
+As shown in both Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise} and Figure~\ref{fig:compare_electron_contribution}, the contribution from noise is not negligable.
 Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awaits studies of both the leakage current and replenishment circuits of the analog frontend.
 
 \subsection{Reset Contribution of Sources}
@@ -306,20 +307,20 @@ These two plots show two of those 25 examples.
 \centering
 \includegraphics[width=\textwidth]{images/electron_fhc_23708_event.pdf}
 \caption{The same $\nu_{e}$ event as the one shown in Figure~\ref{fig:compare_integral}-(A).
-The plot is zoomed into to the region of interest where the bin widths represent the cross-sectional ASIC (4$\times$4 pixels = 16$\times$16~\unit{mm^2}) dimensions in the collection plane.
+The plot is zoomed into to the region of interest where the bin widths represent the pixels dimensions in the collection plane.
 The energy of this $\nu_{e}$ was 546.1~\unit{MeV}, and considering that each reset requires 0.1475~\unit{MeV}, the maximum number of resets this event could produce is $\approx 4368$.
 The histogram records 3733 total resets.
 The most active pixel received 144 resets.
+When the pixels are binned into ASICs (4$\times$4 pixels) the maximum number resets an ASIC received is 347.
 }
-
 \end{figure}~\label{fig:asic_th2i_electron_fhc_event}
 
 \subsection{Neutrino Event Results}
 
 
 Every simulated neutrino interaction generates some number of resets which are collected onto the pixel plane.
-The purpose of the study explored by the parameters described in Table~\ref{table:neutrino_params} is to investigate the charge resets these interactions produce onto this place; we pay particularly close attention to ASICs where the number of resets (energy deposited) is the largest in a given event.
-The first plot Figure~\ref{fig:example_asic_integral_value_constTheta} (A) shows 
+The purpose of the study explored by the parameters described in Table~\ref{table:neutrino_params} is to investigate the charge resets these interactions produce; we pay particularly close attention to ASICs where the number of resets (energy deposited) is the largest in a given event.
+The first plot Figure~\ref{fig:example_asic_integral_value_constTheta}-(A) shows a $\nu_{e}$ event and Figure~\ref{fig:asic_th2i_electron_fhc_event} shows these resets binned into pixels.
  
 %% example integral of ASIC buffer depths with constant theta
 \begin{figure}
@@ -397,7 +398,14 @@ This is the reason why only the means are plotted for each energy bin.
   \includegraphics[width=\textwidth]{images/electron_nu_energy_deposit_slice.pdf}
   \caption{}
 \end{subfigure}
-\caption{}
+\caption{Plot-(A) shows a comparison of the energy deposited into the LAr as a function of the input neutrino, which in this case is $\nu_{e}$.
+Plot-(B) shows a projection against the y-axis for a single bin.
+The maximum allowed total energy deposited is limited to the total energy of the input neutrino.
+However, the lower bound for all energies is still, obviously, zero.
+Therefore, as the input neutrino energy increases the upper bound also increases.
+The mean value of Plot-(B) indicates that even for a maximum allowed total energy of 5~\unit{GeV} the mean (average) energy deposited per event is 1479~\unit{MeV}.
+Most interactions deposit less than 2~\unit{GeV} into the LAr.
+}
 \label{fig:example_energy_deposit}
 \end{figure}
 
@@ -414,7 +422,12 @@ This is the reason why only the means are plotted for each energy bin.
   \includegraphics[width=\textwidth]{images/df_zpos_cut.pdf}
   \caption{Colored by Z-position}
 \end{subfigure}
-\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.}
+\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
+The most important result is shown in Plot-(A), which clearly indicates that only two different parameters account for the distribution of larger local FIFO depths.
+As expected, $\theta_{z}$ affects the localization of charge over individual ASICs which affect the local FIFO depth.
+Plot-(B) shows the distribution of resets indicated by different z-positions.
+Plot-(B) differs in that the second distribution of resets contains elements from each of the different z-positions.
+}
 \label{fig:compare_integral_zpos_theta}
 \end{figure}
 
