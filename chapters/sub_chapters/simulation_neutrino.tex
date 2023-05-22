@@ -197,7 +197,7 @@ This implies that leakage currents from the front circuit which are $\approx 100
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Part 2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Neutrino Beam High Energy Studies}~\label{sec:neutrino_studies}
+\section{Neutrino Beam Studies}~\label{sec:neutrino_studies}
 
 Here we discuss the implementation of the digital framework within the high energy regime.
 For this we use as an input neutrino events from the Long-Baseline Neutrino Facillity (LBNF)~\citep{dune_cdr_2016_arxiv} and take the unoscillated flux of neutrinos which were used in~\citep{dune_2021_near_detector_cdr}.
@@ -244,7 +244,7 @@ We define the beam direction (the direction parallel to the surface of the APA) 
 The X and Y positions are held constant for all interactions, at X = 120\unit{cm} and Y = 3200 \unit{cm}.
 The coordinate system we use, as well as a slice of the APA within a module are shown in Figure~\ref{}.
 
-The LBNF beam is not the only source of high energy particles.
+The LBNF beam is not the only source of high energy particles DUNE will detect.
 Other high energy ($\simeq 10$\unit{GeV}) interactions may come from other sources.
 These other high energy events (such as nucleon decay, cosmic neutrinos) may also deposit energy on \unit{GeV} scales per interaction.
 These sources may interact with their net momentum vector pointing in any direction.
@@ -270,7 +270,7 @@ These two momentum directions, though unphysical for beam interactions, still pr
 \end{tabular}
 \caption{The different neutrino simulation parameters which are passed into Geant4 based simulation.
   The original interaction products are generated using GENIE~\citep{Andreopoulos:2009rq} v2.12.10.
-  The output products from this generator are then configured using the different parameters described above.
+  The output products of the neutrino interaction produced from GENIE are then configured using the different parameters described above.
   We select $\nu_{l}$ events for different energies in bin-widths of 250 MeV; We follow the same bin width as is done in~\citep{DUNE_FD_TDRv2_2020} for their neutrino oscillation analysis.
   A selection of 100 events for each $\nu_{l}$ is taken within each energy bin, for a total of 3900 $\nu_{l}$ events for each horn current direction, z-position, and $\theta_{z}$ selection.
   Since there are two current directions, four $\nu_{l}$, five z-positions, and five $\theta_{z}$ positions, a total of 780,000 neutrino events are simulated.
@@ -278,8 +278,6 @@ These two momentum directions, though unphysical for beam interactions, still pr
 \end{center}
 \end{table}
 ~\label{table:neutrino_params}
-
-\subsection{Neutrino Event Results}
 
 %% fig example neutrino event
 % image example of a full event with rotations
@@ -303,6 +301,25 @@ These two plots show two of those 25 examples.
 }
 \label{fig:compare_integral}
 \end{figure}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/electron_fhc_23708_event.pdf}
+\caption{The same $\nu_{e}$ event as the one shown in Figure~\ref{fig:compare_integral}-(A).
+The plot is zoomed into to the region of interest where the bin widths represent the cross-sectional ASIC (4$\times$4 pixels = 16$\times$16~\unit{mm^2}) dimensions in the collection plane.
+The energy of this $\nu_{e}$ was 546.1~\unit{MeV}, and considering that each reset requires 0.1475~\unit{MeV}, the maximum number of resets this event could produce is $\approx 4368$.
+The histogram records 3733 total resets.
+The most active pixel received 144 resets.
+}
+
+\end{figure}~\label{fig:asic_th2i_electron_fhc_event}
+
+\subsection{Neutrino Event Results}
+
+
+Every simulated neutrino interaction generates some number of resets which are collected onto the pixel plane.
+The purpose of the study explored by the parameters described in Table~\ref{table:neutrino_params} is to investigate the charge resets these interactions produce onto this place; we pay particularly close attention to ASICs where the number of resets (energy deposited) is the largest in a given event.
+The first plot Figure~\ref{fig:example_asic_integral_value_constTheta} (A) shows 
  
 %% example integral of ASIC buffer depths with constant theta
 \begin{figure}
@@ -334,7 +351,7 @@ This process is repeated for all 200 possible parameter choices as discussed in 
   \centering
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_stack_integral_pdg12_fhc.pdf}
   \caption{ASIC Local FIFO Depths}
-\end{subfigure}
+\end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_integral_pdg12_fhc.pdf}
@@ -385,7 +402,6 @@ This is the reason why only the means are plotted for each energy bin.
 \end{figure}
 
 %% comparing integral results here
-%% 
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
