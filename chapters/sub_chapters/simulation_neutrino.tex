@@ -306,7 +306,7 @@ We bin the maxmimum number of resets in a 4$\times$4 pixel array, or ASIC, for e
 The plot Figure~\ref{fig:example_asic_integral_value_constTheta}-(A) shows a $\nu_{e}$ event and Figure~\ref{fig:asic_th2i_electron_fhc_event} shows these resets binned into pixels.
 For every event we take the maximum ASIC value and use that as an entry into a histogram.
 Next, we take the integral of each histogram as shown in (B) of Figure~\ref{fig:example_asic_integral_value_constTheta} and (B) of Figure~\ref{fig:example_asic_integral_value_constZpos}.
-The value of this integral gives the percentage of events which would have been fully captured with the given buffer length.
+The value of this integral gives the percentage of fully events a function of local FIFO depth.
 
 %% example integral of ASIC buffer depths with constant theta
 \begin{figure}
@@ -322,9 +322,9 @@ The value of this integral gives the percentage of events which would have been 
   \caption{Integral of FIFO depths}
 \end{subfigure}
 \caption{Example $\nu_{e}$ events for different z-position of the vertex with $\theta_{z} = 0$ held constant.
-Plot (A) bins the maximum value of local FIFO depth for all 3900 events (energies between 250~\unit{MeV} - 10~\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
+Plot (A) bins the maximum value of local FIFO depth for all 3900 events ($\nu_{l}$ energies between 250~\unit{MeV} - 10~\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
 Plot (B) shows the running integral for each histogram shown in plot (A).
-The integral continues until 99\% of all events are counted, or the integral reaches a value of 3861.
+The integral continues until 99\% of all events are counted.
 This process is repeated for all 200 possible parameter choices as discussed in Table~\ref{table:neutrino_params}.
 }
 \label{fig:example_asic_integral_value_constTheta}
@@ -352,12 +352,13 @@ A striking difference to note here is the run away effect of the large values of
 
 \subsection{Neutrino Energy Deposit}
 
-True neutrino interaction energy is notoriously difficult to reconstruct.
+The true neutrino interaction energy is notoriously difficult to reconstruct.
 The neutrino itself carries no charge and its track is not directly reconstructed in the LAr.
-For this reason we choose to demonstrate how the resets and ASIC FIFO depths vary both by the energy deposited into the LAr as well as the true neutrino energy.
+Other effects such as long neutron drift make perfect energy reconstruction of the neutrino interaction impossible by principal.
+For these reasons we show how the resets and ASIC FIFO depths vary both by the energy deposited into the LAr as well as the true neutrino energy.
 
-Figure~\ref{fig:example_asic_energy_comparison} shows the relationship between the energy deposited and the max FIFO depth as well as the total APA resets.
-There is a large variance on the points (not shown) due to the large uncertainty in how much of the true energy deposited 
+Figure~\ref{fig:example_asic_energy_comparison} shows the relationship between the true $\nu_{e}$ energy and the max FIFO depth as well as the total APA resets.
+Figure~\ref{fig:compare_energy_deposit} shows the same relationships instead as a function of the energy deposited.
 
 %% energy comparison for different different zpos and theta values
 \begin{figure}
@@ -392,10 +393,12 @@ This is the reason why only the means are plotted for each energy bin.
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_EnergyDep_multigraph_pdg12_fhc.pdf}
   \caption{}
 \end{subfigure}
-\caption{A comparison of ASIC resets vs the energy deposited, instead of the true Lepton incident energy.}
+\caption{A comparison of ASIC resets vs the energy deposited into the LAr.
+Plot-(B) shows for Z-position=10~\unit{cm} ends at $\approx$ 2~\unit{GeV} since no $\nu_{e}$ events deposit this much energy into the LAr.
+Both plots indicate that the 
+}
 \label{fig:compare_energy_deposit}
 \end{figure}
-
 
 %% compare energy deposit and lepton energy
 \begin{figure}
