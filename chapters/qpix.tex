@@ -198,8 +198,8 @@ Calibration measurements are essential for any detector, as they provide a means
 Here we briefly describe an automatic use of existing $Ar^{39}$ decays as a source of calibration at the pixel level.
 A full discussion of simulations using backgrounds is found in~\ref{chap:sim}.
 
-The target volume (LAr) is stable nobel but still provides a quiescent background from the charge deposited $\beta$ decay ($\approx 6\unit{MeV}$).
-The total volume continually observed by any pixel a drift distance $\approx$ 3.5\unit{m} yields an average reset on the order of 10s of seconds $\mathcal{O}(10^{1})$.
+The target volume (LAr) is stable nobel but still provides a quiescent background from the charge deposited $\beta$ decay ($\approx 6~\unit{MeV}$).
+The total volume continually observed by any pixel a drift distance $\approx$ 3.5~\unit{m} yields an average reset on the order of 10s of seconds $\mathcal{O}(10^{1})$.
 This value is much lower than the wrap-around rate of the 32-bit sample clock, which in practice will provide continually increasing reset values and prevent errors in identifying the correct reset time.
 
 The pixel leevl value which needs to be calibrated is the pixel's response to an input charge $Q_{in}$ in equation~\ref{eq:capacitor}.
@@ -403,14 +403,14 @@ Maximum diameter of conduit enclosing the cold cables while they are routed thro
 \end{center}
 \end{table}~\label{tab:dune_tpc_elec}
 
-\section{The Digital-Backend}~\label{sec:digital_backend}
+\section{The digital back-end}~\label{sec:digital_back-end}
 
-We define the digital-backend as the part of the larger Q-Pix readout system that is responsible for handling the data after a reset is recorded.
+We define the digital back-end as the part of the larger Q-Pix readout system that is responsible for handling the data after a reset is recorded.
 This sub-system must be able to record and store data, be robust against SPF, define error states, and more.
 
 \subsection{Initial Desgin Choices}~\label{sec:design_choices}
 
-All first designs require choices; the digital backend is no exception.
+All first designs require choices; the digital back-end is no exception.
 In order to make any set of first choices there must be a definition for a successful design.
 Table
 
@@ -486,7 +486,7 @@ Since each 10 kt module uses 150 APAs the total number of ASICs would be multipl
  \hline\hline
   System Noise & $\approx 300 e^{-}$ & Provides $\approx$ 17:1 S/N ratio, a component of front-end integrator. \\
  \hline
-  Signal Saturation & >30\unit{nA}? & Upper limit from local oscillator frequency and integrator reset. \\
+  Signal Saturation & >30~\unit{nA}? & Upper limit from local oscillator frequency and integrator reset. \\
  \hline
   Cold Electronics Power Consumption &  $< 100 \unit{\mu W}$ per channel & Equivalent power consumption for heating \\
  \hline
@@ -499,7 +499,7 @@ Since each 10 kt module uses 150 APAs the total number of ASICs would be multipl
 \end{center}
 \end{table}~\label{tab:qpix_tpc_elec}
 
-The goal of a digital backend design is how to handle the data from the $10^{5}$ free running oscillators, and how to ensure that the free running local oscillator clocks can be calibrated to a known frequency.
+The goal of a digital back-end design is how to handle the data from the $10^{5}$ free running oscillators, and how to ensure that the free running local oscillator clocks can be calibrated to a known frequency.
 Additionally,
 
 \subsection{Single Point Failures}

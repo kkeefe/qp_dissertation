@@ -6,7 +6,7 @@ We now discuss the methodologies of the physical simulations used as input to th
 \subsection{Radiogenic Backgrounds as a Calibration Source}
 
 In this section we comment on the ability to, but do not perform, the auto-calibration of the reset loss per charge.
-The full calibration scheme is beyond the scope of the work presented here, with intracies that depend on the final implementation of the reset circuit as well as the replenishment circuit of the final Q-Pix ASIC.
+The full charge calibration procedure is beyond the scope of the work presented here, due to intracies that depend on the final implementation of the reset circuit as well as the replenishment circuit of the final Q-Pix ASIC.
 Since this ASIC does not yet exist, the true verification of this methodology is not yet possible.
 Nevertheless, we desribe the relevant portions to the problem here, since the charge calibration along with the frequnecy calibration and timestamp measurements determine Q-Pix's z-position reconstruction.
 
@@ -59,12 +59,12 @@ Sorting the hits by time before accumulating charge ensures that the resets happ
 This simulation procudes $\mathcal{O}(10^{11})$ hit interactions which produce $\mathcal{O}(10^{14})$ electrons, which in turn produces $\mathcal{O}(10^{9})$ resets.
 To reduce the memory utilization of the simulation the electrons are accumulated on a hit-by-hit bases and are subdivided into a pre-determined 4$\times$4 cross-sectional area of the detector.
 Each cross-sectional area defines a pixel.
-The dimension of the LArTPC volume is 2.3$\unit{m}$ $\times$ 6.0$\unit{m}$ which divides into 575 pixels in the x-direction and 1500 pixels in the y-direction.
+The dimension of the LArTPC volume is 2.3~$\unit{m}$ $\times$ 6.0~$\unit{m}$ which divides into 575 pixels in the x-direction and 1500 pixels in the y-direction.
 There are then a total of 862,500 pixels, which store location and reset information.
 
 As an example, the total resets from 1000 seconds of the simulation are shown in Figure~\ref{fig:background_simulation}.
 The most active pixel receives $\approx 220$ resets during this simulation time.
-The bins for the histogram are at the pixel level, and represent the 4$\times$4$\unit{mm^{2}}$ of each pixel.
+The bins for the histogram are at the pixel level, and represent the 4$\times$4$~\unit{mm^{2}}$ of each pixel.
 
 \begin{figure}[]
 \centering
@@ -78,36 +78,19 @@ The majority of the uneven distribution of resets occur at the location of the A
 Additional information is tracked for each reset to identify the contribution of each radiogenic background for each reset.
 A reset occurs when 6250 $e^{-}$ have accumulated on a pixel.
 The time recorded for the reset is the same as the time the simulation calculates the last of the required 6250 electrons to arrive at the designated pixel region.
-This optimization was added to the existing simulation framework for resets to separate the analog contribution to the timing uncertainty from the physical simulation.
+This optimization was added to the existing simulation framework to separate the unknown analog contribution to the timing uncertainty from the physical simulation.
 
-In practice, the analog front-end reset circuit obviously needs time to respond to added charge and to issue a replenishment and reset commands.
-There will always be some delay between the final electron's arrival, the time of the analog reset, the replenishment circuit, and the time recorded on the digital backend.
-However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the average local oscillator of the digital backend. 
-Therefore this analysis assumes the best timing measurement based on the digital backend.
+In practice, the analog front-end reset circuit obviously takes time to respond to added charge and to issue a replenishment and reset commands.
+There will always be some delay between the final electron's arrival, the time of the analog reset, the replenishment circuit, and the time recorded on the digital back-end.
+However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the average local oscillator of the digital back-end. 
+Therefore this analysis assumes the best timing measurement based on the digital back-end.
 The time measurement is then limited only by the clock frequency of each local oscillator.
+Finally, we comment that this optimization of the timing of the analog front-end affects only the time values, and by extension, the reconstruction of the particle tracks.
+It does not affect the total amount of charge, and therefore the total number of resets recorded by each pixel.
 
 Any combination of the backgrounds can contribute some or all of the electrons required to produce a reset.
-The contribution of the total resets for each of the radiogenic sources are shown in Figure~\ref{fig:pixel_track_id}.
+The contribution of the total electrons for each of the radiogenic sources are shown in Figure~\ref{fig:compare_electron_contribution}.
 We refer to the contribution of the number of the electrons to the reset as the "weight" of the reset.
-A distribution of all of the weights for all resets are shown in Figure~\ref{fig:pixel_truth_weight}.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/pixel_reset_truth_track_id.pdf}
-\caption{The total number of electrons contributed to all of the resets shown in Figure~\ref{fig:background_simulation}. 
-The largest contribution, as expected, comes from the $^{39}$Ar source.
-The track id also corresponds to the total number of electrons, not resets, deposited by each source during the 1000 second run.
-}
-\end{figure}~\label{fig:pixel_track_id}
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/pixel_reset_truth_weight.pdf}
-\caption{Truth weight of the individual resets for all combined resets in a 1000 s APA run. 
-Two two largest bins correspond to either a small contribution of electrons (< 10) or instances where enough energy from a single event to cause a reset by itself (6250).
-The largest bin corresponds 6250, which means that the reset was produced by one source alone.
-}
-\end{figure}~\label{fig:pixel_truth_weight}
 
 \begin{figure}[]
 \centering
@@ -115,10 +98,9 @@ The largest bin corresponds 6250, which means that the reset was produced by one
 \caption{Baseline noise input for the digital simulation from all radiogenic sources and background leakage current. 
 This figure shows the total resets in the 10 second window for the 16$\times$16 tile.
 The other tile size configurations (4$\times$4, 8$\times$8, 10$\times$14) also use these reset data for background noise.
-All of the tiles start with the top left node as their origin node.
+All tiles start with the top left node as their origin node.
 }
 \end{figure}~\label{fig:reference_input_noise}
-
 
 %% example RTD for a 16x16 tile
 \begin{figure}[]
@@ -206,12 +188,12 @@ These neutrino flux are simulated using GENIE~\citep{Andreopoulos:2009rq}, v2.12
 The interaction distributions for both the forward and reverse horn current directions are shown in Figure~\ref{fig:neutrino_interaction_flux}.
 
 We do not perform any calculation involving the oscillation on the input neutrino flux.
-The reason for this is that the digital backend should be able to fully record data from all possible $\nu_{l}$ events regardless of interaction type, not only the intended $\nu_{e}$ appearance spectra.
+The reason for this is that the digital back-end should be able to fully record data from all possible $\nu_{l}$ events regardless of interaction type, not only the intended $\nu_{e}$ appearance spectra.
 It is equally important for a future readout to be able to correctly tag noise ($\nu_{\mu}$, or $\nu_{e}$ from the beam, etc.).
 For example, sensitivity to mass ordering and CP violation rely on the abiility to measure $\nu_{\mu}$ disappearance in addition to the $\nu_{e}$ appearance.
 
-What will be shown in the upcomming sections is that capability of the digital backend depends on the energy deposited in the volume of the LAr.
-By the virtue that oscillations change only the flavor (not the energy) of the $\nu$, the constraints of the backend do not depend on if more (or less) $\nu_{e}$ are measured compared to $\bar{\nu_{e}}$, provided the backend is capable of fully measuring both events.
+What will be shown in the upcomming sections is that capability of the digital back-end depends on the energy deposited in the volume of the LAr.
+By the virtue that oscillations change only the flavor (not the energy) of the $\nu$, the constraints of the back-end do not depend on if more (or less) $\nu_{e}$ are measured compared to $\bar{\nu_{e}}$, provided the back-end is capable of fully measuring both events.
 Furthermore, by using the unoscillated flux of the neutrinos at the near detector, the neutrinos will be of necessarily higher energy than the expected flux at the far detector.
 The use of high energy helps in establishing what we will show as the upper-bound for the required local and remote FIFO depths for each ASIC.
 
@@ -260,7 +242,7 @@ These two momentum directions, though unphysical for beam interactions, still pr
  \hline\hline
   $\nu_{l}$ & $\nu_{e}$, $\bar{\nu_{e}}$, $\nu_{\mu}$, $\bar{\nu_{\mu}}$ & Oscillation measurements require sensitivity to measurements for both $\nu_{e}$ appearance, and $\nu_{\mu}$ disappearance.\\
  \hline
-  $\nu_{l}$ Energy & 0.25~GeV to 10~GeV, in steps of 0.25GeV & neutrino energy determines output secondary energy, which causes more resents and directly affects buffer depths. \\
+  $\nu_{l}$ Energy & 0.25~\unit{GeV} to 10~\unit{GeV}, in steps of 0.25~\unit{GeV} & neutrino energy determines output secondary energy, which causes more resents and directly affects buffer depths. \\
  \hline
   Horn Current & Forward and Reverse & Beam horn current direction affects neutrino flux, as shown in Figure~\ref{fig:neutrino_flux}. Additionally, mass heirarchy measurements (according to the MSW effect~\citep{Smirnov2004TheME}) require difference in measurements of appearance probability for $\nu_{e}$ and $\bar{\nu_{e}}$. \\
  \hline
@@ -317,10 +299,13 @@ When the pixels are binned into ASICs (4$\times$4 pixels) the maximum number res
 
 \subsection{Neutrino Event Results}
 
-
 Every simulated neutrino interaction generates some number of resets which are collected onto the pixel plane.
 The purpose of the study explored by the parameters described in Table~\ref{table:neutrino_params} is to investigate the charge resets these interactions produce; we pay particularly close attention to ASICs where the number of resets (energy deposited) is the largest in a given event.
+
+We bin the maxmimum number of resets in a 4$\times$4 pixel array, or ASIC, for every neutrino event.
 The first plot Figure~\ref{fig:example_asic_integral_value_constTheta}-(A) shows a $\nu_{e}$ event and Figure~\ref{fig:asic_th2i_electron_fhc_event} shows these resets binned into pixels.
+
+This value represents the required local FIFO depth in order to capture all of the resets produced by this event.
  
 %% example integral of ASIC buffer depths with constant theta
 \begin{figure}
@@ -404,10 +389,25 @@ The maximum allowed total energy deposited is limited to the total energy of the
 However, the lower bound for all energies is still, obviously, zero.
 Therefore, as the input neutrino energy increases the upper bound also increases.
 The mean value of Plot-(B) indicates that even for a maximum allowed total energy of 5~\unit{GeV} the mean (average) energy deposited per event is 1479~\unit{MeV}.
-Most interactions deposit less than 2~\unit{GeV} into the LAr.
+Most interactions deposit less than 2~\unit{GeV} into the LAr, as shown in Figure~\ref{fig:example_energy_deposit}.
 }
 \label{fig:example_energy_deposit}
 \end{figure}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/resets_vs_energy_deposit.pdf}
+\caption{A relationship between the total number of resets detected in the APA and the energy deposited for $\nu_{e}$ interactions is shown.
+The solid red line indicates the maximum number of resets that could be measured for a given energy.
+The small distribution of energies below zero correspond to events that produced no resets.
+The energy deposited goes above the the threshold limit of 10~\unit{GeV}.
+These events carry extra energy from additional leptons which are from pile-up at the DUNE-ND from the FNAL beam.
+These data are not included in the energy deposited analysis, or in the integrals as shown in Figure~\ref{fig:compare_integral}.
+These high energy deposit events are also not included in the FIFO depth analysis, since these events are beyond the energy range for oscillation measurements.
+These events are also removed from Figure~\ref{fig:example_energy_deposit}.
+}
+\end{figure}~\label{fig:energy_deposit_vs_resets}
+
 
 %% comparing integral results here
 \begin{figure}

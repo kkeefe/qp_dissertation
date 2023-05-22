@@ -1,14 +1,14 @@
 \section{The Tile Simulation Framework}
 
-The previous chapter introduced the digital backend as well as discussed different design choices, namely tile size, routing configurations, and the effects of the aggregator position.
+The previous chapter introduced the digital back-end as well as discussed different design choices, namely tile size, routing configurations, and the effects of the aggregator position.
 Here we describe how we simulate events of interest for these different configurations.
 
-A successful design is able to record and send loss-less data for all events of interest.
+A successful design is able to record and send loss less data for all events of interest.
 In a DUNE-FD LArTPC these sources range in intensity from sub-MeV-scale radiogenic backgrounds native to the LAr to 10's of GeV scale of beam neutrinos or atmospheric neutrinos.
 We consider the back-end design to be successful if and only if it provides the ability to fully capture and tramsit of all colletected resets from these sources.
 
 We note that while it may be shown in the future that some resets may in fact not be needed for a reconstruction of particular events, we still assert that since Q-Pix is a novel readout, it is not yet possible to claim all scientific goals for which it may be used.
-For this reason we demand that no data be lost for any reason due to the digital backend design.
+For this reason we demand that no data be lost for any reason due to the digital back-end design.
 
 \subsection{The Tile Representation}
 
@@ -16,19 +16,19 @@ We model a tile (a group of digital nodes, or ASICs) based on the description gi
 A tile is then represented in software (Python 3) as a linked list of nodes which store pointers to the adjacent nodes or neighbors.
 
 We note a distinction between the nomenclature used here. 
-The term "node" refers to the simulated backend ASIC whereas our use of "ASIC" refers to the first digital prototype.
+The term "node" refers to the simulated back-end ASIC whereas our use of "ASIC" refers to the first digital prototype.
 
 Every node in the tile holds two FIFO objects which store local and remote data. 
 The local and remote FIFOs keep track of the total number of resets or packet transactions, respectively.
 If a node records a new reset the local FIFO is then written to, and the local FIFO transaction counter increases.
 Similarly, the remote FIFO's transaction count is increased when a write occurs on this FIFO, which happens every time a digital node receives a packet from a neighbor node, including the aggregator node.
 
-In the current Q-Pix digital ASIC design all packets, with the exception of broadcasts, sent between neighbor nodes are written on the remote FIFO.
+In the current Q-Pix digital ASIC design (see Sect.~\ref{sec:digital_fsm}) all packets sent between neighbor nodes, with the exception of broadcasts, are written on the remote FIFO.
 At the beginning of a simulation step each node first checks to see if its received an interrogation request.
-If the node has received a soft interrogation request, and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
+If the node has received a soft interrogation request (see Sect.~\ref{sec:broadcast}), and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
 If the node receives a hard interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
-If the node's local FIFO is emtpy, and it has not received an interrogation, it will check the empty status of the remote FIFO.
-If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state.
+If the node's local FIFO is empty, and it has not received an interrogation, it will check the empty status of the remote FIFO.
+If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state~\ref{sec:state_idle}.
 
 %% example local vs remote of snake
 \begin{figure}
@@ -44,10 +44,10 @@ If the remote FIFO is not empty, this packet will be read and transmitted to its
   \caption{Tile of node objects.}
 \end{subfigure}
 \caption{Composition of an example 4$\times$4 tile.
-Each node in the tile represents a digital ASIC which stores two FIFOs.
+Each node in the tile represents a digital ASIC which contains two FIFOs.
 One FIFO is used to store timestamps from reset data, which we refer to as the local FIFO.
 The other FIFO we call the remote FIFO and is used to store all packet transactions from neighbor nodes.
-Since the local FIFO needs to store only the 32-bit timestamp and the channels responsible for the reset it is 48 bits wide.
+The local FIFO is 48 bits wide, where 32 bits come from the timestamp and 16 bits are from the pixels.
 The remote FIFO is 60 bits wide, since it must store all relevant bits for the 64 bit packet word, where there are 4 unused bits.
 }
 \label{fig:node_fifo_objects}
@@ -59,10 +59,10 @@ The responses include all other kinds of packets sent from neighbor nodes which 
 
 The communication packet object is a custom struct object which uses an enumerated type to differentiate the kinds of packets that the digital node can read from its remote FIFO.
 Each simulated node's behavior to these incoming packets is mirrored to the digital FSM, shown in Fig.~\ref{fig:digital_fsm}.
-When a node reads the packet from the remote FIFO, and uses the enumerated type to determine how to communicate the packet to its neighbors, just as is done in the firmware.
+When a node reads the packet from the remote FIFO it reads the enumerated type to determine how to communicate the packet to its neighbors, just as is done in the physical ASIC.
 
 Also tested in these simulations are tiles which are have a "push" architecture.
-This architecture changes the condition for a node to leave its idle state and send local data to any time that its local FIFO is not empty.
+This architecture changes the condition for a node to leave its idle state and send local data whenever the local FIFO is not empty.
 For this reason the push architecture is also more time consuming to simulate since each node can send a packet at any time, provided that it will inject a hit into its local FIFO following the procedure described in the next section.
 Nodes which require an interrogation in order to send local data we refer to as the "pull" architecture.
 
@@ -74,25 +74,53 @@ If the new time step is larger than any of the timestamps in its resets list, th
 
 Resets from simulated data whether radiogenic or neutrino data can occur at any pixel and at any time.
 The digital node (and the ASIC) is capable of recording multiple resets from multiple channels at the same time.
-This means that it is possible for multiple different pixel resets to only contribute to on local FIFO write.
+This means that it is possible for multiple different pixel resets to only contribute to one local FIFO write.
 Therefore, extra care must taken when adding injected resets with channel information.
 
 In this simulation we consider the best case timestamp measurement for each reset, which is that each digital node can record a unique reset for each channel on every new clock cycle. 
-Then, procedure for combining resets from multiple channels calculates the clock cycle (timestamp) for which this node would record a timestamp for a particlar channel.
+Then, procedure for combining resets from multiple channels calculates the clock cycle (timestamp) for which this node would record a timestamp for a particular channel.
 If a reset has already been recorded for this channel, the uninjected timestamp is incremented by one clock period for this node.
 The above procedure then repeats until all channels have had all of their resets recorded on unique timestamps for the digital node, where only different channels can be recorded on the same timestamp.
 
+\begin{figure}[]
+\centering
+\includegraphics[width=0.7\textwidth]{images/simulation_step_procedure.pdf}
+\caption{Example timeline for simulation time steps and injected hits.
+Before the simulation begins hits are added into a Hit Container for each node.
+When the simulation begins the time is incremented by a single time step ($\tau = 1 \mu$\unit{s}).
+The time increments until it is larger than the time of any of the injected hits.
+The values of the timestamps are then moved from the Hits container into the local FIFO, where the timestamp that is recorded is the soonest clock cycle after the "true" time of the injected hit.
+When the data are ready to be transmitted from the local FIFO, the time is then updated by transaction time.
+An example of this procedure is shown in Figure~\ref{fig:push_arch_verification}. 
+}
+\end{figure}~\label{fig:simulation_step_procedure}
+
 \subsection{The Simulation Procedure}~\label{sec:process}
 
-Upcomming sections will discuss values derived from simulating the readout of the tile. 
+Upcoming sections will discuss values derived from simulating the readout of the tile. 
 Here we briefly describe the simulation procedure and how the results are obtained.
+The procedure is also graphically demonstrated in Figure~\ref{fig:simulation_process_procedure}.
 
 The simulation loop iteratively processes a single transaction from a queue of transactions and then processes all nodes in the tile at incremental timestamps.
-The timesteps used in the simulation results used here are steps 1$\unit{\mu s}$.
+The timesteps used in the simulation results used here are steps 1~\unit{\mu s}.
 It is not necessary to perform smaller time steps than this, as packet transactions themselves are on the order of $\approx 50 \unit{\mu s}$, based on the endeavor protocol.
-If any processed node generates a new transaction(s) this transaction(s) is added to the transaction queue.
+If any processed node generates a new transaction(s), this transaction(s) is added to the transaction queue.
 
-A transaction represents a 64-bit packet that is transfered between two nodes.
+\begin{figure}[]
+\centering
+\includegraphics[width=0.7\textwidth]{images/simulation_process_method.pdf}
+\caption{Flow chart of the simulation process method which occurs for every simulation time step.
+The simulation contains a queue of packet transactions.
+The queue is sorted by ascending time, so that the earliest transaction completed time is processed first.
+Each transaction contains a packet, a node, and the time the packet arrives.
+When the node receives the packet, it can optionally create more transactions, depending on the node's state and the packet.
+Any additional transactions are added to the simulation queue, and are time sorted.
+The simulation then increments the time for all other nodes within the tile.
+This procedure repeats until all nodes in the tile research designated time, which for the results presented here is 11~\unit{seconds}.
+}
+\end{figure}~\label{fig:simulation_process_procedure}
+
+A transaction represents a 64-bit packet that is transfered between two nodes (Sect.~\ref{sec:digi_communications}).
 The sending node is reponsible for calculating the true time when this transaction would complete.
 The receiving node records this byte onto its remote FIFO and performs the state check based on this packet according to Fig~\ref{fig:digital_fsm}.
 Then the receiving node updates its time to its soonest clock cycle after this transaction completed.
@@ -103,6 +131,7 @@ We note that it is only possible for processed nodes which did not receive the t
 The simulation is complete when all nodes have been processed up to the final requested time and no transactions are left in the queue. 
 In the results presented here we process the tile for one second longer than any injected resets to ensure that the tile is fully read out.
 
+
 \section{The Tile Parameters}
 
 One goal of the simulations presented here is to parameterize different design choices in constructing both the digital nodes and the tiles.
@@ -110,7 +139,7 @@ The different parameters which we test are described in Table~\ref{table:tile_pa
 
 There are a total of four parameters to test: frequency stability, tile size, routing, and architecture.
 Of the four parameters, we note that the frequency stability is the one parameter deteremined by the ASIC's physical design.
-Therefore, special care must be taken into account when designing the local oscillator for the digital nodes.
+Therefore, special care must be taken into account when designing the local oscillator for the ASIC.
 The other variables: routing, architecture, and tile size are either programmable registers or easily configurable in hardware layout.
 
 It is intuitive (and the results indicate) that improved frequency stability leads to a more stable design.
@@ -124,11 +153,11 @@ Since many ($\approx 10^4$) events are performed per tile configuration each til
  \hline
  Name & Values & Relation \\ [0.5ex]
  \hline\hline
-  Oscillator Frequency & 0.5\%, 5\% & High variance causes packet buildup or drift within the tile depending on whether packets are sent from slow to fast, or fast to slow clocks. \\
+  Oscillator\newline Frequency & 0.5\%, 5\% & High variance causes packet buildup or drift within the tile depending on whether packets are sent from slow to fast, or fast to slow clocks. \\
  \hline
-  Tile Size & 4x4, 8x8, 10x14, 16x16 & Affects total number of resets which must be routed to aggregator.\\
+  Tile Size & 4$\times$4, 8$\times$8\newline 10$\times$14, 16$\times$16 & Affects total number of resets which must be routed to aggregator.\\
  \hline
-  Routing & Snake, Left, and Trunk & Tiles with different routing are effectively different graphs affect packet buildup~(\ref{eq:adjacency_matr}). Different combinations of edges between nodes can cause packet buildup if nodes have more input edges than output edges.  \\
+  Routing & Snake, Left, and Trunk & Tiles with different routing are effectively different graphs which affect packet buildup~(\ref{eq:adjacency_matr}). Different combinations of edges between nodes can cause packet buildup if nodes have more input edges than output edges.  \\
  \hline
   Architecture & Push, Pull & Describes conditions for when node enters transmit-local state.~\ref{sec:local_data_packet}. The push architecture allows individual nodes to transmit data when data are received, whereas pull architecture only send data upon reciving a special request packet from the aggregator.  \\
  \hline
@@ -156,7 +185,7 @@ Therefore, future tiles that contain hybrid routing we suggest to those users to
 
 \subsection{Oscillator Frequency and Drift}
 
-Two different oscillator frequnecies are tested, as shown in Table~\ref{table:tile_params}.
+Two different oscillator frequencies are tested, as shown in Table~\ref{table:tile_params}.
 These different frequency variances indicate mean differences in oscillator frequency between adjacent nodes.
 An example of the 5\% oscillator variance is shown in Figure~\ref{fig:asic_frequency_example}.
 The values plotted in this figure indicate relative factors above or below the expected 30\unit{MHz} mean.
@@ -170,7 +199,7 @@ Such a node would not be able to reconstruct timestamps, and therefore not be ab
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/asic_frequency.pdf}
+\includegraphics[width=\textwidth]{images/asic_frequency.pdf}
 \caption{Distribution of ASIC frequencies used in the 8$\times$8 tile, and in the example FIFO buffer depths for this chapter.
 The numbers plotted above each ASIC row and column indicate the relative frequency of this ASIC compared to the nominal 30$\unit{MHz}$ mean.
 For example, a number of 112 indicates an ASIC which is 12\% faster than 30MHz, a frequency of $\approx 33.6 MHz$.}
@@ -330,7 +359,7 @@ The figures shown in~\cref{fig:snake_example_neutrino,fig:left_example_neutrino,
 %% example local hits
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/left_asic_local.pdf}
+\includegraphics[width=0.75\textwidth]{images/left_asic_local.pdf}
 \caption{Example local FIFO distribution of a $\approx 3\unit{GeV}~\nu_{e}$ event.
 The numbers over each tile represent the total number of writes which occured to each local FIFO in the array.
 Even with the lowered resolution (each ASIC accounts for 16 pixels), different tracks are noticable based on the FIFO depths.
@@ -430,7 +459,7 @@ In all three routing examples shown it was not the base node which experienced t
 \subsection{The Push Architecture}
 
 The final simulated parameter to describe is the push architecture.
-Since the push architecture allows individual nodes to determine when packets can be sent all nodes must be inspected at each timestep to check if a reset occurs before this new time window.
+Since the push architecture allows individual nodes to determine when packets can be sent all nodes must be inspected at each time step to check if a reset occurs before this new time window.
 If a reset occurs at a time before the next simulation timestep, then the reset is removed from this node's hit list and is written to the node's local FIFO.
 The node will then see at this simulation timestep that the local FIFO is not empty, and leave its idle state to send this packet.
 An example of this process is shown in figure~\ref{fig:push_arch_verification}.

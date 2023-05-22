@@ -1,21 +1,20 @@
-This chapter explores the requirements of a digital back-end suited to a Q-Pix based readout implemented in a LArTPC design at DUNE-FD scales.
+This chapter explores the requirements of a Q-Pix based digital back-end readout targeted at a DUNE-FD module.
 
 The first part of this chapter describes the digital simulation used to evaluate the possible designs presented in the previous chapter.
-The Q-Pix readout~(Chapter~\ref{chap:qpix}) relies on several key factors which promise possible improvements over a traditional MWPC readout: automatic calibration from quesicent background, an overall reduction in data collection, and simpler analysis chain and vertex reconstruction, to name a few.
+The Q-Pix readout~(Chapter~\ref{chap:qpix}) relies on several key factors which promise possible improvements over a traditional MWPC readout: automatic calibration from quiescent radiogenic background, an overall reduction in volume of data collection, and simpler analysis chain and vertex reconstruction, to name a few.
 However, this novel readout technique not only changes the front-end analog structure but also dramatically increases the number of digitization channels.
-The increase of the number digital channels and required ASICs creates the need for a new digital-backend design.
+The increase of the number digital channels and required ASICs creates the need for a new digital back-end design.
 
 The second part of this chapter presents results from a physical simulation framework based on radiogenic backgrounds in LArTPCs as well as high energy ($\approx 10\unit{GeV}$) neutrino events.
-We use this physical simulation framework to address a number of design choices, since any sufficiently complicated design offers an intractible number of possible choices each of which can signficantly alters the performance (good or bad) of a detector.
-The Q-Pix readout is no different.
+We use this physical simulation framework to address a number of design choices, since any sufficiently complicated design offers an intractible number of possible choices each of which can signficantly alters the performance of a detector.
 A few examples of crucial design choices for the digital back-end are: the use of free-running local oscillators, the selection of an inter-ASIC communication protocol, the choice of inter-ASIC connections or routing profiles, and the buffer sizes of FIFOs to store charge-reset data.
-The goal of the simulation is to parameterize these design choices.
+The goal of the simulation is to parameterize these design choices in order to provide an understanding of functional design targets and analysis of design tradeoffs.
 
 The final part of this chapter synthesizes the results of the physical and digital simulations and provides a description of the effects of the most important parameters determined from these results.
 We use as inputs to the simulation the expected input charge from radiogenic background and beamline neutrino interaction over a $2.3 \unit{m} \times 6.0 \unit{m}$ LArTPC.
-The characterization of the analog front-end, namely the charge characteristics per channel is an on-going collaborative work, whose results (when available) should be able to be applied here.
+The characterization of the analog front-end, namely the charge characteristics per channel, is an on-going collaborative work whose results can be able to be applied here.
 
-All results in this chapter is my own individual work.
+All results in this chapter are my own individual work.
 
 
 % we put everything together here

@@ -17,9 +17,9 @@ When a reset occurs the data recorded are the reset values of each pixel, and th
   QPixRoute determines the controlling state machine that, based on register configurations, determines what packets are sent to which neighboring nodes.}
 \end{figure}~\label{fig:qpa_diagram}
 
-Each of these remote ASICs are running on free-running independent clocks, with an expected frequency of $\approx$ 30 MHz.
+Each of these remote ASICs are running on free-running independent clocks, designed with a frequency of 30~\unit{MHz}.
 
-\subsection{Communications}
+\subsection{Communications}~\label{sec:digi_communications}
 
 The QpixComm module controls incoming and outgoing packet logic.
 
@@ -218,9 +218,15 @@ Resets are records of a local counter at the current node and are recorded in re
 Based on the minimum number of bits for each RTD~\ref{bit_calc} we can estimate minimum data rates based on tile size.
 
 
-\section{The Digital Finite State Machine}
+\section{The Digital Finite State Machine}~\label{sec:digital_fsm}
 
-The Finite State Machine (FSM) of the remote digital ASIC outlines the designed behavior response to inputs from a controlling DAQ node.
+The Finite State Machine (FSM) of the digital ASIC outlines the designed behavior response to input.
+Figure~\ref{fig:digital_fsm} shows a representation of the different states as well as the conditions to enter or leave each state.
+
+There are two different kinds of prompts that an ASIC can receive: packet transactions from neighbors and resets from pixels.
+When an ASIC receives a packet from a neighbor, the packet data are written on the remote FIFO
+There is one special packet
+
 
 \begin{figure}[]
 \centering
@@ -236,11 +242,11 @@ The Finite State Machine (FSM) of the remote digital ASIC outlines the designed 
     \item DONE
 \end{itemize}~\label{fsm_state_labels}
 
-\subsection{Idle}
+\subsection{Idle}~\label{sec:state_idle}
 
-\subsection{Transmit Data}
+\subsection{Transmit Data}~\label{sec:state_data}
 
-\subsection{Transmit Remote}
+\subsection{Transmit Remote}~\label{sec:state_remote}
 
 
 \section{The Parameter Space of the Digital System}~\label{sec:parameter_space}
@@ -331,8 +337,8 @@ It is another important design consideration, then, to ensure that transactions 
 Additional concerns of long data transactions include the use of more clock cycles which use more power and increase the risk noise to leak to the analog front-end.
 
 %% appendix??
-\subsubsection{UART}~\label{sec:uart}
-This common protocol is typically stable between devices with a maximum difference of clock frequency to be 10\%.
+% \subsubsection{UART}~\label{sec:uart}
+% This common protocol is typically stable between devices with a maximum difference of clock frequency to be 10\%.
 
 % \begin{tikztimingtable}[%
 %     timing/dslope=0.1,
@@ -365,7 +371,7 @@ This protocol is slower than UART, but allows for approximately double the frequ
 
 The endeavor protocol relies on repeating the value of a high-bit, (digital '1' value) for an integer number of clock cycles.
 The receiver continually samples in incoming data transmission and counts the number of clock cycles that the signal was high for.
-The longer the signal was high, the more likely it is the the transmitter was attempting to encode a high bit, and vice verse.
+The longer the signal was high, the more likely it is the the transmitter was attempting to encode a high bit, and vice versa.
 
 The number of clock cycles which accompany either a high bit transmission or a low bit transmission then represent a possible design choice for the protocol.
 The actual number of bits which should be used ultimately depend on the similarity of the frequency between adjacent digital channels; the more similar the frequency (and relative phase) the lower these numbers can be.
@@ -378,7 +384,7 @@ The actual number of bits which should be used ultimately depend on the similari
 \end{itemize}\label{item:endeavor}
 
 %% This section should reference how Q-Pix fits into a DUNE APA as a design goal
-\section{Constraining the Digital-Backend Design}
+\section{Constraining the digital back-end Design}
 
 Section~\ref{sec:qpix_apa} describes in detail how a Q-Pix based hardware readout architecture could fit within a single DUNE-APA.
 Here we extend this discussion and use those constraints as the starting point for a search for a solution to the digital back-end architecture.
@@ -591,8 +597,9 @@ A FCT allows searches to probe all possible paths to any node via a ``broadcast'
 Therefore the broadcast algorithm can be represented by a complete circuit which begins at the base-node and proceeds to a target node with no repeated nodes until the target node is reached.
 The backward path is then completed in reverse by following the edges (connections) between each node until arriving finally again at the base-node.
 
-In practice, we encode the broadcast packet with a special header, to separate it from a request packet, and include an identification number.
-Then, any node which receives a broadcast packet will record the identification number of the most recent broadcast, which it can use to discard additional broadcast packets that arrive with the same number.
+In practice, we encode the broadcast packet with a special header, to differentiate it from a request packet. 
+To differentiate broadcasts an identification number is also included in the packet.
+Then, any node which receives a broadcast packet will record the identification number of the most recent broadcast, which it uses to discard repeated broadcast packets that arrive with the same identification number.
 
 In the event that a particular node becomes inactive it will ``block'' data comming from the nodes along its path.
 In this case, there must be some sort of ``broadcast'' originating from the base-node that would allow information tranverse regardless of the effective routing path.
