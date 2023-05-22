@@ -152,13 +152,13 @@ The ability to perform a charge auto-calibration using radiogenic events depends
 We use only the data presented in Figure~\ref{fig:radiogenic_rtd_timescales} and calculate the mean time between resets for all pixels.
 For this simple calculation, we simply take the total number of pixels (4096) and divide by the total number of recorded resets (411152) and obtain and average RTD of 9.96 seconds.
 
-A very rough expectation of background current is $I_o \approx$ 100\unit{aA}.
+A very rough expectation of background current is $I_o \approx$ 100~\unit{aA}.
 We can then use the following equation to calculate:
 $$
 I_{o} = \frac{Q_{o}}{\tau_{rtd}}
 $$
 
-solving for $Q_{o}$ with $\tau_{rtd} = 9.96$ and $I_{o} \approx 100$\unit{aA}, we obtain:
+solving for $Q_{o}$ with $\tau_{rtd} = 9.96$ and $I_{o} \approx 100$~\unit{aA}, we obtain:
 $$
 Q_{o} \approx 100*10^{-18} * 9.96 / 1.6*10^{-19} \approx 6225
 $$
@@ -189,8 +189,8 @@ Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awa
 \caption{Both figures indicate a comparison of the amount of electrons deposited on all pixels in the tile shown in Figure~\ref{fig:reference_input_noise}.
 Plot (A) represents the total number of electrons on a log scale.
 As expcted, $^{39}$Ar contributes the majority of background charge.
-The leakage current used is 10\unit{aA}, and represents about 10\% of the total contribution of electrons.
-This implies that leakage currents from the front circuit which are $\approx 100$\unit{aA} will contribute nearly as much electrons to the steady-state RTDs as the radiogenic backgrounds.
+The leakage current used is 10~\unit{aA}, and represents about 10\% of the total contribution of electrons.
+This implies that leakage currents from the front circuit which are $\approx 100$~\unit{aA} will contribute nearly as much electrons to the steady-state RTDs as the radiogenic backgrounds.
 }
 \label{fig:compare_electron_contribution}
 \end{figure}
@@ -242,14 +242,14 @@ The Q-Pix readout presented here is designed for use in a LArTPC at the scale of
 In order to test what kinds of requirements this readout will need we use high energy neutrino interactions as discussed in Section~\ref{sec:neutrino_studies}.
 The different selection parameters for each event are neutrino flavor, neutrino energy, horn current direction, Z-position vertex position, and source neutrino momentum direction ($\theta_{z})$.
 We define the beam direction (the direction parallel to the surface of the APA) as $\theta_{z} = 0$.
-The X and Y positions are held constant for all interactions, at X = 120\unit{cm} and Y = 3200 \unit{cm}.
+The X and Y positions are held constant for all interactions, at X = 120~\unit{cm} and Y = 3200~\unit{cm}.
 The coordinate system we use, as well as a slice of the APA within a module are shown in Figure~\ref{}.
 
 The LBNF beam is not the only source of high energy particles DUNE will detect.
-Other high energy ($\simeq 10$\unit{GeV}) interactions may come from other sources.
-These other high energy events (such as nucleon decay, cosmic neutrinos) may also deposit energy on \unit{GeV} scales per interaction.
+Other high energy ($\simeq 10$~\unit{GeV}) interactions may come from other sources.
+These other high energy events (such as nucleon decay, cosmic neutrinos) may also deposit energy on~\unit{GeV} scales per interaction.
 These sources may interact with their net momentum vector pointing in any direction.
-For this reason we also test $\nu_{e}$ and $\nu_{\mu}$ interactions at $\theta_{z} \pm$ 90\unit{\degree}; this direction causes the secondary ionizing particles to carry momentum along the direction parallel to the pixel's surface normal.
+For this reason we also test $\nu_{e}$ and $\nu_{\mu}$ interactions at $\theta_{z} \pm$ 90~\unit{\degree}; this direction causes the secondary ionizing particles to carry momentum along the direction parallel to the pixel's surface normal.
 These two momentum directions, though unphysical for beam interactions, still present possible interactions types within the scope of DUNE's propossed physics program~\citep{DUNE_TDRv3_Abi_2020}.
 
 \begin{table}
@@ -264,7 +264,7 @@ These two momentum directions, though unphysical for beam interactions, still pr
  \hline
   Horn Current & Forward and Reverse & Beam horn current direction affects neutrino flux, as shown in Figure~\ref{fig:neutrino_flux}. Additionally, mass heirarchy measurements (according to the MSW effect~\citep{Smirnov2004TheME}) require difference in measurements of appearance probability for $\nu_{e}$ and $\bar{\nu_{e}}$. \\
  \hline
-  Z-position & 10\unit{cm}, 80\unit{cm}, 180\unit{cm}, 280\unit{cm}, 350\unit{cm}  & Interaction z-position above the anode plane. Interactions which happen further from the collection plane have more time to diffuse or recombine. \\
+  Z-position & 10~\unit{cm}, 80~\unit{cm}, 180~\unit{cm}, 280~\unit{cm}, 350~\unit{cm}  & Interaction z-position above the anode plane. Interactions which happen further from the collection plane have more time to diffuse or recombine. \\
  \hline
   $\theta_{z} $ & 0\unit{\degree}, $\pm$2\unit{\degree}, $\pm$90\unit{\degree} & Different momentum angles are different Z-positions, in general, direct ionized particle tracks within the active volume. \\
  \hline
@@ -336,7 +336,7 @@ The first plot Figure~\ref{fig:example_asic_integral_value_constTheta}-(A) shows
   \caption{Integral of FIFO depths}
 \end{subfigure}
 \caption{Example $\nu_{e}$ events for different z-position of the vertex with $\theta_{z} = 0$ held constant.
-Plot (A) bins the maximum value of local FIFO depth for all 3900 events (energies between 250\unit{MeV} - 10\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
+Plot (A) bins the maximum value of local FIFO depth for all 3900 events (energies between 250~\unit{MeV} - 10~\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
 Plot (B) shows the running integral for each histogram shown in plot (A).
 The integral continues until 99\% of all events are counted, or the integral reaches a value of 3861.
 This process is repeated for all 200 possible parameter choices as discussed in Table~\ref{table:neutrino_params}.
@@ -359,7 +359,7 @@ This process is repeated for all 200 possible parameter choices as discussed in 
   \caption{Integral of FIFO depths}
 \end{subfigure}
 \caption{Example $\nu_{e}$ events for different $\theta_{z}$ with the vertex held constant with z-position = 180cm.
-This is a similar plot to Figure~\ref{fig:example_asic_integral_value_constTheta} with the exception that $\theta_{z}$ is varied and the z-position is held constant at z = 180\unit{cm}.
+This is a similar plot to Figure~\ref{fig:example_asic_integral_value_constTheta} with the exception that $\theta_{z}$ is varied and the z-position is held constant at z = 180~\unit{cm}.
 A striking difference to note here is the run away effect of the large values of $\theta_{z}$.
 }
 \label{fig:example_asic_integral_value_constZpos}
@@ -376,7 +376,7 @@ A striking difference to note here is the run away effect of the large values of
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_lepKE_multigraph_pdg12_fhc.pdf}
-  \caption{Constant Z-Position: $Z = 180\unit{cm}$.}
+  \caption{Constant Z-Position: $Z = 180~$\unit{cm}.}
 \end{subfigure}
 \caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
 There is a large variance between the true $\nu_{l}$ incident energy and the actual energy deposited in the LAr.
