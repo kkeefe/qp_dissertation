@@ -422,7 +422,7 @@ A tile is a rectangular composition of digital channels which must provide a pat
 Since there is one connection between a tile and the aggregator, there is one special node within the tile that connects to the aggregator.
 This special node we refer to as the ``base-node'' as all data and instruction commands, regardless of routing, must pass through this node.
 The symmetry of the rectangular tile allows any corner node to be the base node, and we choose the upper-left to define a convention.
-An example of a tile with a Corner base-node is shown in Figure.~\ref{fig:cbn}.
+An example of a tile with a Corner base-node is shown in Figure~\ref{fig:cbn}.
 
 We do not consider possible configurations where an aggregator might be connected to a digital channel within a tile since we require that all digtal channels are identical and fully connected.
 We require identical channels as a practical choice due the required number of total channels.
@@ -439,7 +439,7 @@ Therefore, an analysis of the constraints of a FCT with corner base-nodes can be
 
 Here we introduce a particular representation (based on graph-theory) for a tile which is useful for simplifying simulations and for analyzing particular routing configurations.
 The most general tile configuration occurs when we assume that all adjacent nodes within the tile are connected; this creates what we refer to as a ``fully connected tile'' (FCT).
-An example of a FCT is shown in Figure~\ref{fc_tile}.
+An example of a FCT is shown in Figure~\ref{fig:fc_tile}.
 Any particular choice of an effective routing must then be a subset of this fully connected version.
 
 \begin{figure}[]

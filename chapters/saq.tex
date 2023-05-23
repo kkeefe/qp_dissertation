@@ -1,16 +1,21 @@
-In this chapter, we present the first implementation of the Q-Pix-based design using off-the-shelf electronics.
+In this chapter we present the first implementation of the Q-Pix-based design using off-the-shelf electronics.
 
 This section describes the first prototype based on the Q-Pix readout: The Simplified Analog Q-Pix (SAQ).
 First we discuss the design goals of the prototype and highlight the basic building blocks of any Q-Pix based prototype.
 Next, We describe the prototype status as well as lessons learned in characterizing noise and performing calibrations.
 
-In the final part of this section we describe the future goals of this prototype, including the addition of GEMs to the experimental setup.
-The full results of the planned diffusion measurements are beyond the scope of this work, but we provide the initial details here because these measurements will ultimately provide the complete description of the prototype.
+In the final part of this section we describe the future goals of this prototype, including the calibration of GEMs and promising future analysis.
+The final results of SAQ are just beyond the scope of this work, but I provide SAQ's details here as a means of introducing the front-end of Q-Pix as well as highlighting my personal contributions to Q-Pix's overall development.
+
+The entire data acquisition (DAQ) chain used for both SAQ experimental setups are my sole independent work.
+My contributions include the the development and deployement firmware on the Zybo-Z7 FPGA, as well as the embedded software code on the integrated SoC processing system.
+I developed the the Python3 software which handles packet communication as well as the GUI for data collection.
+I also developed the data storage trees, which are the original containers for all data used in the analysis. 
+Additionally, I wrote analysis scripts used for the work done at the SAQ site at the University of Texas at Arlington.
 
 \section{Simplified Analog Q-Pix: System Design}
 
 The SAQ prototype is designed as a first physical proof-of-concept for a Q-Pix readout.
-The intended use
 
 \section{The SAQ Protoype Design}
 
@@ -24,7 +29,7 @@ The intended use
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_physical_setup.jpg}
-\caption{The SAQ Setup model based on~\ref{fig:saq_setup_physical}.}
+\caption{The SAQ Setup model based on~\ref{fig:saq_physical_setup_flatten}.}
 \end{figure}~\label{fig:saq_setup_flatten}
 
 \begin{figure}[]
@@ -67,12 +72,16 @@ The intended use
 \subsection{The SAQ Data Acquisition}
 
 All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq based archticture.
-The reference manual for the Zybo Z7 board used in SAQ can be found at \citep{zybo_zy_reference}.
+The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zybo_zy_reference}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_zybo_daq.pdf}
-\caption{An image of the data acquisition board from Digilent, Zybo Z7-20. This board was chosen for its multiple configurable input chanels, as well as the Zynq-based archiecture of the onboard FPGA. Additionally, the use of the ethernet provides $1~\unit{GB}$ transfer speeds, which is more than sufficient for the application.}
+\caption{An image of the data acquisition board from Digilent, Zybo Z7-20. 
+This board was chosen for its multiple configurable input chanels, as well as the Zynq-based archiecture of the onboard FPGA.
+Additionally, the use of the ethernet provides $1~\unit{GB}$ transfer speeds, which is more than sufficient for the application.
+Packet data transfer rates have been verified with this readout at stable rates of 10~\unit{kHz}.
+}
 \end{figure}~\label{fig:saq_zybo}
 
 \begin{figure}[]
@@ -94,7 +103,7 @@ In this section we focus on the noise electrons due to the leakage current.
 Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
 Measurements of this leakage current then are performed by measuring voltage difference across the terminals as well as directly using a pico-ammeter.
 
-\subsection{Integrating towards background Current}
+\subsection{Background Current in the GAr}
 
 %% describe setup / filling of TPC here
 The second source of noise electrons are produced from the target volume.
@@ -124,4 +133,4 @@ In this case the excess electrons come from the nominal decay of Ar-39, which pr
 
 \subsection{Current Status and Planned Measurements}
 
-Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500 V/cm have been performed before \citep{lar_diffusion_measurement_LI2016160}.
+Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500 V/cm have been performed before~\citep{lar_diffusion_measurement_LI2016160}.

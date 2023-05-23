@@ -152,9 +152,14 @@ Such an analysis is not appropriate yet since it is not yet known what the leaka
 As shown in both Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise} and Figure~\ref{fig:compare_electron_contribution}, the contribution from noise is not negligable.
 Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awaits studies of both the leakage current and replenishment circuits of the analog frontend.
 
-\subsection{Reset Contribution of Sources}
+\subsection{Reset Contribution of Radiogenic Sources and Leakage Current}
 
-%% graphic for reset distribution from sources
+Figure~\ref{fig:compare_electron_contribution} compares the total (Plot-A) and percentage (Plot-B) electrons contributed from noise and radiogenic sources.
+These results highlight the importance of understanding and mitigating any leakage current for every pixel.
+A leakage current of 10~\unit{aA} contributes $\approx$ 10\% to the total background current.
+What may prove difficult in the auto-calibration procedure of the Q-Pix readout is that while the contribution from radiogenic sources shown in Figure~\ref{fig:compare_electron_contribution} may be the same, the leakage contributions may not be.
+
+
 %% graphic for energy deposited by source
 \begin{figure}
 \centering
@@ -180,7 +185,7 @@ This implies that leakage currents from the front circuit which are $\approx 100
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Part 2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Neutrino Beam Studies}~\label{sec:neutrino_studies}
+\section{Neutrino Interaction Studies}~\label{sec:neutrino_studies}
 
 Here we discuss the implementation of the digital framework within the high energy regime.
 For this we use as an input neutrino events from the Long-Baseline Neutrino Facillity (LBNF)~\citep{dune_cdr_2016_arxiv} and take the unoscillated flux of neutrinos which were used in~\citep{dune_2021_near_detector_cdr}.
@@ -343,9 +348,11 @@ This process is repeated for all 200 possible parameter choices as discussed in 
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_integral_pdg12_fhc.pdf}
   \caption{Integral of FIFO depths}
 \end{subfigure}
-\caption{Example $\nu_{e}$ events for different $\theta_{z}$ with the vertex held constant with z-position = 180cm.
+\caption{Example $\nu_{e}$ events for different $\theta_{z}$ with the vertex held constant with z-position = 180~\unit{cm}.
 This is a similar plot to Figure~\ref{fig:example_asic_integral_value_constTheta} with the exception that $\theta_{z}$ is varied and the z-position is held constant at z = 180~\unit{cm}.
-A striking difference to note here is the run away effect of the large values of $\theta_{z}$.
+A notable difference to note here is the run away effect of the large values of $\theta_{z}$.
+This effect is intuitive: the initial momentum direction affects the direction of where most charge will be deposited.
+As more charge is localized an ASICs area, it will collect more resets. 
 }
 \label{fig:example_asic_integral_value_constZpos}
 \end{figure}
@@ -354,9 +361,8 @@ A striking difference to note here is the run away effect of the large values of
 
 The true neutrino interaction energy is notoriously difficult to reconstruct.
 The neutrino itself carries no charge and its track is not directly reconstructed in the LAr.
-Other effects such as long neutron drift make perfect energy reconstruction of the neutrino interaction impossible by principal.
+Other effects such as long neutron drift make perfect energy reconstruction of the neutrino interaction impossible by principle.
 For these reasons we show how the resets and ASIC FIFO depths vary both by the energy deposited into the LAr as well as the true neutrino energy.
-
 Figure~\ref{fig:example_asic_energy_comparison} shows the relationship between the true $\nu_{e}$ energy and the max FIFO depth as well as the total APA resets.
 Figure~\ref{fig:compare_energy_deposit} shows the same relationships instead as a function of the energy deposited.
 
@@ -400,6 +406,10 @@ Both plots indicate that the
 \label{fig:compare_energy_deposit}
 \end{figure}
 
+One of the key differences of a Q-Pix readout compared to a traditional waveform readout is that the amount of data the Q-Pix readout collects depends on the energy deposited.
+Since Q-Pix is fundamentally a counting readout, the amount of counts (data) it collects depends on the amount of energy deposited.
+Therefore, one limit on its bandwidth is the total amount of resets it can measure, which is proportional to the energy deposited as shown in Figure~\ref{fig:energy_deposit_vs_resets}.
+
 %% compare energy deposit and lepton energy
 \begin{figure}
 \centering
@@ -413,13 +423,14 @@ Both plots indicate that the
   \includegraphics[width=\textwidth]{images/electron_nu_energy_deposit_slice.pdf}
   \caption{}
 \end{subfigure}
-\caption{Plot-(A) shows a comparison of the energy deposited into the LAr as a function of the input neutrino, which in this case is $\nu_{e}$.
+\caption{Plot-(A) shows a comparison of the energy deposited into the LAr as a function of the input neutrino ($\nu_{e}$).
 Plot-(B) shows a projection against the y-axis for a single bin.
 The maximum allowed total energy deposited is limited to the total energy of the input neutrino.
 However, the lower bound for all energies is still, obviously, zero.
 Therefore, as the input neutrino energy increases the upper bound also increases.
 The mean value of Plot-(B) indicates that even for a maximum allowed total energy of 5~\unit{GeV} the mean (average) energy deposited per event is 1479~\unit{MeV}.
 Most interactions deposit less than 2~\unit{GeV} into the LAr, as shown in Figure~\ref{fig:example_energy_deposit}.
+Some pileup events are removed, see Figure~\ref{fig:energy_deposit_vs_resets}.
 }
 \label{fig:example_energy_deposit}
 \end{figure}
@@ -438,6 +449,14 @@ These events are also removed from Figure~\ref{fig:example_energy_deposit}.
 }
 \end{figure}~\label{fig:energy_deposit_vs_resets}
 
+\subsection{Local FIFO Depth Results}
+
+To predict the required local FIFO depth for the Q-pix ASIC, we perform the intergral as shown in Figure~\ref{fig:example_asic_integral_value_constTheta} for each of the parameters described in Table~\ref{table:neutrino_params}. 
+Since there are 200 different parameters, there are 200 different integral values.
+
+Figure~\ref{fig:compare_integral_zpos_theta} and Figure~\ref{fig:compare_integral_nolabel} show the same integral results, but with different labeling.
+The results show two different distributions of buffer depths: those along the near-beam angle ($\theta_{z} \approx 0$\unit{\degree}) and near the azumithal angle ($\theta_{z} \approx \pm 90$\unit{\degree}). 
+The Table~\ref{tab:apa_sum} shows the values for the required local FIFO depth for each combination of the 200 parameters for the 95\% and 99\% capture intervals.
 
 %% comparing integral results here
 \begin{figure}
@@ -476,3 +495,8 @@ Plot-(B) differs in that the second distribution of resets contains elements fro
 \caption{Comparison of Buffer depths as in incoming prototype and horn current direction from neutrino beam.}
 \label{fig:compare_integral_nolabel}
 \end{figure}
+
+The two different distributions indicate that there are at least two different design specifications for future Q-Pix prototypes.
+The first capture distribution has a maxmimum value of 426.
+Therefore, a Q-Pix ASIC with a local FIFO depth of 426 would be able to fully capture all resets for 99\% of all neutrino interactions under 10~\unit{GeV}.
+In order for Q-Pix to measure events of the same energy average energy but with momentum near the azumithal ($\theta_{z} \approx \pm 90$\unit{\degree}) it would require a buffer depth of 1670.
