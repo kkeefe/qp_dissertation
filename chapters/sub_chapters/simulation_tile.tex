@@ -108,7 +108,7 @@ If any processed node generates a new transaction(s), this transaction(s) is add
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.7\textwidth]{images/simulation_process_method.pdf}
+\includegraphics[width=0.65\textwidth]{images/simulation_process_method.pdf}
 \caption{Flow chart of the simulation process method which occurs for every simulation time step.
 The simulation contains a queue of packet transactions.
 The queue is sorted by ascending time, so that the earliest transaction completed time is processed first.
@@ -116,7 +116,7 @@ Each transaction contains a packet, a node, and the time the packet arrives.
 When the node receives the packet, it can optionally create more transactions, depending on the node's state and the packet.
 Any additional transactions are added to the simulation queue, and are time sorted.
 The simulation then increments the time for all other nodes within the tile.
-This procedure repeats until all nodes in the tile research designated time, which for the results presented here is 11~\unit{seconds}.
+This procedure repeats until all nodes in the tile reach the designated time (11~\unit{seconds}).
 }
 \end{figure}~\label{fig:simulation_process_procedure}
 
@@ -151,7 +151,7 @@ Since many ($\approx 10^4$) events are performed per tile configuration each til
 \begin{center}
 \begin{tabular}{|| p{30mm} | p{30mm} | p{90mm} ||}
  \hline
- Name & Values & Relation \\ [0.5ex]
+ Parameter & Values Taken & Description \\ [0.5ex]
  \hline\hline
   Oscillator\newline Frequency & 0.5\%, 5\% & High variance causes packet buildup or drift within the tile depending on whether packets are sent from slow to fast, or fast to slow clocks. \\
  \hline
@@ -175,8 +175,8 @@ Since many ($\approx 10^4$) events are performed per tile configuration each til
 The other design parameters are readily configurable in either hardware (tile size) or through register configurations of the digital node (routing and, possibly, architecture).
 Tile size is mostly an engineering and cost constraint.
 Larger tile sizes mean the full design would require less aggregator nodes and require less tiles to parameterize.
-We show results for varying tile sizes to indicate that increasing tile size may not necessarily linearly reduce cost, as larger tile sizes complicates the requirements on the digital nodes.
-For this reason, the largest tile size we tested was 16 $\times$ 16.
+We show results for small tile sizes to indicate possible connections portions of larger tiles could configure.
+The largest tile size we tested was 16 $\times$ 16 as the current limit in the Q-Pix digital prototype only allocates four bits for each x or y coordinate in a tile.
 
 The routing and architecture parameters help guide the digital design efforts design of the digital ASIC.
 In practice it is all but certain that implemented routing for a digital tile will take on a combination of the routing styles described here.

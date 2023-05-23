@@ -12,10 +12,20 @@ This event is offset to occur at time: $\tau_{int} = $5.1 seconds.
 We do not perform this readout simulations for all parameters in Table~\ref{table:neutrino_params} as Figure~\ref{fig:compare_integral_pdg} indicates that the local buffer requirement does not largely depend on neutrino flavor.
 
 We choose $\tau_{int} = 5.1~\unit{s}$ so that the interaction occurs just after interrogation request from the aggregator node.
-Although a slight effect, this ensures that the entire $\nu_{e}$ interaction is buffered onto all local FIFOs in the tile. 
+This ensures that the entire $\nu_{e}$ interaction is buffered onto all local FIFOs in the tile before the request. 
 We note that this time offset is the same for the push architecture, even though the neutrino reset packets will be sent when they are acquired.
 
 \subsection{Remote FIFO Depth Results}
+
+Figure~\ref{fig:mp60_slow_plots_for_digital_sim} shows combined results for the remote transactions, remote FIFO depth, and 99\% capture requirements.
+The remote transactions for both the left and trunk routings are much smaller on average than the snake routing for the reasons described in Section~\ref{sec:simulating_tile}.
+
+The Table~\ref{tab:transact} contains the results for the effect the different routings have on the average number of transactions.
+
+The Table~\ref{tab:buffers} summarizes the results of Plot-(B) in Figure~\ref{fig:mp60_slow_plots_for_digital_sim} for the parameters described in Table~\ref{table:tile_params}.
+
+The Table~\ref{tab:fit} summarizes the linear fit results of Plot-(D) in Figure~\ref{fig:mp60_slow_plots_for_digital_sim} for the parameters described in Table~\ref{table:tile_params}.
+The final column of this table indicates the relative fit from the push-based architecture, for which only the snake routing was tested.
 
 %%% Example of Digital Simulation Reconstruction
 \begin{figure*}
@@ -23,33 +33,40 @@ We note that this time offset is the same for the push architecture, even though
   \begin{subfigure}[b]{0.475\textwidth}
       \centering
       \includegraphics[width=\textwidth]{./images/mp60_16_slow_local_stack.pdf}
-      \caption[Network2]%
-      {{\small Network 1}}    
+      \caption[]%
+      {{\small Local Buffer Capture}}    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}  
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_16_slow_remote_stack.pdf}
       \caption[]%
-      {{\small remote stack}}    
+      {{\small Routes Compared to Local}}    
   \end{subfigure}
   \vskip\baselineskip
   \begin{subfigure}[b]{0.475\textwidth}   
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_16_slow_remote_transactions.pdf}
       \caption[]%
-      {{\small transact}}    
+      {{\small Average Transactions}}    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}   
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_16_slow_route_fits.pdf}
       \caption[]%
-      {{\small route fits}}    
+      {{\small Route Predictability}}    
   \end{subfigure}
-  \caption[ Information on the 4 by 4 tile. ]
-  {\small all of the data } 
-  \label{fig:mp60_fast_plots_for_digital_sim}
+  \caption[]
+  {\small The results for a pull-based 4$\times$4 tile with 0.5\% frequency drift is shown. 
+  Plot-(A) shows the cumulative integral of the number of events that are fully captured as a function of the local buffer depth.
+  Plot-(B) includes the three tested routings against the local buffer depth. 
+  The "Snake" routing is the only routing which limits the the remote FIFO depth near the local FIFO depth.
+  Plot-(C) shows the relationship of the average number of transactions for all ASICs in each of the events.
+  Plot-(D) is a scatter plot of the remote depth as a function of the local depth.
+  The legend shows the slope values for linear best fits, which help guide the eye to show how the routes scale differently for large input events.
+  } 
+  \label{fig:mp60_slow_plots_for_digital_sim}
 \end{figure*}
 
 %%% Example of Digital Simulation Remote Parameterization
@@ -59,68 +76,38 @@ We note that this time offset is the same for the push architecture, even though
       \centering
       \includegraphics[width=\textwidth]{./images/mp60_16_slow_route_fits.pdf}
       \caption[]%
-      {\small 16 Sized Tile}    
+      {\small 4$\times$4 Tile}    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}  
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_64_slow_route_fits.pdf}
       \caption[]%
-      {\small 64 Sized tile}    
+      {\small 8$\times$8 Tile}    
   \end{subfigure}
   \vskip\baselineskip
   \begin{subfigure}[b]{0.475\textwidth}   
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_140_slow_route_fits.pdf}
       \caption[]%
-      {\small 140 Sized tile}    
+      {\small 10$\times$14 Tile}    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}   
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_256_slow_route_fits.pdf}
       \caption[]%
-      {\small 256 Sized Tile}    
+      {\small 16$\times$16 Tile}    
   \end{subfigure}
-  \caption[ Information on the 4 by 4 tile. ]
-  {\small all of the data } 
+  \caption[]
+  {\small A comparison of the remote vs local FIFO depths for different tile sizes is shown.
+  Each plot corresponds to a different tile size with a frequency distribution of 0.5\%.
+  Plot-(A) shows that even at small tile sizes (4$\times$4) the remote buffer depths do not predictability scale with the local depths
+  Both the "Left" and "Trunk" routings slope's increase with the tile size to a maximum value over 3.
+  Only the "Snake" routing maintains a predictable relationship between local and remote depths, as well as unit slope.
+  These data indicate that any future routing for a Q-Pix tile, regardless of size, would need to dynamically route itself into a "Snake" routing in the event of SPF.
+  } 
   \label{fig:compare_slow_plots_for_digital_sim_slow}
-\end{figure*}
-
-
-%%% 4x4 Example Digital simulation results
-\begin{figure*}
-  \centering
-  \begin{subfigure}[b]{0.475\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{./images/mp60_16_fast_local_stack.pdf}
-      \caption[Network2]%
-      {{\small Network 1}}    
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.475\textwidth}  
-      \centering 
-      \includegraphics[width=\textwidth]{./images/mp60_16_fast_remote_stack.pdf}
-      \caption[]%
-      {{\small remote stack}}    
-  \end{subfigure}
-  \vskip\baselineskip
-  \begin{subfigure}[b]{0.475\textwidth}   
-      \centering 
-      \includegraphics[width=\textwidth]{./images/mp60_16_fast_remote_transactions.pdf}
-      \caption[]%
-      {{\small transact}}    
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.475\textwidth}   
-      \centering 
-      \includegraphics[width=\textwidth]{./images/mp60_16_fast_route_fits.pdf}
-      \caption[]%
-      {{\small route fits}}    
-  \end{subfigure}
-  \caption[ Information on the 4 by 4 tile. ]
-  {\small example plots for a 4 $\times$ 4 tile. } 
-  \label{fig:mp60_plots_for_digital_sim}
 \end{figure*}
 
 %%% Example of Digital Simulation Results for 16x16 tile
@@ -130,31 +117,37 @@ We note that this time offset is the same for the push architecture, even though
       \centering
       \includegraphics[width=\textwidth]{./images/mp60_16_fast_route_fits.pdf}
       \caption[]%
-      {\small 16 Sized Tile}    
+      {\small 4$\times$4 Tile}    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}  
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_64_fast_route_fits.pdf}
       \caption[]%
-      {\small 64 Sized tile}    
+      {\small 8$\times$8 Tile}    
   \end{subfigure}
   \vskip\baselineskip
   \begin{subfigure}[b]{0.475\textwidth}   
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_140_fast_route_fits.pdf}
       \caption[]%
-      {\small 140 Sized tile}    
+      {\small 10$\times$14 Tile}    
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}   
       \centering 
       \includegraphics[width=\textwidth]{./images/mp60_256_fast_route_fits.pdf}
-      \caption[]%
-      {\small 256 Sized Tile}    
+      \caption[]%v
+      {\small 16$\times$16 Tile}    
   \end{subfigure}
-  \caption[ Information on the 16 by 16 tile. ]
-  {\small 16 $\times$ 16 tile of results} 
+  \caption[]
+  {\small A comparison of the remote vs local FIFO depths for different tile sizes is shown.
+  Each plot corresponds to a different tile size with a frequency distribution of 5\%.
+  This plot is identical to Figure~\ref{fig:compare_slow_plots_for_digital_sim_slow}, except that the frequency distribution is 5\% instead of 0.5\%.
+  These results indicate that low frequency variance between neighbor nodes is essential in order to have a predictable remote FIFO depth response based on the snake routing.
+  Not only is the fit poor in Plot-(D) for the 16$\times$16 tile, but the slope has also doubled.
+  This means that, on average, the requirement for the remote FIFO depth would be double that of the requirement on the local FIFO depth.
+} 
   \label{fig:compare_fast_plots_for_digital_sim_fast}
 \end{figure*}
 
@@ -169,6 +162,40 @@ We note that this time offset is the same for the push architecture, even though
 
 \section{Summary and Further Studies}~\label{sec:further_studies}
 
-\subsubsection{Future Neutrino Oscillation Studies}
+The results presented in this section provide first physical analysis of the Q-Pix digital readout.
+Included in the analysis are long exposure to radiogenic background sources, leakage current, neutrino beam events, and the response of the digital back-end ASICs.
+All events occur in a 2.3$\times$6.0~\unit{m^{2}} LAr container, with a maximum drift distance of 3.6~\unit{m}.
+The parameters of the Geant4 simulation are identical to those in Table two from~\citep{qpix:shion} with the exception that the sampling time is configured to each digital node as described in Section~\ref{sec:hits}.
+The flux of beam neutrino events are taken from~\ref{dune_2021_near_detector_cdr} also using GENIE~\citep{Andreopoulos:2009rq} v2.12.10.
 
-Although an analysis of the reconstruction of the events involving oscillation are slightly beyond the scope of the work presented here, we provide a brief summary of how the work presented here helps in that future analysis.
+We find that the digital back-end readout permits the ability to fully capture 99\% events from beam neutrino events up to 10~\unit{GeV} provided the local FIFO depth is at least 426.
+Each ASIC would be able to record all resets from these neutrino events regardless of incident neutrino momentum direction if the local FIFO depth is 1670.
+These results present an expected upper-bound of the required local and remote FIFO depths for the digital ASIC, since most electrons of reconstructed energy for neutrino oscillations (See Chapter 5 from~\citep{DUNE_TDRv3_Abi_2020}) expected to be less than 4~\unit{GeV}, while the analysis presented here are for events up to 10~\unit{GeV}.
+
+The current Q-Pix digital prototype allows for dynamic and configurable routing. 
+We find that the only stable relationship between the local FIFO depth and the remote FIFO depth occurs for the "Snake" based routing, where the required depths are approximately equal.
+Additionally, the relationship between these FIFO depths are independent of tile size, which imply that tiles of any size should reconfigure itself to always have an effective "Snake" routing in the event of SPF.
+
+We also find no difference in the ability of a "push" architecture to better alleviate neutrino events than the current "pull" based architecture.
+The reason for this is due to the quick arrival time of neutrino resets compared to the average packet transaction time.
+
+In order for a "push" architecture to be able to reduce both the remote and local FIFO depth requirements the average packet transaction time would have to be small compared to the average RTD on each node. 
+The total decrease of the packet transaction time will likely have to be an order of magnitude, or more, according to Figure~\ref{fig:example_rtd_scatter}
+The distribution of RTDs for the example scatter event clearly indicate that most of the resets come within 1~\unit{\mu s} of each other.
+Since the current packet transaction time is, on average $\approx 50~\unit{\mu s}$, for the push architecture to transfer packets more quickly than they arrive the packet transaction time would have to decrease by about a factor of 50.
+
+A combination of changes could make this possible: a faster local oscillator, a different communication protocol, and zero-suppresion on some packet data.
+Future designers will have to ask themselves if a redesign of the digital clock, the packet communication protocol, and/or the FSM of the digital ASIC is easier than increasing two FIFO depths.
+It is the humble opinion of the author of this work that it is not.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=0.7\textwidth]{images/example_rtd_scatter.pdf}
+\caption{A caluclation of all of the Reset Time Differences (RTDs) for the example scatter event shown in Figure~\ref{fig:compare_integral}.
+A packet transaction takes $\approx$ 50~\unit{\mu s} to occur.
+The distribution of RTDs for a scatter event indicate that most of the resets occur separated by less than 1~\unit{\mu s}.
+}
+\end{figure}~\label{fig:example_rtd_scatter}
+
+Finally, we remark how much the digital ASIC is capable of, despite it's seemingly simple design~\ref{sec:digital_fsm}.
+In the spirit of the Q-Pix's principle of least action, we assert that the digital ASIC should be also be as simple as possible while relaying all data required for the application.

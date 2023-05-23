@@ -5,13 +5,13 @@ We now discuss the methodologies of the physical simulations used as input to th
 
 \subsection{Radiogenic Backgrounds as a Calibration Source}
 
-In this section we comment on the ability to, but do not perform, the auto-calibration of the reset loss per charge.
+In this section we comment on the ability to the auto-calibration of the reset loss per charge.
 The full charge calibration procedure is beyond the scope of the work presented here, due to intracies that depend on the final implementation of the reset circuit as well as the replenishment circuit of the final Q-Pix ASIC.
-Since this ASIC does not yet exist, the true verification of this methodology is not yet possible.
-Nevertheless, we desribe the relevant portions to the problem here, since the charge calibration along with the frequnecy calibration and timestamp measurements determine Q-Pix's z-position reconstruction.
+This analog front-end ASIC currently exists and these features are currently being explored.
+Nevertheless, we desribe the relevant portions to the problem here since the charge calibration along with the frequnecy calibration and timestamp measurements determine Q-Pix's z-position reconstruction.
 
 The main idea behind the auto-calibration of charge at the pixel level relies on using the known (and near constant) input current from the radiogenic backgrounds (mostly $^{39}$Ar) in the detetor. 
-If a perfectly known and constant input current ($I_{o}$) source was input to a pixel it would produce a resets separated by a constant time ($\tau_{rtd}$).
+If a perfectly known and constant input current ($I_{o}$) source was input to a pixel it would produce resets separated by a constant time ($\tau_{rtd}$).
 It would be a straight foward matter to calculate the charge per reset: $Q_{o} = I_{o}*\tau_{rtd}$.
 
 Then, to analyze the ability for an auto-calibration procedure for Q-Pix it is important to analyze and understand the long-running charge accumulation (resets) from backgrounds present in the LAr.
@@ -22,7 +22,7 @@ Further details on radiogenic backgrounds in LAr can be found at~\citep{DUNE-FD_
 \begin{centering}
 \begin{tabular}{|p{15mm} p{15mm} p{20mm} p{20mm} p{20mm} p{35mm} |}
  \hline
- Isotope & Rate [Bq/kg] & Region & Region Mass [kg] & Rate [Bq] & Number of Decays (per 10 s window) \\ [0.5ex]
+ Isotope & Rate [Bq/kg] & Region & Region Mass [kg] & Rate [Bq] & Number of Decays\newline (per 10 s window) \\ [0.5ex]
  \hline\hline
   $^{210}$Po & 0.2 & PD [Bq/$m^2$] & 2.46856 & 0.493712 & 5 \\
   $^{60}$Co & 0.0455 & CPA & 90 & 4.095 & 41 \\
@@ -54,7 +54,7 @@ Then we calculate the probability of recombination for each electron following t
 The time and location of drift for each electron is calculated with an applied transverse and longitudinal diffusion with values taken from Table~\ref{tab:lar_prop}.
 The simulations for all particle interactions are run individually with a uniform random sampling of the initial decay time interval within the 1000 second window.
 All of the hits are then sorted by increasing time, so that the first hits read are the hits which occur the earliest.
-Sorting the hits by time before accumulating charge ensures that the resets happen at the correct time.
+Sorting the hits by time before accumulating charge ensures that the resets are recorded at the correct time.
 
 This simulation procudes $\mathcal{O}(10^{11})$ hit interactions which produce $\mathcal{O}(10^{14})$ electrons, which in turn produces $\mathcal{O}(10^{9})$ resets.
 To reduce the memory utilization of the simulation the electrons are accumulated on a hit-by-hit bases and are subdivided into a pre-determined 4$\times$4 cross-sectional area of the detector.
@@ -64,7 +64,7 @@ There are then a total of 862,500 pixels, which store location and reset informa
 
 As an example, the total resets from 1000 seconds of the simulation are shown in Figure~\ref{fig:background_simulation}.
 The most active pixel receives $\approx 220$ resets during this simulation time.
-The bins for the histogram are at the pixel level, and represent the 4$\times$4$~\unit{mm^{2}}$ of each pixel.
+The bins for the histogram are at the pixel level and represent the 4$\times$4$~\unit{mm^{2}}$ of each pixel.
 
 \begin{figure}[]
 \centering
@@ -80,7 +80,7 @@ A reset occurs when 6250 $e^{-}$ have accumulated on a pixel.
 The time recorded for the reset is the same as the time the simulation calculates the last of the required 6250 electrons to arrive at the designated pixel region.
 This optimization was added to the existing simulation framework to separate the unknown analog contribution to the timing uncertainty from the physical simulation.
 
-In practice, the analog front-end reset circuit obviously takes time to respond to added charge and to issue a replenishment and reset commands.
+In practice the analog front-end reset circuit obviously takes time to respond to added charge and to issue a replenishment and reset commands.
 There will always be some delay between the final electron's arrival, the time of the analog reset, the replenishment circuit, and the time recorded on the digital back-end.
 However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the average local oscillator of the digital back-end. 
 Therefore this analysis assumes the best timing measurement based on the digital back-end.
@@ -145,9 +145,10 @@ $$
 Q_{o} \approx 100*10^{-18} * 9.96 / 1.6*10^{-19} \approx 6225
 $$
 
-More sophisticated analysis will be needed for pixel level charge calibration.
+Calibration results from the first analog prototype and a more sophisticated analysis will be needed for pixel level charge calibration.
 The contrived derivation above assumes equal capacitance and charge replenishment on all pixels, which in practice is not necessarily true.
-Furthermore, additional tests can likely be done for each pixel by comparing the peak of the distributions as shown in Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise}.
+Additional tests can likely be done for each pixel by comparing the peak of the distributions as shown in Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise}.
+
 Such an analysis is not appropriate yet since it is not yet known what the leakage current will be in the Q-Pix ASIC.
 As shown in both Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise} and Figure~\ref{fig:compare_electron_contribution}, the contribution from noise is not negligable.
 Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awaits studies of both the leakage current and replenishment circuits of the analog frontend.
@@ -158,7 +159,6 @@ Figure~\ref{fig:compare_electron_contribution} compares the total (Plot-A) and p
 These results highlight the importance of understanding and mitigating any leakage current for every pixel.
 A leakage current of 10~\unit{aA} contributes $\approx$ 10\% to the total background current.
 What may prove difficult in the auto-calibration procedure of the Q-Pix readout is that while the contribution from radiogenic sources shown in Figure~\ref{fig:compare_electron_contribution} may be the same, the leakage contributions may not be.
-
 
 %% graphic for energy deposited by source
 \begin{figure}
@@ -379,9 +379,12 @@ Figure~\ref{fig:compare_energy_deposit} shows the same relationships instead as 
   \includegraphics[width=\textwidth]{images/Const_Z180_ASIC_lepKE_multigraph_pdg12_fhc.pdf}
   \caption{Constant Z-Position: $Z = 180~$\unit{cm}.}
 \end{subfigure}
-\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
+\caption{Comparison of buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
 There is a large variance between the true $\nu_{l}$ incident energy and the actual energy deposited in the LAr.
 This is the reason why only the means are plotted for each energy bin.
+Plot-(A) shows that the average z-position has a minor affect on the overall local FIFO depth, where the furthest position has the lowest average reset count.
+Plot-(B) shows average FIFO depth for varied $\theta_{z}$.
+The two curves represented by $\theta_{z} = \pm 90\unit{\degree}$ are similar because they use the same seeded events only pointed up or down, and should have the symmetrical effect since vertex is located in the center of the APA.
 }
 \label{fig:example_asic_energy_comparison}
 \end{figure}
@@ -416,12 +419,12 @@ Therefore, one limit on its bandwidth is the total amount of resets it can measu
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/electron_nu_energy_deposit.pdf}
-  \caption{}
+  \caption{Constant $\theta_{z}$ = 0\unit{\degree}}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/electron_nu_energy_deposit_slice.pdf}
-  \caption{}
+  \caption{Constant Z-position = 180~\unit{cm}}
 \end{subfigure}
 \caption{Plot-(A) shows a comparison of the energy deposited into the LAr as a function of the input neutrino ($\nu_{e}$).
 Plot-(B) shows a projection against the y-axis for a single bin.
@@ -454,9 +457,9 @@ These events are also removed from Figure~\ref{fig:example_energy_deposit}.
 To predict the required local FIFO depth for the Q-pix ASIC, we perform the intergral as shown in Figure~\ref{fig:example_asic_integral_value_constTheta} for each of the parameters described in Table~\ref{table:neutrino_params}. 
 Since there are 200 different parameters, there are 200 different integral values.
 
-Figure~\ref{fig:compare_integral_zpos_theta} and Figure~\ref{fig:compare_integral_nolabel} show the same integral results, but with different labeling.
+Figure~\ref{fig:compare_integral_zpos_theta} and Figure~\ref{fig:compare_integral_prototype} show the same integral results, but with different labeling.
 The results show two different distributions of buffer depths: those along the near-beam angle ($\theta_{z} \approx 0$\unit{\degree}) and near the azumithal angle ($\theta_{z} \approx \pm 90$\unit{\degree}). 
-The Table~\ref{tab:apa_sum} shows the values for the required local FIFO depth for each combination of the 200 parameters for the 95\% and 99\% capture intervals.
+The Table~\ref{tab:apa_sum} shows the complete list of values for the required local FIFO depth for each combination of the 200 parameters for the 95\% and 99\% capture intervals.
 
 \begin{figure}[]
 \centering
@@ -469,7 +472,7 @@ The current Q-Pix digital prototype local and remote FIFO depths are also shown 
 The data in this plot required 6520 electrons to produce a single reset ($C_{pixel} = 1~\unit{fC}$ and $V_{pixel} = 1~\unit{V}$).
 Should the pixel's capacitance or voltage change, the x-axis of this plot would scale approximately by the same factor.
 }
-\end{figure}~\label{fig:neutrino_interaction_flux}
+\end{figure}~\label{fig:compare_integral_prototype}
 
 %% comparing integral results here
 \begin{figure}
@@ -484,7 +487,7 @@ Should the pixel's capacitance or voltage change, the x-axis of this plot would 
   \includegraphics[width=\textwidth]{images/df_zpos_cut.pdf}
   \caption{Colored by Z-position}
 \end{subfigure}
-\caption{Comparison of Buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
+\caption{Comparison of buffer depths integrated over energy colored by different parameters of $\theta_{z}$ and z-position.
 The most important result is shown in Plot-(A), which clearly indicates that only two different parameters account for the distribution of larger local FIFO depths.
 As expected, $\theta_{z}$ affects the localization of charge over individual ASICs which affect the local FIFO depth.
 Plot-(B) shows the distribution of resets indicated by different z-positions.
@@ -498,18 +501,25 @@ Plot-(B) differs in that the second distribution of resets contains elements fro
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/df_pdg_cut.pdf}
-  \caption{Comparison of all integrals to current prototype depths.}
+  \caption{Colored by source neutrino}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/df_horn_cut.pdf}
   \caption{Colored by Z-position}
 \end{subfigure}
-\caption{Comparison of Buffer depths as in incoming prototype and horn current direction from neutrino beam.}
+\caption{Comparison of buffer depths as in incoming prototype and horn current direction from neutrino beam.
+Plot-(A) indicates that there is not a large average difference between the different neutrino flavors and local FIFO depth.
+Plot-(B) indicates that the different flux from the two horn currents also do not measurably affect the two different distributions.
+Plot-(A) however does show a slight difference between $\nu_{e}$ and $\bar{\nu_{\mu}}$.
+$\nu_{e}$ has an average local FIFO depth of 394 in the small distribution, where $\bar{\nu_{\mu}}$ has an average of 313.
+Most ($\geq $ 65\%) of this difference is accounted for the fact that the selected $\nu_{e}$ near-beam ($\theta_{z} = \pm 2\unit{\degree}, 0\unit{\degree}$) events deposited more energy, 1894~\unit{MeV} than the $\bar{\nu_{\mu}}$ events 1219~\unit{MeV}, causing more resets.
+After the energy correction the mean FIFO depths differ by less than one standard deviation.
+}
 \label{fig:compare_integral_pdg}
 \end{figure}
 
 The two different distributions indicate that there are at least two different design specifications for future Q-Pix prototypes.
 The first capture distribution has a maxmimum value of 426.
-Therefore, a Q-Pix ASIC with a local FIFO depth of 426 would be able to fully capture all resets for 99\% of all neutrino interactions under 10~\unit{GeV}.
-In order for Q-Pix to measure events of the same energy average energy but with momentum near the azumithal ($\theta_{z} \approx \pm 90$\unit{\degree}) it would require a buffer depth of 1670.
+Therefore, a Q-Pix ASIC with a local FIFO depth of 426 would be able to fully capture resets for 99\% of all neutrino interactions under 10~\unit{GeV} and momentum within $\pm 2\unit{\degree}$ of the beam axis.
+In order for Q-Pix to record all resets of the same energy average energy but with momentum near the azumithal ($\theta_{z} \approx \pm 90$\unit{\degree}) it would require a buffer depth of 1670.
