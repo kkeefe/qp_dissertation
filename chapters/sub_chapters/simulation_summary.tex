@@ -1,10 +1,21 @@
 \section{Neutrinos, Backgrounds, and Routing}
 
 A valid full reconstruction requires all packets to be collected regardless of neutrino type, energy within the valid range, interaction vertex, and should also be able to accept a range of incoming momentum angles.
-In the final section of the chapter we combine the results of the neutrino interactions as well as the radiogenic and leakage backgrounds into the simulation framework described in Section~\ref{sec:tile_simulation}, which is based on the graph developed in Chapter~\ref{chap:qdb}.
-This simulation framework is also my sole and independent work.
+In this final section of the chapter we combine the results of the neutrino interactions as well as the radiogenic and leakage backgrounds into the simulation framework described in Section~\ref{sec:tile_simulation}, which is based on the graph developed in Chapter~\ref{chap:qdb}.
+This back-end simulation framework is also my sole and independent work.
 
 \subsection{Combining the Digital and Physical Simulations}
+
+To synthesize the results of the neutrino events and the background sources we take a reference 10 second window slice from a 1000 second simulation of backgrounds as described in Section~\ref{sec:simulating_tile}.
+We then select a single $\nu_{e}$ interaction from the forward horn current direction, where we accept any incoming $\theta_{z}$, z-position, and energy.
+This event is offset to occur at time: $\tau_{int} = $5.1 seconds.
+We do not perform this readout simulations for all parameters in Table~\ref{table:neutrino_params} as Figure~\ref{fig:compare_integral_pdg} indicates that the local buffer requirement does not largely depend on neutrino flavor.
+
+We choose $\tau_{int} = 5.1~\unit{s}$ so that the interaction occurs just after interrogation request from the aggregator node.
+Although a slight effect, this ensures that the entire $\nu_{e}$ interaction is buffered onto all local FIFOs in the tile. 
+We note that this time offset is the same for the push architecture, even though the neutrino reset packets will be sent when they are acquired.
+
+\subsection{Remote FIFO Depth Results}
 
 %%% Example of Digital Simulation Reconstruction
 \begin{figure*}
@@ -159,4 +170,5 @@ This simulation framework is also my sole and independent work.
 \section{Summary and Further Studies}~\label{sec:further_studies}
 
 \subsubsection{Future Neutrino Oscillation Studies}
+
 Although an analysis of the reconstruction of the events involving oscillation are slightly beyond the scope of the work presented here, we provide a brief summary of how the work presented here helps in that future analysis.

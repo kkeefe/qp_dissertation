@@ -458,6 +458,19 @@ Figure~\ref{fig:compare_integral_zpos_theta} and Figure~\ref{fig:compare_integra
 The results show two different distributions of buffer depths: those along the near-beam angle ($\theta_{z} \approx 0$\unit{\degree}) and near the azumithal angle ($\theta_{z} \approx \pm 90$\unit{\degree}). 
 The Table~\ref{tab:apa_sum} shows the values for the required local FIFO depth for each combination of the 200 parameters for the 95\% and 99\% capture intervals.
 
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/df_nolabel_line.pdf}
+\caption{Total integral data for all neutrino event parameters described in Table~\ref{table:neutrino_params}.
+The values of the integrals binned in this figure can be found in Appendix~\ref{app:integral_data}.
+These data clearly indicate two different distributions of FIFO requirements.
+The final Q-Pix design will choose some local FIFO depth.
+The current Q-Pix digital prototype local and remote FIFO depths are also shown by the red and green lines, repsectively.
+The data in this plot required 6520 electrons to produce a single reset ($C_{pixel} = 1~\unit{fC}$ and $V_{pixel} = 1~\unit{V}$).
+Should the pixel's capacitance or voltage change, the x-axis of this plot would scale approximately by the same factor.
+}
+\end{figure}~\label{fig:neutrino_interaction_flux}
+
 %% comparing integral results here
 \begin{figure}
 \centering
@@ -484,7 +497,7 @@ Plot-(B) differs in that the second distribution of resets contains elements fro
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{images/df_nolabel_line.pdf}
+  \includegraphics[width=\textwidth]{images/df_pdg_cut.pdf}
   \caption{Comparison of all integrals to current prototype depths.}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
@@ -493,7 +506,7 @@ Plot-(B) differs in that the second distribution of resets contains elements fro
   \caption{Colored by Z-position}
 \end{subfigure}
 \caption{Comparison of Buffer depths as in incoming prototype and horn current direction from neutrino beam.}
-\label{fig:compare_integral_nolabel}
+\label{fig:compare_integral_pdg}
 \end{figure}
 
 The two different distributions indicate that there are at least two different design specifications for future Q-Pix prototypes.
