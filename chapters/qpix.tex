@@ -14,7 +14,7 @@ The traditional wire-based readout of a DUNE-FD module will have hundreds to tho
 This number of channels required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are continuously operating at liquid argon temperatures, is probably the biggest hurdle for a pixel-based design.
 A goal of this dissertation is to address the channel size problem.
 
-Two ASICs have been developed to test each side of the readout shown in Figure~\ref{fig:qpix_frontandbackend}.
+Two prototype ASICs have been developed to test each side of the readout shown in Figure~\ref{fig:qpix_frontandbackend}.
 We refer to the ASIC developed to test the front-end as the "analog ASIC".
 Likewise, we refer to the ASIC developed to test the back-end as the "digital ASIC".
 The contributions to the design of digital ASIC is a major component of this thesis.
@@ -65,7 +65,7 @@ These two portions are shown in Figure~\ref{fig:qpix_frontandbackend}.
 \caption{A modified image from~\ref{qpix:nygren:mei} is shown.
 The blue box is the Q-Pix circuit~(Figure~\ref{fig:qpixCircuit}), which we refer to as the Q-Pix "analog front-end".
 The right side of the image, encompassed in orange box, we refer to as the "digital back-end".
-The backend is responsible for providing the local oscillator as well as accurately recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
+The back-end is responsible for providing the local oscillator as well as accurately recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
 }
 \end{figure} ~\label{fig:qpix_frontandbackend}
 
@@ -81,7 +81,7 @@ Therefore, we can relate the total accumulated charge to the total charge discha
 Q_{in}(t) = Q_{out}(t) + Q_{c}(t)
 \end{equation}~\label{eq:qin}
 
-One of the current features of the analog ASIC is the replishment circuit.
+One of the features of the analog ASIC is the replishment circuit.
 This circuit is a constant current source which can remove a constant number of electrons from the CSA.
 This provides a major simplification to the current reconstruction.
 If we assume that each reset removes the same amount of charge ($Q_{o}$) we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t, ($N(t)$):
@@ -166,7 +166,7 @@ The reconstructed charge as a function of time is a piece-wise function of time 
 \subsection{Comments on Uncertainties}
 
 The verification of the Q-Pix readout, in part, relies on tests to show that these timestamp data can be safely recorded and sent without loss to disc.
-Here we briefly describe potential uncertainties within the Q-Pix readout.
+Here we discuss potential uncertainties within the Q-Pix readout.
 
 \subsubsection{Near Maximum Reset Rate}
 
@@ -229,39 +229,32 @@ The precision of the local oscillator frequency and the constant charge per rese
 Variable replenishment circuits can impace $Q_{o}$, which will also affect $\sigma_{z}$.
 
 
-\section{How Q-Pix fits into a DUNE-FD APA}~\label{sec:qpix_apa}
+\section{How Q-Pix fits into a 10 kt LArTPC}~\label{sec:qpix_apa}
 
-Here we briefly describe QPix system requirements at DUNE module size (10 kt).
+A future target detector for the Q-Pix readout is the DUNE-FD 10 kt module.
+To explore how Q-Pix could be used in this detector we provide a brief over-view of the DUNE-FD electronics and compare with those requirements for Q-Pix based readout.
 The simulation results presented in Chapter~\ref{chap:sim} are based on the detector volume of a single APA within a DUNE-FD module.
-We then introduce here some considerations which guided the design of the first two Q-Pix ASIC prototypes.
-These design choices are enumerated in the next section in Table~\ref{table:digital_design_params}.
 
 \subsection{The DUNE Far Detector Electronics}
 
 %% section 1.8 of TDR
-DUNE's Anode Plane Assemblies (APA) full description can be found at~\citep{DUNE-FD_TDRv4:Abi_2020}.
-Expected noise level of 1000 $e^{-}$.
-Sampling frequency of 12 bit ADCs is 12 $\unit{MHz}$.
-Expect to collect 20-30 $k e^{-}$ per channel for a minimum ionizing particle.
-Large signals require a linear reponse of 500 k$e^{-}$, and ensures that fewer than 10\% of beam events experience saturation.
+The DUNE-FD is a modular assembly of Anode Plane Assemblies (APA) as shown in Figure~\ref{fig:dune_apa_tdr}.
+Each Single-Phase (SP) 10 kT module consists of 150 APAs.
+The APA's full description can be found at~\citep{DUNE-FD_TDRv4:Abi_2020}.
+Each APA stores its own the front-end electronics which are in the LAr and are shown in Figure~\ref{fig:dune_tpc_electronics}.
 
-Dune APA takes 20 Front-End-Motherboards (FEMBs), to digitize a total of 128 wires.
-40 wires are taken from the U and V (induction) layers, and 48 wires are taken from the X (conduction) layer.
-The reason for this distribution is simply that that the X layer has a total of 980 wires per APA, where the U/V layers have 800 wires.
-
-Three ASICs are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
-The first ASIC is a waveform-shaping and amplification ASIC.
-The second ASIC is the ADC ASIC and is reponsible for converting the analoge signal to digital.
-The final ASIC, called the COLDATA ASIC, merges the data streams from the previous ASICs and is responsible for communication between the motherboard and the outside world.
-Maximum expected data collection is to exceed no more than 30 PB/year, which corresponds roughly to $\approx 1 Gb/s$ of continuous collection.
-
-Each 10 kT module consists of 150 APAs.
-Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead channels.
+Figure~\ref{fig:dune_tpc_electronics} shows that each APA uses 20 FEMBs to digitize 128 of the 2560 channels.
+Of the 128 channels 40 are each taken from the U and V (induction) layers, and 48 wires are taken from the X (conduction) layer.
+Each FEMB also houses a total of 18 ASICs which smooth, digitize, and aggregate data before being sent to the Warm Interface CRATE (WIC).
+The total number of ASICs per APA is $18\times 20 = 360$.
+Since each 10 kt module uses 150 APAs the total number of ASICs would be multiplied by 150.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_apa_motherboards.jpg}
-\caption{Image taken from~\citep{DUNE-FD_TDRv4:Abi_2020}, Fig 1.12 of section 1.8. Image shows an overlay the the relevant charge collection wires within a SP DUNE LArTPC.}
+\caption{Image taken from~\citep{DUNE-FD_TDRv4:Abi_2020}, Fig 1.12 of section 1.8.
+Image shows an overlay the the relevant charge collection wires within a DUNE-FD SP LArTPC.
+}
 \end{figure}~\label{fig:dune_tpc_electronics}
 
 %% example image of DUNE-APA from DUNE-FD TDR.
@@ -269,31 +262,23 @@ Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead c
 \centering
 \includegraphics[width=\textwidth]{images/dune_fd_tdr_apa_image.jpg}
 \caption{A simple caption \citep{DUNE-FD_TDRv4:Abi_2020}}
-\end{figure}
+\end{figure}~\label{fig:dune_apa_tdr}
 
-Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
-From these dimensions the expected channel count of the QPix readout on the DUNE-FD APA is
-\begin{equation}
-  N_{pix} = 14.646 m^{2} * \frac{1 pixel}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
-\end{equation}
+On each FEMB are three ASICs are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
+The first ASIC is a waveform-shaping and amplification ASIC.
+The second ASIC is the ADC ASIC and is reponsible for the converting the analog signal to digital.
+The final ASIC, called the COLDATA ASIC, merges the data streams from the previous ASICs and is responsible for communication between the motherboard and the outside world.
 
-To have a comparable power draw compared to DUNE-FD, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power draw per channel.
-Too much energy disappated in the LAr creates bubbles which is a high voltage (HV) discharge risk.
-The total channel count for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
-
-Thus, the number of extra analog channels that QPix is required to measure, compared to the typical wire readout, increases by a factor of $915399 / 2560 \approx 357$.
-
-QPix instead offes conversion from analog (charge) to digital (32 bit time) signals on the front-end ASIC.
-These front-end ASICs are arrayed in tiles, and the tiles themselves would spread out to cover the entire area of an APA.
-Each tile would interface with a single FPGA chip would would concentrate the digital data for each tile; we refer to this FPGA as the DAQ-Node (DN).
-Then, each DAQ-Node interfaces with at least a single concentrator FPGA that sends the digital data to the Warm-Interface-Cards (WIC) out of the cold electronics (CE).
-The final concentrator FPGA we refer to as the Super-DAQ-node (SDN).
-
-The exact description and characteriziation of the WIC for a QPix depends on the final implementation of the SDN and is thus beyond the scope of the presented here.
+Table~\ref{tab:dune_tpc_elec} summarizes the electronic requirements expected for the DUNE-FD SP module
+The maximum expected data collection is expected to not exceed more than 30 PB/year, which corresponds roughly to $\approx 1 Gb/s$ of continuous collection.
+The expected wire electron noise level is design to be $\approx$ 1000 $e^{-}$.
+Sampling frequency of 12 bit ADCs is 12 $\unit{MHz}$.
+Large signals require a linear reponse of 500 k$e^{-}$, and ensures that fewer than 10\% of beam events experience saturation.
+Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead channels.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|| p{50mm} | p{50mm} | p{50mm} ||}
+\begin{tabular}{|| p{50mm} | p{40mm} | p{60mm} ||}
  \hline
  Description & Specification & Rationale \\ [0.5ex]
  \hline\hline
@@ -301,21 +286,90 @@ The exact description and characteriziation of the WIC for a QPix depends on the
  \hline
   Signal Saturation & 500,000 $e^{-}$ & Maintain calorimetric performance for multi-proton final state. \\
  \hline
-  Cold Electronics Power Consumption & < 50 mW pre channel & No bubbles in LAr to reduce HV discharge risk\\
+  Cold Electronics Power Consumption & < 50~\unit{mW} per channel & No bubbles in LAr to reduce HV discharge risk\\
  \hline
   Number of Channels per front-end motherboard & 128 &  The total number of wires on one side of an APA, 1,280, must be an integer multiple of the number of channels on the FEMBs. \\
  \hline
-Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Avoid the need for further changes to the APA frame and for routing the cables along the cryostat walls \\
+  Dead Channels & < 1\% & Minimize the degradation in physics performance over the > 20-year detector operation. \\
+ \hline
+  Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Avoid the need for further changes to the APA frame and for routing the cables along the cryostat walls \\
  \hline
 \end{tabular}
-\caption{Selected Requirements of DUNE-FD TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison. TPC electronic data and rationale are taken from~\citep{DUNE-FD_TDRv4:Abi_2020}}
+\caption{Selected Requirements of DUNE-FD TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison.
+The table information is taken from the inner three columns of Table 4.1 in~\citep{DUNE-FD_TDRv4:Abi_2020}.
+Due to the different charge sensitive geometries between a wire and pixel-based readout, the required noise and number of channels are not easily comparable.
+}
 \end{center}
 \end{table}~\label{tab:dune_tpc_elec}
+
+\subsection{Q-Pix Comparison to DUNE-FD Electronics}
+
+Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
+From these dimensions the expected channel count of the QPix readout on the DUNE-FD APA is
+\begin{equation}
+  N_{pix} = 14.646 m^{2} * \frac{1 pixel}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
+\end{equation}
+
+The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
+\begin{equation}
+N_{osc} = \frac{915399}{16} \approx 57213
+\end{equation}~\label{eq:nosc}
+
+$N_{osc}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
+Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
+This also gives an order of magnitude estimate of the increase of number of ASICs compared to the MWPC readout of Single-Phase (SP) DUNE-FD.
+
+To have a comparable power draw compared to DUNE-FD, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power draw per channel.
+Too much energy disappated in the LAr creates bubbles which is a high voltage (HV) discharge risk.
+The total channel count for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
+Thus, the number of extra analog channels that QPix is required to measure, compared to the typical wire readout, increases by a factor of $915399 / 2560 \approx 357$.
+
+Q-Pix will instead offer conversion from analog (charge) to digital (32 bit time) signals on a single ASIC.
+These front-end ASICs would be arrayed in modular tiles within a single APA.
+Where the of tiles themselves would be connected and spread out to cover the entire area of an APA.
+A further discussion of the Q-Pix tiles can be found in Section~\ref{sec:qdb_tile}.
+
+To connect the entire APA the Q-Pix readout will design modular tiles which will hold a subset of nodes ($\sim$ 16$\times$16 ASICs).
+Each tile will interface with a single FPGA (or other ASIC) chip which would concentrate the digital data for each tile; we refer to this FPGA as the DAQ-Node (DN).
+Then, each DN can interface could optionally connect a single concentrator FPGA for the entire APA.
+This final concentrator would send the data to the Warm-Interface-Cards (WIC) out of the cold electronics (CE).
+The final concentrator FPGA we refer to as the Super-DAQ-node (SDN).
+
+The exact description and characteriziation of the WIC for a Q-Pix depends on the final implementation of the SDN.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|| p{40mm} | p{40mm} | p{70mm} ||}
+ \hline
+ Description & Specification & Rationale \\ [0.5ex]
+ \hline\hline
+  System Noise & $\approx 300 e^{-}$ & Provides $\approx$ 17:1 S/N ratio, a component of front-end integrator. \\
+ \hline
+  Signal Saturation & 30~\unit{nA} per pixel & Upper limit from local oscillator frequency and integrator reset. \\
+ \hline
+  Cold Electronics Power Consumption &  $< 100 \unit{\mu W}$ per channel & Equivalent power consumption for heating found in DUNE-FD. \\
+ \hline
+  Number of Channels per Tile & 4096 &  Design parameter to be calculated. \\
+ \hline
+\end{tabular}
+\caption{Q-Pix based Requirements which are compared to the equivalent DUNE-FD SP module found in table~\ref{tab:dune_tpc_elec}.
+Results here are necessarily speculative, but provide an insight to the design goal.
+The system noise is a contribution of leakage current per reset, uneven electric fields in the TPC, or uncertainties in the replenishment circuit per reset.
+Signal saturation is defined as the maximum measureable current based $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$.
+The Q-Pix readout can also be saturated by too many resets if the FIFO buffers overflow (see Chapter~\ref{chap:sim} for further discussion).
+The power consumption per channel is a direct division compared to Table~\ref{tab:dune_tpc_elec}.
+The number of channels per tile depends on the tile size as well as the number of pixels per ASIC (see Chapter~\ref{chap:qdb} for further discussion).
+}
+\end{center}
+\end{table}~\label{tab:qpix_tpc_elec}
 
 \section{The Digital Back-end}~\label{sec:digital_back-end}
 
 We define the digital back-end as the part of the larger Q-Pix readout system that is responsible for handling the timestamp data once it is recorded.
 This sub-system must be able to record and store data, be robust against SPF, define error states, and more.
+
+In this section we introduce considerations which guided the design of the first two Q-Pix ASIC prototypes.
+These design choices for the digital prototype are enumerated in table~\ref{table:digital_design_params}.
 
 \subsection{Digital ASIC Prototype Desgin Choices}~\label{sec:design_choices}
 
@@ -353,58 +407,6 @@ The values of the local and remote FIFO depth were selected due to fabrication r
 \end{table}
 ~\label{table:digital_design_params}
 
-We consider that the digital blocks responsible for digitizing the reset to have a nominal frequency of $\approx 30 MHz$.
-Therefore, the minimum time before the recorded timestamp value resets is calculated by:
-
-\begin{equation}
-T_{loop} = \frac{2^{32}}{30\times 10^{6}} \approx 143~\unit{seconds}
-\end{equation}~\label{eq:tloop}
-
-This time ($T_{loop}$) indicates the minimum reset time to occur within each responsible digital block.
-Since this time is much greater than the antipcated reset rates to be produced from backgrounds, discussed in section~\ref{sec:qpix_calib}, we expect the looping of the 32-bit recorded value to not present a design concern.
-
-The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
-\begin{equation}
-N_{osc} = \frac{915399}{16} \approx 57213
-\end{equation}~\label{eq:nosc}
-
-$N_{osc}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
-Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
-This also gives an order of magnitude estimate of the increase of number of ASICs compared to the MWPC readout of Single-Phase (SP) DUNE-FD.
-
-Figure~\ref{fig:dune_tpc_electronics} shows that each APA uses 20 FEMBs to digitize 128 of the 2560 channels.
-Each FEMB houses a total of 18 ASICs which smooth, digitize, and aggregate data before being sent to the Warm Interface CRATE (WIC).
-The total number of ASICs per APA is $18\times 20 = 360$.
-Since each 10 kt module uses 150 APAs the total number of ASICs would be multiplied by 150.
-
-\begin{table}
-\begin{center}
-\begin{tabular}{|| p{40mm} | p{40mm} | p{70mm} ||}
- \hline
- Description & Specification & Rationale \\ [0.5ex]
- \hline\hline
-  System Noise & $\approx 300 e^{-}$ & Provides $\approx$ 17:1 S/N ratio, a component of front-end integrator. \\
- \hline
-  Signal Saturation & 30~\unit{nA} per pixel & Upper limit from local oscillator frequency and integrator reset. \\
- \hline
-  Cold Electronics Power Consumption &  $< 100 \unit{\mu W}$ per channel & Equivalent power consumption for heating found in DUNE-FD. \\
- \hline
-  Number of Channels per Tile & 4096 &  Design parameter to be calculated. \\
- \hline
-\end{tabular}
-\caption{Q-Pix based Requirements, which compred to the equivalent DUNE-FD SP module found in table~\ref{tab:dune_tpc_elec}.
-Results here are necessarily speculative, but provide an insight to the design goal.
-The system noise is a contribution of leakage current per reset, uneven electric fields in the TPC, or uncertainties in the replenishment circuit per reset.
-Signal saturation is defined as the maximum measureable current based $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$.
-The Q-Pix readout can also be saturated with lower current, but more resets if the FIFO buffers overflow (see Chapter~\ref{chap:sim} for further discussion).
-The power consumption per channel is a direct division compared to Table~\ref{tab:dune_tpc_elec}.
-The number of channels per tile depends on the tile size as well as the number of pixels per ASIC (see Chapter~\ref{chap:qdb} for further discussion).
-}
-\end{center}
-\end{table}~\label{tab:qpix_tpc_elec}
-
-The goal of a digital back-end design is how to handle the data from the $10^{5}$ free running oscillators, and how to ensure that the free running local oscillator clocks can be calibrated to a known frequency.
-
 \subsection{Single Point Failures}
 
 Q-Pix digital design should provide  ``robust resilience'' against single point failure (SPF).
@@ -439,23 +441,39 @@ Additional work is currently underway to demonstrate the viability.
 
 \begin{figure}
 \centering
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{.45\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qpix_light_vertical_geom.pdf}
   \caption{}
 \end{subfigure}%
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{.45\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qpix_light_horizontal_geom.pdf}
   \caption{}
 \end{subfigure}
-\caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127}.}
+\caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127}.
+}
 \label{fig:qpix_light_geometries}
 \end{figure}
 
-% ref to paper
+\section{Q-Pix at Low Energy: Supernova Studies}~\label{sec:supernova}
 
-\section{Q-Pix at "Low" Energy: Supernova Studies}~\label{sec:supernova}
+Previous work has been done to characterize how a Q-Pix based DUNE-FD would measure core collapse supernovae~\citep{qpix:shion}.
+These studies involved particle Geant4-based(~\citep{geant4:AGOSTINELLI2003250}) simulations for low energy ($\simeq$ 10~\unit{MeV}) neutrino events from supernova.
+The results indicate several advantages Q-Pix readout will have over a traditional wire-based readout.
 
-Previous work has been done to understand how a Q-Pix based DUNE-FD would measure core collapse supernovae~\citep{qpix:shion}.
-Simulation studies which involved particle interactions were based on Geant4~\citep{geant4:AGOSTINELLI2003250}.
+One advantage is the lower overall data rates (1.03$*10^{-6}$ < 2~\unit{pB} per year) compared to the traditional single-phase readout.
+This reduction in data rates could allow for a 10 kT Q-Pix module to collect timestamp data continually.
+Such a continuous readout, with no trigger, could be particularly useful in collecting supernova burst events.
+Figure~\ref{fig:qpix_shion} highlights one result from this study which shows how a Q-Pix readout compares against traditional wire-readout for supernova trigger burst effeciencies. 
+
+\begin{figure}[]
+\centering
+\includegraphics[width=0.6\textwidth]{images/shion_qpix_snb_trigger.jpg}
+\caption{Image is taken direclty from~\citep{qpix:shion}.
+Plotted is the supernova burst triggering effeciency as a function of $\nu_{e}$ interactions in a 10 kT DUNE-FD module.
+The points in blue indicate that a series of 60 resets are "clustered" to use as an identification of a supernova event. 
+The other curves are taken from Ref.~\citep{supernova_Abi_2021}.
+}
+\end{figure}
+~\label{fig:qpix_shion}
