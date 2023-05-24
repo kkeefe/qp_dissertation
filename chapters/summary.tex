@@ -46,22 +46,21 @@ Still, the motivation provided by the results presented here for the second prot
 
 \section{Future Neutrino Oscillation Studies}
 
-Although an analysis of the reconstruction of the events involving oscillation are slightly beyond the scope of the work presented here, we provide a brief summary of how the work presented here helps in that future analysis.
+Although an analysis of the reconstruction of the events involving oscillation are slightly beyond the scope of the work presented here, we provide a brief summary of how the work presented may be applied to that analysis.
 The LBNF beam flux, neutrino oscillations, and neutrino cross-sections all affect the neutrino event rate as a function of energy.
 Instead of applying these factors, we tested against a uniform distribution of neutrino interaction energy.
 
 Figure~\ref{fig:energy_deposit_vs_resets} clearly shows the relationship between the energy deposited and the number of resets collected.
-To account for neutrino oscillation and appearance probability as a function of energy, we would use different weights for the different neutrino flavors as shown in Figures~\cref{fig:electron_interaction,fig:muon_interaction}.
-The actual weights of to rebin the neutrino distribution depends on undetermined neutrino parameters.
+To account for neutrino oscillation and appearance probability as a function of energy, we would weight the buffer depths based on the weights for the different neutrino flavors as shown in Figures~\cref{fig:electron_interaction,fig:muon_interaction}.
 However for both flavor of (anti)neutrino, the peak of the distribution is below 5~\unit{GeV}.
-The analysis presented here uses a uniform distribution of energy up to 10~\unit{GeV}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/tdr_electron_reconstruction_tdrv2.pdf}
 \caption{Figure is taken from from the DUNE-FD TDR~\citep{DUNE_FD_TDRv2_2020}.
 Images show the $\nu_{e}$ and $\bar{\nu_{e}}$ appearance spectra respectively.
-The left image shows the reconstructed energy distribution for the beam running in the forward horn-current direction for 3.5 years.
+The left image shows the reconstructed energy distribution for the beam running in the forward horn current direction for 3.5 years.
+The weight of appearance spectra decreases with increasing energy beyond $\approx 8~\unit{GeV}$ and has a maximum between 1 and 2~\unit{GeV}.
 }
 \end{figure}~\label{fig:electron_interaction}
 
@@ -69,6 +68,16 @@ The left image shows the reconstructed energy distribution for the beam running 
 \centering
 \includegraphics[width=\textwidth]{images/tdr_muon_reconstruction_tdrv2.pdf}
 \caption{Figure is taken directly from the DUNE-FD TDR~\citep{DUNE_FD_TDRv2_2020}.
-Images show the $\nu_{\mu}$ and $\bar{\nu_{\mu}}$ appearance spectra respectively.
+Images show the $\nu_{\mu}$ and $\bar{\nu_{\mu}}$ disappearance spectra respectively.
+The plots assume normal mass ordering and are also stagged for 3.5 years (staged) exposure for the beam running in the forward horn current and 7 years in the reverse horn current.
+The weight of disappearance spectra decreases with increasing energy beyond $\approx 8~\unit{GeV}$ and has a maximum between 1 and 2~\unit{GeV}.
 }
 \end{figure}~\label{fig:muon_interaction}
+
+The analysis presented here uses a uniform distribution of true neutrino energy up to 10~\unit{GeV} and therefore over estimates the average energy deposited.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/df_weight_pdg_cut.pdf}
+\caption{Weighted integrals for all neutrino event parameters, with weights drawn from the expected signal curves from Figure~\ref{fig:electron_interaction} and Figure~\ref{fig:muon_interaction}.}
+\end{figure}~\label{fig:weighted_integrals}
