@@ -1,77 +1,96 @@
-In this chapter, we introduce a novel pixel-based readout concept for TPCs.
+\chapter{A Novel Readout Technique for TPCs: Q-Pix}~\label{chap:qpix}
+
+In this chapter we introduce a novel pixel-based readout concept for TPCs.
 Pixel-based readouts offer several advantages over the traditional wire readout \citep{lartpc_recon_problems_joshi_2015}.
 A key improvement offered by pixelization is true 3-D image reconstruction.
-This allows for sharper vertex reconstruction, improving the overall resolution of DUNE and reducing the time required for an NP measurement.
+This allows for sharper vertex reconstruction, improving the overall resolution of of a LArTPC and may reduce the time required for an NP measurement.
 
-Other benefits include ease of data analysis and a reduction in the amount of data storage required.
-A pixel-based readout automatically captures two of the three spatial dimensions for easier analysis.
+Other benefits include a reduction in the amount of data storage required and there simpler data analysis.
+A pixel-based readout automatically captures two of the three spatial dimensions.
 In addition, the pixelated readout method presented here reduces the total data storage required and the data acquisition rate (without loss of accuracy) by potentially several orders of magnitude.
 
 However, these advantages come at the cost of increased design complexity, as the number of readout channels increases by more than three orders of magnitude.
-The traditional wire-based readout within a DUNE module will have hundreds to thousands of channels, while a full DUNE module with a pixel-based readout will have tens of millions of channels.
+The traditional wire-based readout of a DUNE-FD module will have hundreds to thousands of channels, while a full DUNE module with a pixel-based readout will have tens of millions of channels.
 This number of channels required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are continuously operating at liquid argon temperatures, is probably the biggest hurdle for a pixel-based design.
 A goal of this dissertation is to address the channel size problem.
 
+Two ASICs have been developed to test each side of the readout shown in Figure~\ref{fig:qpix_frontandbackend}.
+We refer to the ASIC developed to test the front-end as the "analog ASIC".
+Likewise, we refer to the ASIC developed to test the back-end as the "digital ASIC".
+The contributions to the design of digital ASIC is a major component of this thesis.
+
+
 \section{Q-Pix: The Circuit Level Design}
 
-The fundamental readout circuit~(\ref{fig:qpixCircuit}) was first introduced by Nygren and Mei~\citep{qpix:nygren:mei}.
-The principle of the front-end circuit operates on measuring the the time of the output of a trigger which is connected to an integrating capacitor circuit.
-The key difference of this readout circuit is that the measured value is time, not voltage or charge.
-Such a design choice then allows this readout to only provided data when there is charge.
-
-The circuit input is connected to the anode of a TPC where drifted electron charge accumulates.
-Voltage is then built up from the charge stored on the pixel based on the capacitance according to the equation:
-
-% what to say about genetic multiplexing?
-% This differs from other concepts such as Genetic Multiplexing (\citep{PROCUREUR2013888_genetic_multiplexing}) and using only regions of interest (ROI).
+The fundamental Q-Pix circuit~(\ref{fig:qpixCircuit}) was first introduced by Nygren and Mei~\citep{qpix:nygren:mei}.
+The principle of the front-end circuit operates on producing a signal output from Schmitt trigger connected to a charge sensitive amplifier (CSA) circuit.
+The CSA's input is connected to the anode of a TPC where drifted electron charge accumulates.
+Voltage is then built up across the capacitor from the accumlating charge according to the equation:
 
 \begin{equation}
 Q_{i} = C_{i}V_{i}
 \end{equation}
 ~\label{eq:capacitor}
 
-After the capacitor voltage ($V_{i}$) exceeds a set threshold value the schmitt trigger activates.
-The time of the trigger output is recorded by a digital logic which encodes this data as a 32 bit value.
-Since the capacitor reset happens at the same time as the issued trigger the digitally-recorded value is the reset time.
+After the capacitor voltage exceeds a set threshold ($V_{i}$) the schmitt trigger activates.
+The Schmitt trigger output is sent as a signal input to the digital logic to be recorded.
+This signal is shown as the output in Figure~\ref{fig:qpixCircuit}.
+The Schmitt trigger input to the digital back-end is recorded against a free running local oscillator ($f_{o} = 30~\unit{MHz}$ ).
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/qpix_circuit.jpg}
-\caption{Image of Basic Q-Pix Readout circuit. Currently this front-end circuit is being designed as custom analog ASIC which has 16 channels. Image is taken from \citep{qpix:nygren:mei}.}
+\caption{A simplified schematic of front-end Q-Pix Readout circuit.
+The front-end is a charge sensitive amplifier (CSA) whose output is connected to a Schmitt trigger.
+The trigger (output) occurs when enough charge as accumulated on the capacitor $C_{f}$ (currently 1~\unit{fC}).
+One of the design parameters for the Q-Pix front-end is the choice of $C_{f}$.
+This front-end circuit is designed within a single analog ASIC which has contains 16 of these circuits.
+The schematic for this ASIC is shown in Apendix~\ref{app:analog_prototype}.
+Image is taken from \citep{qpix:nygren:mei}.}
 \end{figure}
 ~\label{fig:qpixCircuit}
 
-This timestamp value is recorded against a free running local oscillator ($f_{o} = 30~\unit{MHz}$ ).
-The number of free running clocks in the entire system is expected to be the number of channels ($N_{c}$) divided by the number of digitally multiplexed channels ($N_{d}$), which are taken to be 16.
+The Q-Pix readout records 32-bit latch values as a response to the Schmitt trigger output; it does not measure voltage, charge, or time.
+We refer to this 32-bit measurement as a "timestamp".
+These timestamps are produced when enough charge accumlates on the capacitor to produce a reset pulse, therefore the Q-Pix readout does not depend on an external system trigger to acquire data.
 
-\subsection{Waveforms from Time Resets}
+There are two components of the Q-Pix readout: analog and digital.
+The analog portion of the readout begins with the CSA and ends at the Schmitt trigger output.
+The digital portion of the readout begins at timestamp record.
+These two portions are shown in Figure~\ref{fig:qpix_frontandbackend}.
 
-Here we describe the basic principle of reconstructing the input current from a collection of reset measurements.
-The key insight for this readout technology is that time (instead of voltage as in a MWPC) is recorded.
-Therefore, measurements only taken place when there is enough charge to cause a reset which prevents continuous measurements during periods of long dead time.
-This concept follows the detector concept of least action in that all measurements are detector responses.
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/qpix_circuit_frontandbackend.jpg}
+\caption{A modified image from~\ref{qpix:nygren:mei} is shown.
+The blue box is the Q-Pix circuit~(Figure~\ref{fig:qpixCircuit}), which we refer to as the Q-Pix "analog front-end".
+The right side of the image, encompassed in orange box, we refer to as the "digital back-end".
+The backend is responsible for providing the local oscillator as well as accurately recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
+}
+\end{figure} ~\label{fig:qpix_frontandbackend}
 
-A measurement of a reset indicates that a certain amount of charge was discharged from the integrating capacitor.
+\subsection{Resets, RTDs, and Waveforms}~\label{sec:rtds_and_waveforms}
+
+Here we describe the basic principle of reconstructing the input current from a collection of timestamp measurements.
+
+A timestamp measurement indicates that a certain amount of charge was accumlated at the CSA.
 Since total charge is conserved (and assume drift current around the integrator is small compared to backgrounds), we can say that the total amount of charge that accumulates onto the pixel is equal to total amount of charge discharged from each reset, plus any residual charge still on the pixel.
 Therefore, we can relate the total accumulated charge to the total charge discharged with the following equation:
 
 \begin{equation}
 Q_{in}(t) = Q_{out}(t) + Q_{c}(t)
-\end{equation}
-~\label(eq:qin)
+\end{equation}~\label{eq:qin}
 
-If we assume that each reset removes the same amount of charge during each reset then we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t ($N(t)$):
+If we assume that each reset removes the same amount of charge each time then we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t ($N(t)$):
 \begin{equation}
 Q_{out}(t) = Q_{o} N(t)
-\end{equation}
-~\label(eq:qout)
+\end{equation}~\label{eq:qout}
 
 Where $Q_{o}$ is the fixed amount of charge discharged during each reset.
 Equation~\ref{eq:qout} then can give us the measured current by definition ($I = \frac{dQ}{dt}$):
 \begin{equation}
-I_{o} = \frac{d}{dt}(Q_{o} \times N(t)) = Q_{o}\frac{dN}{dt} = \frac{Q_{o}f_{o}}{N_{clk}}
-\end{equation}
-~\label(eq:irecon)
+I_{o} = \frac{d}{dt}(Q_{o}N(t)) = Q_{o}\frac{dN}{dt} = \frac{Q_{o}f_{o}}{N_{clk}}
+\end{equation}~\label{eq:irecon}
 
 Where we identify $\frac{dN}{dt} = \frac{f_{o}}{N_{clk}}$ as the as the clock frequency ($f_{o}$) of the local clock and the difference between the two resets.
 Equation~\ref{eq:irecon} can be used to determine the maximum current with the digital clock frequency by noting that the minimal value of $N_{clk}$ is one.
@@ -82,7 +101,8 @@ I_{max} \approx 1~fF * 1~V * 30*10^{6} MHz \approx 30~nA
 \end{equation}~\label{eq:icalc_max}
 
 We note that 30 nA is much greater than the expected background current from $Ar^{39}$ ($\mathcal{O}(10^{-18})A$).
-However, more interesting events deposit more more charge.
+However, more interesting events deposit more charge as will be seen in Chapter~\ref{chap:sim}.
+
 We can use the average drift speed of electrons in a LArTPC to estimate the maximum charge density such a configuration is sensitive to:
 
 \begin{equation}
@@ -163,7 +183,7 @@ Finally, we calculate the minimum $\frac{dE}{dX}$ following~\ref{eq:dedxCalc}:
 \end{figure}
 ~\label{fig:qpixRecon2}
 
-\subsection{Making a 3-D Image}
+\subsection{Event Reconstruction}
 
 One of the important features of a TPC is the ability to reconstruct full 3-D images.
 The intended benefit of a pixelated readout on any TPC is to show that there are improvements to reconstruction of these 3-D images.
@@ -191,8 +211,10 @@ The drift distance in equation~(\ref{eq:driftDistance}) becomes:
   z = v_{e} * (T_{ri} - T_{e})
 \end{equation}~\label{eq:driftDistanceCalc}
 
-\subsection{Pixel Calibration}
-~\label{sec:qpix_calib}
+\subsection{Pixel Calibration}~\label{sec:qpix_calib}
+
+The Q-Pix calibration scheme must use these timestamp to reproduce time, charge, and current. 
+The number of free running clocks in the entire system is expected to be the number of channels ($N_{c}$) divided by the number of digitally multiplexed channels ($N_{d}$), which are taken to be 16.
 
 Calibration measurements are essential for any detector, as they provide a means to differentiate signal from noise.
 Here we briefly describe an automatic use of existing $Ar^{39}$ decays as a source of calibration at the pixel level.
@@ -210,6 +232,8 @@ LAr purity over the detector volume is essential for background calibration.
 Differents in purity, electric, and maagnetic fields affect the major contributions to charge loss in the LAr: recombination, lifetime, and diffusion.
 
 \subsection{Bad Scenarios}
+
+The verification of the Q-Pix readout, in part, relies on tests to show that these timestamp data can be safely recorded and sent without loss to disc.
 
 Here we briefly describe potential issues of the readout circuit presented here.
 
@@ -403,7 +427,7 @@ Maximum diameter of conduit enclosing the cold cables while they are routed thro
 \end{center}
 \end{table}~\label{tab:dune_tpc_elec}
 
-\section{The digital back-end}~\label{sec:digital_back-end}
+\section{The Digital Back-end}~\label{sec:digital_back-end}
 
 We define the digital back-end as the part of the larger Q-Pix readout system that is responsible for handling the data after a reset is recorded.
 This sub-system must be able to record and store data, be robust against SPF, define error states, and more.
@@ -513,6 +537,8 @@ This design choice, in particular, is discussed at length in chapter~\ref{chap:q
 
 The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of each local oscillator ($N_{osc} \approx 10^{5}$) is a product of this thesis.
 
+However, as discussed in a later section (Sect.~\ref{}) since the amount of data produced depends on the charge acquired in event, the amount of data collected can not be known before recording.
+
 \section{Q-Pix and Light Detection}
 
 Other recent progress~\citep{https://doi.org/10.48550/arxiv.2207.11127} has been made towards inclusion of an optical system combined the readout technology presented here.
@@ -549,6 +575,7 @@ Additional work is currently underway to demonstrate the viability.
 \end{figure}
 
 % ref to paper
+
 \section{Q-Pix at "Low" Energy: Supernova Studies}~\label{sec:supernova}
 
 Previous work has been done to understand how a Q-Pix based DUNE-FD would measure core collapse supernovae~\citep{qpix:shion}.

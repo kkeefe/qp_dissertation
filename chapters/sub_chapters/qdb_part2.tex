@@ -1,15 +1,14 @@
-%% QDB Hardware Discussion
 \section{The Digital Prototype Design}
+%% QDB Hardware Discussion
 
 This section marks the second part of this chapter.
-We describe the design of a digital back-end prototype, which is configured as a 4$\times$4 array of nodes.
-Each node is implemented with the logic described in the previous sections.
+We describe the design of a modular digital back-end prototype board
+The results presented here construct a tile 4$\times$4 array of Lattice ice40UP5k FPGAs.
+Each FPGA is programmed with the logic described in the previous sections.
 
-These nodes are used to test the cotrol logic, communication stability, buffer requirements, and calibration methods.
-The most important quantity that much be calibrated for the digital nodes is the frequency of the local oscillator.
+These nodes are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
+The most important quantity to be calibrated for the digital nodes is the frequency of the local oscillator.
 The Q-Pix reconstruction for both time and z position are dependent on this parameter, see Chapter~\ref{chap:qpix}.
-
-Since the frequency is the most important quantity, we also dedicate a full section to describe the results of the of local oscillator tests.
 
 Future implementations of the digital back-end for Q-Pix may, of course, use different oscillators.
 However, these results are still beneficial as a proof of concept for the frequency calibration, as well as tests to the packet loss susceptibility.
@@ -63,17 +62,9 @@ Packet loss is a function of relative frequency drift between neighbor nodes.
 \end{figure}
 
 
-
-
-
-
 %% 0.1 Hz interrogation calibration 
 \input{chapters/tables/fpga_slow_fit.tex}
 
-
-\subsection{Charge Auto-Calibration of each Pixel}~\label{sec:charge_calibration}
-
-Natural decay products produced by $^{39}$Ar provide a continous source of incoming current across a LArTPC.
 
 %% schematic of PCB
 
