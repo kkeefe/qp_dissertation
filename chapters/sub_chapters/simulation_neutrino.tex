@@ -1,5 +1,4 @@
 \section{Physical Simulation Studies}
-%% TODO - channel level heatmap for neutrino event
 
 We now discuss the methodologies of the physical simulations used as input to the digital tile simulation described in the previous section.
 
@@ -357,7 +356,7 @@ As more charge is localized an ASICs area, it will collect more resets.
 \label{fig:example_asic_integral_value_constZpos}
 \end{figure}
 
-\subsection{Neutrino Energy Deposit}
+\subsection{Neutrino Energy Deposit}~\label{sec:neutrino_energy_analysis}
 
 The true neutrino interaction energy is notoriously difficult to reconstruct.
 The neutrino itself carries no charge and its track is not directly reconstructed in the LAr.
@@ -523,3 +522,44 @@ The two different distributions indicate that there are at least two different d
 The first capture distribution has a maxmimum value of 426.
 Therefore, a Q-Pix ASIC with a local FIFO depth of 426 would be able to fully capture resets for 99\% of all neutrino interactions under 10~\unit{GeV} and momentum within $\pm 2\unit{\degree}$ of the beam axis.
 In order for Q-Pix to record all resets of the same energy average energy but with momentum near the azumithal ($\theta_{z} \approx \pm 90$\unit{\degree}) it would require a buffer depth of 1670.
+
+\section{Q-Pix for Neutrino Oscillation Measurements}
+
+The LBNF beam flux, neutrino oscillations, and neutrino cross-sections all affect the predicted neutrino event rate at the DUNE-FD.
+Instead of applying these factors the previous analysis tested neutrino interactions from a uniform distribution of true incident energy.
+We discuss Q-Pix's back-end requirements and extend our back-end analysis to the expected neutrino (dis)appearance spectra as presented in~\citep{DUNE_FD_TDRv2_2020}
+
+To account for neutrino oscillation appearance probability as a function of energy, we weight each neutrino event based on the expected (dis)appearance spectra for each (anti)neutrino flavor as shown in Figures~\cref{fig:electron_interaction,fig:muon_interaction}.
+Since both flavors of (anti)neutrino have the peak of the distribution is below 5~\unit{GeV}, and the previous use a unifrom weighting for events up to 10~\unit{GeV} the required buffer depths are an over estimate.
+Lower average energy interactions will produce less resets, which will require smaller buffer sizes.
+Figure~\ref{fig:energy_deposit_vs_resets} clearly shows the relationship between the energy deposited and the number of resets collected.
+The FIFO depth requirements for neutrino oscillation measurements at the DUNE-FD are shown in Figure~\ref{fig:weighted_integrals}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/tdr_electron_reconstruction_tdrv2.pdf}
+\caption{Figure is taken from from the DUNE-FD TDR~\citep{DUNE_FD_TDRv2_2020}.
+Images show the $\nu_{e}$ and $\bar{\nu_{e}}$ appearance spectra respectively.
+The left image shows the reconstructed energy distribution for the beam running in the forward horn current direction for 3.5 years.
+The weight of appearance spectra decreases with increasing energy beyond $\approx 8~\unit{GeV}$ and has a maximum between 1 and 2~\unit{GeV}.
+}
+\end{figure}~\label{fig:electron_interaction}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/tdr_muon_reconstruction_tdrv2.pdf}
+\caption{Figure is taken directly from the DUNE-FD TDR~\citep{DUNE_FD_TDRv2_2020}.
+Images show the $\nu_{\mu}$ and $\bar{\nu_{\mu}}$ disappearance spectra respectively.
+The plots assume normal mass ordering and are also stagged for 3.5 years (staged) exposure for the beam running in the forward horn current and 7 years in the reverse horn current.
+The weight of disappearance spectra decreases with increasing energy beyond $\approx 8~\unit{GeV}$ and has a maximum between 1 and 2~\unit{GeV}.
+}
+\end{figure}~\label{fig:muon_interaction}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/df_weight_pdg_cut.pdf}
+\caption{Weighted integrals for all neutrino event parameters, with weights drawn from the expected signal curves from Figure~\ref{fig:electron_interaction} and Figure~\ref{fig:muon_interaction}.
+This plot is similar to Figure~\ref{fig:compare_integral_prototype}, with the exception that the interaction weights are drawn for the (dis)appearance spectra expected at the DUNE-FD module.
+The buffer for the oscillation measurements require 394 compared to the uniform interaction energy of 426. 
+}
+\end{figure}~\label{fig:weighted_integrals}
