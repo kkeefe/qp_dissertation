@@ -1,3 +1,5 @@
+\chapter{Introduction}~\label{chap:intro}
+
 %% heading for this chapter
 This chapter outlines and highlights useful background that will be explored in further detail in upcoming chapters as well as provides an outline for the thesis.
 
@@ -107,7 +109,6 @@ The $J/psi$ particle indicated the existence of a fourth since then unmeasured q
 \end{table}
 ~\label{table:quark}
 
-%% TODO
 \subsubsection{The Leptons}
 
 The leptons represent particles in the bottom left of Figure~\ref{fig:cern_sm}.
@@ -230,7 +231,8 @@ This particle is important to describe how mass is given the the elementary part
 Finally, in 2012 the Large Hadron Collider (LHC) was able to infer the massive Higgs particle~\citep{higgs_discovery_20121}.
 
 %% elaborate more here on the standard model, what is it really?
-\section{The Problem: Moving Beyond the Standard Model}
+
+\subsection{The Problem: Moving Beyond the Standard Model}
 
 Despite its (SM) numerous achievements in predictive power and experimental verification we know today that it has crucial shortcomings.
 The Standard Model (SM)~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} has no ability to account for Dark Matter or Dark Energy in the universe, nor the distribution (or the hierarchy) of neutrino masses, nor is it able to relate how gravity interacts with the other fundamental forces of nature (Unification).
@@ -282,13 +284,13 @@ Neutrino searches also lie within this frontier.
 Neutrinos are notoriously difficult to detect and measure since they can only be probed via the weak-nuclear force, and even then only indirectly since they carry no charge themselves.
 
 %%
+
 \subsection{How did we got here?}
 
 Many times since the early 20th century it was thought that the goal of physics was accomplished.
 However, during each of these moments of false triumph some new detector was built to take a new measurement; thus, the door to new understanding of nature is never closed.
 This section provides a brief and (necessarily) incomplete history of significant measurements and detector developments relevant to particle physics in the creation of the SM.
 In order to clear an obstacle, it is often helpful to remember the previous ones.
-
 
 \subsection{A Century of New Physics}
 
@@ -367,7 +369,7 @@ Using the fast digitizers and closely spaced wires Georges Charpak (1924-2010) c
 This new detector was one which paved the way for modern detector development, for which Charpak won the 1992 Nobel Prize.
 
 
-\subsection{Time Projection Chambers}
+\section{Time Projection Chambers}
 
 Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
 This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
@@ -426,7 +428,7 @@ Energy resolution of the LArTPCs within DUNE are still unknown to within a facto
   \end{center}
 \end{table}~\label{tab:lar_prop}
 
-\section{Ways Forward}
+\subsection{Ways Forward}
 
 Despite the passing of generations of detectors and developments in electronics the SM remains.
 For nearly 50 years now the SM is still our best model at describing nature as we know it, despite also knowing that there must be more.
@@ -434,7 +436,7 @@ Here in this section we describe in some more detail current searches at the int
 
 We give special attention to neutrino oscillation at the end of this section since later chapters simulation studies will be based off results hoping to measure this effect.
 
-\subsubsection{Hadron Decay}~\label{sec:hadron_decay}
+\subsection{Hadron Decay}~\label{sec:hadron_decay}
 
 Does a proton decay?
 This is the fundamental question for physicists studying hadron decay.
@@ -491,7 +493,83 @@ The principal interaction chain observable in a TPC is:
 
 A LArTPC is sensitive to $\nu_{e}$ by measuring the signture of both the $e^{-}$ and $^{40}Kr^{+}$.
 
-%%
+
+%% Highlight what DUNE is and its purpose
+
+\section{The Deep Underground Neutrino Experiment}~\label{sec:dune}
+
+The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
+DUNE, when constructed, will be composed two detectors, a near detector (ND) and a far detector (FD) which are separated by a distance of 1300 km.
+
+The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
+The ND serves many purposes.
+To name a few..TODO
+
+The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
+This detector represents an enormous engineering challenge to place such large, cold, and complicated detector.
+The FD will be composed of up to four separate 10 kiloton modules.
+
+DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
+We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
+
+Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
+The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
+A purpose of this dissertation is show the viability of a novel readout technology.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
+\caption{Representation of the Near and Far Detectors for the DUNE experiment. The Near Detector is located within the image labeled as the Particle Detector. One of the key purposes for the Near Detector is to tag outgoing particles from the proton beam. Image was taken from~\citep{dune_cdr_2016_arxiv}.}
+\end{figure}
+
+DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
+\begin{itemize}
+    \item Hadron Decay~\ref{sec:hadron_decay}
+    \item Core-collapse Supernovae~\ref{sec:intro_supernova}
+    \item Neutrino Oscillation~\ref{sec:neutrino_osc}
+\end{itemize}
+~\label{item:dune_props}
+
+We will discuss the relevance of each of these items, and in chapter~\ref{chap:qpix} where we will further discuss how the work presented here relates to each of these topics.
+
+Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
+
+\section{Neutrino Oscillations}
+
+Finally, in this last section we discuss the development of various upcoming detector technologies.
+There are many motivating pressures for new detectors to adopt pixelated designs. 
+Below we discuss two contributing factors: the development of electronics and computing algorithms.
+
+First, previously pixelated detectors have historically been more difficult because of the issues of cost and size regarding the number of readout channels.
+This is being addressed, in part, by the advent of newer, cheaper, and larger Field-Programmable-Gate Arrays (FPGAs).
+One method for reducing the electronic overhead required in pixelated detectors is to use digital multiplexing.
+Cheap, high channel FPGAs directly solve this problem. 
+Other electronics development, such as the Silicon-Photomultiplier, offer much cheaper alternatives for large pixel counters compared to their historical counter-parts.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{||c c c||}
+ \hline
+ Paramater & Best Experiments & Type of Detector \\ [0.5ex]
+ \hline\hline
+  $\theta_{13}$ & & \\
+ \hline
+  $\theta_{12}$ & & \\
+ \hline
+  $\theta_{23}$ & & \\
+ \hline
+  $\delta_{cp}$ & & \\
+ \hline
+  $\Delta m_{21}^{2}$ & & \\
+ \hline
+  $\Delta m_{3l}^{2}$ & & \\
+ \hline
+\end{tabular}
+\caption{Comparison of which type of detectors are useful for measuring which values of neutrino oscillation.}
+\end{center}
+\end{table}
+~\label{table:pmns_detectors}
+
 \subsection{Neutrino Oscillation}~\label{sec:neutrino_osc}
 
 Another possible route beyond the Standard Model is the detailed study of neutrinos.
@@ -691,43 +769,6 @@ This resonance affect for beam-line experiments affects $\nu_{e}$ in the case of
 \end{table}
 ~\label{table:pmns_params}
 
-
-\section{Neutrino Tracking Detectors in the Current Century}
-
-Finally, in this last section we discuss the development of various upcoming detector technologies.
-There are many motivating pressures for new detectors to adopt pixelated designs. 
-Below we discuss two contributing factors: the development of electronics and computing algorithms.
-
-First, previously pixelated detectors have historically been more difficult because of the issues of cost and size regarding the number of readout channels.
-This is being addressed, in part, by the advent of newer, cheaper, and larger Field-Programmable-Gate Arrays (FPGAs).
-One method for reducing the electronic overhead required in pixelated detectors is to use digital multiplexing.
-Cheap, high channel FPGAs directly solve this problem. 
-Other electronics development, such as the Silicon-Photomultiplier, offer much cheaper alternatives for large pixel counters compared to their historical counter-parts.
-
-\begin{table}
-\begin{center}
-\begin{tabular}{||c c c||}
- \hline
- Paramater & Best Experiments & Type of Detector \\ [0.5ex]
- \hline\hline
-  $\theta_{13}$ & & \\
- \hline
-  $\theta_{12}$ & & \\
- \hline
-  $\theta_{23}$ & & \\
- \hline
-  $\delta_{cp}$ & & \\
- \hline
-  $\Delta m_{21}^{2}$ & & \\
- \hline
-  $\Delta m_{3l}^{2}$ & & \\
- \hline
-\end{tabular}
-\caption{Comparison of which type of detectors are useful for measuring which values of neutrino oscillation.}
-\end{center}
-\end{table}
-~\label{table:pmns_detectors}
-
 \section{Future Detectors}
 
 %% antihydrogen
@@ -754,43 +795,3 @@ Continued development in electronics, computing, and analysis methods will lead 
 The work presented in this introduction aims to not only encapsulate the massive progress particle physics has made since the electron's discovery, but also to server as a reminder of how extraordinarily surprising nature is.
 At every turn and at every point where physicists think they've arrived at the end (or at an impossible roadblock) there always remains more to discover.
 If we have learned anything, we have learned to knock and the door shall be opened.
-
-
-%% Highlight what DUNE is and its purpose
-\subsection{The Deep Underground Neutrino Experiment}~\label{sec:dune}
-
-The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
-DUNE, when constructed, will be composed two detectors, a near detector (ND) and a far detector (FD) which are separated by a distance of 1300 km.
-
-The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
-The ND serves many purposes.
-To name a few..TODO
-
-The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
-This detector represents an enormous engineering challenge to place such large, cold, and complicated detector.
-The FD will be composed of up to four separate 10 kiloton modules.
-
-DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
-We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
-
-Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
-The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
-A purpose of this dissertation is show the viability of a novel readout technology.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
-\caption{Representation of the Near and Far Detectors for the DUNE experiment. The Near Detector is located within the image labeled as the Particle Detector. One of the key purposes for the Near Detector is to tag outgoing particles from the proton beam. Image was taken from~\citep{dune_cdr_2016_arxiv}.}
-\end{figure}
-
-DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
-\begin{itemize}
-    \item Hadron Decay~\ref{sec:hadron_decay}
-    \item Core-collapse Supernovae~\ref{sec:intro_supernova}
-    \item Neutrino Oscillation~\ref{sec:neutrino_osc}
-\end{itemize}
-~\label{item:dune_props}
-
-We will discuss the relevance of each of these items, and in chapter~\ref{chap:qpix} where we will further discuss how the work presented here relates to each of these topics.
-
-Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
