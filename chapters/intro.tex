@@ -165,63 +165,60 @@ In Section~\ref{sec:neutrino_oscillation} we discuss another missed prediction o
 
 \section{Time Projection Chambers}~\label{sec:tpcs}
 
-Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
-This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
+The Time Projection Chamber (TPC) was first developed by Nygren~\cite{lartpc:nygren} in 1974.
 The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second (compared to 1-10) and provide full 3-D event reconstruction.
+This detector was originally used in the Position-Electron Project (PEP-4) experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
 
-It did not take long for other experimentalists to generalize this concept to different elements or even to liquid.
-
-
-\subsection{Modern Tracking Detectors}
-
-
-The bubble chamber was then invented in 1952 by Donald Glaser~\citep{bubbleChamber_PhysRev.87.665}.
-These detectors proved significant in the discover of the W and Z bosons and ultimately allowed the unification of the electromagnetic and weak forces to form the electroweak theory.
-
-Next the spark chamber eventually lead to the gradual development of the wire-spark chamber.
-In 1968 Georges Charpak developed the Multi-Wire Proportional Chamber (MWPC) for which he (much later) won the Nobel Prize in 1992.
-From this key insight a new detector concept was made possible.
-
-It is could said that any definition defining a ``new'' age of a types of detectors is subjective.
-Nevertheless, we proceed to define that modern particle detectors were the age that began to use modern electronics, or electronics after the development of the metal–oxide–semiconductor field-effect transistor (MOS-FET).
-If there was any invention which was able to drive the development of computers and  measuring electronics, it was the transistor.
-Therefore, the beginning of the modern particle detection age began with the transistor, and it saw to the end of the spark chamber and bubble chamber detectors.
-
-\subsection{Multi-Wire Proportional Chamber}
-
-The middle of the 20th century saw a dramatic increase in the ability and reduction of the cost of electronics.
-These (then) new electronics allowed for fast digitizing measurements of voltage or current.
-Thus, new propotional counter detectors were capable of using computers to do the measuring or counting of the events within the detector.
-The rate at particles could then be detected increased by orders of magnitude.
-
-Using the fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the firstWire MWPC in 1968~\citep{Charpak:1968kd}.
-This new detector was one which paved the way for modern detector development, for which Charpak won the 1992 Nobel Prize.
-
-\subsection{Noble Gases and Time Projection Chambers}
-
-The technology of TPCs has greatly matured since their original inception.
-in many kinds of detectors across HEP. TPCs can also incorporate two phases of a substance (liquid and gas), called Dual Phase (DP) TPCs.
-
-the Xenon-1T is a dark matter experiment which is a dual-phase TPC \citep{Aprile_2017_xenon1T}.
+The basic operating principle of a TPC is that a charged, moving particle ionizes other particles in the detector and produce scintillation light.
+The ionized electrons are then drifted by an external electric field down towards a collection plane (the anode) and are then readout by the electronics.
+The electric field also prevents recombination of the ionized electrons in the medium. 
+A diagram of this procedure is shown in Figure~\ref{fig:dune_apa}.
+The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa} can used to provide the time of the interaction.
+The track of the ionizing particle can then be reconstructed using the 2-D information from the wires, the timing collected from the photons, as well as the drift time of the electrons.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_tdrv12020_lartpc-sp.jpg}
 \caption{Image of a Time Projection Chamber (TPC).
 Charge is accumlated within the volume as ions are removed from the fidicial volume from another charged ion as it passes through the material.
-An uniform electric field drifts the free now electrons towards the anode plane.
+An uniform electric field drifts the freed electrons towards the anode plane.
 The collection and readout of charge on this anode plane is what is recorded within the detector.
+Shown in the image are the three wire collection planes used in the DUNE experiment.
 Image is taken from~\citep{DUNE_TDR_V1_Abi_2020}.}
 \end{figure}~\label{fig:dune_apa}
 
-The LUX experiment is a single phase TPC also hunting for dark matter.
+The development of the TPC followed closedly with the devleopemnt of fast (> 1~\unit{MHz}) digitizing electronics.
+With fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the first multi-wire proportional chamber (MWPC) in 1968~\citep{Charpak:1968kd}.
+Current and future TPCs~(see Section~\ref{sec:dune}) use MWPC as a basis for their readout electronics.
 
-A specific kind of TCP is a Liquid Argon Time Projection Chamber (LArTPC)~\citep{rubbia1977liquid}.
+TPCs have been shown to be extremely capable in high energy physics experiments.
+They are used in many applications such as dark matter experiments~\citep{Aprile_2017_xenon1T} and neutrino experiments~\citep{MicroBooNE_Acciarri_2017}.
+TPCs are so useful because provide high resolution in both timing and spatial dimensions, as well as offer 3-D track reconstruction.
+An example of the energy resolution and particle-identification capabilities of TPCs is shown in Figure~\ref{fig:pep4_tpc_dedex}.
 
-%% include relevant LArTPCs here
-Recent work on LArTPCs (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_2017, LArIAT_Acciarri_2020}.)
+\begin{figure}[]
+\centering
+\includegraphics[width=0.8\textwidth]{images/pep4_tpc_dEdx.png}
+\caption{Measurements of energy deposited in the PEP-4 detector.
+These measurements show particle identification (PID) based on $\frac{dE}{dX}$.
+The energy resolution for the PEP-4 experiment calculated to be 3\%.
+Image taken from~\citep{pep_image}.
+}
+\end{figure}
+~\label{fig:pep4_tpc_dedex}
 
-Energy resolution of the LArTPCs within DUNE are still unknown to within a factor of 4 \citep{lartpc_energy_resolution:PhysRevD.99.036009}.
+\subsection{Liquid Argon Time Projection Chambers}~\label{sec:lartpcs}
+
+Alternatives to gaseous TPCs are liquid TPCs, which (as the name suggests) uses a liquid detection medium.
+A specific kind of liquid based TCP is a Liquid Argon Time Projection Chamber (LArTPC)~\citep{rubbia1977liquid}.
+Liquid was originally suggested as an alternative to the gaseous TPCs to provide a denser active volume.
+Experiements such as neutrino or dark matter measurements have low interaction cross sections, and thus greatly benefit from a dense active detector medium.
+Recently, much progress has been made in the implementation of LArTPCs for neutrino experiments (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_2017, LArIAT_Acciarri_2020}).
+
+LArTPCs provide a stable noble element (argon) which has high nucleon density.
+Argon offers several key advantages for its selection as a detector medium.
+Some key advantages of argon are its ability to produce large ($\sim$ 10kT) detectors, its high breakdown voltage, and its high ionization and scintillation yields.
+The relevant properties of a LArTPC are shown in Table~\ref{tab:lar_prop}.
 
 %% LAr table
 \begin{table}
@@ -243,17 +240,84 @@ Energy resolution of the LArTPCs within DUNE are still unknown to within a facto
       Transverse Diffusion Coeffecients & $D_{T}$ & 13.2327 & $cm^{2}/s$ \\
  \hline
     \end{tabular}
-    \caption{Relevant Liquid Argon parameter information. Values are taken from~\citep{lardata_lbnl}, with temperature $T_{s} = 87 K$ and electric field $E_{f} = 0.5 kV cm^{-1}$.}
+    \caption{
+      Relevant Liquid Argon parameter information.
+      Values are taken from~\citep{lardata_lbnl}, with temperature $T_{s} = 87 K$ and electric field $E_{f} = 0.5 kV cm^{-1}$.}
   \end{center}
 \end{table}~\label{tab:lar_prop}
 
-\subsection{Ways Forward}
+\section{The Deep Underground Neutrino Experiment}~\label{sec:dune}
 
-Despite the passing of generations of detectors and developments in electronics the SM remains.
-For nearly 50 years now the SM is still our best model at describing nature as we know it, despite also knowing that there must be more.
-Here in this section we describe in some more detail current searches at the intensity frontier where physicists are looking to go beyond the SM.
+The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
+DUNE, when constructed, will be composed two detectors, a near detector (ND) and a far detector (FD) which are separated by a distance of 1300 km.
+The neutrino beam measured at the ND and FD is generated in the Long Baseline Neutrino Facility (LBNF)~\ref{dune_cdr_2016_arxiv} beamline at Fermilab.
+An image of the beam and the ND are shown in Figure~\ref{fig:dune_nd_beamline}.
 
-We give special attention to neutrino oscillation at the end of this section since later chapters simulation studies will be based off results hoping to measure this effect.
+The ND is located at Fermilab and its purpose is to characterize the unoscillated neutrino beam.
+The ND serves as the DUNE's control.
+Results from the interaction rates at the ND provide evidence for the null hypothesis within the standard three neutrino oscillation paradigm.
+It will measure the unoscillated spectra for $\nu_{e}, \nu_{\mu}$, and their anti-particle pairs as a function of their energy, upon which the oscillation probability depends.
+The FD will use these unoscillated measurements of the neutrino spectra to predict what neutrino interaction spectra it should measure.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/dune_nd_beamline_tdrv1.png}
+\caption{Image of the near detector hall located relative to the neutrino beam at Fermilab in Illinois.
+The ND is $\approx 525~\unit{m}$ from the neutrino target.
+Image is taken directly from~\citep{DUNE_TDR_V1_Abi_2020}.
+}
+\end{figure}~\label{fig:dune_nd_beamline}
+
+The ND is a suite of three detectors all exposed to a LBNF beam.
+One component of the ND is a LArTPc (ND-LAr) which is a pixelated detector to be built using ArgonCube technology.
+Another component of the ND is a high pressure (10~\unit{atm}) argon gas based TPC (ND-GAr).
+The ND-Gar has superior identification abilities of charged pions than the LArTPC, and prevents misidentification of these pions as protons.
+The final component of the ND is the System for on-Axis Neutrino Detection (SAND), which is a magnetized beam monitor.
+SAND is used to measure the beam flux sent to the FD.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
+\caption{Representation of the Near and Far Detectors for the DUNE experiment.
+The ND is located within the image labeled as the Particle Detector.
+One of the key purposes for the ND is to tag outgoing particles from the proton beam.
+The FD is located at SURF on the left of the image, and will contain four 10 kT LArTPCs, which are the target of the neutrino beam.
+The beam's energy and distance between the ND and FD are chosen to optimize sensitivity to neutrino oscillation measurements (See Section~\ref{sec:neutrino_oscillation}).
+Image was taken from~\citep{dune_cdr_2016_arxiv}.}
+\end{figure}~\label{fig:dune_fd_image}
+
+The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
+The FD will be composed of four separate 10 kiloton LArTPC modules (DUNE-FD SP), an example of one is shown in Figure~\ref{fig:dune_10kt}.
+This detector represents an enormous engineering challenge to place such a large, cold, and complicated detector.
+
+At least two of these four modules at least will use a known wire-based readout technology.
+The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
+A purpose of this dissertation is show the viability of a novel readout technology targeted at a large 10~\unit{kT} LArTPC Single-Phase (SP) module, which is discussed in Chapter~\ref{chap:qpix}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/dune_fd_10ktmodule_tdrv1.png}
+\caption{Image of a single 10~\unit{kT} DUNE Far-detector Single-Phase (DUNE-FD SP) module.
+The dimensions of the module are 58.2~\unit{m} into the page, 12.0~\unit{m} high, and each drift distance is 3.5~\unit{m} between the anode (A) and cathode (C) planes. 
+The ionization charges drift horrintally in the SP scheme, where electrons are drifted toward the anode (A) planes.
+Image is taken directly from~\citep{DUNE_TDR_V1_Abi_2020}.
+}
+\end{figure}~\label{fig:dune_10kt}
+
+
+DUNE has three main science goals, all of which are geared towards pushing beyond the SM:
+
+\begin{itemize}
+    \item Hadron Decay~\ref{sec:hadron_decay}
+    \item Core-collapse Supernovae~\ref{sec:intro_supernova}
+    \item Neutrino Oscillation~\ref{sec:neutrino_oscillation}
+\end{itemize}
+~\label{item:dune_props}
+
+DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
+We will discuss the relevance of each of the first items in the next two sections.
+We provide a more complete discussion of neutrino oscillations in section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in chapter~\ref{chap:sim}.
+
 
 \subsection{Hadron Decay}~\label{sec:hadron_decay}
 
@@ -265,13 +329,12 @@ Attempts to unify all the fundamental forces of nature into a unified theory are
 
 Current measurements on the proton lifetime indicate that its lifetime is on the order of magnitude (or above) $10^{34}$ years.
 Even at its most frequent, this is an exceedingly rare event considering that the lifetime of the universe is $\approx \mathcal{O}(10^{10} yrs)$
-
 Since these events are so rare, extremely large detectors with large numbers of protons inside of them are required to constantly observe many protons.
+LArTPCs (like in DUNE) are excellent canidates to observe these rate events due to their active detector volume.
 An example of a second generation proton decay studies is the Imaging Cosmic and Rare Underground Signals(ICARUS) experiment~\citep{ICARUS_2001}.
 
 There are at least two prominant decay chains that are expected to be dominant, depending on the Grand-Unification-Theory (GUT) that hopes to go beyond the SM.
 The first one is:
-
 \begin{equation}
   p^{+} \rightarrow e^{+} + \pi^{0} + 2 \gamma
 \end{equation}
@@ -281,7 +344,6 @@ This interaction is easily detectable in cherenkov based detectors due to the em
 In fact, the worlds best estimate for proton lifetime comes from this decay-chain~\citep{PhysRevD.95.012004}.
 
 Other Supersymmetric GUT models predict instead~\citep{PhysRevD.38.1479}:
-
 \begin{equation}
   p^{+} \rightarrow K^{+} + \nu
 \end{equation}
@@ -295,118 +357,61 @@ These searches are interesting, if albeit difficult, both due to the rareness of
 If any detector was able to clearly measure even a single proton decay, that would provide direct evidence for physics beyond the SM.
 Future detectors that will continue to probe for nucleon decay are DUNE, Hyper-Kamiokande, and JUNO~\citep{DUNE_TDR_V1_Abi_2020, https://doi.org/10.48550/arxiv.1805.04163, Juno:2022103927}.
 
-\subsubsection{Supernova Studies}~\label{sec:intro_supernova}
+\subsection{Supernova Studies}~\label{sec:intro_supernova}
 
 A supernova occurs when a massive star runs out of the necessary elemental fuel for fusion at its core.
 When this happens the inward pull of gravity due to the mass of the star overcomes the reduced outward pressure from the nuclear fusion.
 
 It has been nearly 30 years since the last observed neutrinos from a galactic core collapse supernova, SN 1987A~\citep{1987ApJ...322..795F}.
+The rareness of these events encourage large, precise, long-running detectors to ensure a capture neutrinos from the next event.
 Sensitivity to supernova neutrinos is crucial for understanding the mechanisms that govern particles at these extreme densities and pressures.
 Interestingly, because neutrinos are so weakly interacting, it is possible to observe their signature and arrival before the photons arrival of a Type-II supernova.
 
-%% why do we care about supernova neutrinos, what will they tell us?
 The principal interaction chain observable in a TPC is:
 \begin{equation}
     \nu_{e} + ^{40}Ar \rightarrow e^- + ^{40}Kr^{+}
 \end{equation}
 
 A LArTPC is sensitive to $\nu_{e}$ by measuring the signture of both the $e^{-}$ and $^{40}Kr^{+}$.
+These events, when they occur happen within a small window of time (< 10~\unit{s}).
+The first time interval of the SNB event is referred to as the neutrinization, which is primarily composed of $\nu_{e}$.
+Therefore, any detector which expects to measure these events need to have either an constantly active and accurate trigger to detect these $\nu_{e}$ events, or continually record data.
 
+\section{Neutrinos and Oscillations}~\label{sec:neutrino_oscillation}
 
-%% Highlight what DUNE is and its purpose
+Hints at the existence of neutrinos began early last century.
+More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
+This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
+Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
+This third particle in the decay would explain the energy spectrum of the electron.
+Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
+The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
+finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
 
-\section{The Deep Underground Neutrino Experiment}~\label{sec:dune}
+% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
+Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
+~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
+neutrino_measurement_NOvA_2019_prl,
+t2k_2011_neutrino_PhysRevLett.107.041801,
+reno_2012_neutrino_PhysRevLett.108.191802,
+FUKUDA2002_solar_neutrino_oscillation,
+kamland_2003_neutrino_PhysRevLett.90.021802,
+daya_bay_2012_neutrino_PhysRevLett.108.171803,
+PhysRevD.91.072010_t2k_2015,
+doubleChooz_2012_neutrino_PhysRevLett.108.131801}
 
-The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
-DUNE, when constructed, will be composed two detectors, a near detector (ND) and a far detector (FD) which are separated by a distance of 1300 km.
+Originally the mass of the neutrino predicted by the SM was massless.
+That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
+The solution for this was oscillation.
 
-The ND is located at Fermilab and its purpose is to characterize the source neutrino beam created there.
-The ND serves many purposes.
-To name a few..TODO
-
-The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
-This detector represents an enormous engineering challenge to place such large, cold, and complicated detector.
-The FD will be composed of up to four separate 10 kiloton modules.
-
-DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
-We briefly discuss the relevance of some the searches below, but more detailed reading can be pursued at~\citep{DUNE_FD_TDRv2_2020}.
-
-Two of these four modules at least will use a known wire-based readout technology and a vertical drift-readout.
-The two remaining modules are considered modules of opportunity and their readout technology is yet unknown.
-A purpose of this dissertation is show the viability of a novel readout technology.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
-\caption{Representation of the Near and Far Detectors for the DUNE experiment. The Near Detector is located within the image labeled as the Particle Detector. One of the key purposes for the Near Detector is to tag outgoing particles from the proton beam. Image was taken from~\citep{dune_cdr_2016_arxiv}.}
-\end{figure}
-
-DUNE has three main science goals, all of which are geared towards pushing beyond the standard model:
-\begin{itemize}
-    \item Hadron Decay~\ref{sec:hadron_decay}
-    \item Core-collapse Supernovae~\ref{sec:intro_supernova}
-    \item Neutrino Oscillation~\ref{sec:neutrino_osc}
-\end{itemize}
-~\label{item:dune_props}
-
-We will discuss the relevance of each of these items, and in chapter~\ref{chap:qpix} where we will further discuss how the work presented here relates to each of these topics.
-
-Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
-
-\section{Neutrino Oscillations}~\label{sec:neutrino_oscillation}
-
-Finally, in this last section we discuss the development of various upcoming detector technologies.
-There are many motivating pressures for new detectors to adopt pixelated designs. 
-Below we discuss two contributing factors: the development of electronics and computing algorithms.
-
-First, previously pixelated detectors have historically been more difficult because of the issues of cost and size regarding the number of readout channels.
-This is being addressed, in part, by the advent of newer, cheaper, and larger Field-Programmable-Gate Arrays (FPGAs).
-One method for reducing the electronic overhead required in pixelated detectors is to use digital multiplexing.
-Cheap, high channel FPGAs directly solve this problem. 
-Other electronics development, such as the Silicon-Photomultiplier, offer much cheaper alternatives for large pixel counters compared to their historical counter-parts.
-
-The most difficult to measure fundamental particles of within the SM are the neutrinos.
-This is because these leptons carry no net charge.
-However, since they carry flavour and can decay (or be absorbed) and they also carry their respective lepton number, the neutrinos in the family can be identified by measuring their partner.
-
-For example, a common process to observe an anti-electron neutrino ($\hat{\nu_{e}}$) is through inverse beta-decay (IBD) following the reaction:
-\begin{equation}
-\hat{\nu_{e}} + p \rightarrow e^{+} + n
-\end{equation}
-
-This IBD reaction is a common measurement tool for identifying neutrinos because of the distinguisable detection signature of the produced particles.
-The position ($e^{+}$) annailates quickly ($\approx \mathcal{O}(ns)$) and will produce back-to-back 511 $keV$ photons.
-The produced neutron, on the other hand, wobbles around much longer ($\mathcal{O}(us)$) before being captured, which produces scintillation light of energy proportional to the neutrons energy when captured.
-
-The first measurements of the neutrinos in each family were much harder than their charged partners.
-The electron neutrino ($\nu_{e}$) and the muon neutrino ($\nu_{\mu}$) are observed in decay interactions.
-
-The tau neutrino ($\nu_{\tau}$) was exceptionally difficult to measure.
-Like the previous neutrino partners, the $\nu_{\tau}$ is discovered by looking for the creation of its partner ($\tau$) during a CC interaction.
-As a comparison the $\tau$ has a lifetime of only $10^{-13}$ s whereas the muon life time $T_{\mu}\approx \mathcal{O}(1 \mu s)$ or seven orders of magnitude shorter!
-
-The first successful experiment came in 2000~\citep{tau_neutrino_discovery_KODAMA2001218}.
-DONUT utilized a much more complicated emulsion detector to collect tracks from a 800 GeV proton beam offline.
-The exxperiment collected a total of 203 neutrino interactions, of which it found evidence for a total of only four interactions.
-
-\subsection{Neutrino Oscillation}~\label{sec:neutrino_osc}
-
-Another possible route beyond the Standard Model is the detailed study of neutrinos.
+It came as a welcome shock when neutrino oscillations were first measured.
+This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
+This happens because the mass eigenstate and flavor eigenstates which govern the neutrino are not equal.
 
 Here we provide a general description of a model to describing neutrino oscillation.
 We elucidate the measureable parameters which govern this oscillation and describe how these values are currently measured in experiments today.
 
-Of all known particles the most elusive (hardest to detect and measure) is the neutrino.
-For this reason the least is known about the neutrino.
-What we do know about the neutrino is there are three flavors each associated with their leptonic partners: the electron, muon, and tau.
-
-Tokai to Kamioka (T2k)~\citep{PhysRevD.91.072010_t2k_2015} has well established neutrino oscillation measurements.
-
-It came as a welcome shock that neutrino oscillation was first measured.
-This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
-This happens because the mass eigenstate and flavor eigenstates which govern the neutrino are not equal.
-
-The standard notation which relates the mass eigenstates ($v_{i}$) and flavor eigenstates ($v_{\alpha}$) ,
+The standard notation relates the mass eigenstates ($v_{i}$) and flavor eigenstates ($v_{\alpha}$):
 
 \begin{equation}
   v_{i} = U_{i\alpha}v_{\alpha}
@@ -480,7 +485,6 @@ Therefore, instead of nine unknown parameters for the SM, there are only six.
 The components $C_{ij}$ and $S_{ij}$ in the matrices are defined to be $\cos(\theta_{ij})$ and $\sin(\theta_{ij})$, respectively.
 
 Then, the six parameters of the $U_{PMNS}$ are identified as:
-
 \begin{itemize}
     \item $\theta_{13}$, reactor measurements.
     \item $\theta_{12}$, atmospheric measurements.
@@ -492,7 +496,6 @@ Then, the six parameters of the $U_{PMNS}$ are identified as:
 The Majorana phases ($\alpha_{i}$) are sensitive in experiments that can detect the Majorana nature of neutrions such as neutrinoless double beta decay.
 In neutrino oscillation measurements, these phases cancel out and not not measureable.
 Therefore, we ignore these two phases for the remainder of this work.
-
 
 Next we demonstrate the calculation of the probability of oscillation from one mass eigenstate to another.
 Namely we calculate the probablity $P(\mu \rightarrow e)$ which is the probability of interest in a long beamline experiment.
@@ -572,7 +575,7 @@ This resonance affect for beam-line experiments affects $\nu_{e}$ in the case of
  \hline\hline
   $\theta_{13}$ & $8.57^{+0.12}_{-0.12}$ & na & Reactor \\ % DAYA/doubleChooz/RENO 2012 Daya Bay found not equal to zero
  \hline
-  $\theta_{12}$ & $33.44^{+0.77}_{-0.74}$ & Atmospheric \\ % KamLAND + SNO, liquid scintillator
+  $\theta_{12}$ & $33.44^{+0.77}_{-0.74}$ & na & Atmospheric \\ % KamLAND + SNO, liquid scintillator
  \hline
   $\theta_{23}$ & $49.2^{+0.9}_{-1.2}$ & na & Solar \\ % Solar, T2k(water cherenkov) / NOvA(liquid scintillator / numi off axis)
  \hline
@@ -588,48 +591,7 @@ This resonance affect for beam-line experiments affects $\nu_{e}$ in the case of
 \end{table}
 ~\label{table:pmns_params}
 
-\subsection{Finding Neutrinos}
-~\label{sec:neutrinos}
-
-Hints at the existence of neutrinos began early last century.
-More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
-This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
-Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
-This third particle in the decay would explain the energy spectrum of the electron.
-Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
-The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
-
-Originally physicists held little hope that such an elusive particle would ever be detected.
-However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
-Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
-
-The discovery of the electron neutrino $v_{e}$ was the first of the three families to be discovered.
-A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
-
-The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
-this detector used nuclear emulsions.
-
-Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
-
-% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
-After this first discovery is when the the answers, followed by more questions, came.
-Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
-~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
-neutrino_measurement_NOvA_2019_prl,
-t2k_2011_neutrino_PhysRevLett.107.041801,
-reno_2012_neutrino_PhysRevLett.108.191802,
-FUKUDA2002_solar_neutrino_oscillation,
-kamland_2003_neutrino_PhysRevLett.90.021802,
-daya_bay_2012_neutrino_PhysRevLett.108.171803,
-doubleChooz_2012_neutrino_PhysRevLett.108.131801}
-
-All reliable information we have about neutrinos come from these large scale detectors.
-
-Originally the mass of the neutrino predicted by the SM was massless.
-That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
-The solution for this was oscillation.
-
-\section{Future Detectors}~\label{sec:future_detectors}
+\section{Towards Future Detectors}~\label{sec:future_detectors}
 
 %% antihydrogen
 \citep{Sadowski_2017}
