@@ -1,6 +1,5 @@
 \chapter{Introduction}~\label{chap:intro}
 
-%% heading for this chapter
 This chapter outlines and highlights useful background that will be explored in further detail in upcoming chapters as well as provides an outline for the thesis.
 
 We begin with an overview of the standard model, and how both its success and short comings drive larger and more expensive detectors.
@@ -9,40 +8,30 @@ To elucidate the issues at the forefront of the Standard Model we provide a brie
 Next, we become more specific and discuss DUNE which is a example of a new, large, and expensive detector which aims to push beyond the Standard Model.
 Finally, we finish this section on a discussion on the developments of new tracking detectors and highlight their relevance to the work presented here.
 
-%% Where we are
-\section{The State of Things: The Standard Model}
-~\label{sec:intro_now}
+\section{The State of Things: The Standard Model}~\label{sec:standard_model}
 
 What is the universe made of?
 What are the fundamental building blocks of matter?
 Since time immemorial thinkers have questioned the nature of the universe and wondered what the basic building blocks of nature are.
 The answer to these fundamental questions is the motivation for particle physics.
 
-%% what is the SM: Summarize what it does well and what it doesn't do well
 In the history of science, it is easy to argue that the most successful of all models is the Standard Model of Physics.
 The Standard Model (SM)~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} was originally developed in the mid to late 1970's and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
-It was gradually developed in the 1970's as a result of the boom in particle detectors in the mid and late 1960's.
 It has made remarkable predictions about the existence of elusive neutrinos, quarks and vector bosons before their discovery, and more.
 
 The comprehensive and extensive list of known particles as well as various cross-sections, lifetimes, and other known information can be found from the bi-annually published Particle Data Group (PDG)~\citep{Workman:2022ynf}.
 The SM has been experimentally tested to limits unlike any other theory.
-
-In this section we briefly describe the SM and highlight some (certainly not all) key aspects of its formulation as understood today.
 The SM has stood the test of time, despite many known failures and holes in its predictions.
-Therefore, we hope to elaborate a bit on its status involving predictions and unknwon parameters to help the reader better appreciate the significance of looking for physics beyond the SM.
 
 \subsection{The Basics of the Standard Model}
 
 The SM itself dictates what the fundamental constituents of matter and energy are.
-Like any theory in science, its purpose is to explain observed phenomena.
-In this case, the observed phenomena are not simply the origin of all observable particles and their masses, but also a description of all observable interactions.
-
+Its purpose is to explain the origin of observed matter as well as provide a description of all observable interactions.
 The interactions described by the SM involve the fundamental particle interactions via three of the four known fundamental forces observed in nature: the electromagnetic, weak, and strong forces.
 The missing fourth force is one of the major shortcomings of the SM: its inability to incorporate a quantum description of gravity.
-The discussion of the renormalization of quantum gravity is beyond the scope of the work presented here, so we will only mention that it needs to be achieved.
 
 All currently known fundamental particles are represented in Fig.~\ref{fig:cern_sm}.
-These particles represent the today's best knowledge of the building blocks of all observed matter in the universe.
+These particles represent the today's knowledge of the building blocks of all observed matter in the universe.
 
 \begin{figure}[]
 \centering
@@ -52,34 +41,11 @@ These particles represent the today's best knowledge of the building blocks of a
 \end{figure}
 ~\label{fig:cern_sm}
 
-\subsubsection{The Quarks}
-
 The quarks represent particles in the top left of Figure~\ref{fig:cern_sm}.
-
-Quarks are the fundamental particles which constitute the ``normal'' heavy particles, such as protons and neutrons.
-The quarks also have unique anti-particle partners, which brings the total number of quarks up to 12.
-Like all antiparticles, the anti-quark partners have the same mass as the normal partners, with all the quantum numbers reversed.
-
+In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\citep{eightfold_way_osti_4008239} which provided a method of grouping the hadrons.
+Following shortly later, the quark model was then propossed by Gell-Mann in 1964~\citep{quark_model_GELLMANN1964214}.
 A unique feature of quarks compared to leptons is that no ``free'' quark has ever been observed.
 This means that all current direct observations of quarks are in bound states.
-Most commonly, the quarks combine in pairs or triplets to form mesons and baryons, respectively.
-Even more complicated assemblies can be made of additional quarks, such as tetra and penta quarks, as long as all the quantum numbers are unique for each quark.
-
-The mesons contain a quark and an anti-quark, whereas the baryons a contain three quarks.
-Collectively, all particles constituted by any combination of quarks are known as hadrons.
-In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\citep{eightfold_way_osti_4008239} which provided a method of grouping the hadrons.
-
-Since quarks are not freely observable a common place to infer their existence (and to create heavier hadrons) are in particle accelerators.
-The most well known particle accelerator is the Large Hadron Collider (LHC) in Geneva.
-These Particle accelerators generate extremely high energy ($\approx \mathcal{O}(10 TeV)$) protons which when collided can generate new composite hadrons of any mass so that the total energy is conserved.
-
-Since quarks, due to their color, readily combine to create more easily observed composit particles.
-The Quark model was then propossed by Gell-Mann in 1964~\citep{quark_model_GELLMANN1964214}.
-This model is a group theory concept (known as SU(3) symmetry) and is the means for which the fundamental particles (quarks) combine into the composite particles (hadrons) which are more readily and easily measured today.
-Eventually experiments conducted at the Stanford Linear Accelerator (SLAC) between 1967-1973 verified the existence of these quarks and Gell-Mann won the Nobel Prize in 1969.
-
-The rescue of the quark model came with the measurement of~\citep{Jpsi_PhysRevLett.33.1404}.
-The $J/psi$ particle indicated the existence of a fourth since then unmeasured quark, which we now know as the charm ($c$).
 
 \begin{table}
 \begin{center}
@@ -102,206 +68,112 @@ The $J/psi$ particle indicated the existence of a fourth since then unmeasured q
 \end{tabular}
 \caption{Description of the discovery of quarks.
   Notice that as the mass increases for a particular quark the year of discovery also increases.
-  This is a property of how we create and observe the quarks in our accelerators, and also the reason why physicists continue to want to build bigger ones.
+  This is due to property of how we create and observe the quarks in our accelerators, and also the reason why physicists continue to want to build bigger ones.
   Interesting physics happens at higher and higher energies, which require larger and more expensive detectors to probe these energy scales.
   Note that the lighter quark masses are not well understood for other experimental reasons, and the presented data are rounded to three significant figures based on~\citep{Workman:2022ynf}.}
 \end{center}
 \end{table}
 ~\label{table:quark}
 
-\subsubsection{The Leptons}
-
 The leptons represent particles in the bottom left of Figure~\ref{fig:cern_sm}.
-
-The first lepton discovered, and the most commonly recognized, is the electron which was discovered by J. J. Thomson.
-Just like the quarks, the leptons come in three families (electron, $\mu$, $\tau$).
+Just like the quarks, the leptons come in three families (e, $\mu$, $\tau$).
 Also like the quarks, the leptons have charge, mass, and flavour which means they can decay.
-
 Unlike the quarks the leptonic particles do not have a color quantum number and therefore do not combine together to create composite particles.
-Additionally, free leptons are observed, e.g. the electron.
-
-The most difficult to measure fundamental particles of within the SM are the neutrinos.
-This is because these leptons carry no net charge.
-However, since they carry flavour and can decay (or be absorbed) and they also carry their respective lepton number, the neutrinos in the family can be identified by measuring their partner.
-
-For example, a common process to observe an anti-electron neutrino ($\hat{\nu_{e}}$) is through inverse beta-decay (IBD) following the reaction:
-\begin{equation}
-\hat{\nu_{e}} + p \rightarrow e^{+} + n
-\end{equation}
-
-This IBD reaction is a common measurement tool for identifying neutrinos because of the distinguisable detection signature of the produced particles.
-The position ($e^{+}$) annailates quickly ($\approx \mathcal{O}(ns)$) and will produce back-to-back 511 $keV$ photons.
-The produced neutron, on the other hand, wobbles around much longer ($\mathcal{O}(us)$) before being captured, which produces scintillation light of energy proportional to the neutrons energy when captured.
-
-The muon ($\mu$) was discovered by Anderson and Neddermeyer in 1936 by observing cosmic ray showers~\citep{muon_discovery_PhysRev.51.884}.
-
-The tau ($\tau$) was discovered by SLAC in 1975~\citep{tau_discovery_PhysRevLett.35.1489}.
-
-The first measurements of the neutrinos in each family were much harder than their charged partners.
-The electron neutrino ($\nu_{e}$) and the muon neutrino ($\nu_{\mu}$) are observed in decay interactions.
-
-The tau neutrino ($\nu_{\tau}$) was exceptionally difficult to measure.
-Like the previous neutrino partners, the $\nu_{\tau}$ is discovered by looking for the creation of its partner ($\tau$) during a CC interaction.
-As a comparison the $\tau$ has a lifetime of only $10^{-13}$ s whereas the muon life time $T_{\mu}\approx \mathcal{O}(1 \mu s)$ or seven orders of magnitude shorter!
-
-The first successful experiment came in 2000~\citep{tau_neutrino_discovery_KODAMA2001218}.
-DONUT utilized a much more complicated emulsion detector to collect tracks from a 800 GeV proton beam offline.
-The exxperiment collected a total of 203 neutrino interactions, of which it found evidence for a total of only four interactions.
 
 \begin{table}
 \begin{center}
 \begin{tabular}{||c c c c c||}
  \hline
- Lepton & Charge & $N_{e}$ & $N_{\mu}$ & $N_{\tau}$ \\ [0.5ex]
+ Particle & Charge & Mass (MeV) & Year Discovered & Ref.\\ [0.5ex]
  \hline\hline
- $e^{-}$ & 1 & 1 & 0 & 0 \\
+ e$^{-}$ & -1 & 0.511 & 1896 & \citep{doi:10.1080/14786449708621070} \\
  \hline
- $\nu_{e}$ & 0 & 1 & 0 & 0 \\
+ $\mu$ & -1 & 105.7 & 1936 & \citep{muon_discovery_PhysRev.51.884} \\
  \hline
- $\mu$ & 1 & 0 & 1 & 0 \\
+ $\tau$ & -1 & 1,776.9 & 1975 & \citep{tau_discovery_PhysRevLett.35.1489} \\
  \hline
- $\nu_{\mu}$ & 0 & 0 & 1 & 0 \\
+ $\nu_{e}$ & 0 & unknown & 1956 & \citep{first_neutrino_measurement} \\
  \hline
- $\tau$ & 1 & 0 & 0 & 1 \\
+ $\nu_{\mu}$ & 0 & unknown & 1977 & \citep{PhysRevLett.9.36} \\
  \hline
- $\nu_{\tau}$ & 0 & 0 & 0 & 1 \\
+ $\nu_{\tau}$ & 0 & unknown & 1995 & \citep{tau_neutrino_discovery_KODAMA2001218} \\
  \hline
 \end{tabular}
-\caption{Description of the quantum numbers of the fundamental lepton families.
-  There are three unique families within the leptons: electron, muon, and tau.
-  The charge carrier as well as the neutrino each carry a value of one for this number.
-  Their anti-particle counterparts carry -1 of this number.}
+\caption{Description of the discovery of the Leptons.
+}
 \end{center}
 \end{table}
-~\label{table:lepton_qn}
-
-\subsubsection{The Forces - Vector Bosons}
+~\label{table:lepton}
 
 All forces within the standard model (electromagnetism, weak, and strong) are governed via a ``carrier'' particle.
 These carrier particles are represented on the center-right of~\ref{fig:cern_sm}.
+Table~\ref{table:forces} provides a relative strength chart of the forces, and provides references for the first discovery of the carrier particle.
+
+The strong-nuclear force is governed by the exchange of the gluon ($g$).
+This force is responsible for color changes of matter and describes why nuclei are held together.
+The full theoretical description for the strong-nuclear force is Quantum-Chromodynamics (QCD).
 
 The electromagnetic force is governed by particle exchanges of a photon.
-Other than perhaps gravity, which isn't explained by the SM, this is the most well known and described force.
-All particles which carry charge  interact via this force.
-Therefore the neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force (this is why detecting them is so hard).
+All particles which carry charge interact via this force.
+Therefore the neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force.
 The full theoretical description of this force is governed by Quantum-Electrodynamics (QED).
 
 The weak-nuclear force is governed by particles exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$.
 This force involves a change in flavor of a particle, and involves both quarks and leptons.
-It is also responsible for all decay processes.
+It is also responsible for all nuclear decay processes.
 The theoretical description of these mechanics are called Quantum-Flavourdynamics (QFD).
-
-The strong-nuclear force is governed by the exchange of the gluon ($g$).
-This force is responsible for color changes of matter and describes why nuclei are held together.
-Since this force only involves exchanges of a gluon, the leptons are therefore unaffected since these particles carry no color quantum number.
-The full theoretical description for the strong-nuclear force is Quantum-Chromodynamics (QCD).
-
-The gluon was discovered in at the TASSO experiment 1979~\citep{tasso_1978_BRANDELIK1979243, PETRA_PhysRevLett.43.830}.
-
-Measurements of the intermediate bosons were much harder.
-The $W^{\pm}$ boson were measured in 1983~\citep{wboson_measure_ARNISON1983103}.
-Followed by the Z boson which was measured shortly afterwards in the same experiment~\citep{zboson_measure_1983398}.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{||c c c c c||}
+\begin{tabular}{||p{30mm} p{20mm} p{40mm} p{25mm} p{35mm}||}
  \hline
  Force & Scale & Theory & Carrier & Ref. \\ [0.5ex]
  \hline\hline
- Strong & 10 & Chromodynamics & gluon & TASSO~\citep{tasso_1978_BRANDELIK1979243} \\
+ Strong & 10 & Chromodynamics & gluon & TASSO~\citep{tasso_1978_BRANDELIK1979243, PETRA_PhysRevLett.43.830} \\
  \hline
- Electromagnetic & $10^{-2} $ & Electrodynamics & photon & Planck? \\
+ Electromagnetic & $10^{-2} $ & Electrodynamics & photon & Recognized Quanta in Ref.~\citep{https://doi.org/10.1002/andp.19053220607} \\
  \hline
  Weak & $10^{-13}$ & Flavourdynamics & $W^{\pm}$,Z & CERN~\citep{wboson_measure_ARNISON1983103},\citep{zboson_measure_1983398}\\
  \hline
- Gravity & $10^{-42}$ & General Relativity & graviton  & ?? \\
+ Gravity & $10^{-42}$ & General Relativity & graviton  & not observed \\
  \hline
  \hline
 \end{tabular}
-\caption{Relative strength chart of the four fundamental fources of nature. Although gravity is not included within the SM it is included, as well as its theoretical force carrier the graviton.}
+\caption{Relative strength chart of the four fundamental fources of nature. 
+Although gravity is not included within the SM it is included, as well as its theoretical force carrier the graviton.
+}
 \end{center}
 \end{table}
 ~\label{table:forces}
 
-\subsubsection{The Higgs - Scalar Boson}
-
-The last particle to be discovered in the SM was the Higgs particle.
+The last particle to be discovered in Figure~\ref{fig:cern_sm} in the SM was the Higgs particle.
 The Higgs particle was originally predicted in 1964 by Peter Higgs~\citep{HIGGS1964132}.
 This particle is important to describe how mass is given the the elementary particles described by the SM.
-Finally, in 2012 the Large Hadron Collider (LHC) was able to infer the massive Higgs particle~\citep{higgs_discovery_20121}.
+Ths Higgs was discovered in 2012 at the Large Hadron Collider (LHC)~\citep{higgs_discovery_20121}.
 
-%% elaborate more here on the standard model, what is it really?
+\subsection{Physics Beyond the Standard Model}
 
-\subsection{The Problem: Moving Beyond the Standard Model}
+Many times it was thought that the goal of physics was accomplished.
+The standard model is no different: despite its many successes there is still much left unexplained about the universe.
+SM does not incorporate gravity, it does not account for the matter-antimatter asymmetry of the universe, nor does it account for sources of dark energy and dark matter.
+SM also doesn't account for some of its 'basic' properties, such as: why are there only three generations of leptonic particles (e, $\mu$, and $\tau$)?
 
-Despite its (SM) numerous achievements in predictive power and experimental verification we know today that it has crucial shortcomings.
-The Standard Model (SM)~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} has no ability to account for Dark Matter or Dark Energy in the universe, nor the distribution (or the hierarchy) of neutrino masses, nor is it able to relate how gravity interacts with the other fundamental forces of nature (Unification).
-It also doesn't account for some 'basic' properties it has, such as: why are there only three generations of leptonic particles (electron, muon, and tau)?
-These short-comings offer hints for where to search for physics.
-Physicists have known about these short comings from the conception of the Standard Model and have (to no avail) sought out what's next.
+The search to answer these questions motivates the search for physics beyond SM.
+The success of SM is also a sign of the difficulty to discover new physics.
+Likely, in order to push beyond the standard model (BSM) physicists will have to develop not only larger, but more clever detectors (Sect.~\ref{sec:dune}).
+In Section~\ref{sec:neutrino_oscillation} we discuss another missed prediction of the SM: neutrino oscillations. 
 
-With a plethora of hints to search for New Physics (NP), it can be useful to organize the efforts of search.
-In 2008 the Particle Physics Project Prioritization Panel (P5) did just this and labeled the three frontiers of physics: the cosmological, energy, and intensity frontiers.
-Each of these frontiers offer different kinds of challenges and serve as guides to look for physics beyond the SM.
+\section{Time Projection Chambers}~\label{sec:tpcs}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=0.5\textwidth]{images/frontiers_physics.jpg}
-\caption{Image based on the 2008 P5 report~\citep{intensityfrontier2012_Hewett}. The white text labeled within each frontier describes the search for some physics beyond the SM within that frontier.}
-\end{figure}
+Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
+This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
+The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second (compared to 1-10) and provide full 3-D event reconstruction.
 
-%% energy frontier problems
-\subsubsection{Searches at High Energy}
-The energy frontier is concerned with the origin of mass.
-The Large-Hadron Collider (LHC)~\citep{higgs_discovery_20121} experiment is the archetypal experiment aimed at solving problems within this frontier.
-The LHC itself consists of other large-scale tracking and calioremtry experiments such as ATLAS~\citep{ATLAS:1999vwa} and CMS~\citep{CMS:2006myw}.
+It did not take long for other experimentalists to generalize this concept to different elements or even to liquid.
 
-Large particle accelerators are used to generator source particles of ever increasing energy.
-Due to the conservation of mass, the higher the energy of the particle accelerated the higher the mass (energy) of the particles created after certain collisions can be.
 
-There also exist lepton collidors~\citep{belle2_tdr_arxiv} which offer unique areas of search along this frontier too.
-More detailed descriptions of such collider experiments are beyond the scope of the work presented here, and further reading may be pursued from the extremely detailed technical design reports cited here of Belle-II and the ATLAS experiments.
+\subsection{Modern Tracking Detectors}
 
-%%
-\subsubsection{Other Searches}
-The cosmological frontier aims to search for NP on extremely large time and distance scales by relying on observational techniques.
-Cosmological measurements have shown the that majority of the universe's matter is not visible to light, and so we call it dark matter.
-Additionally, the universe is expanding at an accelerated rate, which we can tell from the blueshift of distance galaxies.
-Likewise, cosmologists have also discovered that the universe is expanding due to some invisible energy in the universe, and so we call it dark energy.
-
-The search for these dark causes of the universe lie within the realm of the cosmological frontier.
-
-Dark energy currently resides as the explanation for the observed accelerated expansion of the universe.
-Dark matter is commonly used to explain the deviation of the rotational frequency of galaxy clusters.
-
-The third (and final) frontier we'll discuss is the Intensity frontier.
-The Intensity Frontier of Physics (\citep{intensityfrontier2012_Hewett}) is one which today requires very large and very precise measurements to gain the statistics to declare an observation.
-In order to address the issues posed within this frontier the large scale detectors hunting for New Physics (NP) have continued to grow in size, energy sensitivity, and importantly cost: \citep{Juno:2022103927}.
-
-As compared to the energy frontier which normally relies on creating new particles from accelerators the Intensity Frontier often searches for rare events, like a proton decay.
-
-Neutrino searches also lie within this frontier.
-Neutrinos are notoriously difficult to detect and measure since they can only be probed via the weak-nuclear force, and even then only indirectly since they carry no charge themselves.
-
-%%
-
-\subsection{How did we got here?}
-
-Many times since the early 20th century it was thought that the goal of physics was accomplished.
-However, during each of these moments of false triumph some new detector was built to take a new measurement; thus, the door to new understanding of nature is never closed.
-This section provides a brief and (necessarily) incomplete history of significant measurements and detector developments relevant to particle physics in the creation of the SM.
-In order to clear an obstacle, it is often helpful to remember the previous ones.
-
-\subsection{A Century of New Physics}
-
-At the turn of the 20th century particle physics was in its infancy.
-In 1900 Max Planck first introduces the concept of energy quanta for the first time concerning photons to eliminate the infamous ultra-violet catastrophe problem introduced by statistical mechanics.
-JJ Thomson used a single cathode-ray tube to discover the electron and the nucleus, and won for himself the Nobel Pize in 1906.
-Milikan's famous oil-drop experiment won him the Nobel Prize in 1923.
-
-However, as each of these new discoveries solved problems only more questions were produced.
-Once the nucleus was discovered to contain only protons and neutrons, the natural question arose: what holds all of the positive charge together in the center.
-Thus, physicists cleverly named the new force which was stronger than the electromagnetic force: the Strong Force.
 
 The bubble chamber was then invented in 1952 by Donald Glaser~\citep{bubbleChamber_PhysRev.87.665}.
 These detectors proved significant in the discover of the W and Z bosons and ultimately allowed the unification of the electromagnetic and weak forces to form the electroweak theory.
@@ -309,49 +181,6 @@ These detectors proved significant in the discover of the W and Z bosons and ult
 Next the spark chamber eventually lead to the gradual development of the wire-spark chamber.
 In 1968 Georges Charpak developed the Multi-Wire Proportional Chamber (MWPC) for which he (much later) won the Nobel Prize in 1992.
 From this key insight a new detector concept was made possible.
-
-\subsection{Finding Neutrinos}
-~\label{sec:neutrinos}
-
-Hints at the existence of neutrinos began early last century.
-More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
-This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
-Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
-This third particle in the decay would explain the energy spectrum of the electron.
-Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
-The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
-
-Originally physicists held little hope that such an elusive particle would ever be detected.
-However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
-Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
-
-The discovery of the electron neutrino $v_{e}$ was the first of the three families to be discovered.
-A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
-
-The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
-this detector used nuclear emulsions.
-
-Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
-
-% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
-After this first discovery is when the the answers, followed by more questions, came.
-Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
-~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
-neutrino_measurement_NOvA_2019_prl,
-t2k_2011_neutrino_PhysRevLett.107.041801,
-reno_2012_neutrino_PhysRevLett.108.191802,
-FUKUDA2002_solar_neutrino_oscillation,
-kamland_2003_neutrino_PhysRevLett.90.021802,
-daya_bay_2012_neutrino_PhysRevLett.108.171803,
-doubleChooz_2012_neutrino_PhysRevLett.108.131801}
-
-All reliable information we have about neutrinos come from these large scale detectors.
-
-Originally the mass of the neutrino predicted by the SM was massless.
-That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
-The solution for this was oscillation.
-
-\section{Modern Tracking Detectors}
 
 It is could said that any definition defining a ``new'' age of a types of detectors is subjective.
 Nevertheless, we proceed to define that modern particle detectors were the age that began to use modern electronics, or electronics after the development of the metal–oxide–semiconductor field-effect transistor (MOS-FET).
@@ -367,16 +196,6 @@ The rate at particles could then be detected increased by orders of magnitude.
 
 Using the fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the firstWire MWPC in 1968~\citep{Charpak:1968kd}.
 This new detector was one which paved the way for modern detector development, for which Charpak won the 1992 Nobel Prize.
-
-
-\section{Time Projection Chambers}
-
-Time Projection Chambers (TPC)~\citep{lartpc:nygren} have been shown to be extremely useful in high energy physics experiments due, in part, to their high resolution in both timing and spatial dimensions.
-This detector was originally used in the Position-Electron Project PEP-4 experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
-The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second (compared to 1-10) and provide full 3-D event reconstruction.
-
-It did not take long for other experimentalists to generalize this concept to different elements or even to liquid.
-
 
 \subsection{Noble Gases and Time Projection Chambers}
 
@@ -534,7 +353,7 @@ We will discuss the relevance of each of these items, and in chapter~\ref{chap:q
 
 Conventional horizontal drift detection for foreseeable DUNE modules are already considered possible for lengths up to 6.5m \citep{DUNE_Vertical:Paulucci_2022}.
 
-\section{Neutrino Oscillations}
+\section{Neutrino Oscillations}~\label{sec:neutrino_oscillation}
 
 Finally, in this last section we discuss the development of various upcoming detector technologies.
 There are many motivating pressures for new detectors to adopt pixelated designs. 
@@ -546,29 +365,29 @@ One method for reducing the electronic overhead required in pixelated detectors 
 Cheap, high channel FPGAs directly solve this problem. 
 Other electronics development, such as the Silicon-Photomultiplier, offer much cheaper alternatives for large pixel counters compared to their historical counter-parts.
 
-\begin{table}
-\begin{center}
-\begin{tabular}{||c c c||}
- \hline
- Paramater & Best Experiments & Type of Detector \\ [0.5ex]
- \hline\hline
-  $\theta_{13}$ & & \\
- \hline
-  $\theta_{12}$ & & \\
- \hline
-  $\theta_{23}$ & & \\
- \hline
-  $\delta_{cp}$ & & \\
- \hline
-  $\Delta m_{21}^{2}$ & & \\
- \hline
-  $\Delta m_{3l}^{2}$ & & \\
- \hline
-\end{tabular}
-\caption{Comparison of which type of detectors are useful for measuring which values of neutrino oscillation.}
-\end{center}
-\end{table}
-~\label{table:pmns_detectors}
+The most difficult to measure fundamental particles of within the SM are the neutrinos.
+This is because these leptons carry no net charge.
+However, since they carry flavour and can decay (or be absorbed) and they also carry their respective lepton number, the neutrinos in the family can be identified by measuring their partner.
+
+For example, a common process to observe an anti-electron neutrino ($\hat{\nu_{e}}$) is through inverse beta-decay (IBD) following the reaction:
+\begin{equation}
+\hat{\nu_{e}} + p \rightarrow e^{+} + n
+\end{equation}
+
+This IBD reaction is a common measurement tool for identifying neutrinos because of the distinguisable detection signature of the produced particles.
+The position ($e^{+}$) annailates quickly ($\approx \mathcal{O}(ns)$) and will produce back-to-back 511 $keV$ photons.
+The produced neutron, on the other hand, wobbles around much longer ($\mathcal{O}(us)$) before being captured, which produces scintillation light of energy proportional to the neutrons energy when captured.
+
+The first measurements of the neutrinos in each family were much harder than their charged partners.
+The electron neutrino ($\nu_{e}$) and the muon neutrino ($\nu_{\mu}$) are observed in decay interactions.
+
+The tau neutrino ($\nu_{\tau}$) was exceptionally difficult to measure.
+Like the previous neutrino partners, the $\nu_{\tau}$ is discovered by looking for the creation of its partner ($\tau$) during a CC interaction.
+As a comparison the $\tau$ has a lifetime of only $10^{-13}$ s whereas the muon life time $T_{\mu}\approx \mathcal{O}(1 \mu s)$ or seven orders of magnitude shorter!
+
+The first successful experiment came in 2000~\citep{tau_neutrino_discovery_KODAMA2001218}.
+DONUT utilized a much more complicated emulsion detector to collect tracks from a 800 GeV proton beam offline.
+The exxperiment collected a total of 203 neutrino interactions, of which it found evidence for a total of only four interactions.
 
 \subsection{Neutrino Oscillation}~\label{sec:neutrino_osc}
 
@@ -769,7 +588,48 @@ This resonance affect for beam-line experiments affects $\nu_{e}$ in the case of
 \end{table}
 ~\label{table:pmns_params}
 
-\section{Future Detectors}
+\subsection{Finding Neutrinos}
+~\label{sec:neutrinos}
+
+Hints at the existence of neutrinos began early last century.
+More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
+This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
+Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
+This third particle in the decay would explain the energy spectrum of the electron.
+Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
+The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
+
+Originally physicists held little hope that such an elusive particle would ever be detected.
+However, the motivation to save this conservation law lead Wolfgang Pauli to the first prediction (1930) of the neutrino; the reason that the energy was a spectrum from the electron was that some of the energy was ``taken up'' by the neutrino.
+Finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
+
+The discovery of the electron neutrino $v_{e}$ was the first of the three families to be discovered.
+A few years later the first reactor neutrino ($\nu_{\mu}$) was observed at Brookhaven National Laboratory (BNL)~\citep{PhysRevLett.9.36}.
+
+The first measurement of the $\tau$ neutrino ($\nu_{\tau}$) happened much later in 2001~\citep{tau_neutrino_discovery_KODAMA2001218}.
+this detector used nuclear emulsions.
+
+Daya Bay~\citep{daya_bay_2012_neutrino_PhysRevLett.108.171803} has also established measurements of electron anti-neutrino ($\bar{\nu_{e}}$) disappearance.
+
+% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
+After this first discovery is when the the answers, followed by more questions, came.
+Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
+~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
+neutrino_measurement_NOvA_2019_prl,
+t2k_2011_neutrino_PhysRevLett.107.041801,
+reno_2012_neutrino_PhysRevLett.108.191802,
+FUKUDA2002_solar_neutrino_oscillation,
+kamland_2003_neutrino_PhysRevLett.90.021802,
+daya_bay_2012_neutrino_PhysRevLett.108.171803,
+doubleChooz_2012_neutrino_PhysRevLett.108.131801}
+
+All reliable information we have about neutrinos come from these large scale detectors.
+
+Originally the mass of the neutrino predicted by the SM was massless.
+That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
+The solution for this was oscillation.
+
+\section{Future Detectors}~\label{sec:future_detectors}
 
 %% antihydrogen
 \citep{Sadowski_2017}
@@ -795,3 +655,35 @@ Continued development in electronics, computing, and analysis methods will lead 
 The work presented in this introduction aims to not only encapsulate the massive progress particle physics has made since the electron's discovery, but also to server as a reminder of how extraordinarily surprising nature is.
 At every turn and at every point where physicists think they've arrived at the end (or at an impossible roadblock) there always remains more to discover.
 If we have learned anything, we have learned to knock and the door shall be opened.
+
+% \begin{table}
+% \begin{center}
+% \begin{tabular}{||c c c c c||}
+%  \hline
+%  Lepton & Charge & $N_{e}$ & $N_{\mu}$ & $N_{\tau}$ \\ [0.5ex]
+%  \hline\hline
+%  $e^{-}$ & 1 & 1 & 0 & 0 \\
+%  \hline
+%  $\nu_{e}$ & 0 & 1 & 0 & 0 \\
+%  \hline
+%  $\mu$ & 1 & 0 & 1 & 0 \\
+%  \hline
+%  $\nu_{\mu}$ & 0 & 0 & 1 & 0 \\
+%  \hline
+%  $\tau$ & 1 & 0 & 0 & 1 \\
+%  \hline
+%  $\nu_{\tau}$ & 0 & 0 & 0 & 1 \\
+%  \hline
+% \end{tabular}
+% \caption{Description of the quantum numbers of the fundamental lepton families.
+%   There are three unique families within the leptons: electron, muon, and tau.
+%   The charge carrier as well as the neutrino each carry a value of one for this number.
+%   Their anti-particle counterparts carry -1 of this number.}
+% \end{center}
+% \end{table}
+% ~\label{table:lepton_qn}
+
+
+More detailed descriptions of such collider experiments are beyond the scope of the work presented here, and further reading may be pursued from the extremely detailed technical design reports cited here of Belle-II and the ATLAS experiments.
+The LHC itself consists of other large-scale tracking and calioremtry experiments such as ATLAS~\citep{ATLAS:1999vwa} and CMS~\citep{CMS:2006myw}.
+There exist lepton collidors~\citep{belle2_tdr_arxiv} which offer unique areas of search along this frontier too.
