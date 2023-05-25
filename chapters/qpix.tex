@@ -1,26 +1,26 @@
 \chapter{A Novel Readout Technique for TPCs: Q-Pix}~\label{chap:qpix}
 
-In this chapter we introduce a novel pixel-based readout concept for TPCs.
+We begin this chapter in Section~\ref{sec:qpix_circuit} by introducing a novel pixel-based readout concept for TPCs.
 Pixel-based readouts offer several advantages over the traditional wire readout \citep{lartpc_recon_problems_joshi_2015}.
 A key improvement offered by pixelization is true 3-D image reconstruction.
-This allows for sharper vertex reconstruction, improving the overall resolution of of a LArTPC and may reduce the time required for an NP measurement.
-
+This allows for sharper vertex reconstruction, improving the overall resolution of of a LArTPC and may reduce the time required for a NP measurement.
 Other benefits include a reduction in the amount of data storage required and there simpler data analysis.
-A pixel-based readout automatically captures two of the three spatial dimensions.
-In addition, the pixelated readout method presented here reduces the total data storage required and the data acquisition rate (without loss of accuracy) by potentially several orders of magnitude.
 
-However, these advantages come at the cost of increased design complexity, as the number of readout channels increases by more than three orders of magnitude.
-The traditional wire-based readout of a DUNE-FD module will have hundreds to thousands of channels, while a full DUNE module with a pixel-based readout will have tens of millions of channels.
-This number of channels required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are continuously operating at liquid argon temperatures, is probably the biggest hurdle for a pixel-based design.
+Next, in Section~\ref{sec:qpix_apa} we discuss how this readout technology can be extended to a DUNE-FD 10 kT module.
+We compare the design specifications for the current wire-based readout of a DUNE-FD and discuss how the Q-Pix readout can meet similar design goals.
+We note the advantages of pixelization come at the cost of increased design complexity.
+The traditional wire-based readout of a DUNE-FD module will have hundreds to thousands of channels, while a pixel-based readout will have tens of millions of channels.
+This number of channels required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are continuously operating at liquid argon temperatures.
 A goal of this dissertation is to address the channel size problem.
 
 Two prototype ASICs have been developed to test each side of the readout shown in Figure~\ref{fig:qpix_frontandbackend}.
 We refer to the ASIC developed to test the front-end as the "analog ASIC".
 Likewise, we refer to the ASIC developed to test the back-end as the "digital ASIC".
 The contributions to the design of digital ASIC is a major component of this thesis.
+In Section~\ref{sec:digital_back-end} we discuss the design challenges of a large pixelated detector, with a special emphasis on the requirements of the digital back-end.
+Finally, in Sections~\ref{sec:qpix_photonics} and~\ref{sec:qpix_supernova} we briefly describe other work towards validating the Q-Pix design in a LArTPC.
 
-
-\section{Q-Pix: The Circuit Level Design}
+\section{Q-Pix: The Circuit Level Design}~\label{sec:qpix_circuit}
 
 The fundamental Q-Pix circuit~(\ref{fig:qpixCircuit}) was first introduced by Nygren and Mei~\citep{qpix:nygren:mei}.
 The principle of the front-end circuit operates on producing a signal output from Schmitt trigger connected to a charge sensitive amplifier (CSA) circuit.
@@ -228,7 +228,6 @@ Other measurement uncertainties stem from Equation~\ref{:eq:irecon_freq}.
 The precision of the local oscillator frequency and the constant charge per reset determine the current reconstruction precision.
 Variable replenishment circuits can impace $Q_{o}$, which will also affect $\sigma_{z}$.
 
-
 \section{How Q-Pix fits into a 10 kt LArTPC}~\label{sec:qpix_apa}
 
 A future target detector for the Q-Pix readout is the DUNE-FD 10 kt module.
@@ -422,50 +421,59 @@ However, as discussed in a later section (Sect.~\ref{}) since the amount of data
 
 \section{Q-Pix and Light Detection}~\label{sec:qpix_photonics}
 
-Recent progress~\citep{https://doi.org/10.48550/arxiv.2207.11127} has been made towards inclusion of an optical system combined the readout technology presented here.
-Such a system would integrate well with a charge-integrate-reset style presented here, as the charge collection area is much smaller than the total pixel area.
-The pixel dimensions are 4 $\unit{mm}$ $\times$ 4 $\unit{mm} $ for a total active area of 16$\unit{mm^{2}}$.
-Most of this active area is unused for the charge collection pad, which could be as small as drill-hole via (6 mil $<<$ 16\unit{mm^2}).
-Then, most of the remaining area could be plated with a photo-sensitive material.
+The results of this thesis analyze the response of the Q-Pix digital readout without any analysis paid towards photon collection.
+However, recent progress regarding amorphous selenium (aSe)~\citep{https://doi.org/10.48550/arxiv.2207.11127} has been made towards inclusion of an optical system.
 
-Such a photosensitive material could capture incoming scintillation photons and provide an additional voltage measurement at each pixel.
-Depending on the sensitivity, such a measurement could be used to reconstruct tracks by providing a $\frac{dE}{dX}$ measurement, or even as a time-tag and a trigger.
+The current pixel dimensions of Q-Pix are 4 $\unit{mm}$ $\times$ 4 $\unit{mm} $ which have a total active area of 16$\unit{mm^{2}}$.
+Most of this active area is unused for the charge collection pad, which could be as small as drill-hole via (6 mil $<<$ 16\unit{mm^2}).
+Most of the remaining area, then, could be plated with a photo-sensitive material (such as aSe).
+
+aSe could capture incoming scintillation photons and provide an additional voltage measurement at each pixel.
+Depending on the sensitivity, such a measurement could be used to reconstruct tracks by providing a $\frac{dE}{dX}$ measurement, or even be used as a time-tag or a trigger.
 
 The use of a reference trigger could be useful to establish event-time within the same system, and allow adjacent pixels which would receive photons, but not charge, to contribute to time reconstruction.
 Any reconstructed event requires some $T_{o}$ time to indicate the start of the event.
 Typically this is done via scintillation photons from a secondary system, where the photons arrive nearly instantly at the collection planes compared to the slow drift speed of the electrons.
 
-The natural pixelization of QPix required the charge collection can also be used to be sensitive to scintillation photons.
+The natural pixelization of Q-Pix required the charge collection can also be used to be sensitive to scintillation photons.
 These photons could not only provide the required event timing but also provide an additional means of calorimetry and track reconstruction.
 Additional work is currently underway to demonstrate the viability.
+
+Currently there are two competing geometries to incorporate light collection within Q-Pix.
+Figure~\ref{fig:qpix_light_geometries} shows the vertical and horiztontal drift geometries.
+The vertical drift geometry is an easier design geometry, however the top electrode must not only be able to collect charge it must also be transparent. 
+On the other hand, the horizontal drift geometry solves the transparancy problem but involves a more complilcated hardware design. 
 
 \begin{figure}
 \centering
 \begin{subfigure}{.45\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qpix_light_vertical_geom.pdf}
-  \caption{}
+  \caption{Vertical Drift}
 \end{subfigure}%
 \begin{subfigure}{.45\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qpix_light_horizontal_geom.pdf}
-  \caption{}
+  \caption{Horizontal Drift}
 \end{subfigure}
-\caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127}.
+\caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127.}
+The vertical drift geometry (left) shows an electrode on the top layer, whereas the horiztontal (right) geometry integrates the electrodes within the aSe.
+The vertical geometry is an easier design, but most electrodes are not transparent to VUV scintillation light.
+The horiztontal geometry solves this problem, at the cost of a more complicated design.
 }
 \label{fig:qpix_light_geometries}
 \end{figure}
 
-\section{Q-Pix at Low Energy: Supernova Studies}~\label{sec:supernova}
+\section{Q-Pix at Low Energy: Supernova Studies}~\label{sec:qpix_supernova}
 
-Previous work has been done to characterize how a Q-Pix based DUNE-FD would measure core collapse supernovae~\citep{qpix:shion}.
-These studies involved particle Geant4-based(~\citep{geant4:AGOSTINELLI2003250}) simulations for low energy ($\simeq$ 10~\unit{MeV}) neutrino events from supernova.
+Work has been done to characterize a Q-Pix readout ability measure core collapse supernovae~\citep{qpix:shion} events within a DUNE-FD module.
+These studies involved particle Geant4-based(~\citep{geant4:AGOSTINELLI2003250}) simulations for low energy ($\simeq$ 10~\unit{MeV}) neutrino events.
 The results indicate several advantages Q-Pix readout will have over a traditional wire-based readout.
 
 One advantage is the lower overall data rates (1.03$*10^{-6}$ < 2~\unit{pB} per year) compared to the traditional single-phase readout.
 This reduction in data rates could allow for a 10 kT Q-Pix module to collect timestamp data continually.
 Such a continuous readout, with no trigger, could be particularly useful in collecting supernova burst events.
-Figure~\ref{fig:qpix_shion} highlights one result from this study which shows how a Q-Pix readout compares against traditional wire-readout for supernova trigger burst effeciencies. 
+Figure~\ref{fig:qpix_shion} compares the trigger sensitivity supernova trigger burst effeciencies between the Q-Pix readout against traditional wire-readout. 
 
 \begin{figure}[]
 \centering
