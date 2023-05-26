@@ -1,35 +1,93 @@
-\section{Digital Design Overview}
+\section{The Digital Back-end and The First Digital Prototype}~\label{sec:digital_prototype}
 
 The digital system of the Q-Pix readout begins when the first digital data are recorded.
-This occurs during the collection of a recorded timestamp in response to the logic reset pulse sent from the integrating analog front-end.
-This record happens in response to output reset-pulse sent from any one, or more, of the pixels.
-Then, the timestamp record is the value of a local 32-bit counter at the time the node receives the reset pulse.
+This occurs during the collection of a recorded timestamp in response to the logic reset pulse sent from the Schmitt Trigger from analog front-end.
+An example of a pixel ring with a connected ASIC are shown in Figure~\ref{fig:qpix_asic_introduction}.
+
+This record happens in response any one, or more, of the pixels.
+The timestamp is value of a local 32-bit counter at the time the node receives the reset pulse.
 When a reset occurs the data recorded are the reset values of each pixel, and the only data required for a full analysis of all reconstruction with a LArTPC are:
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/single_pixel_dimensions_qpix.png}
+  \caption{Single Charge Collection Pixel}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/single_asic_dimensions_qpix.png}
+  \caption{Q-Pix ASIC connetected to 4$\times$4 pixels}
+\end{subfigure}
+\caption{Each Q-Pix ASIC (B) is expected to connect to up 16 pixels (A) within the LAr.
+The dimensions of each pixel are 4$\times$4~\unit{mm^2}, where the collection ring has a diameter of 1~\unit{mm}.
+}
+\label{fig:qpix_asic_introduction}
+\end{figure}
+
+The full Q-Pix digital back-end is a collection of interconnected ASICs that form tiles.
+Tiles are then connetected to controlling nodes as shown in Figure~\ref{fig:qpix_tile_introduction}, indicated by the colored boxes.
+The prototype will connect to 16 different pixels as shown in Figure~\ref{}.
+In order for the system to work each, ASIC must be able to send and receive data, which are routed to and from its tile.
+The sheer number of pixels required for an DUNE-FD 10 kT module require an extremely reliable means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/single_tile_qpix.png}
+  \caption{A single tile of 10$\times$14 Q-Pix ASICs}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/array_of_tiles_qpix.png}
+  \caption{An array of intereconnected tiles.}
+\end{subfigure}
+\caption{A modular tile (A) of Q-pix ASICs can be interconnetected (B) to create a larger charge collection plane. 
+The highlighted nodes in (B) indicate possible locations aggregator nodes to interconnect multiple tiles from a single controlling node.
+These aggregators can route power, clock, ground, and data out of the full detector.
+}
+\label{fig:qpix_tile_introduction}
+\end{figure}
+
+The logical components of each ASIC are represented in Figure~\ref{fig:qpa_diagram}.
+These components are resonsible for controlling the ASICs communications, configurations, and data collection.
+QPixComm describes the communication layer of the ASIC, and determines how to communicate with the ASIC, described in Section~\ref{sec:digi_communications}.
+
+Packets are capable of being encoded to serve different functions in the ASIC.
+Each ASIC is able to determine its appropriate response to a packet based on its contents; this procedure is described in Section~\ref{sec:digi_packets}.
+
+Dynamic programming of remote against is a key feature of the Q-Pix back-end design.
+Each ASIC is capable of determinine its location within a tile, as well as controlling its routing via register information, described by the QpixRegFile logic.
+We provide further detail the various control registers in Section~\ref{sec:registers}.
+
+Finally, the data collection module, QPixDataProc, records triggers sent from the analog front-end.
+We describe the ASIC's response to timestamp triggers in Section~\ref{sec:data_collection}
+
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/digital_node_overview.jpg}
-\caption{Diagram of the Digital node.
-  The controlling sections of the logic for the digital node are QpixComm, QPixDataProc, QPixRoute, and QPixRegFile.
-  The Comm layer is responsible for routing packets between the physical layer and handles the parsing of incoming data packets.
-  The DataProc layer is responsible for recording timestamp data during a reset from the analog front-end.
-  The RegFile contains configuration information, such as routing.
-  QPixRoute determines the controlling state machine that, based on register configurations, determines what packets are sent to which neighboring nodes.}
+\includegraphics[width=0.9\textwidth]{images/digital_node_overview.jpg}
+\caption{Diagram of the different components of the digital node.
+  Shown are the different sections of the control logic for the ASIC: QpixComm, QPixDataProc, QPixRoute, and QPixRegFile.
+  The QpixComm layer is responsible for routing packets between the physical layer and handles the parsing of incoming data packets.
+  The QpixDataProc layer is responsible for recording timestamp data during a reset from the analog front-end.
+  The QpixRegFile contains configuration information, such as routing, ASIC location, and the timestamp counter.
+  QPixRoute determines the controlling state machine that, based on register configurations, determines what packets are sent to which neighboring nodes.
+  The QpixDeubeg layer connects internal signals (such as the local oscillator) to external pins for planned futures tests of the ASIC prototype.
+  }
 \end{figure}~\label{fig:qpa_diagram}
 
-Each of these remote ASICs are running on free-running independent clocks, designed with a frequency of 30~\unit{MHz}.
+\subsection{The Communication Protocol}~\label{sec:digi_communications}
 
-\subsection{Communications}~\label{sec:digi_communications}
-
-The QpixComm module controls incoming and outgoing packet logic.
-
-The logic responsible for indentifying how an incoming packet is handled is defined in QPixParser.
 When a valid 64 bit packet has been received, a valid signal is thrown high.
 The packet is handled based on the bits within the header of this packet.
 How the packet is handled is determined the by the packet header~\ref{bit_reservation}.
 
 Packets are only comprehensable for types if the same region of the 64 bits are ubiqutous.
-For this purpose all packets use or reserve the same 20 bits, with four bits reserved for the packet type:
+For this purpose all packets use or reserve the same 20 bits, with four bits reserved for the packet type.
+The special bit locations within each packet are:
 
 \begin{itemize}
     \item Unused, 60--63
@@ -47,12 +105,13 @@ All data transfers of any kind are treated so that all communication happens bet
 Therefore, any packet that originates on a node that isn't the aggregator node will be sent to the aggregator node.
 The direction of that this packet is sent is deteremined by a configuration register.
 
-\subsection{The Structure of a Data Word}
+\subsubsection{Inter-Node communication via endeavor protocol}~\label{sect:endeavor}
+
+\subsection{The Structure of a Data Packet}~\label{sec:digi_packets}
 
 Each digital node responds to a successful transmission of a 64-bit packet.
 We choose that each packet, regardless of type, be 64-bits to reduce the overall packet checking complexity on each node.
-The type of the packet then is selected by the word type, which is reserved for a static 4 bits within each 64-bit word.
-This allows for a total amount of 16 unique packets each of which may be handled differently.
+The type of the packet then is selected by the word type, which is reserved by a static 4 bits within each 64-bit word.
 
 A successful transmission of a data word is indicated by the protocol when the correct number of bits have been read~(see Section~\ref{sect:endeavor}).
 When a correct packet is filled a single flag is raised to indicate that the word is valid, and then the appropriate logic parses the header bits of the packet and determines how the packet should be handled.
@@ -67,7 +126,7 @@ In the case of data words, there are also two main types: a word which contains 
 The 32 bit timestamp data word are the words which must eventually make it to disk for analysis.
 The data words must also encode the row and column position of the original nodes.
 
-\subsection{Configuration}
+\subsection{Configuration Registers}~\label{sec:registers}
 
 The configuration of the digital node is handled through local registers.
 These registers are described within QpixRegFile module, shown in Figure.~\ref{fig:qpa_diagram}.
@@ -129,7 +188,7 @@ The composition of any register word is shown in Table~\ref{tab:packet_register}
 \end{table}
 ~\label{tab:packet_register}
 
-\subsection{Local Data Collection}
+\subsection{Local Data Collection}~\label{sec:data_collection}
 
 The digital node is responsible for collecting and storing local timestamps in response to pixel resets as well as being able to communicate these data with neighbor nodes.
 The node must be able to buffer data so as to prevent packet loss during transactions.
@@ -187,52 +246,13 @@ Secondly, the event end word, since it is necessarily 64 bits long, may also tra
 The timestamp that the event end word carries is the time that the time that the node received the broadcast.
 This timestamp is used in the frequency calibration of the node; the method for calibration is described in greater detail in Section~\ref{sec:calib}.
 
-\subsection{Debug and Future ASIC Prototypes}
-
-Finally, The last block in Figure.~\ref{fig:qpa_diagram} is the QPixDebug.
-This portion is is used to expose certain ports to the physical pins in a digital ASIC design.
-This design will be the first prototype of the digital ASIC, and is beyond the scope of the work presented here, but will be discussed in the final section of this thesis.
-
-\subsubsection{Inter-Node communication via endeavor protocol}
-~\label{sect:endeavor}
-
-The Endeavor protocol is a bi-directional serial communication protocol which allows communication between asynchronous devices.
-The asynchronous communication is achieved by extending the length of time that each bit is sent between the two devices.
-In this protocol the way that the receiving node (RXN) identifies the correct logic value of the current bit is by counting the number of clocks that the incoming signal is logic high.
-The incoming bit is either a logic low, if held high for fewer clocks than it would be if it was an incoming logic high.
-The number of clocks which corresond to high and low must be programmed beforehand and are tunable parameters.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/qpix_word_format.pdf}
-\caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.}
-\end{figure}~\label{fig:datum}
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/endeavor_protocol.jpg}
-\caption{Diagram of the endeavor transmission (Tx) protocol.}
-\end{figure}~\label{fig:endeavor}
-
-\subsection{Basic System Requirements}
-
-The sheer number of pixels required for an APA (and the 10~\unit{kT} entire module) require an effective means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
-Resets are records of a local counter at the current node and are recorded in response to a reset pulse sent from a pixel.
-
-\subsubsection{Comments on Data Rates and required Computing}
-
-Based on the minimum number of bits for each RTD~\ref{bit_calc} we can estimate minimum data rates based on tile size.
-
-
 \section{The Digital Finite State Machine}~\label{sec:digital_fsm}
 
-The Finite State Machine (FSM) of the digital ASIC outlines the designed behavior response to input.
+The Finite State Machine (FSM) of the digital ASIC controls the ASIC's response to inputs.
 Figure~\ref{fig:digital_fsm} shows a representation of the different states as well as the conditions to enter or leave each state.
 
 There are two different kinds of prompts that an ASIC can receive: packet transactions from neighbors and resets from pixels.
 When an ASIC receives a packet from a neighbor, the packet data are written on the remote FIFO
-There is one special packet
-
 
 \begin{figure}[]
 \centering
@@ -241,11 +261,10 @@ There is one special packet
 \end{figure}~\label{fig:digital_fsm}
 
 \begin{itemize}
-    \item Idle, Acquisition State
+    \item Idle
     \item Transmit Local
     \item Transmit Finish
     \item Transmit Remote
-    \item DONE
 \end{itemize}~\label{fsm_state_labels}
 
 \subsection{Idle}~\label{sec:state_idle}
@@ -254,48 +273,7 @@ There is one special packet
 
 \subsection{Transmit Remote}~\label{sec:state_remote}
 
-
-\section{The Parameter Space of the Digital System}~\label{sec:parameter_space}
-
-The digital back-end design
-
-\subsection{Buffer Depth Requirements}
-
-The required buffer depth of each node in an array is the maximum number of timestamps the node can store in memory before overflow (dataloss).
-Each node requires some buffer memory to record local data as well as separate storage for remote data.
-The remote data which can be sent can come from any of the adjacent connected nodes, and may of any type: data words, register request, etc.
-Since the remote
-
-The ice40 FPGAs have a total of 20 Embedded Block Ram models (EBRs) which allow for a for total of 64xTODO memory depths allocated in each node.
-
-\subsection{Endeavor Packet Stability at Different Scales}
-
-We test two differet scales for the endeavor protocol.
-This protocol maintains a relative relationship between the number of high signals used to send either a high and low bit.
-The convention to send a high bit is to pulse a logic high signal for twice as long as is done for a low bit.
-
-The number of bits used for to send a high bit are either
-
-\begin{table}
-\begin{center}
-\begin{tabular}{||c c c||}
- \hline
- Name & Function & Value Range\\ [0.5ex]
- \hline\hline
-  Zero & Controls how many clocks to send a logic high to transfer a low bit & 1--3 \\
- \hline
-  One & Controls how many clocks to send a logic high to transfer a high bit & 2--5 \\
- \hline
-\end{tabular}
-\caption{The address values are not sequential because some registers have become deprecated through development.}
-\end{center}
-\end{table}
-~\label{table:endeavor_bits}
-
-\subsection{The Push and Pull Architectures}~\label{sec:architectures}
-
-
-\section{The Digital Back-end problem}
+\section{The Digital Back-end problem}~\label{sec:digital_problem}
 
 The main objectives of the digital back-end are to correctly measure the data presented to it by the analog front-end and ensure lossless transport of that data to disk.
 More simply, the goals of the digital portion of the Q-Pix readout are to record and send data.
@@ -330,8 +308,6 @@ Our design considerations for this readout include reduction of SPF risk, low po
 Partly for these reasons, the design choice for communication relies on only two connections between ASICs.
 One connection is defined as a data receiver (Rx) and the other as a data transmitter (Tx).
 This choice of interface dramatically limits a choice of possible protocols.
-Here, we describe the difference between two that we tested: Universal Asynchronous Receiver-Transmitter (UART) and Endeavor.
-We discuss and test only these two protocols for simplicity, and find it instructive to compare a proven and custom protocol (Endeavor) with a very common one (UART).
 
 The importance of choosing a correct protocol is to ensure lossless data transmission.
 Since there are free running clocks, an asynchronous communication protocol is required.
@@ -342,36 +318,6 @@ However, this lengthening can't proceed forever, obviously, otherwise data trans
 It is another important design consideration, then, to ensure that transactions proceed as quickly as possibly without data loss.
 Additional concerns of long data transactions include the use of more clock cycles which use more power and increase the risk noise to leak to the analog front-end.
 
-%% appendix??
-% \subsubsection{UART}~\label{sec:uart}
-% This common protocol is typically stable between devices with a maximum difference of clock frequency to be 10\%.
-
-% \begin{tikztimingtable}[%
-%     timing/dslope=0.1,
-%     timing/.style={x=5ex,y=2ex},
-%     x=5ex,
-%     timing/rowdist=3ex,
-%     timing/name/.style={font=\sffamily\scriptsize}
-% ]
-% \centering
-% % \busref{$CLK_{base-tx}$} & 0.10L 156{.1428570c} \\
-% % \busref{$CLK_{base-rx}$} & 0.35L 156{0.12857c} \\
-% \busref{$CLK_{tx}$} & 0.10L 20{c} \\
-% \busref{$CLK_{rx}$} & 0.35L 22{0.9c} \\
-% \busref*{Tx} & 0.10L 2u 1D{START} 10d{DATA} 1D{STOP} 2U \\
-% \busref*{Rx} & 0.35L 1.80u 0.9D{START} 10.8d{DATA} 0.9D{STOP} 1.8U \\
-% \extracode
-% \begin{pgfonlayer}{background}
-% \begin{scope}[semitransparent ,thick]
-% \vertlines[darkgray,dotted]{0.10,1.10,...,2.1}
-% \vertlines[black,solid]{0.35,1.25,...,10.25}
-% \end{scope}
-% \end{pgfonlayer}
-% \end{tikztimingtable}~\label{tikz:uart}
-% wavedrom - improvement to avoid difficult tikz
-
-%% appendix??
-\subsubsection{Endeavor}~\label{sec:endeavor}
 
 This protocol is slower than UART, but allows for approximately double the frequency difference: $\approx$ 20\%.
 
@@ -382,15 +328,37 @@ The longer the signal was high, the more likely it is the the transmitter was at
 The number of clock cycles which accompany either a high bit transmission or a low bit transmission then represent a possible design choice for the protocol.
 The actual number of bits which should be used ultimately depend on the similarity of the frequency between adjacent digital channels; the more similar the frequency (and relative phase) the lower these numbers can be.
 
-\begin{itemize}
-    \item Start Bit
-    \item High Bit
-    \item Low Bit Send
-    \item Stop Bit Send
-\end{itemize}\label{item:endeavor}
+The Endeavor protocol is a bi-directional serial communication protocol which allows communication between asynchronous devices.
+The asynchronous communication is achieved by extending the length of time that each bit is sent between the two devices.
+In this protocol the way that the receiving node (RXN) identifies the correct logic value of the current bit is by counting the number of clocks that the incoming signal is logic high.
+The incoming bit is either a logic low, if held high for fewer clocks than it would be if it was an incoming logic high.
+The number of clocks which corresond to high and low must be programmed beforehand and are tunable parameters.
 
-%% This section should reference how Q-Pix fits into a DUNE APA as a design goal
-\section{Constraining the digital back-end Design}
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/qpix_word_format.pdf}
+\caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.}
+\end{figure}~\label{fig:datum}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/endeavor_protocol.jpg}
+\caption{Diagram of the endeavor transmission (Tx) protocol.}
+\end{figure}~\label{fig:endeavor}
+
+
+\subsection{Buffer Depth Requirements}
+
+The required buffer depth of each node in an array is the maximum number of timestamps the node can store in memory before overflow (dataloss).
+Each node requires some buffer memory to record local data as well as separate storage for remote data.
+The remote data which can be sent can come from any of the adjacent connected nodes, and may of any type: data words, register request, etc.
+Since the remote
+
+The ice40 FPGAs have a total of 20 Embedded Block Ram models (EBRs) which allow for a for total of 64xTODO memory depths allocated in each node.
+
+\subsection{The Push and Pull Architectures}~\label{sec:architectures}
+
+\section{Constraining the digital back-end Design}~\label{sec:digital_constraints}
 
 Section~\ref{sec:qpix_apa} describes in detail how a Q-Pix based hardware readout architecture could fit within a single DUNE-APA.
 Here we extend this discussion and use those constraints as the starting point for a search for a solution to the digital back-end architecture.
@@ -399,7 +367,7 @@ The first problem to solve is how to aggregate the all timestamp data supplied b
 A Q-Pix architecture would likely use either a high-performance FPGA or a custom ASIC to aggregate the large number of $(\mathcal{O}(10^{7})$ channels.
 The number of aggregated digital channels determines the required capabilities of the aggregator node and the selection of an FPGA or ASIC.
 Since each additional aggregator node represents an additional SPF risk, our design goal suggests that the optimal configuration is one that produces the least number of aggregator nodes.
-Therefore, the goal is to design a routing architecture which is responsible for as many digital channels as possible for each data aggregator node which still allows for accurate timing calibration and lossless data acquisition.
+Therefore, the goal is to design a routing architecture which is responsible for as many digital channels as possible for each data aggregator node while still accounting for accurate timing calibration and lossless data acquisition.
 
 However, as one increases the number of digital channels per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated.
 Additionally, since each digital channel requires extra communication time (as discussed in section~\ref{sec:comms}) the introduction of more channels negatively affects the precision of timing calibrations and potentially increases SPF risk of digital channels.
@@ -715,7 +683,6 @@ if we identify that $N = C(R_{1}+R_{2})$ and use $R_{2} = R - R_{1}$:
   C_{SPF} = \frac{1}{2CR^{2}}(2R_{1}^{2}-2R_{1}R+R^{2}+CR+2(R-R_{1}))
 \end{equation}
 
-
 \section{Frequency Calibration of Local Oscillators}~\label{sec:calib}
 
 The Q-Pix calibration requirements are described in detail in Section~\ref{sec:qpix_calib}.
@@ -731,7 +698,6 @@ This scenario removes the need for a calculation of the frequency of each node a
 This is the simplest case for timing calibration: remove all free running oscillators.
 However, this method also introduces complex routing and power requirements within every tile.
 
-% TODO
 % cross-talk
 A distributed clock network indeed removes ambiguity of the remote oscillator frequencies, but at the cost of hardware complexity.
 Whether or not this design choice is preferred is entirely detector dependent, but likely increases in difficulty with the scale of the TPC.

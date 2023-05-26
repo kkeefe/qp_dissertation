@@ -1,12 +1,23 @@
 \chapter{Introduction}~\label{chap:intro}
 
-This chapter outlines and highlights useful background that will be explored in further detail in upcoming chapters as well as provides an outline for the thesis.
+The aim of this thesis is to demonstrate the viability of the digital back-end novel of a novel pixelated readout to be used in Time Projection Chambers (TPCs). 
+We begin this chapter with an introduction to the Standard Model (SM) in Section~\ref{sec:standard_model}.
+We pay particular attention to the experimental work which was done to lay the foundation of the knowledge of physics we have today.
 
-We begin with an overview of the standard model, and how both its success and short comings drive larger and more expensive detectors.
-These detectors must reach for ever newer limits, in both precision and scale, due to the robust nature of the Standard Model.
-To elucidate the issues at the forefront of the Standard Model we provide a brief history, with an emphasis on the detectors and experiments which helped lead to its current status.
-Next, we become more specific and discuss DUNE which is a example of a new, large, and expensive detector which aims to push beyond the Standard Model.
-Finally, we finish this section on a discussion on the developments of new tracking detectors and highlight their relevance to the work presented here.
+In Section~\ref{sec:tpcs} we briefly discuss the history and development TPCs. 
+The novel readout presented in this thesis is described in Chapter~\ref{chap:qpix} is designed specifcally for use in TPC detectors.
+Chapter~\ref{chap:saq} provides the first measurements Q-Pix front-end readout in gas-based TPCs.
+
+We continue in section~\ref{sec:dune} to describe the future Deep Underground Neutrino Experiment (DUNE).
+The studies of Chapters~\cref{chap:qdb,chap:sim} demonstrate how this novel charge readout could be scaled to a DUNE Far Detector (DUNE-FD) scale.
+
+In Section~\ref{sec:neutrino_oscillation} we provide a brief history on the discovery of the neutrino and discuss its relevance for searching for physics beyond the Standard Model.
+We also provide a short review of the theory behind neutrino oscillations.
+Oscillation measurements, by extensions the search for Charge-Parity violation in the lepton section, is a primary science goals of the DUNE experiment: any proposed readout for DUNE must be able to measure neutrino oscillation.
+These measurements involve interactions which occur at~\unit{GeV} energy scales.
+We provide the first demonstration of required capabilities at these energy scales for the Q-Pix back-end readout in Chapter~\ref{chap:sim}.
+
+Finally, we finish this chapter on a discussion on the developments of new tracking detectors and highlight their relevance to the work presented here.
 
 \section{The State of Things: The Standard Model}~\label{sec:standard_model}
 
@@ -379,17 +390,18 @@ Therefore, any detector which expects to measure these events need to have eithe
 
 \section{Neutrinos and Oscillations}~\label{sec:neutrino_oscillation}
 
-Hints at the existence of neutrinos began early last century.
+Hints at the existence of neutrinos began early in the 20th century.
 More than 100 years ago Chadwick was able to show that the energy spectrum from a decaying electron was continuous~\citep{Chadwick:1914zz}.
 This unknown cause of the spectrum even lead some physicists to belief that perhaps the conservation of energy was violated.
 Wolfgang Pauli instead predicted a particle which he originally called the neutron to also be a decay product, but not easily observable.
 This third particle in the decay would explain the energy spectrum of the electron.
-Quickly however the particle name neutron was taken by a different neutral particle in 1932~\citep{Chadwick1932PossibleEO}
-The discovery of the neutron and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
-finally, some 26 years later in 1956 was the first observation of the electron neutrino~\citep{first_neutrino_measurement}.
+The discovery of the neutron(\citep{Chadwick1932PossibleEO}) and the continuous spectrum of beta decay forced Pauli to come up with a new theory attempting to describe beta decay~\citep{pauli_1934}.
+finally, some 26 years later in 1956 the first observation of $\nu_{e}$~\citep{first_neutrino_measurement} was made.
 
-% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
-Since then, many large-scale experiments have been dedicated to measuring the three generations of neutrinos.
+Originally the mass of the neutrino predicted by the SM was massless.
+That was until the Solar neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
+The solution for this was oscillation.
+Since then, many large scale experiments have been dedicated to measuring the three generations of neutrinos.
 ~\citep{SNO_2002_neutrino_PhysRevLett.89.011301,
 neutrino_measurement_NOvA_2019_prl,
 t2k_2011_neutrino_PhysRevLett.107.041801,
@@ -399,24 +411,23 @@ kamland_2003_neutrino_PhysRevLett.90.021802,
 daya_bay_2012_neutrino_PhysRevLett.108.171803,
 PhysRevD.91.072010_t2k_2015,
 doubleChooz_2012_neutrino_PhysRevLett.108.131801}
+% Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 
-Originally the mass of the neutrino predicted by the SM was massless.
-That was until the Solar-neutrino anomaly measured significantly less neutrinos than predicted~\citep{solar_neutrino_problem_PhysRevLett.20.1205}.
-The solution for this was oscillation.
-
-It came as a welcome shock when neutrino oscillations were first measured.
-This oscillation indicates that a neutrino as it moves through space can change its state; a electron neutrino can oscillate into a muon neutrino or even a tau neutrino.
-This happens because the mass eigenstate and flavor eigenstates which govern the neutrino are not equal.
-
+Oscillation occurs because the mass eigenstate and flavor eigenstates are not equal.
 Here we provide a general description of a model to describing neutrino oscillation.
 We elucidate the measureable parameters which govern this oscillation and describe how these values are currently measured in experiments today.
-
 The standard notation relates the mass eigenstates ($v_{i}$) and flavor eigenstates ($v_{\alpha}$):
 
+Neutrino oscilLation is occurs to a neutrino as it moves through space can change its state.
 \begin{equation}
   v_{i} = U_{i\alpha}v_{\alpha}
-\end{equation}
-\label{eq:relate_eigenstates}
+\end{equation}~\label{eq:relate_eigenstates}
+
+% With adjoint of the matrix $U_{i\alpha}$, $U_{i\alpha}\dag$, we can then rewrite the equation:
+% \begin{equation}
+%   v_{\alpha} = U_{i\alpha}^{\dag}v_{i}
+% \end{equation}
+% \label{eq:adjoint_eigenstates}
 
 %% neutrino mass oscillations
 \begin{equation}
@@ -474,9 +485,9 @@ C_{12} & S_{12} & 0 \\
 \end{pmatrix}
 \times
 \begin{pmatrix}
+0 & 0 & 1 \\
 e^{i\alpha_{1}} & 0 & 0 \\
 0 & e^{i\alpha_{2}} & 0 \\
-0 & 0 & 1 \\
 \end{pmatrix}
 \end{equation}
 
@@ -486,32 +497,32 @@ The components $C_{ij}$ and $S_{ij}$ in the matrices are defined to be $\cos(\th
 
 Then, the six parameters of the $U_{PMNS}$ are identified as:
 \begin{itemize}
-    \item $\theta_{13}$, reactor measurements.
-    \item $\theta_{12}$, atmospheric measurements.
-    \item $\theta_{23}$, solar measurements.
-    \item $\delta_{CP}$, Charge-conjugation parity violation.
-    \item $\alpha_{1}$/$\alpha_{2}$, The two Majorana Phase parameters.
+    \item $\theta_{13}$ - Reactor measurements.
+    \item $\theta_{12}$ - Atmospheric measurements.
+    \item $\theta_{23}$ - Solar measurements.
+    \item $\delta_{CP}$ - Charge-conjugation parity violation.
+    \item $\alpha_{1}$/$\alpha_{2}$, The two Majorana Phase parameters, not observable in beam experiments.
 \end{itemize}
 
 The Majorana phases ($\alpha_{i}$) are sensitive in experiments that can detect the Majorana nature of neutrions such as neutrinoless double beta decay.
 In neutrino oscillation measurements, these phases cancel out and not not measureable.
-Therefore, we ignore these two phases for the remainder of this work.
+Therefore, we can safely ignore these two phases for the work presented here.
 
 Next we demonstrate the calculation of the probability of oscillation from one mass eigenstate to another.
 Namely we calculate the probablity $P(\mu \rightarrow e)$ which is the probability of interest in a long beamline experiment.
 First we identify that equation~\ref{eq:relate_eigenstates} can be rewritten to isolate the flavor-eigenstate terms ($v_{\alpha}$) by multiplying by the adjoint of the PMNS matrix ($U^{*}_{PMNS}$).
-Then the relationship between the mass and flavor eigenstates become:
+Then the relationship between the time dependent mass and flavor eigenstates become:
 
 \begin{equation}
-v_{\alpha} = U^{*}_{PMNS}v_{i}
+\ket{v_{\alpha}(t)} = U^{*}_{PMNS}\ket{v_{i}(t)}
 \end{equation}
 ~\label{eq:flavor_relation}
 
-The value of interest is $P(\mu \rightarrow e)$.
+The value of interest is $P(\mu \rightarrow e)$, which occurs if the $\nu_{\mu}$ travels after some time, t, and interacts via a charged-current (CC) interaction.
 The probability to end up in state $v_{e}$ beginning from $v_{\mu}$ is:
 
 \begin{equation}
-P(\mu \rightarrow e) = \lvert \braket{ v_{e} | v_{\mu} }\rvert^{2}
+P(\mu \rightarrow e) = \lvert \braket{ v_{e} | v_{\mu} (t) }\rvert^{2}
 \end{equation}
 ~\label{eq:prob_calc1}
 
@@ -519,14 +530,14 @@ We then use equation~\ref{eq:flavor_relation} to represent the matrix elements o
 
 \begin{equation}
   P(\mu \rightarrow e)
-  = \lvert \sum_{i} U_{e i} U^{*}_{\mu i} e^{-i E_{i}t}  \rvert^{2}
-  = \sum_{i} {\lvert U_{ei}U^{*}_{\mu i} \rvert}^{2}
-  +
-  2 \Re( \sum_{i>j}  U^{*}_{ej}U_{\mu j}U_{ei}U^{*}_{\mu i} e^{-i \Delta_{ij}t} )
-\end{equation}
-~\label{eq:prob_calc2}
+  = \lvert \sum_{i} U_{e i} U^{*}_{\mu i} e^{-i E_{i}t} \rvert^{2} \\
+  =
+  \delta_{ij}
+  - 4 \sum_{i>j}  \Re( U^{*}_{ej}U_{\mu j}U_{ei}U^{*}_{\mu i} ) \sin ^2(\frac{m_{ij}^{2}}{4E}L)
+  + 2 \sum_{i>j}  \Im( U^{*}_{ej}U_{\mu j}U_{ei}U^{*}_{\mu i} ) \sin(\frac{m_{ij}^{2}}{2E}L)
+\end{equation}~\label{eq:prob_calc2}
 
-Where we identify that the cross terms introduce a phase difference shown as $\Delta_{ij}$ in the second term in equation~\ref{eq:prob_calc2}.
+Where we identify that the cross terms introduce a phase difference shown as $\Delta_{ij}$ in the second term in Equation~\ref{eq:prob_calc2}.
 This represents the neutrino oscillation term and represents the difference in the mass states of the neutrinos:
 \begin{equation}
 \Delta_{ij} = (E_{i} - E_{j})
@@ -538,23 +549,19 @@ The energy of the neutrino in each state can be approximated to first order foll
 E_{i} = \sqrt{p^2 + m_{i}^{2}} \approx p + \frac{m^{2}_{i}}{2p}
 \end{equation}
 
-The momentumum of all of the mass eigenstates is the constant.
+Since the momentumum of all of the mass eigenstates is the constant.
 Then oscillation parameter becomes:
-
 \begin{equation}
 \Delta_{ij} \approx \frac{1}{2p}(m^2_{i}-m^{2}_{j}) = \frac{\Delta m_{ij}^2}{2p}
 \end{equation}
 
 Finally, the last two parameters which govern the neutrino oscillations are identified as the mass differences between the three mass states.
-Now, the frequency of the oscillation between neutrino states depends on the difference of the square their masses ($\Delta m_{ij}^{2}$), where three neutrino masses imply two independent differences.
-The mass differences provide two additional parameters are needed to fully describe neutrino mixing.
-The six values of interest and their current best known fits are shown in Table~\ref{table:pmns_params}:
-
-The the sign of $m_{13}$ is unknown.
-This leads to two possible ordernigs of the masses, known as normal and inverted, NO and IO respectively.
-The normal ordering indicates that the masses of the neutrinos follow the ordering of their charged partners.
+These two mass-squared differences are represented in Figure~\ref{fig:mass_hierarchy}.
+Unfortunately, the the sign of $m_{13}$ is unknown.
+This leads to two possible orderings of the masses, known as normal (NO) and inverted (IO) order.
+NO indicates that the masses of the neutrinos follow the ordering of their charged partners.
 That is, NO implies a mass ordering of: $\nu_{e} < \nu_{\mu} < \nu_{\tau}$.
-Whereas, the IO has a mass ordering: $\nu_{\tau} < \nu_{e} < \nu_{\mu}$.
+Whereas, IO has a mass ordering: $\nu_{\tau} < \nu_{e} < \nu_{\mu}$.
 
 \begin{figure}[]
 \centering
@@ -565,7 +572,7 @@ Whereas, the IO has a mass ordering: $\nu_{\tau} < \nu_{e} < \nu_{\mu}$.
 Neutrino oscillations in matter are slightly different than those in vacuum~\citep{PhysRevD.17.2369}.
 The Mikheyev-Smirnov-Wolfenstein (MSW) effect~\citep{Smirnov2004TheME} also contributes to differening neutrino oscillations as they move through matter of varying density, which additionally complicated the calculation.
 The MSW effect also affects neutrinos differently than anti-neutrinos, which is useful for measuring $\delta_{cp}$.
-This resonance affect for beam-line experiments affects $\nu_{e}$ in the case of normal mass ordering (NO), whereas in the case of inverted mass order (IO), the $\hat{\nu_{e}}$ experiences resonance and is thus more likely.
+This resonance effect for beam-line experiments affects $\nu_{e}$ in the case of normal mass ordering (NO), whereas in the case of inverted mass order (IO), the $\hat{\nu_{e}}$ experiences resonance and is thus more likely.
 
 \begin{table}
 \begin{center}
@@ -586,7 +593,10 @@ This resonance affect for beam-line experiments affects $\nu_{e}$ in the case of
   $\Delta m_{3l}^{2}$ & $2.517^{+0.026}_{-0.028}$ & $10^{-3}eV^{2}$ & Atmospheric  \\
  \hline
 \end{tabular}
-\caption{Known Oscillation Parameters of Interest. Values are taken from the global fit~\citep{2020JHEP...09..178E}. The values shown assume normal mass ordering for neutrinos and include atmospheric Super-Kamikonde Data.}
+\caption{Known Oscillation Parameters of Interest.
+Values are taken from the global fit~\citep{2020JHEP...09..178E}.
+The values shown assume normal mass ordering for neutrinos and include atmospheric Super-Kamikonde Data.
+}
 \end{center}
 \end{table}
 ~\label{table:pmns_params}

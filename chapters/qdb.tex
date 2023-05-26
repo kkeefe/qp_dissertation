@@ -1,21 +1,21 @@
-\chapter{Digital Back-end Viability Studies}~\label{chap:qdb}
+\chapter{The Q-Pix Digital Back-end}~\label{chap:qdb}
 
-In this chapter we describe the overall structure of the digital back-end of the Q-Pix design as well as results from prototype board tests.
-As described in previous chapters, the digital back-end of the Q-Pix readout is composed of an array of ASICs (FPGAs, here), which we refer to here to as digital nodes.
-Each digital node in the prototype array is implemented as a lattice ice40UP5k FPGA.
+In Chapter~\ref{chap:qpix} we introduced the Q-Pix readout concept, where in section~\ref{sec:digital_back-end} we introduced the concept of the digital back-end.
+This chapter is dedicated to fully exploring the requirements of a Q-Pix digital back-end, where we discuss the design of the first digital prototypes to test this readout.
 
-This chapter is divided into two parts.
-The first part we give a detailed description of the requirements of a successful deployment digital system in a Q-Pix based detector at DUNE APA scales.
-The motivation is to describe how the digital back-end of Q-Pix based readout would eventually scale into a DUNE-FD LArTPC 10 kT module.
+In Section~\ref{sec:digital_prototype} we describe the operating behavior of the first Q-Pix digital ASIC.
+We describe the relevant communication procedures, configuration registers, and other design choices.
+We complete the discussion of the prototype behavior in Section~\ref{sec:digital_fsm} where we describe the Finite-State Machine (FSM) and control logic of the ASIC.
+Next, in~\cref{sec:digital_problem,sec:digital_constraints} we introduce and discuss the design challenges required of the digital back-end.
 
-The second part of this chapter is dedicated to the first evaluation boards developed and tested which implement the digital nodes in Lattice iCE40UP FGPAs~\citep{lattice_ice40up_datasheet}.
-The second part also outlines the design of the PCB on which these FPGAs are implemented, as well as results, which are motivated from the first part of this chapter.
-
+Section~\ref{sec:calib} introduces a new calibration procedure for the digital readout.
+We test this procedure on the first digital prototype boards presented in section~\ref{sec:timing_test_results}.
 The Lattice Semiconductor FPGAs \citep{lattice_ice40up_datasheet} were selected because of the small form factor, pin out, availability, as well as low power consumption.
-There are planned tests for future, but not presented here, to indicate its viability of over-the-counter FPGAs in LArTPc.
-If such cheap and available FPGAs were shown to be reliable use in a LArTPC environment, that could influence future detector development and the selection of the digital chip for the Q-Pix readout.
+This calibration procedure is an essential capability to be able use free running oscillators in the Q-Pix readout to meet the timing requirements~\citep{qpix:nygren:mei}.
 
-All results presented in this chapter are my own individual work.
+Finally, we conclude this chapter with a discussion on the the next steps to extend this readout into a DUNE-FD LArTPC.
+
+The results presented in this chapter that are my individual work include the development of the prototype test boards, the soft-trigger and routing behavior of the digital ASIC, the development and verification of the calibration procedure, as well as the formalism to describe the collection of digital nodes.
 
 \input{chapters/sub_chapters/qdb_part1.tex}
 
