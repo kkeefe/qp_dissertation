@@ -2,11 +2,12 @@
 
 The digital system of the Q-Pix readout begins when the first digital data are recorded.
 This occurs during the collection of a recorded timestamp in response to the logic reset pulse sent from the Schmitt Trigger from analog front-end.
+These triggers are a sent as the response from a build up of charge on a pixel in a LArTPC (Section~\ref{sec:lartpcs}).
 An example of a pixel ring with a connected ASIC are shown in Figure~\ref{fig:qpix_asic_introduction}.
 
-This record happens in response any one, or more, of the pixels.
-The timestamp is value of a local 32-bit counter at the time the node receives the reset pulse.
-When a reset occurs the data recorded are the reset values of each pixel, and the only data required for a full analysis of all reconstruction with a LArTPC are:
+This record happens in response any one, or more, of the pixels, which for the first ASIC prototype is up to 16.
+The timestamp is the value of a local 32-bit counter at the time the ASIC receives the reset pulse.
+When a trigger is sent from any pixel the data recorded are local counter as well as the input level of all pixels ('1' incidates high, '0' indicates low).
 
 \begin{figure}
 \centering
@@ -22,14 +23,14 @@ When a reset occurs the data recorded are the reset values of each pixel, and th
 \end{subfigure}
 \caption{Each Q-Pix ASIC (B) is expected to connect to up 16 pixels (A) within the LAr.
 The dimensions of each pixel are 4$\times$4~\unit{mm^2}, where the collection ring has a diameter of 1~\unit{mm}.
+Each ASIC supports up to a maximum of 16 channels, or pixels.
 }
 \label{fig:qpix_asic_introduction}
 \end{figure}
 
 The full Q-Pix digital back-end is a collection of interconnected ASICs that form tiles.
 Tiles are then connetected to controlling nodes as shown in Figure~\ref{fig:qpix_tile_introduction}, indicated by the colored boxes.
-The prototype will connect to 16 different pixels as shown in Figure~\ref{}.
-In order for the system to work each, ASIC must be able to send and receive data, which are routed to and from its tile.
+In order for the system to work each ASIC must be able to send and receive data, which are routed to and from its tile via the controlling nodes.
 The sheer number of pixels required for an DUNE-FD 10 kT module require an extremely reliable means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
 
 \begin{figure}
@@ -46,25 +47,14 @@ The sheer number of pixels required for an DUNE-FD 10 kT module require an extre
 \end{subfigure}
 \caption{A modular tile (A) of Q-pix ASICs can be interconnetected (B) to create a larger charge collection plane. 
 The highlighted nodes in (B) indicate possible locations aggregator nodes to interconnect multiple tiles from a single controlling node.
-These aggregators can route power, clock, ground, and data out of the full detector.
+These aggregators can connect power, clock, ground, and data out of the full detector which are represented by the four colored traces leaving the tile array.
 }
 \label{fig:qpix_tile_introduction}
 \end{figure}
 
 The logical components of each ASIC are represented in Figure~\ref{fig:qpa_diagram}.
-These components are resonsible for controlling the ASICs communications, configurations, and data collection.
-QPixComm describes the communication layer of the ASIC, and determines how to communicate with the ASIC, described in Section~\ref{sec:digi_communications}.
-
-Packets are capable of being encoded to serve different functions in the ASIC.
-Each ASIC is able to determine its appropriate response to a packet based on its contents; this procedure is described in Section~\ref{sec:digi_packets}.
-
-Dynamic programming of remote against is a key feature of the Q-Pix back-end design.
-Each ASIC is capable of determinine its location within a tile, as well as controlling its routing via register information, described by the QpixRegFile logic.
-We provide further detail the various control registers in Section~\ref{sec:registers}.
-
-Finally, the data collection module, QPixDataProc, records triggers sent from the analog front-end.
-We describe the ASIC's response to timestamp triggers in Section~\ref{sec:data_collection}
-
+These components are resonsible for controlling the basic features of the ASIC including communications, configuration, and data collection.
+Data communication between ASICs is of primary consideration, since all recorded data must be transmited between ASICs, through aggregators, and eventually to a storage disc.
 
 \begin{figure}[]
 \centering
@@ -79,37 +69,116 @@ We describe the ASIC's response to timestamp triggers in Section~\ref{sec:data_c
   }
 \end{figure}~\label{fig:qpa_diagram}
 
-\subsection{The Communication Protocol}~\label{sec:digi_communications}
+The QPixComm module describes the communication layer of the ASIC, and determines how to communicate with the ASIC, described in Section~\ref{sec:endeavor}.
+To allow flexible communications, each transaction is capable of being encoded to serve different functions within the ASIC.
+Each ASIC is able to determine its appropriate response to a packet based on its contents; this procedure is described in Section~\ref{sec:digi_packets}.
 
-When a valid 64 bit packet has been received, a valid signal is thrown high.
-The packet is handled based on the bits within the header of this packet.
-How the packet is handled is determined the by the packet header~\ref{bit_reservation}.
+Dynamic programming of remote routing is a key feature of the Q-Pix back-end design.
+Although each ASIC currently supports the ability to route itself, the results of Chapter~\ref{chap:sim} indicate that routing updates of a tile are better suited to the aggregator.
+The controlling node can update a register within any ASIC to purposefully direct it's routing.
+Each ASIC is also capable of determining its location within a tile, as well as controlling its routing via register information, described by the QpixRegFile block.
+We provide further detail the various control registers in Section~\ref{sec:registers}.
 
-Packets are only comprehensable for types if the same region of the 64 bits are ubiqutous.
-For this purpose all packets use or reserve the same 20 bits, with four bits reserved for the packet type.
-The special bit locations within each packet are:
+Finally, the data collection module, QPixDataProc, controls how the ASIC records triggers sent from the analog front-end.
+We describe the ASIC's response to pixel triggers in Section~\ref{sec:data_collection}
+
+
+\subsection{Inter-ASIC communication via endeavor protocol}~\label{sec:endeavor}
+
+The data must be transmitted between ASICs.
+Since one design feature of the Q-Pix readout require that the ASICs have independent oscillators, the communication between neighbors is necessarily asynchronous.
+Each ASIC permits up to four neighbor connections as shown in Figure~\ref{fig:example_connections}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=0.5\textwidth]{images/asic_neighbor_connections_qpix.png}
+\caption{Every ASIC permits connections to its neighbors in the cardinal directions.
+Each connection is are two pairs of differential connections which permit asynchronous data transfer.
+The communication protocol to send data between the transmission lines is described in Section~\ref{sec:digi_packets}.
+Four connections of two pairs of differential connections require a total of 16 PCB traces to fully connect an ASIC to four neighbors.
+}
+\end{figure}~\label{fig:example_connections}
+
+The asynchronous communiction protocol used is called an "Endeavor" protocol, which was originally developed for the Asynchronous Multi-ASIC Communication version 2 (AMACv2) ASIC.
+The endeavor protocol was specifically designed for high-speed asynchronous data communication between neighbor ASICs.
+An example of a transmission of data using this protocl is shown in Figure~\ref{fig:endeavor}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/endeavor_protocol.jpg}
+\caption{Diagram of the endeavor transmission (Tx) protocol.
+The primary components of the endeavor protocol involve how long the transmittor (Tx) drives the signal high.
+The receiver (Rx) counts how long each signal is driven high, then based on the count it determines whether the transmittor intended to send a '1' or a '0' bit.
+The convention used in the prototype ASIC sends a '1' bit for twice the number of clock cycles it will send a '0' bit.
+After a bit is sent, there is a gap period where the Tx preps the Rx for another bit.
+The conclussion of the transmission occurs after 64 bits have been sent, where the Tx holds the signal low for longer the a normal gap word indicating the packet is complete.
+}
+\end{figure}~\label{fig:endeavor}
+
+Data are sent a single bit at a time following the procedure showin Figure~\ref{fig:endeavor}. 
+The procedure follows that a Tx drives the transmission line high for a varaible time to send either a One ('1') or a Zero ('0') bit.
+After each bit is sent, the Tx drives the line low for a period known as the 'Gap'.
+A transaction is complete when 64 bits have been sent, and the Tx drives the line low for a longer period known as 'Finish'.
+The range of clocks for acceptable states are described in Table~\ref{tab:endeavor_parameters}.
+
+We refer to a completed transaction of data between neighbor ASICs as a "packet".
+For simplicity, each ASIC expects that every data transaction will send (and therefore receieve) exactly 64 bits.
+A packet is constructed where the first bits that are sent are the "lowest bits" of the packet.
+
+The ASIC reads the packet by first inspecting the "type" of the packet, which are controlled by "packet header".
+The packet header bits are the four bits sent as the 57th through 60th bits in the packet.
+We refer to "bit location" as the order of the bit sent in the Endeavor transaction, where the packet sends the 1st bit, and concludes with the 64th bit.
+There are four bit locations shared by all packets:
 
 \begin{itemize}
-    \item Unused, 60--63
-    \item Header, 56--59
-    \item X Location, 36--39
-    \item Y Location, 32--35
+    \item Y Location of sending ASIC: 33--36
+    \item X Location of sending ASIC: 37--40
+    \item Packet Header: 57--60
+    \item Unused Bits, but required for valid packet: 61--64
 \end{itemize}~\label{bit_reservation}
+
+When an ASIC receives a valid packet has been received, the ASIC enables a valid signal.
+The packet is handled based on the bits within the header of this packet.
+How the packet is handled is determined the by the packet header~\ref{bit_reservation}.
 
 If the packet originated from the aggregator node then this packet is treated as a broadcast.
 Broadcast commands record unique numbers associated with this request and are also sent to all connected neighbornoods except from the direction that the broadcast is received.
 A unique broadcast number is used to avoid registering the same request.
 
-If the packet was not from an aggregator node, then this packet is treated as remote data from a neighbor node.
+If the packet was not from an aggregator node, then this packet is treated as "remote packet" from a neighbor node.
 All data transfers of any kind are treated so that all communication happens between individual nodes and an aggregator node.
 Therefore, any packet that originates on a node that isn't the aggregator node will be sent to the aggregator node.
-The direction of that this packet is sent is deteremined by a configuration register.
+The direction of that this packet is sent is deteremined by the configuration register.
 
-\subsubsection{Inter-Node communication via endeavor protocol}~\label{sect:endeavor}
+\begin{table}
+\begin{center}
+\begin{tabular}{||p{30mm} p{30mm} p{30mm} p{60mm}||}
+ \hline
+ Bit & Minimum & Maximum & Purpose \\ [0.5ex]
+ \hline\hline
+ Zero & 4 & 12 & Number of Clock cycles Tx drives signal high to send a '0' bit. \\
+ \hline
+ One & 16 & 32 & Number of Clock cycles Tx drives signal high to send a '1' bit. \\
+ \hline
+ Gap & 8 & 32 & Determines range of clock cycles Tx should drive low to pause between next bit. \\
+ \hline
+ Finish & 40 & None & Determines minimum number of clock cycles Tx should drive signal low for. \\
+ \hline
+\end{tabular}
+\caption{The parameters of the Endeavor protocol used by the Q-Pix digital prototype discussed in this thesis.
+The Zero and One bits indicate the number of clock cycles that the Tx line should drive the signal high to send a '1' or a '0' bit, respectively.
+The Gap and Finish are used to prep the Rx to receive the next data bit or to indicate the packet has finished. 
+The ASIC will only accept packets that contain exactly 64 bits.
+An example of this protocol in use is shown in Figure~\ref{fig:endeavor}.
+}
+\end{center}
+\end{table}
+~\label{tab:endeavor_parameters}
+
 
 \subsection{The Structure of a Data Packet}~\label{sec:digi_packets}
 
-Each digital node responds to a successful transmission of a 64-bit packet.
+Each digital node responds to a successful packet transaction.
 We choose that each packet, regardless of type, be 64-bits to reduce the overall packet checking complexity on each node.
 The type of the packet then is selected by the word type, which is reserved by a static 4 bits within each 64-bit word.
 
@@ -318,7 +387,6 @@ However, this lengthening can't proceed forever, obviously, otherwise data trans
 It is another important design consideration, then, to ensure that transactions proceed as quickly as possibly without data loss.
 Additional concerns of long data transactions include the use of more clock cycles which use more power and increase the risk noise to leak to the analog front-end.
 
-
 This protocol is slower than UART, but allows for approximately double the frequency difference: $\approx$ 20\%.
 
 The endeavor protocol relies on repeating the value of a high-bit, (digital '1' value) for an integer number of clock cycles.
@@ -340,12 +408,6 @@ The number of clocks which corresond to high and low must be programmed beforeha
 \caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.}
 \end{figure}~\label{fig:datum}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/endeavor_protocol.jpg}
-\caption{Diagram of the endeavor transmission (Tx) protocol.}
-\end{figure}~\label{fig:endeavor}
-
 
 \subsection{Buffer Depth Requirements}
 
@@ -358,13 +420,13 @@ The ice40 FPGAs have a total of 20 Embedded Block Ram models (EBRs) which allow 
 
 \subsection{The Push and Pull Architectures}~\label{sec:architectures}
 
-\section{Constraining the digital back-end Design}~\label{sec:digital_constraints}
+\section{Constraining the Digital Back-end Design}~\label{sec:digital_constraints}
 
-Section~\ref{sec:qpix_apa} describes in detail how a Q-Pix based hardware readout architecture could fit within a single DUNE-APA.
-Here we extend this discussion and use those constraints as the starting point for a search for a solution to the digital back-end architecture.
+Section~\ref{sec:qpix_apa} describes how a Q-Pix based hardware readout architecture could fit within a single DUNE-APA.
+Here we extend this discussion and use those constraints as the starting point for a search to a solution to the digital back-end architecture.
 The first problem to solve is how to aggregate the all timestamp data supplied by the large number of channels within a DUNE-FD APA.
 
-A Q-Pix architecture would likely use either a high-performance FPGA or a custom ASIC to aggregate the large number of $(\mathcal{O}(10^{7})$ channels.
+A Q-Pix architecture will likely use either a high-performance FPGA or a custom ASIC to aggregate the large number of $(\mathcal{O}(10^{7})$ channels.
 The number of aggregated digital channels determines the required capabilities of the aggregator node and the selection of an FPGA or ASIC.
 Since each additional aggregator node represents an additional SPF risk, our design goal suggests that the optimal configuration is one that produces the least number of aggregator nodes.
 Therefore, the goal is to design a routing architecture which is responsible for as many digital channels as possible for each data aggregator node while still accounting for accurate timing calibration and lossless data acquisition.
@@ -563,7 +625,6 @@ Using this result we obtain $C_{SPF}$ by identifying $N = RC$:
 This result informs that relative cost of losing a node tends to zero as the size of the tile grows.
 Again, this result can be obtained intuitively, since as the number of columns (or rows) grow in size, the probability of a single failure occuring on the aggregator column is increasingly less likely.
 
-
 \subsubsection{Broadcasts to avoid SPF}~\label{sec:broadcast}
 
 In order to protect against SPF we only consider a designs which implement the FCT, since SPF can occur on any node the most robust connection scheme is the FCT.
@@ -681,168 +742,4 @@ We use this result to obtain the relation of the general $C_{SPF}$:
 if we identify that $N = C(R_{1}+R_{2})$ and use $R_{2} = R - R_{1}$:
 \begin{equation}
   C_{SPF} = \frac{1}{2CR^{2}}(2R_{1}^{2}-2R_{1}R+R^{2}+CR+2(R-R_{1}))
-\end{equation}
-
-\section{Frequency Calibration of Local Oscillators}~\label{sec:calib}
-
-The Q-Pix calibration requirements are described in detail in Section~\ref{sec:qpix_calib}.
-The important parameters which must be calibrated for each pixel are the charge per reset and the frequency of the local oscillator.
-An aim of this work is to demonstrate an additional frequency calibration method using the minimal required connections between each digital node.
-
-Any method of a frequency calibration must synchronize time measurements between all digital nodes within a tile and the aggregator.
-There are several possibile methods to achieve this, but ultimately the data that are recorded must be some time at the aggregator, $T_{a}$, and the time at any specific node, $T_{j}$.
-
-%% distribute clock for calibration of time
-A direct method is one where the aggregator distributes its own clock to all nodes in the tile.
-This scenario removes the need for a calculation of the frequency of each node altogether since the clock of each node is already known from the aggregator.
-This is the simplest case for timing calibration: remove all free running oscillators.
-However, this method also introduces complex routing and power requirements within every tile.
-
-% cross-talk
-A distributed clock network indeed removes ambiguity of the remote oscillator frequencies, but at the cost of hardware complexity.
-Whether or not this design choice is preferred is entirely detector dependent, but likely increases in difficulty with the scale of the TPC.
-
-We comment, however, that we ignore this scenario because it may altogether be unnecessary depending on future ASIC performance.
-In the event that frequency calibrations of sufficient precision ($\bar{f} \approx 1 ppm$) are possible occur on free-running local oscillators future detectors would need only to acquire these ASICs and place them with minimal cost in terms of both time and money.
-
-%% distribute trigger for calibration of time
-Another simple scenario is one where the aggregator itself connects directly to all nodes within a tile via a single connection which can be used as a reference trigger.
-This means that some trigger from the aggregator would issue directly into each node at the same time: $T_{a} = T_{n}$.
-To calcuate the frequency in this manner, the controller would issue two triggers from the aggregator with a known time separation, $T_{o} = T_{a2} - T_{a1}$.
-The remote nodes would each record and send their timestamps back to the aggregator, where the time difference would be calculated as:
-
-\begin{equation}
-  T_{o} = T_{a2} - T_{a1} = T_{n2} - T_{n1}
-\end{equation}
-
-this is rewritten in terms of frequency as follows:
-\begin{equation}
-  f_{n} = \frac{T_{n2} - T_{n1}}{T_{o}}
-\end{equation}
-
-This calibration method extremely simple but introduces an additional connection to each node between itself and the aggregator.
-For a large scale system such as Q-Pix even this simple connection scheme introduces $\approx 60\times 10^{3}$ hardware points of failure per APA.
-
-Both of these scenarios are valid implementations of a Q-Pix readout system.
-In both of these scenarios, however, there is added complexity into the hardware design of the system in the form of additional routing where each route which represents a possible point of failure.
-
-In a world of perfect hardware and costless routing in terms of both time and money these routing schemes would clearly be sufficient.
-However, no hardware is perfect.
-Therefore we introduce and discuss a calibration technique which relies on no additional routing and could be optionally implemented even in the above schemes in the event of a failure.
-Therefore, even if not the primary implemented calibration technqiue, since this calibration introduces no superfluous routing it could still be used regardless of the actual future hardware implementation.
-
-%% distribute packet for calibration of time
-\subsection{A Minimal Connection Calibration Procedure}~\label{sec:min_calib}
-
-As stated in the previous section, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a node within a tile.
-
-the time calibration procedure presented here requires only the minimal routing required in any Q-Pix readout system, where we assume time-dependent free-running local oscillators at each node within the tile.
-
-%% issue 1
-The calibration procedure begins at a time ($T_{0}$) where the aggregator sends a calibration packet.
-
-%% recv1
-Next, the packet propagates through the tile to some remote node, $N_{j}$.
-This node receives the packet later at some time $T_{n1}$:
-
-\begin{equation}
-  T_{n1} = T_{o} + T_{f1}
-\end{equation}
-
-Where $T_{f1}$ is the propogation time of the packet from the aggregator to the $N_{j}$ node.
-
-%% meas1
-This remote node then sends the packet with its time ($T_{n1}$) back to the aggregator.
-
-%% wait
-The aggregator will wait some calibration time ($T_{cal}$) before issuing another calibration packet.
-This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time to the $N_{j}$ node $(\mathcal{O}(j*10^{-5})$).
-
-%% issue 1
-After the wait period, the aggregator will issue a second calibration packet to be sent to a remote node at time:
-\begin{equation}
-  T_{1} = T_{cal} + T_{0}
-\end{equation}
-
-%% recv2 and meas2
-Similarly to the first packet this packet will propagate to $N_{j}$ with some new time $T_{f2}$ where $N_{j}$ will record time $T_{n2}$:
-\begin{equation}
-  T_{n2} = T_{1} + T_{f2}
-\end{equation}
-
-Now, we define $\Delta T_{j}$ as the difference in the two time measurements from the two packets sent from the aggregator.
-The time difference is related to the number of clocks that occured between the two different measured values of the clock, $T_{n1}$ and $T_{n2}$.
-
-\begin{equation}
-  \Delta T_{j} = T_{n2} - T_{n1}
-\end{equation}
-
-We use the known relationships for $T_{n2}$ and $T_{n1}$ to obtain:
-\begin{equation}
-  \Delta T_{j} = (T_{1} + T_{f2}) - (T_{o} + T_{f1}) = (T_{1} - T_{0}) + (T_{f2} - T_{f1}) = T_{cal} + \Delta T_{f}
-\end{equation}
-
-Where we defined $\Delta T_{f}$ as the difference in forward propagation times from the packets sent from the aggregator node at $T_{1}$ and $T_{0}$.
-
-We arrive at the result which compares the measured time at the aggregator $T_{cal}$ and the time measured at each node, $\Delta T_{j}$:
-\begin{equation}
-  \Delta T_{j} = T_{cal} + \Delta T_{f}
-\end{equation}
-
-A perfect reconstruction of the nodal frequency would follow if $\Delta T_{f} = 0$.
-But it is sufficient to note that the wait period happens on the order of seconds, whereas $\Delta T_{f}$ is on the order of $\mu s$ or at least a six order of magnitude difference.
-We then use $\Delta T_{f} \ll T_{cal}$ to obtain:
-\begin{equation}
-  \Delta T_{j} \approx T_{cal}
-\end{equation}
-
-We convert time into frequency with the difference of the timestamps measured and a known aggregator frequency ($f_{a}$):
-\begin{equation}
-   \frac{\Delta N_{j}}{f_{j}} = \frac{\Delta N_{a}}{f_{a}}
-\end{equation}
-
-or,
-\begin{equation}
-   \boxed{f_{j} = \frac{\Delta N_{j}}{\Delta N_{a}}f_{a}}
-\end{equation}
-
-Where $\Delta N_{j}$ and $\Delta N_{a}$ are the differences in the timestamps of the 32-bit clocks at the remote node and aggregator, respectively.
-
-
-\subsubsection{Packet Transaction Time}
-
- We next examine the approximation that $\Delta T_{f} \ll T_{cal}$ and consider its contribution to the error in the reconstruction of $T_{j}$.
-This analysis also provides a constraint on the duration of $T_{cal}$ to ensure an accurate measurement of each $T_{j}$ in a tile.
-We begin by discussing how long it takes for a packet to traverse a tile.
-
-The time it takes for each packet to be received by the next node is given in Equation~\ref{eq:t_packet}.
-The value, $N_{bit}$, is the number of clock cycles used for the packet and is protocol-dependent.
-Since the protocol must be deterministic for each packet, $N_{bits}$ must be the same for each transaction on the path from the base-node to the remote node.
-
-As an example, the time it takes for a packet to go from the base-node, $N_{1}$, to a remote node, $N_{3}$, via the path $1\rightarrow 2 \rightarrow 3$ is determined by:
-%% packet transaction time
-\begin{equation}
-  T_{1\rightarrow 3} = T_{1\rightarrow 2} + T_{2\rightarrow 3} \approx \frac{N_{bits}}{f_{1}} + \frac{N_{bits}}{f_{2}} = N_{bits}(\frac{1}{f_{1}} + \frac{1}{f_{2}})
-\end{equation}~\label{eq:t_packetTransfer}
-
-Where, $f_{i}$, is the frequency of the clock at sending node. The approximation is within a single clock cycle of the receiving digital node ($\approx 33~\unit{ns}$).
-
-Therefore the time it takes for a packet for go from the base-node to any remote node is proportional to $N_{bits}$ multiplied by the sum of the edges in the full adjacency matrix given by Equation~\ref{eq:adjacency_comp}.
-
-We generalize Equation~\ref{eq:t_packetTransfer} to represent the time it takes a packet to go from the aggregator ($i = 0$) to any remote node, $N_{j}$:
-\begin{equation}
-  T_{f} = T_{0\rightarrow j} = N_{bits}\sum_{i=0}^{i=j-1}\frac{1}{f_{i}}
-\end{equation}
-
-We require that every calibration packet on the protocol uses the same number of clocks ($N_{bits}$ is constant) and follows the same path. $\Delta T_{f}$ becomes:
-\begin{equation}
-  \Delta T_{f} = N_{bits}\sum_{i=0}^{i=j-1}\frac{1}{\Delta f_{i}} = N_{bits} \sum_{i=0}^{i=j-1}\Delta T_{i}
-\end{equation}
-
-We recognize $\Delta T_{i}$ as the nominal time-dependent clock drift of the each local oscillator in the path between the base-node to the remote-node.
-We can provide an order of magnitude estimate for $\Delta T_{f}$ if we assume a (very poor) $\approx 1\%$ drift in each of the remote clocks within the tile during a period of $T_{cal} \approx 1~\unit{s}$.
-In this approximation we also assume that the mean of the periods of the nodes are the designed value ($\approx 33~\unit{ns}$) for which a 1\% error gives $\sigma_{T_{f}} \approx 3~\unit{ps}$.
-If we assume that all of the clocks (for whatever reason) drift have error which drifts int he same direction (the sum doesn't cancel) then for 100 transactions with 1000 clocks per transaction, we obtain for $\Delta T_{f}$:
-\begin{equation}
-  \Delta T_{f} \approx 1000 * 100 * 3\times 10^{-12} \approx 30~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
 \end{equation}
