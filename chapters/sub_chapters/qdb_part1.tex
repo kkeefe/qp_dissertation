@@ -94,7 +94,6 @@ Each ASIC permits up to four neighbor connections as shown in Figure~\ref{fig:ex
 \includegraphics[width=0.5\textwidth]{images/asic_neighbor_connections_qpix.png}
 \caption{Every ASIC permits connections to its neighbors in the cardinal directions.
 Each connection is are two pairs of differential connections which permit asynchronous data transfer.
-The communication protocol to send data between the transmission lines is described in Section~\ref{sec:digi_packets}.
 Four connections of two pairs of differential connections require a total of 16 PCB traces to fully connect an ASIC to four neighbors.
 }
 \end{figure}~\label{fig:example_connections}
@@ -115,7 +114,7 @@ The conclussion of the transmission occurs after 64 bits have been sent, where t
 }
 \end{figure}~\label{fig:endeavor}
 
-Data are sent a single bit at a time following the procedure showin Figure~\ref{fig:endeavor}. 
+Data are sent one bit at a time following the procedure showin Figure~\ref{fig:endeavor}. 
 The procedure follows that a Tx drives the transmission line high for a varaible time to send either a One ('1') or a Zero ('0') bit.
 After each bit is sent, the Tx drives the line low for a period known as the 'Gap'.
 A transaction is complete when 64 bits have been sent, and the Tx drives the line low for a longer period known as 'Finish'.
@@ -137,7 +136,7 @@ There are four bit locations shared by all packets:
     \item Unused Bits, but required for valid packet: 61--64
 \end{itemize}~\label{bit_reservation}
 
-When an ASIC receives a valid packet has been received, the ASIC enables a valid signal.
+When an ASIC receives a valid packet, the ASIC enables a valid signal.
 The packet is handled based on the bits within the header of this packet.
 How the packet is handled is determined the by the packet header~\ref{bit_reservation}.
 
@@ -145,7 +144,7 @@ If the packet originated from the aggregator node then this packet is treated as
 Broadcast commands record unique numbers associated with this request and are also sent to all connected neighbornoods except from the direction that the broadcast is received.
 A unique broadcast number is used to avoid registering the same request.
 
-If the packet was not from an aggregator node, then this packet is treated as "remote packet" from a neighbor node.
+If the packet was not from an aggregator node then this packet is treated as "remote packet" from a neighbor node.
 All data transfers of any kind are treated so that all communication happens between individual nodes and an aggregator node.
 Therefore, any packet that originates on a node that isn't the aggregator node will be sent to the aggregator node.
 The direction of that this packet is sent is deteremined by the configuration register.
@@ -162,7 +161,7 @@ The direction of that this packet is sent is deteremined by the configuration re
  \hline
  Gap & 8 & 32 & Determines range of clock cycles Tx should drive low to pause between next bit. \\
  \hline
- Finish & 40 & None & Determines minimum number of clock cycles Tx should drive signal low for. \\
+ Finish & 40 & None & Determines minimum number of clock cycles Tx should drive signal to indicate packet is complete. \\
  \hline
 \end{tabular}
 \caption{The parameters of the Endeavor protocol used by the Q-Pix digital prototype discussed in this thesis.
@@ -175,58 +174,71 @@ An example of this protocol in use is shown in Figure~\ref{fig:endeavor}.
 \end{table}
 ~\label{tab:endeavor_parameters}
 
+\subsection{Types of Packets}~\label{sec:digi_packets}
 
-\subsection{The Structure of a Data Packet}~\label{sec:digi_packets}
+How each digital node responds to a successful packet transaction depends on the packet header.
+One primary development goal for the Q-Pix digital ASIC is to make the simplest design possible that achieves its goals.
+To this end, there are only four different types of packets words used, as shown in Figure~\ref{fig:datum}.
 
-Each digital node responds to a successful packet transaction.
-We choose that each packet, regardless of type, be 64-bits to reduce the overall packet checking complexity on each node.
-The type of the packet then is selected by the word type, which is reserved by a static 4 bits within each 64-bit word.
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/qpix_word_format.pdf}
+\caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.
+The two types of data packets (Table~\ref{tab:packet_data}) are timestamp data and event end data which are used to record reset times and interrogation times respectively.
+The interrogation time is described in Section~\ref{sec:local_data_packet}.
+The Register Request packet is special because it can only be created by an aggregator node, described in Table~\ref{tab:packet_register}. 
+The Register response is created and sent back to the aggregator node in response to a request,.
+}
+\end{figure}~\label{fig:datum}
 
-A successful transmission of a data word is indicated by the protocol when the correct number of bits have been read~(see Section~\ref{sect:endeavor}).
-When a correct packet is filled a single flag is raised to indicate that the word is valid, and then the appropriate logic parses the header bits of the packet and determines how the packet should be handled.
+The timestamp and event end packets are created by each ASIC and represent true data for analysis.
+The Register Request and Register Response packets indicate communication between an ASIC and an aggregator.
 
-There are two main types of packets that a digital node would receive, a register request or a data word from another node.
-In the first case, the register request indicates that this packet originated from the aggregator node and may either to a specific node or a broadcast to the entire array.
-Whether or not the register request is a broadcast is checked against another bit, and the packet is handled accordingly.
-If the packet is a broadcast, the receiving node records an identification number associated with the broadcast, which it uses to ignore additional packets it may receive that correspond to the same broadcast.
+The Register Request is a special packet that can only be created by an aggregator node; The Q-Pix digital ASIC can not create a Register Request packet.
+This packet contains a special bit (48) that indicates if this packet came from the aggregator node, and is only valid on the first ASIC which sees this packet.
+If this packet is configured as a broadcast (See Section~\ref{sec:local_data_packet}), or to another node, the ASIC will send this packet identically except with bit 48 ("Q" in Figure~\ref{fig:datum}) held low.
 
-The second kind of packet the digital node may receieve is a data type word.
-In the case of data words, there are also two main types: a word which contains the 32 bit timestamp or an event end word.
-The 32 bit timestamp data word are the words which must eventually make it to disk for analysis.
-The data words must also encode the row and column position of the original nodes.
+The Register Response packet is created by an ASIC to send to an aggregator node upon a register read request from an aggregator.
+When an ASIC receives a packet that isn't a register request, it knows that this packet did not originate from the aggregator node, and therefore handles these packets identically, described in Section~\ref{sec:digital_fsm}.
 
 \subsection{Configuration Registers}~\label{sec:registers}
 
 The configuration of the digital node is handled through local registers.
+These registers can only be updated when an ASIC receives a Register Request from an aggregator node.
+
 These registers are described within QpixRegFile module, shown in Figure.~\ref{fig:qpa_diagram}.
 These registers include the ability to control routing of data packets, reset, enable, and channel masking.
 The Table~\ref{tab:registers} describes the implemented register addresses and their functions:
 
 \begin{table}
 \begin{center}
-\begin{tabular}{||c c c||}
+\begin{tabular}{||p{30mm} p{30mm} p{90mm}||}
  \hline
  Address & Name & Function \\ [0.5ex]
  \hline\hline
-  0x01 & Command & Used to broadcast type or trigger \\
+  0x01 & Command & four bits are used to select hard and soft interrogations, full ASIC reset, or transfer reset, respectively. \\
  \hline
-  0x03 & Routing & Allows selection between manual or dynamic routing. \\
+  0x03 & Routing & one bit toggle and four bit selection of direction to send data, otherwise dynamic. \\
  \hline
-  0x04 & Channel Mask & Selection of mask prevents triggers from masked channels. \\
+  0x04 & Channel Mask & 16 bit mask selection of triggers from input pixels. \\
  \hline
-  0x05 & Position & Allows configuration of X and Y coordinates of node. \\
+  0x05 & Position & 8 Bit selection of data to determine ASIC position within tile. \\
  \hline
-  0x06 & Disable & Selection of which neighboard node inputs are ignored. \\
+  0x06 & Disable & Four bit selection of which neighboard node inputs are ignored. \\
  \hline
-  0x08 & Local Disable & Selection of which input and out neighboard nodes can be ignored. \\
+  0x07 & Local Disable & Single bit selection to stop collecting data when sending. \\
  \hline
 \end{tabular}
-\caption{The address values are not sequential because some registers have become deprecated through development.}
+\caption{The address values are not sequential because some registers have become deprecated through development.
+The command register controls for resets and triggers (interrogations) for data.
+The Routing controls either dynamic or manual routing.
+}
 \end{center}
 \end{table}
 ~\label{table:node_registers}
 
 The composition of any register word is shown in Table~\ref{tab:packet_register}.
+Each of the registers in Table~\ref{table:node_registers} are accessed by setting the correct address value in the register request packet.
 \begin{table}
 \begin{center}
 \begin{tabular}{|| p{30mm} | p{30mm} | p{90mm} ||}
@@ -254,8 +266,12 @@ The composition of any register word is shown in Table~\ref{tab:packet_register}
 \end{tabular}
 \caption{Description of the bit values within the register request word.}
 \end{center}
-\end{table}
-~\label{tab:packet_register}
+\end{table}~\label{tab:packet_register}
+
+The two essential registers for connecting to and reading from the ASIC are the Routing (0x03) and Command (0x01) registers.
+The routing register allows the ASIC to be configured in either a manual or a dynamic routing.
+The dynamic routing state allows an ASIC to send its data in the direction it receives a broadcast (Section~\ref{sec:local_data_packet}) from, whereas a manual routing allows the aggregator to predetermine the path of the data words.
+The Command register controls both ASIC system resets as well as broadcast types.
 
 \subsection{Local Data Collection}~\label{sec:data_collection}
 
@@ -290,10 +306,9 @@ The composition of the data word is shown in Table~\ref{tab:packet_register}.
 \end{tabular}
 \caption{Data word composition.}
 \end{center}
-\end{table}
-~\label{tab:packet_data}
+\end{table}~\label{tab:packet_data}
 
-\subsubsection{The Local Data Packet}~\label{sec:local_data_packet}
+\subsubsection{The Local Data Packet and Broadcasts}~\label{sec:local_data_packet}
 
 The transmission of the reset data from the local FIFO to adjacent neighbor nodes begins when an incoming register request from the aggregator is received.
 This request is supplied as register request to the command register (~\ref{table:node_registers}).
@@ -301,7 +316,9 @@ This request may be considered either a ``hard'' or a ``soft'' interrogation com
 
 The difference between the two types of an interrogation command is whether or not the event end packet is created.
 In the case of a ``hard''--interrogation, the event end packet is always created, regardless of the local FIFO.
+A hard interrogation happens if the first bit of the data written to the command register is high.
 In the case of a ``soft''--interrogation, the event end packet is created only if the local FIFO is not empty.
+A soft interrogation happens if the second, and not the first, bit of the data written to the command register is high.
 
 The use of two different types of interrogations allows the aggregator control flexibility in how many packets are created during an interrogation.
 Interrogations may happen on timescales much more quickly than expected resent pulses ($\mathcal{O}(10^{1}~\unit{s})$, Chapter~\ref{chapters/qpix.tex}).
@@ -311,7 +328,7 @@ The ability to request data only if available prevents an over abundance of pack
 
 The event end words perform multiple functions.
 First, they may used as checksums to indicate at the aggregator node, or on disk, that this node has successfully transmitted all of its data.
-Secondly, the event end word, since it is necessarily 64 bits long, may also transmit its own timestamp with the excess bits.
+Secondly, the event end word, since it is necessarily 64 bits long, also transmits its own timestamp with the excess bits.
 The timestamp that the event end word carries is the time that the time that the node received the broadcast.
 This timestamp is used in the frequency calibration of the node; the method for calibration is described in greater detail in Section~\ref{sec:calib}.
 
@@ -401,13 +418,6 @@ The asynchronous communication is achieved by extending the length of time that 
 In this protocol the way that the receiving node (RXN) identifies the correct logic value of the current bit is by counting the number of clocks that the incoming signal is logic high.
 The incoming bit is either a logic low, if held high for fewer clocks than it would be if it was an incoming logic high.
 The number of clocks which corresond to high and low must be programmed beforehand and are tunable parameters.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/qpix_word_format.pdf}
-\caption{Example of Datum words and their allocation as currently implemented in the simulation and first prototypes.}
-\end{figure}~\label{fig:datum}
-
 
 \subsection{Buffer Depth Requirements}
 
