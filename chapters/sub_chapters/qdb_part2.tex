@@ -1,6 +1,6 @@
 \section{Frequency Calibration of Local Oscillators}~\label{sec:calib}
 
-The Q-Pix calibration requirements are described in detail in Section~\ref{sec:qpix_calib}.
+The Q-Pix calibration requirements are described in detail in Section~\ref{sec:qpix_circuit}.
 The important parameters which must be calibrated for each pixel are the charge per reset and the frequency of the local oscillator.
 An aim of this work is to demonstrate an additional frequency calibration method using the minimal required connections between each digital node.
 
@@ -11,7 +11,6 @@ There are several possibile methods to achieve this, but ultimately the data tha
 A direct method is one where the aggregator distributes its own clock to all nodes in the tile.
 This scenario removes the need for a calculation of the frequency of each node altogether since the clock of each node is already known from the aggregator.
 This is the simplest case for timing calibration: remove all free running oscillators.
-However, this method also introduces complex routing and power requirements within every tile.
 
 % cross-talk
 A distributed clock network indeed removes ambiguity of the remote oscillator frequencies, but at the cost of hardware complexity.
@@ -35,8 +34,8 @@ this is rewritten in terms of frequency as follows:
   f_{n} = \frac{T_{n2} - T_{n1}}{T_{o}}
 \end{equation}
 
-This calibration method extremely simple but introduces an additional connection to each node between itself and the aggregator.
-For a large scale system such as Q-Pix even this simple connection scheme introduces $\approx 60\times 10^{3}$ hardware points of failure per APA.
+This calibration method, though extremely simple, introduces an additional connection to each ASIC between itself and the aggregator.
+For a large scale system such as Q-Pix a single connection per ASIC introduces $\approx 60\times 10^{3}$ hardware points of failure per APA.
 
 Both of these scenarios are valid implementations of a Q-Pix readout system.
 In both of these scenarios, however, there is added complexity into the hardware design of the system in the form of additional routing where each route which represents a possible point of failure.
@@ -49,32 +48,31 @@ Therefore, even if not the primary implemented calibration technqiue, since this
 %% distribute packet for calibration of time
 \subsection{A Minimal Connection Calibration Procedure}~\label{sec:min_calib}
 
-As stated in the previous section, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a node within a tile.
-
-the time calibration procedure presented here requires only the minimal routing required in any Q-Pix readout system, where we assume time-dependent free-running local oscillators at each node within the tile.
+As stated in the previous section, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a ASIC within a tile.
+The time calibration procedure presented here requires only the minimal routing required in any Q-Pix readout system, where we assume time-dependent free-running local oscillators at each ASIC within the tile.
 
 %% issue 1
 The calibration procedure begins at a time ($T_{0}$) where the aggregator sends a calibration packet.
 
 %% recv1
-Next, the packet propagates through the tile to some remote node, $N_{j}$.
-This node receives the packet later at some time $T_{n1}$:
+Next, the packet propagates through the tile to some remote ASIC, $N_{j}$.
+This ASIC receives the packet later at some time $T_{n1}$:
 
 \begin{equation}
   T_{n1} = T_{o} + T_{f1}
 \end{equation}
 
-Where $T_{f1}$ is the propogation time of the packet from the aggregator to the $N_{j}$ node.
+Where $T_{f1}$ is the propogation time of the packet from the aggregator to the $N_{j}$ ASIC.
 
 %% meas1
-This remote node then sends the packet with its time ($T_{n1}$) back to the aggregator.
+This remote ASIC then sends the packet with its time ($T_{n1}$) back to the aggregator.
 
 %% wait
 The aggregator will wait some calibration time ($T_{cal}$) before issuing another calibration packet.
-This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time to the $N_{j}$ node $(\mathcal{O}(j*10^{-5})$).
+This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time to the $N_{j}$ ASIC $(\mathcal{O}(j*10^{-5})$).
 
 %% issue 1
-After the wait period, the aggregator will issue a second calibration packet to be sent to a remote node at time:
+After the wait period, the aggregator will issue a second calibration packet to be sent to a remote ASIC at time:
 \begin{equation}
   T_{1} = T_{cal} + T_{0}
 \end{equation}
@@ -97,9 +95,9 @@ We use the known relationships for $T_{n2}$ and $T_{n1}$ to obtain:
   \Delta T_{j} = (T_{1} + T_{f2}) - (T_{o} + T_{f1}) = (T_{1} - T_{0}) + (T_{f2} - T_{f1}) = T_{cal} + \Delta T_{f}
 \end{equation}
 
-Where we defined $\Delta T_{f}$ as the difference in forward propagation times from the packets sent from the aggregator node at $T_{1}$ and $T_{0}$.
+Where we defined $\Delta T_{f}$ as the difference in forward propagation times from the packets sent from the aggregator at $T_{1}$ and $T_{0}$.
 
-We arrive at the result which compares the measured time at the aggregator $T_{cal}$ and the time measured at each node, $\Delta T_{j}$:
+We arrive at the result which compares the measured time at the aggregator $T_{cal}$ and the time measured at each ASIC, $\Delta T_{j}$:
 \begin{equation}
   \Delta T_{j} = T_{cal} + \Delta T_{f}
 \end{equation}
@@ -118,7 +116,7 @@ We convert time into frequency with the difference of the timestamps measured an
 
 or,
 \begin{equation}
-   \boxed{f_{j} = \frac{\Delta N_{j}}{\Delta N_{a}}f_{a}}
+   \boxed{f_{j} \simeq \frac{\Delta N_{j}}{\Delta N_{a}}f_{a}}
 \end{equation}
 
 Where $\Delta N_{j}$ and $\Delta N_{a}$ are the differences in the timestamps of the 32-bit clocks at the remote node and aggregator, respectively.
@@ -162,7 +160,7 @@ If we assume that all of the clocks (for whatever reason) drift have error which
   \Delta T_{f} \approx 1000 * 100 * 3\times 10^{-12} \approx 30~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
 \end{equation}
 
-\section{The Digital Prototype Design}
+\section{The Digital Prototype Design}~\label{sec:qdb_prototype}
 %% QDB Hardware Discussion
 
 This section marks the second part of this chapter.
@@ -188,7 +186,7 @@ Packet loss is a function of relative frequency drift between neighbor nodes.
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform_diagram.pdf}
-  \caption{Example of arrows depicting the direction of the packets shown in the other image}
+  \caption{Communication Route on Prototype}
 \end{subfigure}
 \caption{}
 \end{figure}
@@ -203,25 +201,25 @@ Packet loss is a function of relative frequency drift between neighbor nodes.
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/(0,0).pdf}
+\includegraphics[width=0.9\textwidth]{images/(0,0).pdf}
 \caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo.}
 \end{figure}
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/(3,3).pdf}
+\includegraphics[width=0.9\textwidth]{images/(3,3).pdf}
 \caption{}
 \end{figure}
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/fast_example.pdf}
+\includegraphics[width=0.9\textwidth]{images/fast_example.pdf}
 \caption{}
 \end{figure}
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/slow_example.pdf}
+\includegraphics[width=0.9\textwidth]{images/slow_example.pdf}
 \caption{}
 \end{figure}
 
@@ -236,6 +234,12 @@ Packet loss is a function of relative frequency drift between neighbor nodes.
 
 We describe here the methods of measuring a stable time for different configurations of the nodes.
 We also comment on the results of the timing with resepect to the minimum required timing sensitivity in order to have accurate timestamp reconstruction.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=0.9\textwidth]{images/interrogation_ppm_diff.pdf}
+\caption{}
+\end{figure}
 
 \section{Power and Current Characteristics}
 
