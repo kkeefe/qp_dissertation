@@ -160,28 +160,68 @@ If we assume that all of the clocks (for whatever reason) drift have error which
   \Delta T_{f} \approx 1000 * 100 * 3\times 10^{-12} \approx 30~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
 \end{equation}
 
-\section{The Digital Prototype Design}~\label{sec:qdb_prototype}
-%% QDB Hardware Discussion
+\section{The Q-Pix Digital Board}~\label{sec:qdb_prototype}
 
 This section marks the second part of this chapter.
-We describe the design of a modular digital back-end prototype board
-The results presented here construct a tile 4$\times$4 array of Lattice ice40UP5k FPGAs.
-Each FPGA is programmed with the logic described in the previous sections.
+We describe the design of a modular digital back-end prototype board and discuss first results of the Q-Pix digital logic in an FPGA.
+The results presented here constructed a tile 4$\times$4 array of Lattice ice40UP5k FPGAs.
+Each FPGA is programmed with the logic described in the previous sections, which is what the Q-Pix digital ASIC prototype will use.
 
-These nodes are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
+These FPGAs are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
 The most important quantity to be calibrated for the digital nodes is the frequency of the local oscillator.
-The Q-Pix reconstruction for both time and z position are dependent on this parameter, see Chapter~\ref{chap:qpix}.
+The Q-Pix reconstruction for both time and z position are dependent on this parameter (see Chapter~\ref{chap:qpix}).
+
+An example block diagram of the prototype board (QDB) is shown in Figure~\ref{fig:qdb_diagram}.
+Each PCB connects 4 FPGAs in a 2$\times$2 array.
+In the diagram shown, FPGA-A can connect to FPGA-B and FPGA-D, but not FPGA-C.
+The external right angle bracket connectors are used to interconnect multiple tiles for a modular design.
+
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/qdb_layout_altium.png}
+  \caption{Q-Pix Digital Board (QDB) Design}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/qdb_closeup.jpg}
+  \caption{Q-Pix Digital Board (QDB) PCB}
+\end{subfigure}
+\caption{}
+\end{figure}~\label{fig:qdb_diagram}
 
 Future implementations of the digital back-end for Q-Pix may, of course, use different oscillators.
 However, these results are still beneficial as a proof of concept for the frequency calibration, as well as tests to the packet loss susceptibility.
 Packet loss is a function of relative frequency drift between neighbor nodes.
+
+Each iCE40 FPGA is uses an 12~\unit{MHz} external oscillator~\ref{ecs1612mv}, which is then connects to its phase-locked loop (PLL).
+The PLL uses a multiply by five divide by three to achieve the desired 30~\unit{MHz} average frequency.
+The PLL is a special IP for the ice40UP5k FPGA's~\ref{latticeice40up}.
+
+
+
+\subsection{Frequency Calibration Results}
+
+
+
+\begin{figure}[]
+\centering
+\includegraphics[width=0.8\textwidth]{./images/qdb_frequency_test_setup.jpg}
+\caption{Layout of a Zybo-Z7 aggregator node connected to a single FPGA in an interconnected 2$\times$2 QDB Tile.
+The total amount of interconnected FPGAs for the tile size is 4$\times$4.
+The FPGA that connects to the Zybo is FPGA-A as shwon in Figure~\ref{fig:qdb_diagram} on Board-A.
+Not shown is the ethernet connection from the Zybo back to the controlling PC.
+Some QDB boards are connected via jumper wires to allow easier programming of the FPGAs and for probbing pins.
+}
+\end{figure}~\label{fig:qdb_test_setup}
 
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform.pdf}
-  \caption{Waveforms caught on an oscilloscope. The timescale is 50 $\unit{\mu s}$.}
+  \caption{Waveforms caught on an oscilloscope.\newline Timescale is 50 $\unit{\mu s}$.}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -191,61 +231,59 @@ Packet loss is a function of relative frequency drift between neighbor nodes.
 \caption{}
 \end{figure}
 
-
-
-\subsection{Frequency Calibration of each Node}
-
-
-%% 4Hz interrogation calibration 
-\input{chapters/tables/fpga_fit.tex}
-
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/(0,0).pdf}
-\caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo.}
+\caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo.
+Shown is the reconstructed frequency for the base node FPGA at (0,0) within the QDB tile.
+}
 \end{figure}
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/(3,3).pdf}
-\caption{}
+\caption{Reconstructed frequency of the FPGA at position (3,3) within the QDB tile.
+The relative drifts of the frequencies shown for the more distance FPGA are greater than the base node (0,0), which is only one transaction again from the Zybo aggregator.
+}
 \end{figure}
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/fast_example.pdf}
-\caption{}
+\caption{Fast calibration procedure results.}
 \end{figure}
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/slow_example.pdf}
-\caption{}
+\caption{Slow calibration example.}
 \end{figure}
+
+%% 4Hz interrogation calibration 
+\input{chapters/tables/fpga_fit.tex}
 
 
 %% 0.1 Hz interrogation calibration 
 \input{chapters/tables/fpga_slow_fit.tex}
 
-
-%% schematic of PCB
-
 \section{Timing Stability and Communication Verification}~\label{sec:timing_test_results}
 
-We describe here the methods of measuring a stable time for different configurations of the nodes.
+We describe here the methods of measuring a stable oscillator frequency for the prototype PCB based on the frequency calibration scheme developed in Section~\ref{sec:calib}.
 We also comment on the results of the timing with resepect to the minimum required timing sensitivity in order to have accurate timestamp reconstruction.
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.9\textwidth]{images/interrogation_ppm_diff.pdf}
-\caption{}
+\includegraphics[width=0.8\textwidth]{images/interrogation_ppm_diff.pdf}
+\caption{Shown are the relative values of the frequency part-per-million (ppm) values from the frequency calibration procedure in both the 4~\unit{Hz} (orange) and 0.1~\unit{Hz} tests.
+The x-axis represents the relative distance traveled from the base-node that the FPGAs are.
+}
 \end{figure}
 
-\section{Power and Current Characteristics}
+% \section{Power and Current Characteristics}
 
-There are test pads on the PCBs used to measure the voltage stability of the different FPGA voltages.
-For each voltage, there is also a single 1~$\unit{\Omega}$ probe-resistor.
-This resistor is used to measure the relative current drawn from each of the voltage sections on the PCB.
+% There are test pads on the PCBs used to measure the voltage stability of the different FPGA voltages.
+% For each voltage, there is also a single 1~$\unit{\Omega}$ probe-resistor.
+% This resistor is used to measure the relative current drawn from each of the voltage sections on the PCB.
 
 \section{Analysis of Systematics for Different System Implementations}
 
