@@ -179,9 +179,9 @@ An example of this protocol in use is shown in Figure~\ref{fig:endeavor}.
 One important note about the Endeavor protocol is that the transaction time of the packet is not constant.
 The number of clocks required to send a '1' bit differs from the number of clocks for a '0' bit.
 However, it is straight forward to show that the number of clocks the Tx will use to send a packet is give by:
-\begin{equation}
+\begin{equation}~\label{eq:endeavor_clocks}
   N_{clocks} = N_{One}N_{1} + N_{Zero}N_{0} + 64N_{gap} + N_{finish}
-\end{equation}~\label{eq:endeavor_clocks}
+\end{equation}
 
 Where $N_{1}$ and $N_{0}$ refer to the number of bits within the 64 bit sequence will be '1' and '0' respectively.
 The values $N_{one}, N_{Zero}, N_{gap}$ and $N_{finish}$ can be taken from Table~\ref{tab:endeavor_parameters}.
@@ -192,9 +192,9 @@ However since each packet must contain four zero unused bits, and $60 = N_{1} + 
 \end{equation}
 
 If we assume the average packet has equal high bits and low bits, $N_{0} = 30 + 4$, the average clocks in a transaction is:
-\begin{equation}
+\begin{equation}~\label{eq:avg_packet}
   N_{avg} = 24*28 + 8*34 + 64*16 + 40 \sim 2000 
-\end{equation}~\label{eq:avg_packet}
+\end{equation}
 
 
 \subsection{Types of Packets}~\label{sec:digi_packets}
@@ -409,9 +409,9 @@ Next, since the number of pixels (required by analog front-end design) is 16 we 
 We need to record all of the channels during each reset since it is technically possible (even if less likely) for multiple analog channels to provide a reset within the same clock window.
 
 We calculate the minimum number of bits per datum to be:
-\begin{equation}
+\begin{equation}~\label{eq:nbits_datum}
   N_{bits} = N_{T} + N_{pix} + N_{loc} = 32 + 16 + 8 = 56
-\end{equation}~\label{eq:nbits_datum}
+\end{equation}
 
 Since buffer memory addresses and widths are normally characterized by powers of two, we can construct the basic datum size above the minimum number of bits provided by~\ref{eq:nbits_datum} to get $N_{datum} = 64$.
 The remaining bits are useful for constructing different types of packets to be used by the digital ASICs for additional uses such as register configuration or to provide packet identification.
@@ -515,7 +515,7 @@ The FCT can be viewed as a directional, weighted graph where the edges are the T
 To elaborate on the adjacency matrix of the FCT we consider an $2\times 3$ tile.
 A $2\times 3$ tile has six total nodes, where we consider the upper-left most node to be the base node.
 Then, the unweighted adjacency matrix has dimensions $6\times6$ of the form:
-\begin{equation}
+\begin{equation}~\label{eq:adjacency_matr}
 M =
  \begin{pmatrix}
  0 & 1 & 0 & 1 & 0 & 0 \\
@@ -525,7 +525,7 @@ M =
  0 & 1 & 0 & 1 & 0 & 1 \\
  0 & 0 & 1 & 0 & 1 & 0 \\
  \end{pmatrix}
-\end{equation}~\label{eq:adjacency_matr}
+\end{equation}
 
 Where each non-zero value of $M_{ij}$ represents a connection between nodes $i$ and $j$.
 As an unweighted, undirected graph this is a symmetric matrix.
@@ -537,9 +537,9 @@ With this we can extend the model the adjacency matrix to a weighted and directe
 We can generalize this matrix in terms of an arbitrary number of rows ($r$) and columns ($c$).
 We define a convention of numbering nodes within the tile in terms of increasing column number followed by increasing row number.
 With this convention we obtain the general adjacency matrix with values defined by:
-\begin{equation}
+\begin{equation}~\label{eq:adjacency_comp}
   M_{ij} = T_{i\rightarrow j}(\delta_{i,j=i\pm 1} + \delta_{i,j=i\pm r})
-\end{equation}~\label{eq:adjacency_comp}
+\end{equation}
 
 An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the kroniker-deltas factors.
 
@@ -548,20 +548,20 @@ This is determined by both the number of clocks to be sent in the communication 
 Unlike the transmitter, the receiver only affects the transaction time with a single clock cycle, as the protocls we test here, (UART and Endeavor), each conclude a packet transaction when the receiver records the last bit transaction from the transmitter.
 
 The full length between two nodes, $i$ and $j$, connected by an edge is represented by:
-\begin{equation}
+\begin{equation}~\label{eq:t_packet_full}
 T_{i\rightarrow j} = N_{bits}T_{i} + T_{j}(t)
-\end{equation}~\label{eq:t_packet_full}
+\end{equation}
 
 where $T_{j}(t)$ represents the time dependent fractional part of one nominal clock period of the receiving node.
 The expectation value of $T_{j}(t)$ is half of the nominal window so that mean Equation~\ref{eq:t_packet_full} is:
-\begin{equation}
+\begin{equation}~\label{eq:t_packet_avg}
 \bar{T}_{i\rightarrow j} \simeq N_{bits}T_{i} + \frac{T_{j}}{2}
-\end{equation}~\label{eq:t_packet_avg}
+\end{equation}
 
 Since the transaction time of a packet is much larger than a single clock cycle ($N_{bits} \simeq \mathcal{O}(10^{2}) \gg \frac{1}{2}$), we can approximate Equation~\ref{eq:t_packet_avg}:
-\begin{equation}
+\begin{equation}~\label{eq:t_packet}
 \bar{T}_{i\rightarrow j} \approx N_{bits}T_{i}
-\end{equation}~\label{eq:t_packet}
+\end{equation}
 
 This representation is also useful to model certain SPF where a node becomes inactive.
 Dead or inactive nodes are ones in which all of their connections are effectively disconnected.
@@ -579,9 +579,9 @@ For example, the number of nodes which are lost if a leaf-node fails is one sinc
 Likewise, the number of nodes which are lost in the event of a base-node failure is the total tile, $N$.
 
 We can then calculate a mean cost SPF, $C_{SPF}$, :
-\begin{equation}
+\begin{equation}~\label{eq:cspf}
   C_{SPF} = \frac{1}{N}\sum_{node} \frac{n_{i}}{N} = \frac{1}{N^{2}}\sum_{node} n_{i}
-\end{equation}~\label{eq:cspf}
+\end{equation}
 
 \subsubsection{Minimize Occupancy}~\label{sec:min_conn}
 
@@ -602,9 +602,9 @@ This routing path ensures that the number of input connections equal the number 
 
 We inspect the SPF risk from this routing scheme with Equation~\ref{eq:cspf}, where we notice that the $n_{i}$ of each node is simply a running sum from the leaf to $N$ at the base node.
 
-\begin{equation}
+\begin{equation}~\label{eq:cspf_snake}
   C_{SPF} = \frac{1}{N^{2}}\frac{N(N+1)}{2} = \frac{1}{n}\frac{N+1}{2} = \frac{1}{2} + \frac{1}{2N}
-\end{equation}~\label{eq:cspf_snake}
+\end{equation}
 
 Equation~\ref{eq:cspf_snake} tells us that the SPF risk of this routing configuration converges to half as the size of the tile grows.
 Intuitively, this makes sense, since it is equally likely to select a node close to the base-node as it is far away, which implies that the sum should converge to half the tile size for large $N$.
@@ -630,19 +630,19 @@ We can calculate $C_{SPF}$ for this routing configuration if we identify that th
 Likelise, the far-left column in Figure~\ref{fig:leftroute} shows that the number of rows, $R$, sum from one to $C$.
 We can rewrite the sum over all nodes in Equation~\ref{eq:cspf} as:
 
-\begin{equation}
+\begin{equation}~\label{eq:cspf_left_s}
   \sum_{node}n_{i} = C\sum_{i=0}^{i=R-1}i + R\sum_{i=0}^{i=C}i
-\end{equation}~\label{eq:cspf_left_s}
+\end{equation}
 
 We simplify the running sum of each term in Equation~\ref{eq:cspf_left_s}:
-\begin{equation}
+\begin{equation}~\label{eq:cspf_left_e}
   \sum_{node}n_{i} = C\frac{R(R-1)}{2} + R\frac{C(C+1)}{2} = RC(\frac{R+C}{2})
-\end{equation}~\label{eq:cspf_left_e}
+\end{equation}
 
 Using this result we obtain $C_{SPF}$ by identifying $N = RC$:
-\begin{equation}
+\begin{equation}~\label{eq:cspf_left_fin}
   C_{SPF} = \frac{1}{N^{2}}\sum_{node}n_{i} = \boxed{\frac{R+C}{2RC}}
-\end{equation}~\label{eq:cspf_left_fin}
+\end{equation}
 
 This result informs that relative cost of losing a node tends to zero as the size of the tile grows.
 Again, this result can be obtained intuitively, since as the number of columns (or rows) grow in size, the probability of a single failure occuring on the aggregator column is increasingly less likely.

@@ -134,9 +134,9 @@ Since the protocol must be deterministic for each packet, $N_{bits}$ must be the
 
 As an example, the time it takes for a packet to go from the base-node, $N_{1}$, to a remote node, $N_{3}$, via the path $1\rightarrow 2 \rightarrow 3$ is determined by:
 %% packet transaction time
-\begin{equation}
+\begin{equation}~\label{eq:t_packetTransfer}
   T_{1\rightarrow 3} = T_{1\rightarrow 2} + T_{2\rightarrow 3} \approx \frac{N_{bits}}{f_{1}} + \frac{N_{bits}}{f_{2}} = N_{bits}(\frac{1}{f_{1}} + \frac{1}{f_{2}})
-\end{equation}~\label{eq:t_packetTransfer}
+\end{equation}
 
 Where, $f_{i}$, is the frequency of the clock at sending node. The approximation is within a single clock cycle of the receiving digital node ($\approx 33~\unit{ns}$).
 

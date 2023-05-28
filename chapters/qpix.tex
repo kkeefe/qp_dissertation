@@ -27,10 +27,9 @@ The principle of the front-end circuit operates on producing a signal output fro
 The CSA's input is connected to the anode of a TPC where drifted electron charge accumulates.
 Voltage is then built up across the capacitor from the accumlating charge according to the equation:
 
-\begin{equation}
+\begin{equation}~\label{eq:capacitor}
 Q_{i} = C_{i}V_{i}
 \end{equation}
-~\label{eq:capacitor}
 
 After the capacitor voltage exceeds a set threshold ($V_{i}$) the schmitt trigger activates.
 The Schmitt trigger output is sent as a signal input to the digital logic to be recorded.
@@ -47,8 +46,7 @@ One of the design parameters for the Q-Pix front-end is the choice of $C_{f}$.
 This front-end circuit is designed within a single analog ASIC which has contains 16 of these circuits.
 The schematic for this ASIC is shown in Apendix~\ref{app:analog_prototype}.
 Image is taken from \citep{qpix:nygren:mei}.}
-\end{figure}
-~\label{fig:qpixCircuit}
+\end{figure}~\label{fig:qpixCircuit}
 
 The Q-Pix readout records 32-bit latch values as a response to the Schmitt trigger output; it does not measure voltage, charge, or time.
 We refer to this 32-bit measurement as a "timestamp".
@@ -67,7 +65,7 @@ The blue box is the Q-Pix circuit~(Figure~\ref{fig:qpixCircuit}), which we refer
 The right side of the image, encompassed in orange box, we refer to as the "digital back-end".
 The back-end is responsible for providing the local oscillator as well as accurately recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
 }
-\end{figure} ~\label{fig:qpix_frontandbackend}
+\end{figure}~\label{fig:qpix_frontandbackend}
 
 \subsection{Current Reconstruction}~\label{sec:rtds_and_waveforms}
 
@@ -77,32 +75,32 @@ A timestamp measurement indicates that a certain amount of charge was accumlated
 Since total charge is conserved we can say that the total accumulated charge ($Q_{in}(t)$) is equal total amount of charge discharged from each reset ($Q_{out}(t)$) plus any residual charge still on the pixel ($Q_{c}(t)$).
 Therefore, we can relate the total accumulated charge to the total charge discharged with the following equation:
 
-\begin{equation}
+\begin{equation}~\label{eq:qin}
 Q_{in}(t) = Q_{out}(t) + Q_{c}(t)
-\end{equation}~\label{eq:qin}
+\end{equation}
 
 One of the features of the analog ASIC is the replishment circuit.
 This circuit is a constant current source which can remove a constant number of electrons from the CSA.
 This provides a major simplification to the current reconstruction.
 If we assume that each reset removes the same amount of charge ($Q_{o}$) we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t, ($N(t)$):
 
-\begin{equation}
+\begin{equation}~\label{eq:qout}
 Q_{out}(t) = Q_{o} N(t)
-\end{equation}~\label{eq:qout}
+\end{equation}
 
 Equation~\ref{eq:qout} then gives us the measured current by definition ($I_{out} = \frac{dQ_{out}}{dt}$):
-\begin{equation}
+\begin{equation}~\label{eq:irecon}
 I_{out} = \frac{d}{dt}(Q_{o}N(t)) = Q_{o}\frac{dN}{dt}
-\end{equation}~\label{eq:irecon}
+\end{equation}
 
 We identify $\frac{dN}{dt}$ at the number of resets per unit time.
 We can calculate the average current between two resets, or $\frac{dN}{dt} = \frac{1}{dT}$.
 Then, $dT$ is the time difference between two resets and is measured at the local oscillator: $dT = \frac{f_{o}}{N_{rtd}}$, where $N_{rtd}$ is the difference between the two timestamps.
 Equation~\ref{eq:irecon} becomes:
 
-\begin{equation}
+\begin{equation}~\label{eq:irecon_freq}
 \boxed{I_{out} = \frac{Q_{o}f_{o}}{N_{rtd}}}
-\end{equation}~\label{eq:irecon_freq}
+\end{equation}
 
 Equation~\ref{eq:irecon_freq} shows the fundamental equation for the Q-Pix readout reconstruction.
 There are three important parameters: the charge per reset ($Q_{o}$), the frequency of each local oscillator ($f_{o}$), and $N_{rtd}$ which is the difference between two timestamp measurements.
@@ -118,8 +116,7 @@ The purple curve of the top pannel represents charge accumulating on the CSA, wh
 The bottom pannel shows input charge (purle curve) overlayed on top of the reconstructed current signal.
 The $Q_{o}$ value taken here is equal to 1~\unit{fC}.
 Image is taken from \citep{qpix:nygren:mei}.}
-\end{figure}
-~\label{fig:qpixRecon1}
+\end{figure}~\label{fig:qpixRecon1}
 
 \begin{figure}[]
 \centering
@@ -130,8 +127,7 @@ $Q_{o}$ was chosen to be $0.3 fC$.
 The bottom panel in this image shows a better match of the reconstructed signal with a smaller $Q_{o}$. 
 However, more ($\approx$ 1.0~\unit{fC} / 0.3~\unit{fC}) resets are produced as a result. 
 Image is taken from~\citep{qpix:nygren:mei}.}
-\end{figure}
-~\label{fig:qpixRecon2}
+\end{figure}~\label{fig:qpixRecon2}
 
 Of these three parameters in Equation~\ref{eq:irecon_freq}, two of them need to be calibrated.
 The validation of the charge calibration is beyond the scope of this work, but is briefly described in Chapter~\ref{chap:sim} Section~\ref{sec:radiogenic_calib}.
@@ -149,18 +145,17 @@ Event reconstruction requires 3-spatial coordinates (x,y,z) of a track's charge 
 The Q-Pix readout gives two (x,y) coordinates for "free".
 Time is intrinsic to the Q-Pix datum, and may also be provided by an external photonics system (see Section~\ref{sec:qpix_photonics}).
 The final coordinate, z, is obtained with the LAr drift velocity (Table~\ref{tab:lar_prop}) and the drift time ($T_{drift}$) by the equation:
-\begin{equation}
+\begin{equation}~\label{eq:driftDistance}
   z_{drift} = v_{e} * T_{drift}
-\end{equation}~\label{eq:driftDistance}
+\end{equation}
 
 
 measured current between each reset from Equation~\ref{eq:irecon_freq}:
 
 The reconstructed charge as a function of time is a piece-wise function of time based on the difference between successive $N_{rtd}(i)$:
-\begin{equation}
+\begin{equation}~\label{eq:piece_wise}
   Q_{i,drift}(t) = \frac{Q_{o}f_{o}}{N_{i,rtd}}t
-\end{equation}~\label{eq:piece_wise}
-
+\end{equation}
 
 
 \subsection{Comments on Uncertainties}
@@ -170,7 +165,7 @@ Here we discuss potential uncertainties within the Q-Pix readout.
 
 \subsubsection{Near Maximum Reset Rate}
 
-Equation ~\ref{eq:irecon_freq} relates the maximum current ($I_{max}$) in a Q-Pix readout at the limiting case of $N_{rtd} = 1$.
+Equation~\ref{eq:irecon_freq} relates the maximum current ($I_{max}$) in a Q-Pix readout at the limiting case of $N_{rtd} = 1$.
 For $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$, $I_{max} = 30~\unit{nA}$.
 However, since $N_{rtd}$ is a difference between two 32-bit timestamps, it can only take positive integer values.
 This means that each current measurement can only take the form, for N integer: 
@@ -310,9 +305,9 @@ From these dimensions the expected channel count of the QPix readout on the DUNE
 \end{equation}
 
 The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
-\begin{equation}
+\begin{equation}~\label{eq:nosc}
 N_{osc} = \frac{915399}{16} \approx 57213
-\end{equation}~\label{eq:nosc}
+\end{equation}
 
 $N_{osc}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
 Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
@@ -456,7 +451,7 @@ On the other hand, the horizontal drift geometry solves the transparancy problem
   \includegraphics[width=\textwidth]{images/qpix_light_horizontal_geom.pdf}
   \caption{Horizontal Drift}
 \end{subfigure}
-\caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127.}
+\caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127}.
 The vertical drift geometry (left) shows an electrode on the top layer, whereas the horiztontal (right) geometry integrates the electrodes within the aSe.
 The vertical geometry is an easier design, but most electrodes are not transparent to VUV scintillation light.
 The horiztontal geometry solves this problem, at the cost of a more complicated design.

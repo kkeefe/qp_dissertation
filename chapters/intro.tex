@@ -45,12 +45,13 @@ All currently known fundamental particles are represented in Fig.~\ref{fig:cern_
 These particles represent the today's knowledge of the building blocks of all observed matter in the universe.
 
 \begin{figure}[]
+\label{fig:cern_sm}
 \centering
 \includegraphics[width=\textwidth]{images/STDM_higgs_and_field_D.png}
 \caption{Image of fundamental particles in the Standard Model, taken from~\citep{dominguez_2015}.
   All known matter and particle interactions involves combinations of the particles shown here.}
 \end{figure}
-~\label{fig:cern_sm}
+
 
 The quarks represent particles in the top left of Figure~\ref{fig:cern_sm}.
 In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\citep{eightfold_way_osti_4008239}, which provided a method of grouping the hadrons.
@@ -178,6 +179,7 @@ The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa}) can 
 The track of the ionizing particle can then be reconstructed using the 2-D information from the wires, the timing collected from the photons, as well as the drift time of the electrons.
 
 \begin{figure}[]
+~\label{fig:dune_apa}
 \centering
 \includegraphics[width=\textwidth]{images/dune_tdrv12020_lartpc-sp.jpg}
 \caption{Image of a Time Projection Chamber (TPC).
@@ -186,7 +188,7 @@ An uniform electric field drifts the freed electrons towards the anode plane.
 The collection and readout of charge on this anode plane is what is recorded within the detector.
 Shown in the image are the three wire collection planes used in the DUNE experiment.
 Image is taken from~\citep{DUNE_TDR_V1_Abi_2020}.}
-\end{figure}~\label{fig:dune_apa}
+\end{figure}
 
 The development of the TPC followed closedly with the devleopemnt of fast (> 1~\unit{MHz}) digitizing electronics.
 With fast digitizers and closely spaced wires Georges Charpak (1924-2010) created the first multi-wire proportional chamber (MWPC) in 1968~\citep{Charpak:1968kd}.
@@ -198,6 +200,7 @@ TPCs are so useful because provide high resolution in both timing and spatial di
 An example of the energy resolution and particle-identification capabilities of TPCs is shown in Figure~\ref{fig:pep4_tpc_dedex}.
 
 \begin{figure}[]
+~\label{fig:pep4_tpc_dedex}
 \centering
 \includegraphics[width=0.8\textwidth]{images/pep4_tpc_dEdx.png}
 \caption{Measurements of energy deposited in the PEP-4 detector.
@@ -206,7 +209,7 @@ The energy resolution for the PEP-4 experiment calculated to be 3\%.
 Image taken from~\citep{pep_image}.
 }
 \end{figure}
-~\label{fig:pep4_tpc_dedex}
+
 
 \subsection{Liquid Argon Time Projection Chambers}~\label{sec:lartpcs}
 
@@ -229,14 +232,10 @@ The relevant properties of a LArTPC are shown in Table~\ref{tab:lar_prop}.
       Property & Symbol & Value & Unit \\
  \hline\hline
       Density & $\rho$ &  1.3973 & $g cm^{-3}$ \\
-      Fano Factor & F & 0.107 & - \\
       Dielectric Constant & $\epsilon$ & 1.505 & - \\
       electron drift velocity & $v_{e}$ & 0.1601 & $\unit{cm/\mu s}$ \\
       Ionization Energy of single $e^{-}$ & $W_{i}$ & 23.6 & eV/$e^{-}$ \\
-      Ionization Energy of single $e^{-}$ from photon & $W_{scint}$ & 19.5 & eV/$\gamma$ \\
       Minimum Specific energy loss & $(dE/dX)_{MIP}$ & 2.12 & MeV/cm \\
-      Hadronic Interaction Length & $\lambda_{int}$ &85.7 & cm \\
-      Scintillation Emission Wavelength & $\lambda_{scint}$ & 128 & nm \\
       Longitudinal Diffusion Coeffecients & $D_{L}$ & 6.6270 & $cm^{2}/s$ \\
       Transverse Diffusion Coeffecients & $D_{T}$ & 13.2327 & $cm^{2}/s$ \\
  \hline
@@ -251,7 +250,7 @@ The relevant properties of a LArTPC are shown in Table~\ref{tab:lar_prop}.
 
 The Deep Underground Neutrino Experiment (DUNE) is a long-baseline neutrino beam experiment~\citep{DUNE_TDR_V1_Abi_2020, DUNE_FD_TDRv2_2020, DUNE_TDRv3_Abi_2020, DUNE-FD_TDRv4:Abi_2020}.
 DUNE, when constructed, will be composed two detectors, a near detector (ND) and a far detector (FD) which are separated by a distance of 1300 km.
-The neutrino beam measured at the ND and FD is generated in the Long Baseline Neutrino Facility (LBNF)~\ref{dune_cdr_2016_arxiv} beamline at Fermilab.
+The neutrino beam measured at the ND and FD is generated in the Long Baseline Neutrino Facility (LBNF)~\citep{dune_cdr_2016_arxiv} beamline at Fermilab.
 An image of the beam and the ND are shown in Figure~\ref{fig:dune_nd_beamline}.
 
 The ND is located at Fermilab and its purpose is to characterize the unoscillated neutrino beam.
@@ -261,13 +260,14 @@ It will measure the unoscillated spectra for $\nu_{e}, \nu_{\mu}$, and their ant
 The FD will use these unoscillated measurements of the neutrino spectra to predict what neutrino interaction spectra it should measure.
 
 \begin{figure}[]
+~\label{fig:dune_nd_beamline}
 \centering
 \includegraphics[width=\textwidth]{images/dune_nd_beamline_tdrv1.png}
 \caption{Image of the near detector hall located relative to the neutrino beam at Fermilab in Illinois.
 The ND is $\approx 525~\unit{m}$ from the neutrino target.
 Image is taken directly from~\citep{DUNE_TDR_V1_Abi_2020}.
 }
-\end{figure}~\label{fig:dune_nd_beamline}
+\end{figure}
 
 The ND is a suite of three detectors all exposed to a LBNF beam.
 One component of the ND is a LArTPc (ND-LAr) which is a pixelated detector to be built using ArgonCube technology.
@@ -277,6 +277,7 @@ The final component of the ND is the System for on-Axis Neutrino Detection (SAND
 SAND is used to measure the beam flux sent to the FD.
 
 \begin{figure}[]
+~\label{fig:dune_fd_image}
 \centering
 \includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
 \caption{Representation of the Near and Far Detectors for the DUNE experiment.
@@ -285,7 +286,7 @@ One of the key purposes for the ND is to tag outgoing particles from the proton 
 The FD is located at SURF on the left of the image, and will contain four 10 kT LArTPCs, which are the target of the neutrino beam.
 The beam's energy and distance between the ND and FD are chosen to optimize sensitivity to neutrino oscillation measurements (See Section~\ref{sec:neutrino_oscillation}).
 Image was taken from~\citep{dune_cdr_2016_arxiv}.}
-\end{figure}~\label{fig:dune_fd_image}
+\end{figure}
 
 The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
 The FD will be composed of four separate 10 kiloton LArTPC modules (DUNE-FD SP), an example of one is shown in Figure~\ref{fig:dune_10kt}.
@@ -309,9 +310,9 @@ Image is taken directly from~\citep{DUNE_TDR_V1_Abi_2020}.
 DUNE has three main science goals, all of which are geared towards pushing beyond the SM:
 
 \begin{itemize}
-    \item Hadron Decay~\ref{sec:hadron_decay}
-    \item Core-collapse Supernovae~\ref{sec:intro_supernova}
-    \item Neutrino Oscillation~\ref{sec:neutrino_oscillation}
+    \item Hadron Decay (Section~\ref{sec:hadron_decay})
+    \item Core-collapse Supernovae (Section~\ref{sec:intro_supernova})
+    \item Neutrino Oscillation (Section~\ref{sec:neutrino_oscillation})
 \end{itemize}
 ~\label{item:dune_props}
 
@@ -336,19 +337,18 @@ An example of a second generation proton decay studies is the Imaging Cosmic and
 
 There are at least two prominant decay chains that are expected to be dominant, depending on the Grand-Unification-Theory (GUT) that hopes to go beyond the SM.
 The first one is:
-\begin{equation}
+\begin{equation}~\label{eq:rxn_proton_decay1}
   p^{+} \rightarrow e^{+} + \pi^{0} + 2 \gamma
 \end{equation}
-~\label{eq:rxn_proton_decay1}
+
 
 This interaction is easily detectable in cherenkov based detectors due to the emission of both the gammas as well as the high energy of the emitted positron.
 In fact, the worlds best estimate for proton lifetime comes from this decay-chain~\citep{PhysRevD.95.012004}.
 
 Other Supersymmetric GUT models predict instead~\citep{PhysRevD.38.1479}:
-\begin{equation}
+\begin{equation}~\label{eq:rxn_proton_decay2}
   p^{+} \rightarrow K^{+} + \nu
 \end{equation}
-~\label{eq:rxn_proton_decay2}
 
 In this case the Kaon is generally moving too slow to be measurable by cherenkov detectors.
 However, a TPC style detectors are still sensitive to its signature charge deposition.
@@ -409,9 +409,9 @@ We elucidate the measureable parameters which govern this oscillation and descri
 The standard notation relates the mass eigenstates ($v_{i}$) and flavor eigenstates ($v_{\alpha}$):
 
 Neutrino oscilLation is occurs to a neutrino as it moves through space can change its state.
-\begin{equation}
+\begin{equation}~\label{eq:relate_eigenstates}
   v_{i} = U_{i\alpha}v_{\alpha}
-\end{equation}~\label{eq:relate_eigenstates}
+\end{equation}
 
 % With adjoint of the matrix $U_{i\alpha}$, $U_{i\alpha}\dag$, we can then rewrite the equation:
 % \begin{equation}
@@ -420,7 +420,7 @@ Neutrino oscilLation is occurs to a neutrino as it moves through space can chang
 % \label{eq:adjoint_eigenstates}
 
 %% neutrino mass oscillations
-\begin{equation}
+\begin{equation}~\label{eq:mass_eigenstates}
 \begin{pmatrix}
 \nu_e\\
 \nu_{\mu}\\
@@ -438,19 +438,17 @@ U_{\tau1}, U_{\tau2}, U_{\tau3}
 \nu_3
 \end{pmatrix}
 \end{equation}
-~\label{eq:mass_eigenstates}
 
 The matrix elements within $U_{li}$ represent the mixing coeffecients and are used to calculate the prabability that a certain neutrino will oscillate from one family to another.
 We identify $U_{ij}$ as the commonly known $U_{PMNS}$ matrix, where PMNS stands for: Pontecorvo–Maki–Nakagawa–Sakata, or the four theorists who helped developed this convention.
 Luckily, there are not a total of nine free parameters within the SM that determine this.
 The $U_{PMNS}$ matrix can be additionally rewritten following~\citep{Pontecorvo:1957qd, 1962PThPh..28..870M} as:
 
-\begin{equation}
+\begin{equation}~\label{eq:uij_matrix_simp}
 U_{PMNS}
 =
 U_{sol} \times U_{rea} \times U_{atm} \times U_{maj}
 \end{equation}
-~\label{eq:uij_matrix_simp}
 
 After expanding the matrix representations, equation~\ref{eq:uij_matrix_simp} becomes:
 \begin{equation}
@@ -503,29 +501,26 @@ Namely we calculate the probablity $P(\mu \rightarrow e)$ which is the probabili
 First we identify that equation~\ref{eq:relate_eigenstates} can be rewritten to isolate the flavor-eigenstate terms ($v_{\alpha}$) by multiplying by the adjoint of the PMNS matrix ($U^{*}_{PMNS}$).
 Then the relationship between the time dependent mass and flavor eigenstates become:
 
-\begin{equation}
+\begin{equation}~\label{eq:flavor_relation}
 \ket{v_{\alpha}(t)} = U^{*}_{PMNS}\ket{v_{i}(t)}
 \end{equation}
-~\label{eq:flavor_relation}
 
 The value of interest is $P(\mu \rightarrow e)$, which occurs if the $\nu_{\mu}$ travels after some time, t, and interacts via a charged-current (CC) interaction.
 The probability to end up in state $v_{e}$ beginning from $v_{\mu}$ is:
 
-\begin{equation}
+\begin{equation}~\label{eq:prob_calc1}
 P(\mu \rightarrow e) = \lvert \braket{ v_{e} | v_{\mu} (t) }\rvert^{2}
 \end{equation}
-~\label{eq:prob_calc1}
 
 We then use equation~\ref{eq:flavor_relation} to represent the matrix elements of $U_{PMNS}$ from $v_{e}$ and $v_{\mu}$  to obtain:
-
-\begin{equation}
+\begin{equation}~\label{eq:prob_calc2}
   P(\mu \rightarrow e)
   = \lvert \sum_{i} U_{e i} U^{*}_{\mu i} e^{-i E_{i}t} \rvert^{2} \\
   =
   \delta_{ij}
   - 4 \sum_{i>j}  \Re( U^{*}_{ej}U_{\mu j}U_{ei}U^{*}_{\mu i} ) \sin ^2(\frac{m_{ij}^{2}}{4E}L)
   + 2 \sum_{i>j}  \Im( U^{*}_{ej}U_{\mu j}U_{ei}U^{*}_{\mu i} ) \sin(\frac{m_{ij}^{2}}{2E}L)
-\end{equation}~\label{eq:prob_calc2}
+\end{equation}
 
 Where we identify that the cross terms introduce a phase difference shown as $\Delta_{ij}$ in the second term in Equation~\ref{eq:prob_calc2}.
 This represents the neutrino oscillation term and represents the difference in the mass states of the neutrinos:
@@ -588,8 +583,7 @@ Values are taken from the global fit~\citep{2020JHEP...09..178E}.
 The values shown assume normal mass ordering for neutrinos and include atmospheric Super-Kamikonde Data.
 }
 \end{center}
-\end{table}
-~\label{table:pmns_params}
+\end{table}~\label{table:pmns_params}
 
 \section{Towards Future Detectors}~\label{sec:future_detectors}
 
