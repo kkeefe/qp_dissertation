@@ -5,15 +5,15 @@ We begin this chapter with an introduction to the Standard Model (SM) in Section
 We pay particular attention to the experimental work which was done to lay the foundation of the knowledge of physics we have today.
 
 In Section~\ref{sec:tpcs} we briefly discuss the history and development TPCs. 
-The novel readout presented in this thesis is described in Chapter~\ref{chap:qpix} is designed specifcally for use in TPC detectors.
+The novel readout presented in this thesis is in Chapter~\ref{chap:qpix} is designed specifically for use in TPC detectors.
 Chapter~\ref{chap:saq} provides the first measurements Q-Pix front-end readout in gas-based TPCs.
 
-We continue in section~\ref{sec:dune} to describe the future Deep Underground Neutrino Experiment (DUNE).
-The studies of Chapters~\cref{chap:qdb,chap:sim} demonstrate how this novel charge readout could be scaled to a DUNE Far Detector (DUNE-FD) scale.
+We continue in Section~\ref{sec:dune} to describe the future Deep Underground Neutrino Experiment (DUNE).
+The studies of Chapters~\ref{chap:qdb} and~\ref{chap:sim} demonstrate how this novel charge readout could be scaled to a DUNE Far Detector (DUNE-FD) scale.
 
 In Section~\ref{sec:neutrino_oscillation} we provide a brief history on the discovery of the neutrino and discuss its relevance for searching for physics beyond the Standard Model.
 We also provide a short review of the theory behind neutrino oscillations.
-Oscillation measurements, by extensions the search for Charge-Parity violation in the lepton section, is a primary science goals of the DUNE experiment: any proposed readout for DUNE must be able to measure neutrino oscillation.
+Oscillation measurements, and by extension, the search for Charge-Parity violation in the lepton sector are primary science goals of the DUNE experiment.
 These measurements involve interactions which occur at~\unit{GeV} energy scales.
 We provide the first demonstration of required capabilities at these energy scales for the Q-Pix back-end readout in Chapter~\ref{chap:sim}.
 
@@ -30,15 +30,15 @@ In the history of science, it is easy to argue that the most successful of all m
 The Standard Model (SM)~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} was originally developed in the mid to late 1970's and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
 It has made remarkable predictions about the existence of elusive neutrinos, quarks and vector bosons before their discovery, and more.
 
-The comprehensive and extensive list of known particles as well as various cross-sections, lifetimes, and other known information can be found from the bi-annually published Particle Data Group (PDG)~\citep{Workman:2022ynf}.
-The SM has been experimentally tested to limits unlike any other theory.
-The SM has stood the test of time, despite many known failures and holes in its predictions.
+The comprehensive and extensive list of known particles, as well as various cross-sections, lifetimes, and other known information can be found from the bi-annually published Particle Data Group (PDG)~\citep{Workman:2022ynf}.
+The SM has been experimentally tested more exhaustively any other theory.
+The SM has stood the test of time, despite the many mysteries it can not explain.
 
 \subsection{The Basics of the Standard Model}
 
-The SM itself dictates what the fundamental constituents of matter and energy are.
+The SM itself dictates the fundamental constituents of matter and energy.
 Its purpose is to explain the origin of observed matter as well as provide a description of all observable interactions.
-The interactions described by the SM involve the fundamental particle interactions via three of the four known fundamental forces observed in nature: the electromagnetic, weak, and strong forces.
+The interactions described by the SM involve three of the four known fundamental forces observed in nature: the electromagnetic, weak, and strong forces.
 The missing fourth force is one of the major shortcomings of the SM: its inability to incorporate a quantum description of gravity.
 
 All currently known fundamental particles are represented in Fig.~\ref{fig:cern_sm}.
@@ -47,13 +47,13 @@ These particles represent the today's knowledge of the building blocks of all ob
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/STDM_higgs_and_field_D.png}
-\caption{Image of Fundamental Particles in the Standard Model, taken from CERN website~\citep{dominguez_2015}.
+\caption{Image of fundamental particles in the Standard Model, taken from~\citep{dominguez_2015}.
   All known matter and particle interactions involves combinations of the particles shown here.}
 \end{figure}
 ~\label{fig:cern_sm}
 
 The quarks represent particles in the top left of Figure~\ref{fig:cern_sm}.
-In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\citep{eightfold_way_osti_4008239} which provided a method of grouping the hadrons.
+In 1961 Murray Gell-Mann proposed his ``eight-fold way''~\citep{eightfold_way_osti_4008239}, which provided a method of grouping the hadrons.
 Following shortly later, the quark model was then propossed by Gell-Mann in 1964~\citep{quark_model_GELLMANN1964214}.
 A unique feature of quarks compared to leptons is that no ``free'' quark has ever been observed.
 This means that all current direct observations of quarks are in bound states.
@@ -70,7 +70,7 @@ This means that all current direct observations of quarks are in bound states.
  \hline
  strange & $\frac{-1}{3}$ & 93.4 & 1968 & SLAC~\citep{1969PhRvL..23..930B, 1969PhRvL..23..935B} \\
  \hline
- charm & $\frac{2}{3}$ & 1270 & 1974 & SLAC~\citep{Jpsi_PhysRevLett.33.1404} \\
+ charm & $\frac{2}{3}$ & 1270 & 1974 & SLAC~\citep{augustin1974observation} and BNL~\citep{Jpsi_PhysRevLett.33.1404} \\
  \hline
  bottom & $\frac{-1}{3}$ & 4180 & 1977 & Fermilab~\citep{bottom_PhysRevLett.39.252}\\
  \hline
@@ -78,18 +78,15 @@ This means that all current direct observations of quarks are in bound states.
  \hline
 \end{tabular}
 \caption{Description of the discovery of quarks.
-  Notice that as the mass increases for a particular quark the year of discovery also increases.
-  This is due to property of how we create and observe the quarks in our accelerators, and also the reason why physicists continue to want to build bigger ones.
-  Interesting physics happens at higher and higher energies, which require larger and more expensive detectors to probe these energy scales.
-  Note that the lighter quark masses are not well understood for other experimental reasons, and the presented data are rounded to three significant figures based on~\citep{Workman:2022ynf}.}
+  The presented data are rounded to three significant figures based on~\citep{Workman:2022ynf}.}
 \end{center}
 \end{table}
 ~\label{table:quark}
 
 The leptons represent particles in the bottom left of Figure~\ref{fig:cern_sm}.
 Just like the quarks, the leptons come in three families (e, $\mu$, $\tau$).
-Also like the quarks, the leptons have charge, mass, and flavour which means they can decay.
-Unlike the quarks the leptonic particles do not have a color quantum number and therefore do not combine together to create composite particles.
+Also like the quarks, the leptons have charge, mass, and flavor which means they can decay.
+Unlike the quarks, the leptonic particles do not have a color quantum number and therefore do not combine together to create composite particles.
 
 \begin{table}
 \begin{center}
@@ -110,29 +107,23 @@ Unlike the quarks the leptonic particles do not have a color quantum number and 
  $\nu_{\tau}$ & 0 & unknown & 1995 & \citep{tau_neutrino_discovery_KODAMA2001218} \\
  \hline
 \end{tabular}
-\caption{Description of the discovery of the Leptons.
+\caption{Description of the discovery of the leptons.
 }
 \end{center}
 \end{table}
 ~\label{table:lepton}
 
-All forces within the standard model (electromagnetism, weak, and strong) are governed via a ``carrier'' particle.
-These carrier particles are represented on the center-right of~\ref{fig:cern_sm}.
+All forces within the standard model (electromagnetism, weak, and strong) are governed via a ``carrier'' particle, known as a gauge boson.
+These bosons are represented on the center-right of~\ref{fig:cern_sm}.
 Table~\ref{table:forces} provides a relative strength chart of the forces, and provides references for the first discovery of the carrier particle.
 
-The strong-nuclear force is governed by the exchange of the gluon ($g$).
-This force is responsible for color changes of matter and describes why nuclei are held together.
-The full theoretical description for the strong-nuclear force is Quantum-Chromodynamics (QCD).
-
-The electromagnetic force is governed by particle exchanges of a photon.
-All particles which carry charge interact via this force.
-Therefore the neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force.
-The full theoretical description of this force is governed by Quantum-Electrodynamics (QED).
-
-The weak-nuclear force is governed by particles exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$.
+The strong-nuclear force is governed by the exchange of the gluon ($g$), and is described by Quantum-Chromodynamics (QCD).
+This force is responsible for color quantum numbers of matter and describes why nuclei are held together.
+The electromagnetic force is governed by particle exchanges of a photon, and is described by Quantum-Electrodynamics (QED).
+The neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force.
+The weak-nuclear force is governed by particles exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$, and is described by Quantum-Flavourdynamics (QFD).
 This force involves a change in flavor of a particle, and involves both quarks and leptons.
 It is also responsible for all nuclear decay processes.
-The theoretical description of these mechanics are called Quantum-Flavourdynamics (QFD).
 
 \begin{table}
 \begin{center}
@@ -164,27 +155,26 @@ Ths Higgs was discovered in 2012 at the Large Hadron Collider (LHC)~\citep{higgs
 
 \subsection{Physics Beyond the Standard Model}
 
-Many times it was thought that the goal of physics was accomplished.
-The standard model is no different: despite its many successes there is still much left unexplained about the universe.
+Despite the SMs many successes there is still much left unexplained about the universe.
 SM does not incorporate gravity, it does not account for the matter-antimatter asymmetry of the universe, nor does it account for sources of dark energy and dark matter.
 SM also doesn't account for some of its 'basic' properties, such as: why are there only three generations of leptonic particles (e, $\mu$, and $\tau$)?
 
-The search to answer these questions motivates the search for physics beyond SM.
-The success of SM is also a sign of the difficulty to discover new physics.
-Likely, in order to push beyond the standard model (BSM) physicists will have to develop not only larger, but more clever detectors (Sect.~\ref{sec:dune}).
-In Section~\ref{sec:neutrino_oscillation} we discuss another missed prediction of the SM: neutrino oscillations. 
+The search to answer these questions motivates the search for physics beyond the SM.
+The success of the SM is also a sign of the difficulty to discover new physics.
+Likely, in order to push beyond the Standard Model (BSM) physicists will have to develop not only larger, but more clever detectors (Sect.~\ref{sec:dune}).
+In Section~\ref{sec:neutrino_oscillation} we discuss another missed initial prediction of the SM: neutrino oscillations. 
 
 \section{Time Projection Chambers}~\label{sec:tpcs}
 
-The Time Projection Chamber (TPC) was first developed by Nygren~\cite{lartpc:nygren} in 1974.
-The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second (compared to 1-10) and provide full 3-D event reconstruction.
-This detector was originally used in the Position-Electron Project (PEP-4) experiment which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
+The Time Projection Chamber (TPC) was first developed by David Nygren~\cite{lartpc:nygren} in 1974.
+The first TPC design used high pressure gas and was able to measure 1000s of particle tracks per second and provide full 3-D event reconstruction.
+This detector was originally used in the Positron-Electron Project (PEP-4) experiment, which measured electron-positron collisions from the 29 GeV electron beam produced at the Stanford Linear Accelerator (SLAC).
 
-The basic operating principle of a TPC is that a charged, moving particle ionizes other particles in the detector and produce scintillation light.
+The basic operating principle of a TPC is that a charged, moving particle ionizes other particles in the detector and produces scintillation light.
 The ionized electrons are then drifted by an external electric field down towards a collection plane (the anode) and are then readout by the electronics.
 The electric field also prevents recombination of the ionized electrons in the medium. 
 A diagram of this procedure is shown in Figure~\ref{fig:dune_apa}.
-The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa} can used to provide the time of the interaction.
+The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa}) can used to provide the time of the interaction.
 The track of the ionizing particle can then be reconstructed using the 2-D information from the wires, the timing collected from the photons, as well as the drift time of the electrons.
 
 \begin{figure}[]
@@ -327,7 +317,7 @@ DUNE has three main science goals, all of which are geared towards pushing beyon
 
 DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
 We will discuss the relevance of each of the first items in the next two sections.
-We provide a more complete discussion of neutrino oscillations in section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in chapter~\ref{chap:sim}.
+We provide a more complete discussion of neutrino oscillations in Section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in chapter~\ref{chap:sim}.
 
 
 \subsection{Hadron Decay}~\label{sec:hadron_decay}

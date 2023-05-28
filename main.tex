@@ -87,22 +87,24 @@ Chairpersons\\ Jason Kumar, John Learned, Robert Wright, Peter Sadowski, Gary Va
 \end{acknowledgements}
 
 \begin{abstract}
-The Standard Model (SM) of physics has proven annoyingly successful in past decades, despite several measurements which hint at its incomplete description of nature.
-The hunt for New Physics (NP) continues at higher energies ($>> 1 GeV$) with larger detectors ($\approx 10 kT$).
-One such future detector is The Deep Underground Neutrino (DUNE) detector.
-DUNE (as any beam detector) is a combination of two detectors, a near-detector (ND) and a far-detector (FD) for long-baseline neutrino oscillation measurements.
-The DUNE FD will be a large scale ($\approx 40 kT$) Liquid Argon Time Projection Chabmer (LArTPC).
-This 40-kT scale detector requires high precision in both timing ($<< \mu s$) and spatial resolutions ($\approx 1 mm$) for vertex reconstruction of interesting neutrino events.
+The Standard Model (SM) of physics has proven successful in past decades, despite several measurements that hint at its incomplete description of nature.
+The hunt for New Physics (NP) continues at higher energies ($\gg$~1~\unit{GeV}) with larger detectors ($\approx$~10~\unit{kT}).
+One such future detector is The Deep Underground Neutrino Experiment (DUNE).
+DUNE (as any beam line detector) is a combination of two detectors, a near-detector (ND) and a far-detector (FD) which will be used together to search for Charge-Parity violation (CPV) in the Lepton sector.
+The DUNE-FD will be a combination of four large scale ($\approx$~10~\unit{kT}) Liquid Argon Time Projection Chambers (LArTPC).
+Each 10-kT FD requires high precision in both timing ($\lg \mu s$) and spatial resolutions ($\approx$~1~\unit{mm}) for vertex reconstruction and particle identification (PID) of neutrino events.
 
-This dissertation discusses recent progress and characterization of a novel implementation of a new pixelated LArTPC readout technology.
+This dissertation discusses the progress and characterization of a novel implementation of a new pixelated LArTPC readout technology which may be used in one FD.
 This novel readout is based on a pixel-level charge-integrate-reset circuit: Q-Pix.
-We present the basic pixel-level readout circuit and the implications of such an implementation when applied at kiloton LArTPC scales.
+We present the basic pixel-level readout circuit and the implications of such an implementation when used in kiloton LArTPCs.
 We also show results from the first prototype implementation based on the Q-Pix readout, which was designed using only off-the-shelf electronics.
-One problem with any pixelated readout is the ability to handle a large number of unique data channels, which in the case of the DUNE FD is $\approx 10^8$.
+
+One problem with any pixelated readout is the ability to handle a large number of unique data channels, which in the case of the DUNE-FD is $\approx 10^8$.
 To address the scaling problem, we have developed and tested a modular digital back-end prototype as a proof of concept.
-In this dissertation, we discuss nominal system requirements to achieve the DUNE-FD APA scale for radiogenic background sensitivity, as well as pixel-level calibration techniques for both timing and charge.
-Simulations have also been performed based on projected radiogenic backgrounds and high-energy neutrino beamline events, providing initial estimates of the digital back-end requirements in both the quiescent and active states.
-Finally, based on these results from the simulations and prototypes presented here, we discuss the nominal digital back-end readout constraints of a fully realized Q-Pix implementation for a DUNE-FD APA~.
+This prototype is based on the first Q-Pix digital ASIC design, also presented in this work.
+We discuss the back-end system requirements to for a Q-Pix based readout technology to provide neutrino oscillation measurements up to 10~\unit{GeV}, as well as present the first demonstration of local oscillator calibrations ($\sim$~0.1~\unit{ppm}).
+Simulations have been performed based on radiogenic backgrounds and high-energy neutrino beamline events, providing first constraints of the digital back-end requirements in both the quiescent and active states.
+Finally, based on these results from the simulations and prototypes presented here, we discuss the digital back-end readout of a fully realized Q-Pix implementation within a 10~\unit{kT} DUNE-FD module.
 
 % include incoming ASIC comments
 \end{abstract}

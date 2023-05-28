@@ -21,6 +21,7 @@ The SAQ prototype is designed as a first physical proof-of-concept for a Q-Pix r
 
 The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 
+
 \section{The SAQ Protoype Design}
 
 \begin{figure}[]
@@ -69,11 +70,13 @@ The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_spice_circuit.pdf}
-\caption{The SAQ circuit in a Spice Simulation. The IVC~\citep{ivc_datasheet} chip chosen as the off-the-shelf integrator for this experiment. The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.}
+\caption{The SAQ circuit in a Spice Simulation.
+The IVC~\citep{ivc_datasheet} chip chosen as the off-the-shelf integrator for this experiment.
+The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.}
 \end{figure}~\label{fig:saq_circuit_spice}
 
 
-\subsection{The SAQ Data Acquisition}
+\section{The SAQ Data Acquisition}
 
 All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq based archticture.
 The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zybo_zy_reference}.
@@ -116,10 +119,10 @@ The target volume is an ultra pure Argon Gas at TODO militorr.
 % And ~3mtorr of vacuum before that
 In this case the excess electrons come from the nominal decay of Ar-39, which provide excess electrons from the natural $\beta$ decay, at a rate of $\approx 1~\unit{Bq}{Kg^{-1}}$
 
-\subsection{Digital Noise Sources and Clock Stability}
-
 
 \section{Xenon Gas Lamp Measurements}
+
+We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 
 \begin{figure}[]
 \centering
