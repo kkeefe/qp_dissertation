@@ -177,8 +177,8 @@ The Gap and Finish are used to prep the Rx to receive the next data bit or to in
 The ASIC will only accept packets that contain exactly 64 bits.
 An example of this protocol in use is shown in Figure~\ref{fig:endeavor}.
 }
-\end{center}
 \label{tab:endeavor_parameters}
+\end{center}
 \end{table}
 
 
@@ -263,8 +263,8 @@ The Table~\ref{tab:registers} describes the implemented register addresses and t
 The command register controls for resets and triggers (interrogations) for data.
 The Routing controls either dynamic or manual routing.
 }
-\end{center}
 \label{table:node_registers}
+\end{center}
 \end{table}
 
 
@@ -296,8 +296,8 @@ Each of the registers in Table~\ref{table:node_registers} are accessed by settin
  \hline
 \end{tabular}
 \caption{Description of the bit values within the register request word.}
-\end{center}
 \label{tab:packet_register}
+\end{center}
 \end{table}
 
 The two essential registers for connecting to and reading from the ASIC are the Routing (0x03) and Command (0x01) registers.
@@ -337,14 +337,14 @@ The composition of the data word is shown in Table~\ref{tab:packet_register}.
  \hline
 \end{tabular}
 \caption{Data word composition.}
-\end{center}
 \label{tab:packet_data}
+\end{center}
 \end{table}
 
 \subsubsection{The Local Data Packet and Broadcasts}~\label{sec:local_data_packet}
 
 The transmission of the reset data from the local FIFO to adjacent neighbor nodes begins when an incoming register request from the aggregator is received.
-This request is supplied as register request to the command register (~\ref{table:node_registers}).
+This request is supplied as register request to the command register (Table~\ref{table:node_registers}).
 This request may be considered either a ``hard'' or a ``soft'' interrogation command.
 
 The difference between the two types of an interrogation command is whether or not the event end packet is created.

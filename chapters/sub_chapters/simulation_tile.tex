@@ -168,9 +168,9 @@ Since many ($\approx 10^4$) events are performed per tile configuration each til
   The routing configurations are described in detail in the previous chapter, and refer to how local data words are sent to the aggregator.
   The two different architectures define how the node enters the transmit local state.
   The push architecture enters whenever a new reset is acquired, whereas the pull architecture enters only when a data request is received from the aggregator.}
+\label{table:tile_params}
 \end{center}
 \end{table}
-~\label{table:tile_params}
 
 The other design parameters are readily configurable in either hardware (tile size) or through register configurations of the digital node (routing and, possibly, architecture).
 Tile size is mostly an engineering and cost constraint.
@@ -447,9 +447,9 @@ This ASIC also corresponds to the ASIC which has the lowest frequency along the 
 The value of interest in determining the required remote FIFO depths for each ASIC is the maximum depth that occured on any node.
 A memory optimized routing configuration is one that would introduce the least strain on the remote buffer depths for a given local buffer depth input.
 }
+\label{table:example_analysis}
 \end{center}
 \end{table}
-~\label{table:example_analysis}
 
 The following figures demonstrate why it is important to design all ASICs within a tile to meet the same specifications.
 Future Q-Pix ASICs within a tile will be exposed to events at or above these energy scales, and there is no guaruntee (until the ASIC is in hand) what the frequency of its oscillator will be, or its location within a tile. 

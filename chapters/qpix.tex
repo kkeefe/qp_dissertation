@@ -298,8 +298,9 @@ Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead c
 The table information is taken from the inner three columns of Table 4.1 in~\citep{DUNE-FD_TDRv4:Abi_2020}.
 Due to the different charge sensitive geometries between a wire and pixel-based readout, the required noise and number of channels are not easily comparable.
 }
+\label{tab:dune_tpc_elec}
 \end{center}
-\end{table}~\label{tab:dune_tpc_elec}
+\end{table}
 
 \subsection{Q-Pix Comparison to DUNE-FD Electronics}
 
@@ -359,8 +360,9 @@ The Q-Pix readout can also be saturated by too many resets if the FIFO buffers o
 The power consumption per channel is a direct division compared to Table~\ref{tab:dune_tpc_elec}.
 The number of channels per tile depends on the tile size as well as the number of pixels per ASIC (see Chapter~\ref{chap:qdb} for further discussion).
 }
+\label{tab:qpix_tpc_elec}
 \end{center}
-\end{table}~\label{tab:qpix_tpc_elec}
+\end{table}
 
 \section{The Digital Back-end}~\label{sec:digital_back-end}
 
@@ -402,9 +404,9 @@ Each ASIC will be able to communicate with up to four neighbor nodes via a custo
 The testing and verification of the endeavor protocol is found in Chapter~\ref{chap:qdb}.
 The values of the local and remote FIFO depth were selected due to fabrication requirements, whose future values are discussion of Chapter~\ref{chap:sim}.
 }
+\label{table:digital_design_params}
 \end{center}
 \end{table}
-~\label{table:digital_design_params}
 
 \subsection{Single Point Failures}
 

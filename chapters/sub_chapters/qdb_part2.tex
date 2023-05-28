@@ -48,13 +48,11 @@ Therefore, even if not the primary implemented calibration technqiue, since this
 %% distribute packet for calibration of time
 \subsection{A Minimal Connection Calibration Procedure}~\label{sec:min_calib}
 
-As stated in the previous section, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a ASIC within a tile.
+As stated previously, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at a ASIC within a tile.
 The time calibration procedure presented here requires only the minimal routing required in any Q-Pix readout system, where we assume time-dependent free-running local oscillators at each ASIC within the tile.
 
-%% issue 1
+%% issue 1, then recv1
 The calibration procedure begins at a time ($T_{0}$) where the aggregator sends a calibration packet.
-
-%% recv1
 Next, the packet propagates through the tile to some remote ASIC, $N_{j}$.
 This ASIC receives the packet later at some time $T_{n1}$:
 
@@ -62,18 +60,16 @@ This ASIC receives the packet later at some time $T_{n1}$:
   T_{n1} = T_{o} + T_{f1}
 \end{equation}
 
+
+%% meas1 -> wait
 Where $T_{f1}$ is the propogation time of the packet from the aggregator to the $N_{j}$ ASIC.
-
-%% meas1
 This remote ASIC then sends the packet with its time ($T_{n1}$) back to the aggregator.
-
-%% wait
 The aggregator will wait some calibration time ($T_{cal}$) before issuing another calibration packet.
 This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time to the $N_{j}$ ASIC $(\mathcal{O}(j*10^{-5})$).
 
 %% issue 1
 After the wait period, the aggregator will issue a second calibration packet to be sent to a remote ASIC at time:
-\begin{equation}
+\begin{equation}~\label{eq:calibration_wait_time}
   T_{1} = T_{cal} + T_{0}
 \end{equation}
 
@@ -115,7 +111,7 @@ We convert time into frequency with the difference of the timestamps measured an
 \end{equation}
 
 or,
-\begin{equation}
+\begin{equation}~\label{eq:frequency_reconstruction}
    \boxed{f_{j} \simeq \frac{\Delta N_{j}}{\Delta N_{a}}f_{a}}
 \end{equation}
 
@@ -124,22 +120,21 @@ Where $\Delta N_{j}$ and $\Delta N_{a}$ are the differences in the timestamps of
 
 \subsubsection{Packet Transaction Time}
 
- We next examine the approximation that $\Delta T_{f} \ll T_{cal}$ and consider its contribution to the error in the reconstruction of $T_{j}$.
-This analysis also provides a constraint on the duration of $T_{cal}$ to ensure an accurate measurement of each $T_{j}$ in a tile.
+We next examine the approximation that $\Delta T_{f} \ll T_{cal}$ and consider its contribution to the error in the reconstruction of $T_{j}$ in Equation~\ref{eq:frequency_reconstruction}.
+This analysis also provides a constraint on the duration of $T_{cal}$ (Equation~\ref{eq:calibration_wait_time}) to ensure an accurate measurement of each $T_{j}$ in a tile.
 We begin by discussing how long it takes for a packet to traverse a tile.
 
 The time it takes for each packet to be received by the next node is given in Equation~\ref{eq:t_packet}.
 The value, $N_{bit}$, is the number of clock cycles used for the packet and is protocol-dependent.
 Since the protocol must be deterministic for each packet, $N_{bits}$ must be the same for each transaction on the path from the base-node to the remote node.
-
 As an example, the time it takes for a packet to go from the base-node, $N_{1}$, to a remote node, $N_{3}$, via the path $1\rightarrow 2 \rightarrow 3$ is determined by:
 %% packet transaction time
 \begin{equation}~\label{eq:t_packetTransfer}
   T_{1\rightarrow 3} = T_{1\rightarrow 2} + T_{2\rightarrow 3} \approx \frac{N_{bits}}{f_{1}} + \frac{N_{bits}}{f_{2}} = N_{bits}(\frac{1}{f_{1}} + \frac{1}{f_{2}})
 \end{equation}
 
-Where, $f_{i}$, is the frequency of the clock at sending node. The approximation is within a single clock cycle of the receiving digital node ($\approx 33~\unit{ns}$).
-
+Where, $f_{i}$, is the frequency of the clock at sending node. 
+he approximation is within a single clock cycle of the receiving digital node ($\approx 33~\unit{ns}$).
 Therefore the time it takes for a packet for go from the base-node to any remote node is proportional to $N_{bits}$ multiplied by the sum of the edges in the full adjacency matrix given by Equation~\ref{eq:adjacency_comp}.
 
 We generalize Equation~\ref{eq:t_packetTransfer} to represent the time it takes a packet to go from the aggregator ($i = 0$) to any remote node, $N_{j}$:
@@ -147,25 +142,30 @@ We generalize Equation~\ref{eq:t_packetTransfer} to represent the time it takes 
   T_{f} = T_{0\rightarrow j} = N_{bits}\sum_{i=0}^{i=j-1}\frac{1}{f_{i}}
 \end{equation}
 
-We require that every calibration packet on the protocol uses the same number of clocks ($N_{bits}$ is constant) and follows the same path. $\Delta T_{f}$ becomes:
+We require that every calibration packet on the protocol uses the same number of clocks ($N_{bits}$ is the same for each identical Register Request, Section~\ref{sec:registers}).
+$\Delta T_{f}$ becomes:
 \begin{equation}
   \Delta T_{f} = N_{bits}\sum_{i=0}^{i=j-1}\frac{1}{\Delta f_{i}} = N_{bits} \sum_{i=0}^{i=j-1}\Delta T_{i}
 \end{equation}
 
 We recognize $\Delta T_{i}$ as the nominal time-dependent clock drift of the each local oscillator in the path between the base-node to the remote-node.
-We can provide an order of magnitude estimate for $\Delta T_{f}$ if we assume a (very poor) $\approx 1\%$ drift in each of the remote clocks within the tile during a period of $T_{cal} \approx 1~\unit{s}$.
-In this approximation we also assume that the mean of the periods of the nodes are the designed value ($\approx 33~\unit{ns}$) for which a 1\% error gives $\sigma_{T_{f}} \approx 3~\unit{ps}$.
-If we assume that all of the clocks (for whatever reason) drift have error which drifts int he same direction (the sum doesn't cancel) then for 100 transactions with 1000 clocks per transaction, we obtain for $\Delta T_{f}$:
-\begin{equation}
-  \Delta T_{f} \approx 1000 * 100 * 3\times 10^{-12} \approx 30~\unit{ns} \ll 1~\unit{s} \simeq T_{cal}
+We can provide an order of magnitude estimate for $\Delta T_{f}$ if we assume a (poor) $\approx 5\%$ drift in each of the remote clocks within the tile during a period of $T_{cal} \approx 1~\unit{s}$.
+In this approximation we also assume that the mean of the periods of the nodes are the designed value ($\approx 33~\unit{ns}$) for which a 5\% error gives $\sigma_{T_{f}} \approx 15~\unit{ps}$.
+If we further assume that all of the clocks drift have error which drifts in the same direction (the mean drift doesn't cancel) then for 31 (16$\times$16 tile broadcast) transactions with 2000 clocks per transaction (Equation~\ref{eq:avg_packet}), we obtain for $\Delta T_{f}$:
+\begin{equation}~\label{eq:calib_constraints}
+  \Delta T_{f} \approx 2000 * 31 * 15\times 10^{-12} \approx 0.92~\unit{\mu s} 
 \end{equation}
+
+Equation~\ref{eq:calib_constraints} provides an estimatation of the timing uncertainty introduced by the calibraton scheme in a worst case 16$\times$16 tile scenario.
+In the next section we introduce a prototype modular prototype board which was designed to test the stability of the communication protocol and the frequency calibration procedure presented here.
 
 \section{The Q-Pix Digital Board}~\label{sec:qdb_prototype}
 
 This section marks the second part of this chapter.
 We describe the design of a modular digital back-end prototype board and discuss first results of the Q-Pix digital logic in an FPGA.
-The results presented here constructed a tile 4$\times$4 array of Lattice ice40UP5k FPGAs.
-Each FPGA is programmed with the logic described in the previous sections, which is what the Q-Pix digital ASIC prototype will use.
+The results presented here constructed a tile 4$\times$4 array of Lattice iCE40UP5K-UWG30ITR FPGAs.
+These FPGAs were chosen because of their small form factor, availability and pin out.
+Each FPGA is programmed with the logic described in the previous sections based on the Q-Pix digital ASIC prototype.
 
 These FPGAs are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
 The most important quantity to be calibrated for the digital nodes is the frequency of the local oscillator.
@@ -196,15 +196,16 @@ Future implementations of the digital back-end for Q-Pix may, of course, use dif
 However, these results are still beneficial as a proof of concept for the frequency calibration, as well as tests to the packet loss susceptibility.
 Packet loss is a function of relative frequency drift between neighbor nodes.
 
-Each iCE40 FPGA is uses an 12~\unit{MHz} external oscillator~\ref{ecs1612mv}, which is then connects to its phase-locked loop (PLL).
-The PLL uses a multiply by five divide by three to achieve the desired 30~\unit{MHz} average frequency.
+Each iCE40 FPGA is uses an 12~\unit{MHz} external oscillator~\ref{ecs1612mv}, which is then connected to a phase-locked loop (PLL).
+The PLL uses a multiply by five and divide by three circuit to achieve the desired 30~\unit{MHz} average frequency.
 The PLL is a special IP for the ice40UP5k FPGA's~\ref{latticeice40up}.
 
+FPGA's are labeled A through D on each QDB, beginning in the "top-right" of the board and proceeding counter-clock wise, as shown in Figure~\ref{fig:qdb_diagram}.
+Each FPGA has access to two right-angle connectors, which allow the QDBs to be interconnetected into a larger tile as shown in Figure~\ref{fig:qdb_test_setup}.
 
-
-\subsection{Frequency Calibration Results}
-
-
+We use the Zybo-Z7 prototype board from digilent as the aggregator node.
+Communication to and from the board uses a custom software interface that allows data communication between the Zybo and a PC.
+This DAQ is nearly identical to the procedure used in the SAQ experiment in Chapter~\ref{chap:saq}.
 
 \begin{figure}[]
 \centering
@@ -215,22 +216,43 @@ The FPGA that connects to the Zybo is FPGA-A as shwon in Figure~\ref{fig:qdb_dia
 Not shown is the ethernet connection from the Zybo back to the controlling PC.
 Some QDB boards are connected via jumper wires to allow easier programming of the FPGAs and for probbing pins.
 }
-\end{figure}~\label{fig:qdb_test_setup}
+\label{fig:qdb_test_setup}
+\end{figure}
+
+One of the main objectives of the prototype boards is to verify the communication protcol (Section~\ref{sec:comms}).
+An example of a broadcast transaction between the Zybo and two FPGAs on a single QDB is shown in Figure~\ref{fig:example_broadcast}.
+The transaction depicted is a broadcast register write, written to the command register (Table~\ref{table:node_registers}).
+From left to right in image A, the packets follow this pattern:
+The Zybo constructs a packet based on the protocol read from the 
+
+\begin{enumerate}
+  \item Zybo Sends Broadcast Register Write (hard interrogation)
+  \item FPGA-A Forwards and responds to broadcast and responds
+  \item FPGA-B Responds to broadcast 
+  \item FPGA-A routes the remote packet to the Zybo
+\end{enumerate}
 
 \begin{figure}
 \centering
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform.pdf}
   \caption{Waveforms caught on an oscilloscope.\newline Timescale is 50 $\unit{\mu s}$.}
 \end{subfigure}%
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}{\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform_diagram.pdf}
   \caption{Communication Route on Prototype}
 \end{subfigure}
 \caption{}
+\label{fig:example_broadcast}
 \end{figure}
+
+\subsection{Frequency Calibration Results}
+
+
+
+
 
 \begin{figure}[]
 \centering
