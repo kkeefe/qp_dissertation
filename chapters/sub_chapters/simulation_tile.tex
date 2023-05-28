@@ -462,7 +462,7 @@ The final simulated parameter to describe is the push architecture.
 Since the push architecture allows individual nodes to determine when packets can be sent all nodes must be inspected at each time step to check if a reset occurs before this new time window.
 If a reset occurs at a time before the next simulation timestep, then the reset is removed from this node's hit list and is written to the node's local FIFO.
 The node will then see at this simulation timestep that the local FIFO is not empty, and leave its idle state to send this packet.
-An example of this process is shown in figure~\ref{fig:push_arch_verification}.
+An example of this process is shown in Figure~\ref{fig:push_arch_verification}.
 
 Every simulated time step is shown and recorded along the x-axis.
 The distance in time between simulation steps increases during packet transfers since the nodes state is fully determined during this time.

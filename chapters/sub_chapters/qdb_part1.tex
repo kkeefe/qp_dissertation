@@ -9,7 +9,7 @@ This record happens in response any one, or more, of the pixels, which for the f
 The timestamp is the value of a local 32-bit counter at the time the ASIC receives the reset pulse.
 When a trigger is sent from any pixel the data recorded are local counter as well as the input level of all pixels ('1' incidates high, '0' indicates low).
 
-\begin{figure}
+\begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -33,7 +33,7 @@ Tiles are then connetected to controlling nodes as shown in Figure~\ref{fig:qpix
 In order for the system to work each ASIC must be able to send and receive data, which are routed to and from its tile via the controlling nodes.
 The sheer number of pixels required for an DUNE-FD 10 kT module require an extremely reliable means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
 
-\begin{figure}
+\begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -49,7 +49,8 @@ The sheer number of pixels required for an DUNE-FD 10 kT module require an extre
 The highlighted nodes in (B) indicate possible locations aggregator nodes to interconnect multiple tiles from a single controlling node.
 These aggregators can connect power, clock, ground, and data out of the full detector which are represented by the four colored traces leaving the tile array.
 }
-\end{figure}~\label{fig:qpix_tile_introduction}
+\label{fig:qpix_tile_introduction}
+\end{figure}
 
 The logical components of each ASIC are represented in Figure~\ref{fig:qpa_diagram}.
 These components are resonsible for controlling the basic features of the ASIC including communications, configuration, and data collection.
@@ -67,7 +68,8 @@ Data communication between ASICs is of primary consideration, since all recorded
   The Remote and Local FIFOs determine the packet memory of the ASIC. 
   The QpixDeubeg layer connects internal signals (such as the local oscillator) to external pins for planned futures tests of the ASIC prototype.
   }
-\end{figure}~\label{fig:qpa_diagram}
+\label{fig:qpa_diagram}
+\end{figure}
 
 The QPixComm module describes the communication layer of the ASIC, and determines how to communicate with the ASIC, described in Section~\ref{sec:endeavor}.
 To allow flexible communications, each transaction is capable of being encoded to serve different functions within the ASIC.
@@ -97,7 +99,8 @@ Each ASIC permits up to four neighbor connections as shown in Figure~\ref{fig:ex
 Each connection is two pairs of differential connections which permit asynchronous data transfer.
 Four connections of two pairs of differential connections require a total of 16 PCB traces to fully connect an ASIC to four neighbors.
 }
-\end{figure}~\label{fig:example_connections}
+\label{fig:example_connections}
+\end{figure}
 
 The asynchronous communiction protocol used is called an "Endeavor" protocol, which was originally developed for the Asynchronous Multi-ASIC Communication version 2 (AMACv2) ASIC.
 The endeavor protocol was specifically designed for high-speed asynchronous data communication between neighbor ASICs.
@@ -113,7 +116,8 @@ The convention used in the prototype ASIC sends a '1' bit for twice the number o
 After a bit is sent, there is a gap period where the Tx preps the Rx for another bit.
 The conclussion of the transmission occurs after 64 bits have been sent, where the Tx holds the signal low for longer the a normal gap word indicating the packet is complete.
 }
-\end{figure}~\label{fig:endeavor}
+\label{fig:endeavor}
+\end{figure}
 
 Data are sent one bit at a time following the procedure showin Figure~\ref{fig:endeavor}. 
 The procedure follows that a Tx drives the transmission line high for a varaible time to send either a One ('1') or a Zero ('0') bit.
@@ -135,7 +139,8 @@ There are four bit locations shared by all packets:
     \item X Location of sending ASIC: 37--40
     \item Packet Header: 57--60
     \item Unused Bits, but required for valid packet: 61--64
-\end{itemize}~\label{bit_reservation}
+\label{bit_reservation}
+\end{itemize}
 
 When an ASIC receives a valid packet, the ASIC enables a valid signal.
 The packet is handled based on the bits within the header of this packet.
@@ -173,8 +178,9 @@ The ASIC will only accept packets that contain exactly 64 bits.
 An example of this protocol in use is shown in Figure~\ref{fig:endeavor}.
 }
 \end{center}
+\label{tab:endeavor_parameters}
 \end{table}
-~\label{tab:endeavor_parameters}
+
 
 One important note about the Endeavor protocol is that the transaction time of the packet is not constant.
 The number of clocks required to send a '1' bit differs from the number of clocks for a '0' bit.
@@ -212,7 +218,8 @@ The interrogation time is described in Section~\ref{sec:local_data_packet}.
 The Register Request packet is special because it can only be created by an aggregator node, described in Table~\ref{tab:packet_register}. 
 The Register response is created and sent back to the aggregator node in response to a request,.
 }
-\end{figure}~\label{fig:datum}
+\label{fig:datum}
+\end{figure}
 
 The timestamp and event end packets are created by each ASIC and represent true data for analysis.
 The Register Request and Register Response packets indicate communication between an ASIC and an aggregator.
@@ -257,8 +264,9 @@ The command register controls for resets and triggers (interrogations) for data.
 The Routing controls either dynamic or manual routing.
 }
 \end{center}
+\label{table:node_registers}
 \end{table}
-~\label{table:node_registers}
+
 
 The composition of any register word is shown in Table~\ref{tab:packet_register}.
 Each of the registers in Table~\ref{table:node_registers} are accessed by setting the correct address value in the register request packet.
@@ -289,7 +297,8 @@ Each of the registers in Table~\ref{table:node_registers} are accessed by settin
 \end{tabular}
 \caption{Description of the bit values within the register request word.}
 \end{center}
-\end{table}~\label{tab:packet_register}
+\label{tab:packet_register}
+\end{table}
 
 The two essential registers for connecting to and reading from the ASIC are the Routing (0x03) and Command (0x01) registers.
 The routing register allows the ASIC to be configured in either a manual or a dynamic routing.
@@ -329,7 +338,8 @@ The composition of the data word is shown in Table~\ref{tab:packet_register}.
 \end{tabular}
 \caption{Data word composition.}
 \end{center}
-\end{table}~\label{tab:packet_data}
+\label{tab:packet_data}
+\end{table}
 
 \subsubsection{The Local Data Packet and Broadcasts}~\label{sec:local_data_packet}
 
@@ -369,7 +379,8 @@ The two conditions to leave the default (IDLE) state of the ASIC happen when eit
 This FSM is defined within the QpixRoute section in Figure~\ref{fig:qpa_diagram}.
 The Route FSM determines how and when packets are sent from the ASIC.
 }
-\end{figure}~\label{fig:digital_fsm}
+\label{fig:digital_fsm}
+\end{figure}
 
 \begin{itemize}
     \item Idle - Normal ASIC operation.
@@ -492,7 +503,8 @@ The base-node is colored and highlighted in red.
 The base-node (ASIC) is the special node which is the only ASIC that connects to the aggregator. 
 All data paths, regardless of routing must pass through this node.
 }
-\end{figure}~\label{fig:cbn}
+\label{fig:cbn}
+\end{figure}
 
 The most robust protection a tile can have is to be fully connected, which allows the maximum number of unique paths from the base node to any other node.
 Each path (Tx or Rx connection) is as an edge between nodes.
@@ -510,7 +522,8 @@ Each Node represents a digital ASIC which must be aggregated, and the red and bl
 The red connection lines indicate pathways away from the base node, whereas the blue lines represent connection paths towards the base-node in the upper-left.
 The FCT can be viewed as a directional, weighted graph where the edges are the Tx and Rx connections between ASICs (nodes).
 }
-\end{figure}~\label{fig:fc_tile}
+\label{fig:fc_tile}
+\end{figure}
 
 To elaborate on the adjacency matrix of the FCT we consider an $2\times 3$ tile.
 A $2\times 3$ tile has six total nodes, where we consider the upper-left most node to be the base node.
@@ -598,7 +611,8 @@ We refer to the style of routing as ``Snake''-routing, because this is also the 
 \includegraphics[width=\textwidth]{images/snakeroute.pdf}
 \caption{Minimal Occupancy Path of a FCT, or "Snake" routing.
 This routing path ensures that the number of input connections equal the number of output paths for the node.}
-\end{figure}~\label{fig:snake}
+\label{fig:snake}
+\end{figure}
 
 We inspect the SPF risk from this routing scheme with Equation~\ref{eq:cspf}, where we notice that the $n_{i}$ of each node is simply a running sum from the leaf to $N$ at the base node.
 
@@ -624,7 +638,8 @@ An example of such a routing configuration for a tile is shown in Figure~\ref{fi
 \caption{Minimal Delay Path of a FCT, or "Left" routing.
 This routing path ensures that the minimum number of transactions occur from every node in the FCT to reach the base-node.
 For any node along any column this is equivalent to the sum of the row and column of that node.}
-\end{figure}~\label{fig:leftroute}
+\label{fig:leftroute}
+\end{figure}
 
 We can calculate $C_{SPF}$ for this routing configuration if we identify that there are a $C$ number of rows which sum from one to $R-1$.
 Likelise, the far-left column in Figure~\ref{fig:leftroute} shows that the number of rows, $R$, sum from one to $C$.
@@ -684,7 +699,8 @@ This routing path ensures that the number of input connections equal the number 
 The matrix image highlights the appropriate indices which correspond to the 2$\times$3 subset of the tile (right).
 The matrix represets transactions that proceed towards (red) and away from (blue) the base node.
 }
-\end{figure}~\label{fig:FCT_colored}
+\label{fig:FCT_colored}
+\end{figure}
 
 \subsection{Comments on the Edge Base-node and Other Routings}~\label{sec:base_node}
 
@@ -702,4 +718,5 @@ The base-node is colored and highlighted in red.
 Image shows how the EBN can be thought of as a super-position of two corner base-nodes, represented by the purple (left "tile") and blue (right "tile") connections.
 Instead of a 3$\times$3 tile, there are two 2$\times$3 "tiles".
 }
-\end{figure}~\label{fig:ebn}
+\label{fig:ebn}
+\end{figure}

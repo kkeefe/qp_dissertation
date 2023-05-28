@@ -45,8 +45,9 @@ The trigger (output) occurs when enough charge as accumulated on the capacitor $
 One of the design parameters for the Q-Pix front-end is the choice of $C_{f}$.
 This front-end circuit is designed within a single analog ASIC which has contains 16 of these circuits.
 The schematic for this ASIC is shown in Apendix~\ref{app:analog_prototype}.
-Image is taken from \citep{qpix:nygren:mei}.}
-\end{figure}~\label{fig:qpixCircuit}
+Image is taken from~\citep{qpix:nygren:mei}.}
+\label{fig:qpixCircuit}
+\end{figure}
 
 The Q-Pix readout records 32-bit latch values as a response to the Schmitt trigger output; it does not measure voltage, charge, or time.
 We refer to this 32-bit measurement as a "timestamp".
@@ -60,12 +61,13 @@ These two portions are shown in Figure~\ref{fig:qpix_frontandbackend}.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/qpix_circuit_frontandbackend.jpg}
-\caption{A modified image from~\ref{qpix:nygren:mei} is shown.
+\caption{A modified image from~\citep{qpix:nygren:mei} is shown.
 The blue box is the Q-Pix circuit~(Figure~\ref{fig:qpixCircuit}), which we refer to as the Q-Pix "analog front-end".
 The right side of the image, encompassed in orange box, we refer to as the "digital back-end".
 The back-end is responsible for providing the local oscillator as well as accurately recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
 }
-\end{figure}~\label{fig:qpix_frontandbackend}
+\label{fig:qpix_frontandbackend}
+\end{figure}
 
 \subsection{Current Reconstruction}~\label{sec:rtds_and_waveforms}
 
@@ -116,7 +118,8 @@ The purple curve of the top pannel represents charge accumulating on the CSA, wh
 The bottom pannel shows input charge (purle curve) overlayed on top of the reconstructed current signal.
 The $Q_{o}$ value taken here is equal to 1~\unit{fC}.
 Image is taken from \citep{qpix:nygren:mei}.}
-\end{figure}~\label{fig:qpixRecon1}
+\label{fig:qpixRecon1}
+\end{figure}
 
 \begin{figure}[]
 \centering
@@ -127,7 +130,8 @@ $Q_{o}$ was chosen to be $0.3 fC$.
 The bottom panel in this image shows a better match of the reconstructed signal with a smaller $Q_{o}$. 
 However, more ($\approx$ 1.0~\unit{fC} / 0.3~\unit{fC}) resets are produced as a result. 
 Image is taken from~\citep{qpix:nygren:mei}.}
-\end{figure}~\label{fig:qpixRecon2}
+\label{fig:qpixRecon2}
+\end{figure}
 
 Of these three parameters in Equation~\ref{eq:irecon_freq}, two of them need to be calibrated.
 The validation of the charge calibration is beyond the scope of this work, but is briefly described in Chapter~\ref{chap:sim} Section~\ref{sec:radiogenic_calib}.
@@ -189,9 +193,10 @@ This occurs since $N_{rtd}$ can only take integer values, the recontructed curre
 The red points indicate possible reconstructed current values, where the two highest points correspond to $\frac{30}{7}$ and $\frac{30}{8}$, respectively.
 However, an example of a savgol filter (dark blue) is performed on the resets after the fact with near agreement of the large input.
 A use case of this kind of digital filtering would be applied to large current values only (peaks of the curves), and not for low current inputs where the pure timestamp difference provides better results.}
-\end{figure}~\label{fig:savgol}
+\label{fig:savgol}
+\end{figure}
 
-\begin{figure}
+\begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -248,15 +253,15 @@ Since each 10 kt module uses 150 APAs the total number of ASICs would be multipl
 \includegraphics[width=\textwidth]{images/dune_apa_motherboards.jpg}
 \caption{Image taken from~\citep{DUNE-FD_TDRv4:Abi_2020}, Fig 1.12 of section 1.8.
 Image shows an overlay the the relevant charge collection wires within a DUNE-FD SP LArTPC.
-}
-\end{figure}~\label{fig:dune_tpc_electronics}
+}~\label{fig:dune_tpc_electronics}
+\end{figure}
 
 %% example image of DUNE-APA from DUNE-FD TDR.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_fd_tdr_apa_image.jpg}
-\caption{A simple caption \citep{DUNE-FD_TDRv4:Abi_2020}}
-\end{figure}~\label{fig:dune_apa_tdr}
+\caption{Cross sectional picture of a single DUNE-FD APA backet~\citep{DUNE-FD_TDRv4:Abi_2020}}
+\end{figure}
 
 On each FEMB are three ASICs are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
 The first ASIC is a waveform-shaping and amplification ASIC.
@@ -408,7 +413,7 @@ The readout technology presented here relies on huge numbers of readout channels
 As such, extra care must be made in designing new technology to improve over established, seemingly simpler means.
 
 This principal guides design choices such as the use of independent local oscillators at the pixel-level instead of a provided distributed clock.
-This design choice, in particular, is discussed at length in chapter~\ref{chap:qdb}, and the findings presented there are one of the major contributions presented in this thesis.
+This design choice, in particular, is discussed at length in Chapter~\ref{chap:qdb}, and the findings presented there are one of the major contributions presented in this thesis.
 
 The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of each local oscillator ($N_{osc} \approx 10^{5}$) is a product of this thesis.
 
@@ -439,7 +444,7 @@ Figure~\ref{fig:qpix_light_geometries} shows the vertical and horiztontal drift 
 The vertical drift geometry is an easier design geometry, however the top electrode must not only be able to collect charge it must also be transparent. 
 On the other hand, the horizontal drift geometry solves the transparancy problem but involves a more complilcated hardware design. 
 
-\begin{figure}
+\begin{figure}[]
 \centering
 \begin{subfigure}{.45\textwidth}
   \centering
@@ -478,5 +483,5 @@ Plotted is the supernova burst triggering effeciency as a function of $\nu_{e}$ 
 The points in blue indicate that a series of 60 resets are "clustered" to use as an identification of a supernova event. 
 The other curves are taken from Ref.~\citep{supernova_Abi_2021}.
 }
+\label{fig:qpix_shion}
 \end{figure}
-~\label{fig:qpix_shion}

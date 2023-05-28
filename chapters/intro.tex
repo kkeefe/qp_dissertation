@@ -45,11 +45,11 @@ All currently known fundamental particles are represented in Fig.~\ref{fig:cern_
 These particles represent the today's knowledge of the building blocks of all observed matter in the universe.
 
 \begin{figure}[]
-\label{fig:cern_sm}
 \centering
 \includegraphics[width=\textwidth]{images/STDM_higgs_and_field_D.png}
 \caption{Image of fundamental particles in the Standard Model, taken from~\citep{dominguez_2015}.
   All known matter and particle interactions involves combinations of the particles shown here.}
+\label{fig:cern_sm}
 \end{figure}
 
 
@@ -115,7 +115,7 @@ Unlike the quarks, the leptonic particles do not have a color quantum number and
 ~\label{table:lepton}
 
 All forces within the standard model (electromagnetism, weak, and strong) are governed via a ``carrier'' particle, known as a gauge boson.
-These bosons are represented on the center-right of~\ref{fig:cern_sm}.
+These bosons are represented on the center-right of Figure~\ref{fig:cern_sm}.
 Table~\ref{table:forces} provides a relative strength chart of the forces, and provides references for the first discovery of the carrier particle.
 
 The strong-nuclear force is governed by the exchange of the gluon ($g$), and is described by Quantum-Chromodynamics (QCD).
@@ -179,7 +179,6 @@ The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa}) can 
 The track of the ionizing particle can then be reconstructed using the 2-D information from the wires, the timing collected from the photons, as well as the drift time of the electrons.
 
 \begin{figure}[]
-~\label{fig:dune_apa}
 \centering
 \includegraphics[width=\textwidth]{images/dune_tdrv12020_lartpc-sp.jpg}
 \caption{Image of a Time Projection Chamber (TPC).
@@ -188,6 +187,7 @@ An uniform electric field drifts the freed electrons towards the anode plane.
 The collection and readout of charge on this anode plane is what is recorded within the detector.
 Shown in the image are the three wire collection planes used in the DUNE experiment.
 Image is taken from~\citep{DUNE_TDR_V1_Abi_2020}.}
+\label{fig:dune_apa}
 \end{figure}
 
 The development of the TPC followed closedly with the devleopemnt of fast (> 1~\unit{MHz}) digitizing electronics.
@@ -200,7 +200,6 @@ TPCs are so useful because provide high resolution in both timing and spatial di
 An example of the energy resolution and particle-identification capabilities of TPCs is shown in Figure~\ref{fig:pep4_tpc_dedex}.
 
 \begin{figure}[]
-~\label{fig:pep4_tpc_dedex}
 \centering
 \includegraphics[width=0.8\textwidth]{images/pep4_tpc_dEdx.png}
 \caption{Measurements of energy deposited in the PEP-4 detector.
@@ -208,6 +207,7 @@ These measurements show particle identification (PID) based on $\frac{dE}{dX}$.
 The energy resolution for the PEP-4 experiment calculated to be 3\%.
 Image taken from~\citep{pep_image}.
 }
+\label{fig:pep4_tpc_dedex}
 \end{figure}
 
 
@@ -243,8 +243,9 @@ The relevant properties of a LArTPC are shown in Table~\ref{tab:lar_prop}.
     \caption{
       Relevant Liquid Argon parameter information.
       Values are taken from~\citep{lardata_lbnl}, with temperature $T_{s} = 87 K$ and electric field $E_{f} = 0.5 kV cm^{-1}$.}
+  \label{tab:lar_prop}
   \end{center}
-\end{table}~\label{tab:lar_prop}
+\end{table}
 
 \section{The Deep Underground Neutrino Experiment}~\label{sec:dune}
 
@@ -260,14 +261,15 @@ It will measure the unoscillated spectra for $\nu_{e}, \nu_{\mu}$, and their ant
 The FD will use these unoscillated measurements of the neutrino spectra to predict what neutrino interaction spectra it should measure.
 
 \begin{figure}[]
-~\label{fig:dune_nd_beamline}
 \centering
 \includegraphics[width=\textwidth]{images/dune_nd_beamline_tdrv1.png}
 \caption{Image of the near detector hall located relative to the neutrino beam at Fermilab in Illinois.
 The ND is $\approx 525~\unit{m}$ from the neutrino target.
 Image is taken directly from~\citep{DUNE_TDR_V1_Abi_2020}.
 }
+\label{fig:dune_nd_beamline}
 \end{figure}
+
 
 The ND is a suite of three detectors all exposed to a LBNF beam.
 One component of the ND is a LArTPc (ND-LAr) which is a pixelated detector to be built using ArgonCube technology.
@@ -277,7 +279,6 @@ The final component of the ND is the System for on-Axis Neutrino Detection (SAND
 SAND is used to measure the beam flux sent to the FD.
 
 \begin{figure}[]
-~\label{fig:dune_fd_image}
 \centering
 \includegraphics[width=\textwidth]{images/LBNE_Graphic_061615_2016.jpg}
 \caption{Representation of the Near and Far Detectors for the DUNE experiment.
@@ -286,7 +287,9 @@ One of the key purposes for the ND is to tag outgoing particles from the proton 
 The FD is located at SURF on the left of the image, and will contain four 10 kT LArTPCs, which are the target of the neutrino beam.
 The beam's energy and distance between the ND and FD are chosen to optimize sensitivity to neutrino oscillation measurements (See Section~\ref{sec:neutrino_oscillation}).
 Image was taken from~\citep{dune_cdr_2016_arxiv}.}
+\label{fig:dune_fd_image}
 \end{figure}
+
 
 The FD will be placed underground at Sanford Underground Research Facility (SURF) and be approximately 1300 km away from the ND.
 The FD will be composed of four separate 10 kiloton LArTPC modules (DUNE-FD SP), an example of one is shown in Figure~\ref{fig:dune_10kt}.
@@ -304,7 +307,8 @@ The dimensions of the module are 58.2~\unit{m} into the page, 12.0~\unit{m} high
 The ionization charges drift horrintally in the SP scheme, where electrons are drifted toward the anode (A) planes.
 Image is taken directly from~\citep{DUNE_TDR_V1_Abi_2020}.
 }
-\end{figure}~\label{fig:dune_10kt}
+\label{fig:dune_10kt}
+\end{figure}
 
 
 DUNE has three main science goals, all of which are geared towards pushing beyond the SM:
@@ -313,12 +317,12 @@ DUNE has three main science goals, all of which are geared towards pushing beyon
     \item Hadron Decay (Section~\ref{sec:hadron_decay})
     \item Core-collapse Supernovae (Section~\ref{sec:intro_supernova})
     \item Neutrino Oscillation (Section~\ref{sec:neutrino_oscillation})
+\label{item:dune_props}
 \end{itemize}
-~\label{item:dune_props}
 
 DUNE plans to offer an incredibly rich searches across the sectors listed above~\ref{item:dune_props}.
 We will discuss the relevance of each of the first items in the next two sections.
-We provide a more complete discussion of neutrino oscillations in Section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in chapter~\ref{chap:sim}.
+We provide a more complete discussion of neutrino oscillations in Section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in Chapter~\ref{chap:sim}.
 
 
 \subsection{Hadron Decay}~\label{sec:hadron_decay}
@@ -552,7 +556,8 @@ Whereas, IO has a mass ordering: $\nu_{\tau} < \nu_{e} < \nu_{\mu}$.
 \centering
 \includegraphics[width=\textwidth]{images/mass_hierarchy.jpg}
 \caption{Representation of the mass hierarchy scales. This is a represntation of the two possible orderings of neutrino massses, due to the uncertain sign of $m_{13}$. It is also interesting to observe that the absolute mass scale is not measured since oscillation measurements only give difference mass squares. Image was taken from~\citep{QIAN20151}.}
-\end{figure}~\label{fig:mass_hierarchy}
+\label{fig:mass_hierarchy}
+\end{figure}
 
 Neutrino oscillations in matter are slightly different than those in vacuum~\citep{PhysRevD.17.2369}.
 The Mikheyev-Smirnov-Wolfenstein (MSW) effect~\citep{Smirnov2004TheME} also contributes to differening neutrino oscillations as they move through matter of varying density, which additionally complicated the calculation.

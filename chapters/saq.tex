@@ -28,25 +28,28 @@ The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_16_ivc_readout_board.pdf}
 \caption{The SAQ Setup model based on~\ref{}.}
-\end{figure}~\label{fig:saq_readout_board}
+\label{fig:saq_readout_board}
+\end{figure}
 
 %%
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_physical_setup.jpg}
 \caption{The SAQ Setup model based on~\ref{fig:saq_physical_setup_flatten}.}
-\end{figure}~\label{fig:saq_setup_flatten}
+\label{fig:saq_setup_flatten}
+\end{figure}
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_setup_diagram.pdf}
 \caption{The SAQ Setup model based on~\ref{fig:saq_setup_diagram}.}
-\end{figure}~\label{fig:saq_physical_setup_flatten}
+\label{fig:saq_physical_setup_flatten}
+\end{figure}
 
 \subsection{The TPC Design}
 %% closeup image of the TPC here
 
-\begin{figure}
+\begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -73,7 +76,8 @@ The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 \caption{The SAQ circuit in a Spice Simulation.
 The IVC~\citep{ivc_datasheet} chip chosen as the off-the-shelf integrator for this experiment.
 The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.}
-\end{figure}~\label{fig:saq_circuit_spice}
+\label{fig:saq_circuit_spice}
+\end{figure}
 
 
 \section{The SAQ Data Acquisition}
@@ -89,13 +93,15 @@ This board was chosen for its multiple configurable input chanels, as well as th
 Additionally, the use of the ethernet provides $1~\unit{GB}$ transfer speeds, which is more than sufficient for the application.
 Packet data transfer rates have been verified with this readout at stable rates of 10~\unit{kHz}.
 }
-\end{figure}~\label{fig:saq_zybo}
+\label{fig:saq_zybo}
+\end{figure}
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_gui_resets.pdf}
 \caption{The SAQ GUI with real time plotting of incoming resets to the Zybo board.}
-\end{figure}~\label{fig:saq_gui}
+\label{fig:saq_gui}
+\end{figure}
 
 
 \section{Noise Measurements}
@@ -128,7 +134,8 @@ We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_gui_resets.pdf}
 \caption{Drift Current Measurements to go here.}
-\end{figure}~\label{fig:saq_drift_gui}
+\label{fig:saq_drift_gui}
+\end{figure}
 
 \section{Results and Discussion}
 
@@ -136,7 +143,8 @@ We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
 \caption{First diffusion measurement in P-10 gas performed at Wellesy University.}
-\end{figure}~\label{fig:saq_first_diffusion_measurement}
+\label{fig:saq_first_diffusion_measurement}
+\end{figure}
 
 \subsection{Current Status and Planned Measurements}
 
