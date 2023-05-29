@@ -1,12 +1,14 @@
-\chapter{The First Prototype: First Resets and Leakage Measurements}~\label{chap:saq}
+\chapter{The First Analog Prototype: First Resets and Leakage Measurements}~\label{chap:saq}
 
-In this chapter we present the first implementation of the Q-Pix-based design using off-the-shelf electronics.
+In this chapter we present the first implementation of the Q-Pix front-end design using off-the-shelf electronics.
 
 This section describes the first prototype based on the Q-Pix readout: The Simplified Analog Q-Pix (SAQ).
 First we discuss the design goals of the prototype and highlight the basic building blocks of any Q-Pix based prototype.
 Next, We describe the prototype status as well as lessons learned in characterizing noise and performing calibrations.
 
-In the final part of this section we describe the future goals of this prototype, including the calibration of GEMs and promising future analysis.
+In the final part of this section we describe the future goals of this prototype, including the calibration of the detector response with Gas Electron Multipliers (GEMs)~\citep{SAULI20162} and promising future analysis.
+We emphasize that at the time of the writing of this thesis the results of this experiment are incomplete.
+Nevertheless, the lessons learned so far, particularly in the calibration procedure, are useful to explore the abilities of the Q-Pix readout.
 The final results of SAQ are just beyond the scope of this work, but I provide SAQ's details here as a means of introducing the front-end of Q-Pix as well as highlighting my personal contributions to Q-Pix's overall development.
 
 The entire data acquisition (DAQ) chain used for both SAQ experimental setups are my sole independent work.
@@ -19,10 +21,14 @@ Additionally, I wrote analysis scripts used for the work done at the SAQ site at
 
 The SAQ prototype is designed as a first physical proof-of-concept for a Q-Pix readout.
 
-The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
-
-
 \section{The SAQ Protoype Design}
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/SAQ_setup_diagram.pdf}
+\caption{The SAQ Setup model based on~\ref{fig:saq_setup_flatten}.}
+\label{fig:saq_physical_setup_flatten}
+\end{figure}
 
 \begin{figure}[]
 \centering
@@ -35,16 +41,12 @@ The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_physical_setup.jpg}
-\caption{The SAQ Setup.}
+\caption{The SAQ setup at UTA.
+In the center is the TPC, SAQ board~(Figure~\ref{fig:saq_readout_board}), and pump as shown in Figure~\ref{fig:saq_physical_setup_flatten}.
+}
 \label{fig:saq_setup_flatten}
 \end{figure}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/SAQ_setup_diagram.pdf}
-\caption{The SAQ Setup model based on~\ref{fig:saq_setup_flatten}.}
-\label{fig:saq_physical_setup_flatten}
-\end{figure}
 
 \subsection{The TPC Design}
 %% closeup image of the TPC here
@@ -65,6 +67,24 @@ The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 \end{figure}
 
 
+\begin{figure}[]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/saq_wellesley_tpc.jpg}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/saq_wellesley_tpc_daq.jpg}
+  \caption{}
+\end{subfigure}
+\caption{Picture of the TPC and DAQ setups at Wellesley University.}
+\end{figure}
+
+The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
+
+
 
 \subsection{The Integrator Circuit}
 
@@ -72,15 +92,23 @@ The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_spice_circuit.pdf}
-\caption{The SAQ circuit in a Spice Simulation.
+\includegraphics[width=\textwidth]{images/saq_integrator_circuit.png}
+\caption{
+A schematic of the front-end CSA and trigger components.
 The IVC~\citep{ivc_datasheet} chip chosen as the off-the-shelf integrator for this experiment.
-The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.}
-\label{fig:saq_circuit_spice}
+The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.
+}
+\label{fig:saq_circuit_kicad}
 \end{figure}
 
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/saq_reset_pulse_gem_thickBoard.jpg}
+\caption{}
+\label{fig:saq_resets}
+\end{figure}
 
-\section{The SAQ Data Acquisition}
+\section{Data Acquisition}
 
 All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq based archticture.
 The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zybo_zy_reference}.
@@ -103,7 +131,6 @@ Packet data transfer rates have been verified with this readout at stable rates 
 \label{fig:saq_gui}
 \end{figure}
 
-
 \section{Noise Measurements}
 
 The Q-Pix readout is dependent on the integrator, which provides the basic datum of the reset time.
@@ -125,7 +152,6 @@ The target volume is an ultra pure Argon Gas at TODO militorr.
 % And ~3mtorr of vacuum before that
 In this case the excess electrons come from the nominal decay of Ar-39, which provide excess electrons from the natural $\beta$ decay, at a rate of $\approx 1~\unit{Bq}{Kg^{-1}}$
 
-
 \section{Xenon Gas Lamp Measurements}
 
 We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
@@ -137,7 +163,7 @@ We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 \label{fig:saq_drift_gui}
 \end{figure}
 
-\section{Results and Discussion}
+\section{Status and Discussion}
 
 \begin{figure}[]
 \centering
@@ -146,6 +172,6 @@ We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 \label{fig:saq_first_diffusion_measurement}
 \end{figure}
 
-\subsection{Current Status and Planned Measurements}
+\subsection{Planned Measurements}
 
 Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500 V/cm have been performed before~\citep{lar_diffusion_measurement_LI2016160}.
