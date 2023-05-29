@@ -349,7 +349,7 @@ This request may be considered either a ``hard'' or a ``soft'' interrogation com
 
 The difference between the two types of an interrogation command is whether or not the event end packet is created.
 In the case of a ``hard''--interrogation, the event end packet is always created, regardless of the local FIFO.
-A hard interrogation happens if the first bit of the data written to the command register is high.
+A Hard Intterrogation happens if the first bit of the data written to the command register is high.
 In the case of a ``soft''--interrogation, the event end packet is created only if the local FIFO is not empty.
 A soft interrogation happens if the second, and not the first, bit of the data written to the command register is high.
 
@@ -384,8 +384,8 @@ The Route FSM determines how and when packets are sent from the ASIC.
 
 \begin{itemize}
     \item Idle - Normal ASIC operation.
-    \item Transmit Local - Requires soft or hard integration from aggregator.
-    \item Transmit Finish - Requires hard integration or soft integration with available timestamp data.
+    \item Transmit Local - Requires soft or Hard Inttegration from aggregator.
+    \item Transmit Finish - Requires Hard Inttegration or soft integration with available timestamp data.
     \item Transmit Remote - Entered whenever packet received from neighbor that isn't a broadcast.
 \end{itemize}~\label{fsm_state_labels}
 

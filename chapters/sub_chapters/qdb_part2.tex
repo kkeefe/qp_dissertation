@@ -126,7 +126,7 @@ We begin by discussing how long it takes for a packet to traverse a tile.
 
 The time it takes for each packet to be received by the next node is given in Equation~\ref{eq:t_packet}.
 The value, $N_{bit}$, is the number of clock cycles used for the packet and is protocol-dependent.
-Since the protocol must be deterministic for each packet, $N_{bits}$ must be the same for each transaction on the path from the base-node to the remote node.
+Since the protocol is deterministic (Section~\ref{sec:endeavor}) for each packet, $N_{bits}$ is the same for each transaction on the path from the base-node to the remote node.
 As an example, the time it takes for a packet to go from the base-node, $N_{1}$, to a remote node, $N_{3}$, via the path $1\rightarrow 2 \rightarrow 3$ is determined by:
 %% packet transaction time
 \begin{equation}~\label{eq:t_packetTransfer}
@@ -201,6 +201,7 @@ The PLL is a special IP for the ice40UP5k FPGA's~\citep{latticeice40up}.
 
 FPGA's are labeled A through D on each QDB, beginning in the "top-right" of the board and proceeding counter-clock wise, as shown in Figure~\ref{fig:qdb_diagram}.
 Each FPGA has access to two right-angle connectors, which allow the QDBs to be interconnetected into a larger tile as shown in Figure~\ref{fig:qdb_test_setup}.
+The numerical location (x,y) of each FPGA corresponds to number of transactions "left" or "right" (x), and "up" or "down" (y) from the aggregator as viewing in Figure~\ref{fig:qdb_diagram}.
 
 We use the Zybo-Z7 prototype board from digilent as the aggregator node.
 Communication to and from the board uses a custom software interface that allows data communication between the Zybo and a PC.
@@ -225,7 +226,7 @@ From left to right in image A, the packets follow this pattern:
 The Zybo constructs a packet based on the protocol read from the 
 
 \begin{enumerate}
-  \item Zybo Sends Broadcast Register Write (hard interrogation)
+  \item Zybo Sends Broadcast Register Write (Hard Intterrogation)
   \item FPGA-A Forwards and responds to broadcast and responds
   \item FPGA-B Responds to broadcast 
   \item FPGA-A routes the remote packet to the Zybo
@@ -243,18 +244,33 @@ The Zybo constructs a packet based on the protocol read from the
   \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform_diagram.png}
   \caption{Communication Route on Prototype}
 \end{subfigure}
-\caption{Timescale is 50 $\unit{\mu s}$.}
+\caption{Timescale is 50 $\unit{\mu s}$.
+An example of a Hard Intterrogation with two connected FPGAs is shown.
+The first incoming packet is the broadcast (Register Write to command register) from the Zybo board.
+The FPGA (0,0) responds and sends the broadcast.
+The bottom waveform is FPGA (1,0) responding to the request sent from (0,0).
+The right image shows the direction of the packets as viewed on the QDB tile.
+}
 \label{fig:example_broadcast}
 \end{figure}
 
 \section{Prototype Frequency Calibration Results}~\label{sec:freq_calib_results}
 
+We describe here the methods of measuring a stable oscillator frequency for the prototype PCB based on the frequency calibration scheme developed in Section~\ref{sec:calib}.
+
+The interrogation procedure involves using a Hard Interrogation on the FPGA to ensure that each FPGA responds with an Event End packet (packets defined in Section~\ref{sec:local_data_packet}).
+The Zybo records the time that it sends the interrogation time and collects 16 response packets from each FPGA.
+We test the effects of the calibration rate ($T_{cal}$ in Equation~\ref{eq:calibration_wait_time}) by performing two sets of interrogation rates at 0.1~\unit{Hz} and 4~\unit{Hz}, which we refer to as the "slow" and "fast" interrogation rates.
+The slow (0.1~\unit{Hz}) frequency test is the expected lower limit of reset data to be acquired from radiogenic and noise contributions alone (Section~\ref{sec:radiogenic_calib}).
+The fast (4~\unit{Hz}) test allows only 250~\unit{ms} for a tile readout and is much faster than any interrogation requirement for use in a DUNE-FD APA ($\simeq$~1~unit{Hz} for beam spills). 
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/(0,0).pdf}
-\caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo.
+\caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo, $T_{cal} = 250~\unit{ms}$.
 Shown is the reconstructed frequency for the base node FPGA at (0,0) within the QDB tile.
+Figure~\ref{fig:fast_example} shows the corresonding reconstructed frequency pattern that represents the five individual peaks on the left.
+A mean substraction is performed on all five histograms to produce the right image, where a gaussian fit is performed to estimate a frequnecy uncertainty ($\sigma$).
 }
 \label{fig:frq_recon_node00}
 \end{figure}
@@ -263,21 +279,44 @@ Shown is the reconstructed frequency for the base node FPGA at (0,0) within the 
 \centering
 \includegraphics[width=0.9\textwidth]{images/(3,3).pdf}
 \caption{Reconstructed frequency of the FPGA at position (3,3) within the QDB tile.
-The relative drifts of the frequencies shown for the more distance FPGA are greater than the base node (0,0), which is only one transaction again from the Zybo aggregator.
+The relative drifts of the frequencies shown for the more distance FPGA are greater than the base node (0,0), which is only one transaction away from the aggregator.
 }
 \label{fig:frq_recon_node33}
 \end{figure}
 
+
+Figures~\ref{fig:frq_recon_node00} and~\ref{fig:frq_recon_node33} show that there are five distinct frequency groupings for the reconstruction.
+These separate distribution of frequencies clearly correspond to the interrogation number of the Zybo as shown in Figure~\ref{fig:fast_example}.
+The reason for the estimated drift is due to the difference of drift in the Zybo clock.
+The reconstruction formula (Equation~\ref{eq:frequency_reconstruction}) on the frequency of the aggregator ($f_{a}$).
+Therefore the uniform drift seen on all FPGAs can be attributed to the drift on the aggregator.
+
+We remove this drift for each of the distributions by fitting a gaussian to each of the distributions seen in Figure~\ref{fig:frq_recon_node33}.
+Five gaussians are fit to correspond to the five clusters, where the mean of the this fit are subtracted from the reconstructed points closed to this mean.
+These news points form average frequency as shown in the right of Figures~\ref{fig:frq_recon_node33} and~\ref{fig:frq_recon_node00}.
+A final gaussian is fit where we use the $\sigma$ of the fit as the estimated uncertainty ($\delta f_{j}$) of each FPGA.
+These results are shown for both the slow and fast interrogation frequencies in Tables~\ref{tab:fpga_calibration} and~\ref{tab:fpga_slow_calibration}.
+
+
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/fast_example.pdf}
-\caption{Fast calibration procedure results.}
+\caption{Fast calibration procedure results for two different FPGAs.
+Plotted are the reconstructed frequencies for increasing interrogation numbers.
+Each interrogation is separated by approximately 250~\unit{ms}.
+There is a repeating pattern of five distinguishable reconstructed frequencies ploted for two different FPGAs.
+All 16 FPGAs follow this similar pattern, indicating that each of the reconstructed frequencies are varied by the aggregator's oscillator.
+}
+\label{fig:fast_example}
 \end{figure}
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.9\textwidth]{images/slow_example.pdf}
-\caption{Slow calibration example.}
+\caption{Slow calibration example ($T_{cal} = 10~\unit{s}$).
+A similar periodic behavior is seen in the slow calibration results as compared to the fast.
+The drift of the three observable frequency drifts for the Zybo are clearly visible for the three FPGA frequency reconstructions shown. 
+}
 \end{figure}
 
 %% 4Hz interrogation calibration 
@@ -287,24 +326,25 @@ The relative drifts of the frequencies shown for the more distance FPGA are grea
 %% 0.1 Hz interrogation calibration 
 \input{chapters/tables/fpga_slow_fit.tex}
 
-To verify the reliability of the communication protocol we can estimate the number of total successful transactions in each run.
-Each FPGA sends a broadcast register command, plus the event end word as a response.
-Each hard-interrogation then creates at least 32 successful packet transactions. 
-The total number of interrogations between both frequency tests was over 7000.
-This corresponds to at least 224,000 succesful packet transactions.
-
-Also, performed were random register writes followed by read requests perform on each FPGA to the channel mask register (See Table~\ref{table:node_registers}).
-The channel mask register is a proxy scratch register, since it allows the reading and writing of any 16 bits.
-We performed a long run ($\approx$ 10~\unit{hours}) run where the Zybo would write to a random FPGA a random sequence of 16 bits, followed by a read.
-A check would be performed on any mismatch between the read and write words.
-This read and write sequence occured every 0.25 seconds, or 4~\unit{Hz}.
-This test valids another $\approx 3600\cdot 10\cdot 4\cdot 2 = 288,000$ packets.
-In total, an estimated 512,000 packets have been successfully sent without loss on the QDBs.
-
 \subsection{Timing Stability and Communication Verification}~\label{sec:timing_test_results}
 
-We describe here the methods of measuring a stable oscillator frequency for the prototype PCB based on the frequency calibration scheme developed in Section~\ref{sec:calib}.
-We also comment on the results of the timing with resepect to the minimum required timing sensitivity in order to have accurate timestamp reconstruction.
+To estimate the reliability of the packet communication we calculate the number of total successful transactions.
+During each Hard Interrogation each FPGA sends a broadcast register command plus the event end word as a response.
+Then, for every Hard Interrogation there are at least 32 successful packet transactions. 
+However, the routing used during the frequency calibration was snake routing, so the average traversal of each response packet (the number of FPGAs used to send each packet), is half of the array, plus one: 9.
+Therefore, each interrogation requries 16 correct broadcast packets plus $9\cdot 16 = 144$ successful response packets, for a toal of 160 packets.
+The total number of interrogations between both frequency tests was over 7000.
+This corresponds to at least 1,120,000 succesful packet transactions.
+
+Also, performed was a sequence of random register writes followed by read requests perform on each FPGA to the channel mask register (See Table~\ref{table:node_registers}).
+The channel mask register is a proxy scratch register, since it allows the reading and writing of any 16 bits.
+We performed a long run ($\approx$ 10~\unit{hours}) where the Zybo would write to a random FPGA a random sequence of 16 bits, followed by a read.
+An error check was be performed on any mismatch between the two bytes read and written.
+This read and write sequence occured every 0.25 seconds, or 4~\unit{Hz}, for a total of an expected 144,000 transactions.
+Each test, on average, writes an FPGA which is four transactions from the aggergator, and requires 8 transactions to respond.
+This requires 12 correct packets for each read and write, for a total of 24 correct packets per test.
+This test valids another $\approx 24\cdot 144,000 = 3,456,000$ packets.
+In total, an estimated 4,576,000 variable packets have been successfully sent without a single packet loss on the QDBs.
 
 \begin{figure}[]
 \centering
@@ -316,22 +356,50 @@ Clearly indicated is the relationship between the interrogation rate: a faster i
 Also shown is that the further each FPGA is from the base-node, the worse the frequency reconstruction is.
 This happens since there are more average clock cycles tranversed to reach the remote ASIC (see Equation~\ref{eq:calib_constraints}).
 }
+\label{fig:calibration_position}
 \end{figure}
 
+Figure~\ref{fig:calibration_position} relates the calculated frequency stability of the QDB tile using the slow and fast calibration modes.
+The results show that the slow calibration mode produces a higher frequency ppm than the fast interrogation method. 
+This indicatates that the rate of the interrogation in the final system can be used to componensate for a less stable oscillator at ASICs further from the base-node.
+Also shown is that for both interrogation rates is that the result of the reconstruction dependso on the FPGA (ASIC) location within a tile.
+These results (with the ASIC oscillator frequencies) indicate a limit to how large a tile can constructed.
+The distance from the base-node indicates the number of packet transactions that the interrogation must proceed through the tile before the Event End word is constructed.
+This means that fully connected tiles (FCT) will allow for largest tiles with local oscillators, since they provide the shortest path from the base-node to any remote node.
 
-\section{Towards the Integration of the Aggregator Node}
+\section{The Digital Back-End Summary}
 
-In the studies presented here, The aggregator node which was used was the Zybo Z7-20.
+The Q-Pix digital back-end is expressed as a collection of interconnetected nodes as presented in Section~\ref{sec:digital_constraints}.
+Each node represents an ASIC which connects to the front-end, which for Q-Pix is a collection of integrating CSA for each pixel in the TPC.
+The Q-Pix ASIC design is presnted in Section~\ref{sec:digital_prototype}, where we define its response to inputs by its FSM in Section~\ref{sec:digital_fsm}
 
-\section{Comments on A Super-DAQ-Node}
+The full Q-Pix readout is handles the large number of connections required in a DUNE-FD ($\simeq 58,000$ per APA) by first collecting data via an aggregator node.
+The QDB prototype (described in Section~\ref{sec:qdb_prototype}) implements this first use of a Q-Pix tile and aggregator system.
+The use of a controllable aggregator removes the the need for ASICs to dynamically self configure, and dramatically reduces the number of connections to collect all data.
+Each ASIC allows a configurable routing direction which is controlled by packets created at the aggregator.
 
-Each APA module within a larger DUNE module must ultimately be interconnected so that the entire module can be readout.
-As described above, a single modular tile is controlled by an individual DAQ node, where many constitute a complete APA.
-Therefore, we refer to the device that digitally multiplexes all of the DAQ node data as the "Super DAQ Node" (SDN).
-Then, we imagine the final multiplexing stage for an entire DUNE module as an array of SDNs, each of which consistute an array of DAQ nodes, where each DAQ node is a 2-D array of Q-Pix based ASICs.
+The basic unit of the Q-Pix DAQ can be thought of as a tile and aggregator system, where one or more tiles are assigned to a single aggregator.
+Future implementations of Q-Pix can readily assign multiple tiles per aggregator.
+The number of tiles that an aggregator can be assigned to is dependent on its available pins as well as its maximum data output.
+Each aggergator will require at least two pairs of differential pins to connect to a base-node per tile, as well as provide at least $117~\unit{kB}$ of data output either to disc or another controlling node per connected tile.
 
-The total number of request SDNs within the full dune module depends on the final size of a DAQ-node controlled tile.
+The results of the QDBs~(Section~\ref{sec:qdb_prototype}) demonstrate the reliability of the communication protocol to more than 1 million packets.
+The calibration procedure is able to reconstruct remote FPGA frequencies in a Q-Pix 4$\times$4 tile to better than 1 ppm ($\frac{\delta f_{o}}{f_{o}}$).
+We also find that the size of a tile is limited by the oscillator frequencies of the ASICs as well as the aggergator.
 
-%% high level figure here from TPC -> Integrator -> Digital Node -> Aggregator -> SuperDAQ-Node -> WIC -> Disc
+In Chapter~\ref{chap:sim} we explore simulations of the Q-Pix tile system and explore its ability to analyze radiogenic backgrounds and capture beam neutrino events.
 
-\section{The Back-End Summary}
+
+
+
+% \section{Towards the Integration of the Aggregator Node}
+
+% In the studies presented with the QDB the aggregator node was the Zybo Z7-20~\citep{zybo_zy_reference}.
+% This section provides a brief discussion about an adaquate aggergator node.
+
+% \subsection{Comments on A Super-Aggregator Node}
+
+% Each APA module within a larger DUNE module must ultimately be interconnected so that the entire module can be readout.
+% As described above, a single modular tile is controlled by an individual aggregator node, where $\approx$ 3370 (Section~\ref{sec:digital_constraints}) such tiles will be used in a single DUNE-FD APA.
+% Therefore, we refer to the device that digitally multiplexes all of the DAQ node data as the "Super DAQ Node" (SDN).
+% Then, we imagine the final multiplexing stage for an entire DUNE module as an array of SDNs, each of which consistute an array of DAQ nodes, where each DAQ node is a 2-D array of Q-Pix based ASICs.

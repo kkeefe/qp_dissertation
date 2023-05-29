@@ -26,7 +26,7 @@ Similarly, the remote FIFO's transaction count is increased when a write occurs 
 In the current Q-Pix digital ASIC design (see Sect.~\ref{sec:digital_fsm}) all packets sent between neighbor nodes, with the exception of broadcasts, are written on the remote FIFO.
 At the beginning of a simulation step each node first checks to see if its received an interrogation request.
 If the node has received a soft interrogation request (see Sect.~\ref{sec:broadcast}), and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
-If the node receives a hard interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
+If the node receives a Hard Intterrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
 If the node's local FIFO is empty, and it has not received an interrogation, it will check the empty status of the remote FIFO.
 If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state.
 
