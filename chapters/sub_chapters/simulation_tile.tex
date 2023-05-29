@@ -28,7 +28,7 @@ At the beginning of a simulation step each node first checks to see if its recei
 If the node has received a soft interrogation request (see Sect.~\ref{sec:broadcast}), and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
 If the node receives a hard interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
 If the node's local FIFO is empty, and it has not received an interrogation, it will check the empty status of the remote FIFO.
-If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state~\ref{sec:state_idle}.
+If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state.
 
 %% example local vs remote of snake
 \begin{figure}
@@ -120,7 +120,7 @@ This procedure repeats until all nodes in the tile reach the designated time (11
 }
 \end{figure}~\label{fig:simulation_process_procedure}
 
-A transaction represents a 64-bit packet that is transfered between two nodes (Sect.~\ref{sec:digi_communications}).
+A transaction represents a 64-bit packet that is transfered between two nodes (Sect.~\ref{sec:comms}).
 The sending node is reponsible for calculating the true time when this transaction would complete.
 The receiving node records this byte onto its remote FIFO and performs the state check based on this packet according to Fig~\ref{fig:digital_fsm}.
 Then the receiving node updates its time to its soonest clock cycle after this transaction completed.

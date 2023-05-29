@@ -106,8 +106,8 @@ Equation~\ref{eq:irecon} becomes:
 
 Equation~\ref{eq:irecon_freq} shows the fundamental equation for the Q-Pix readout reconstruction.
 There are three important parameters: the charge per reset ($Q_{o}$), the frequency of each local oscillator ($f_{o}$), and $N_{rtd}$ which is the difference between two timestamp measurements.
-Figures which demonstrate the transistor level effects of this reconstruction are shown in Figure~\ref{fig:qpixRecon1} and Fig.~\ref{fig:qpixRecon2}.
-Figures~\cref{fig:qpixRecon1,fig:qpixRecon2} show the charge reconstructions with a $Q_{o}$ value of 1~\unit{fC} and 0.3~\unit{fC}, respectively.
+Figures which demonstrate the transistor level effects of this reconstruction are shown in Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2}.
+Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2} show the charge reconstructions with a $Q_{o}$ value of 1~\unit{fC} and 0.3~\unit{fC}, respectively.
 
 \begin{figure}[]
 \centering
@@ -224,7 +224,7 @@ If we assume the electric field to be uniform, on average, across all $\mathcal{
 Then, the pixel dimensions determine the resolution: $\frac{3 mm}{\sqrt{12}} \approx 0.87 mm$.
 
 In order to reach the required uncertainty to measure the z-position ($\sigma_{z} \simeq 1~\unit{mm}$), the uncertainty from $f_{o}$ must be small ($\sim$ 1~\unit{ppm}).
-Other measurement uncertainties stem from Equation~\ref{:eq:irecon_freq}.
+Other measurement uncertainties stem from Equation~\ref{eq:irecon_freq}.
 The precision of the local oscillator frequency and the constant charge per reset determine the current reconstruction precision.
 Variable replenishment circuits can impace $Q_{o}$, which will also affect $\sigma_{z}$.
 
@@ -261,6 +261,7 @@ Image shows an overlay the the relevant charge collection wires within a DUNE-FD
 \centering
 \includegraphics[width=\textwidth]{images/dune_fd_tdr_apa_image.jpg}
 \caption{Cross sectional picture of a single DUNE-FD APA backet~\citep{DUNE-FD_TDRv4:Abi_2020}}
+\label{fig:dune_apa_tdr}
 \end{figure}
 
 On each FEMB are three ASICs are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
@@ -327,7 +328,6 @@ Thus, the number of extra analog channels that QPix is required to measure, comp
 Q-Pix will instead offer conversion from analog (charge) to digital (32 bit time) signals on a single ASIC.
 These front-end ASICs would be arrayed in modular tiles within a single APA.
 Where the of tiles themselves would be connected and spread out to cover the entire area of an APA.
-A further discussion of the Q-Pix tiles can be found in Section~\ref{sec:qdb_tile}.
 
 To connect the entire APA the Q-Pix readout will design modular tiles which will hold a subset of nodes ($\sim$ 16$\times$16 ASICs).
 Each tile will interface with a single FPGA (or other ASIC) chip which would concentrate the digital data for each tile; we refer to this FPGA as the DAQ-Node (DN).
@@ -374,7 +374,7 @@ These design choices for the digital prototype are enumerated in table~\ref{tabl
 
 \subsection{Digital ASIC Prototype Desgin Choices}~\label{sec:design_choices}
 
-The table~\ref{table:digital_design_params} highlights some design choices of the first digital Q-Pix ASIC prototype.
+The Table~\ref{table:digital_design_params} highlights some design choices of the first digital Q-Pix ASIC prototype.
 Four neighbor connections were chosen as the design choice two allow for communiation in either direction along the x and y axes.
 The local and remote FIFO depths determine how many resets and communication packets the ASIC may store at any one time.
 
@@ -384,13 +384,13 @@ The local and remote FIFO depths determine how many resets and communication pac
  \hline
  Parameter Name & Value & Description \\ 
  \hline\hline
-Local Oscillator Frequency & 30~\unit{MHz} & Determines maximum current reconstruction (equation~\ref{eq:irecon_freq}). Stability of local oscillator also determines z-position reconstruction uncertainty (Sect.~\ref{sec:recon_uncert}). \\
+Local Oscillator Frequency & 30~\unit{MHz} & Determines maximum current reconstruction (Equation~\ref{eq:irecon_freq}). Stability of local oscillator also determines z-position reconstruction uncertainty (Sect.~\ref{sec:recon_uncert}). \\
  \hline
 Connections & 4$\times$2 (Tx and Rx) &  Eight differential pair connections are made to support four transmitter (Tx) and receiver (Rx) lines. \\
  \hline
 Communication Protocol & Endeavor & Protocol determines packet stability based on oscillator frequency as well as packet transaction time. Results of these tests are done in Chapter~\ref{chap:qdb}. \\
  \hline
-Timestamp Bits & 32 & Determines the total number of unique counts each timestamp value can take. Also determines the "warp-around" time based on the local oscillator (see Equation~\ref{eq:tloop}).  \\
+Timestamp Bits & 32 & Determines the total number of unique counts each timestamp value can take. Also determines the "wrap-around" time based on the local oscillator.  \\
  \hline
 Local FIFO Depth & 64 & Total number of timestamps the ASIC can store before running out of memory. ASIC will not record additional resets until emptied. \\
  \hline
@@ -418,8 +418,7 @@ This principal guides design choices such as the use of independent local oscill
 This design choice, in particular, is discussed at length in Chapter~\ref{chap:qdb}, and the findings presented there are one of the major contributions presented in this thesis.
 
 The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of each local oscillator ($N_{osc} \approx 10^{5}$) is a product of this thesis.
-
-However, as discussed in a later section (Sect.~\ref{}) since the amount of data produced depends on the charge acquired in event, the amount of data collected can not be known before recording.
+However, the amount of data produced depends on the charge collected in each event, therefore the amount of data collected can not be known before recording.
 
 \section{Q-Pix and Light Detection}~\label{sec:qpix_photonics}
 

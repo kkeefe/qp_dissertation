@@ -161,13 +161,12 @@ In the next section we introduce a prototype modular prototype board which was d
 
 \section{The Q-Pix Digital Board}~\label{sec:qdb_prototype}
 
-This section marks the second part of this chapter.
-We describe the design of a modular digital back-end prototype board and discuss first results of the Q-Pix digital logic in an FPGA.
+We describe the design of a modular digital back-end prototype board and discuss first results of the Q-Pix digital logic in an Field Programmable Gate Array (FPGA).
 The results presented here constructed a tile 4$\times$4 array of Lattice iCE40UP5K-UWG30ITR FPGAs.
 These FPGAs were chosen because of their small form factor, availability and pin out.
 Each FPGA is programmed with the logic described in the previous sections based on the Q-Pix digital ASIC prototype.
 
-These FPGAs are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
+The FPGAs are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
 The most important quantity to be calibrated for the digital nodes is the frequency of the local oscillator.
 The Q-Pix reconstruction for both time and z position are dependent on this parameter (see Chapter~\ref{chap:qpix}).
 
@@ -196,9 +195,9 @@ Future implementations of the digital back-end for Q-Pix may, of course, use dif
 However, these results are still beneficial as a proof of concept for the frequency calibration, as well as tests to the packet loss susceptibility.
 Packet loss is a function of relative frequency drift between neighbor nodes.
 
-Each iCE40 FPGA is uses an 12~\unit{MHz} external oscillator~\ref{ecs1612mv}, which is then connected to a phase-locked loop (PLL).
+Each iCE40 FPGA is uses an 12~\unit{MHz} external oscillator~\citep{ecs1612mv}, which is then connected to a phase-locked loop (PLL).
 The PLL uses a multiply by five and divide by three circuit to achieve the desired 30~\unit{MHz} average frequency.
-The PLL is a special IP for the ice40UP5k FPGA's~\ref{latticeice40up}.
+The PLL is a special IP for the ice40UP5k FPGA's~\citep{latticeice40up}.
 
 FPGA's are labeled A through D on each QDB, beginning in the "top-right" of the board and proceeding counter-clock wise, as shown in Figure~\ref{fig:qdb_diagram}.
 Each FPGA has access to two right-angle connectors, which allow the QDBs to be interconnetected into a larger tile as shown in Figure~\ref{fig:qdb_test_setup}.
@@ -234,24 +233,21 @@ The Zybo constructs a packet based on the protocol read from the
 
 \begin{figure}
 \centering
-\begin{subfigure}{\textwidth}
+\begin{subfigure}{0.475\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform.pdf}
-  \caption{Waveforms caught on an oscilloscope.\newline Timescale is 50 $\unit{\mu s}$.}
+  \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform.png}
+  \caption{Example of a Hard interrogation.}
 \end{subfigure}%
-\begin{subfigure}{\textwidth}
+\begin{subfigure}{0.475\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform_diagram.pdf}
+  \includegraphics[width=\textwidth]{images/qdb_example_packet_waveform_diagram.png}
   \caption{Communication Route on Prototype}
 \end{subfigure}
-\caption{}
+\caption{Timescale is 50 $\unit{\mu s}$.}
 \label{fig:example_broadcast}
 \end{figure}
 
-\subsection{Frequency Calibration Results}
-
-
-
+\section{Prototype Frequency Calibration Results}~\label{sec:freq_calib_results}
 
 
 \begin{figure}[]
@@ -260,6 +256,7 @@ The Zybo constructs a packet based on the protocol read from the
 \caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo.
 Shown is the reconstructed frequency for the base node FPGA at (0,0) within the QDB tile.
 }
+\label{fig:frq_recon_node00}
 \end{figure}
 
 \begin{figure}[]
@@ -268,6 +265,7 @@ Shown is the reconstructed frequency for the base node FPGA at (0,0) within the 
 \caption{Reconstructed frequency of the FPGA at position (3,3) within the QDB tile.
 The relative drifts of the frequencies shown for the more distance FPGA are greater than the base node (0,0), which is only one transaction again from the Zybo aggregator.
 }
+\label{fig:frq_recon_node33}
 \end{figure}
 
 \begin{figure}[]
@@ -289,7 +287,21 @@ The relative drifts of the frequencies shown for the more distance FPGA are grea
 %% 0.1 Hz interrogation calibration 
 \input{chapters/tables/fpga_slow_fit.tex}
 
-\section{Timing Stability and Communication Verification}~\label{sec:timing_test_results}
+To verify the reliability of the communication protocol we can estimate the number of total successful transactions in each run.
+Each FPGA sends a broadcast register command, plus the event end word as a response.
+Each hard-interrogation then creates at least 32 successful packet transactions. 
+The total number of interrogations between both frequency tests was over 7000.
+This corresponds to at least 224,000 succesful packet transactions.
+
+Also, performed were random register writes followed by read requests perform on each FPGA to the channel mask register (See Table~\ref{table:node_registers}).
+The channel mask register is a proxy scratch register, since it allows the reading and writing of any 16 bits.
+We performed a long run ($\approx$ 10~\unit{hours}) run where the Zybo would write to a random FPGA a random sequence of 16 bits, followed by a read.
+A check would be performed on any mismatch between the read and write words.
+This read and write sequence occured every 0.25 seconds, or 4~\unit{Hz}.
+This test valids another $\approx 3600\cdot 10\cdot 4\cdot 2 = 288,000$ packets.
+In total, an estimated 512,000 packets have been successfully sent without loss on the QDBs.
+
+\subsection{Timing Stability and Communication Verification}~\label{sec:timing_test_results}
 
 We describe here the methods of measuring a stable oscillator frequency for the prototype PCB based on the frequency calibration scheme developed in Section~\ref{sec:calib}.
 We also comment on the results of the timing with resepect to the minimum required timing sensitivity in order to have accurate timestamp reconstruction.
@@ -298,21 +310,14 @@ We also comment on the results of the timing with resepect to the minimum requir
 \centering
 \includegraphics[width=0.8\textwidth]{images/interrogation_ppm_diff.pdf}
 \caption{Shown are the relative values of the frequency part-per-million (ppm) values from the frequency calibration procedure in both the 4~\unit{Hz} (orange) and 0.1~\unit{Hz} tests.
-The x-axis represents the relative distance traveled from the base-node that the FPGAs are.
+The x-axis represents the number of transactions required to reach the FPGA.
+These data are taken from Tables~\ref{tab:fpga_calibration} and~\ref{tab:fpga_slow_calibration}.
+Clearly indicated is the relationship between the interrogation rate: a faster interrogation leads to a sharper average time reconstruction.
+Also shown is that the further each FPGA is from the base-node, the worse the frequency reconstruction is.
+This happens since there are more average clock cycles tranversed to reach the remote ASIC (see Equation~\ref{eq:calib_constraints}).
 }
 \end{figure}
 
-% \section{Power and Current Characteristics}
-
-% There are test pads on the PCBs used to measure the voltage stability of the different FPGA voltages.
-% For each voltage, there is also a single 1~$\unit{\Omega}$ probe-resistor.
-% This resistor is used to measure the relative current drawn from each of the voltage sections on the PCB.
-
-\section{Analysis of Systematics for Different System Implementations}
-
-The essential features of the digital node in the Q-Pix readout are the properties of the local oscillator.
-The frequency, relative phases, and stability of the oscillator determine the power consumption, packet transaction time, minimum timestamp resolution, which determines maximum current measurements, and affects packet loss probability in larger tile systems.
-It is not an understatement to say that the successful development of the digital node relies on the development of the local oscillator.
 
 \section{Towards the Integration of the Aggregator Node}
 

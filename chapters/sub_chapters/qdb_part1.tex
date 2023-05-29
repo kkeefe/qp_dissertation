@@ -37,12 +37,12 @@ The sheer number of pixels required for an DUNE-FD 10 kT module require an extre
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.6\textwidth]{images/single_tile_qpix.png}
+  \includegraphics[width=0.5\textwidth]{images/single_tile_qpix.png}
   \caption{A single tile of 10$\times$14 Q-Pix ASICs}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\textwidth]{images/array_of_tiles_qpix.png}
+  \includegraphics[width=0.5\textwidth]{images/array_of_tiles_qpix.png}
   \caption{An array of intereconnected tiles.}
 \end{subfigure}
 \caption{A modular tile (A) of Q-pix ASICs can be interconnetected (B) to create a larger charge collection plane. 
@@ -238,7 +238,7 @@ These registers can only be updated when an ASIC receives a Register Request fro
 
 These registers are described within QpixRegFile module, shown in Figure.~\ref{fig:qpa_diagram}.
 These registers include the ability to control routing of data packets, reset, enable, and channel masking.
-The Table~\ref{tab:registers} describes the implemented register addresses and their functions:
+The Table~\ref{table:node_registers} describes the implemented register addresses and their functions:
 
 \begin{table}
 \begin{center}
@@ -354,7 +354,7 @@ In the case of a ``soft''--interrogation, the event end packet is created only i
 A soft interrogation happens if the second, and not the first, bit of the data written to the command register is high.
 
 The use of two different types of interrogations allows the aggregator control flexibility in how many packets are created during an interrogation.
-Interrogations may happen on timescales much more quickly than expected resent pulses ($\mathcal{O}(10^{1}~\unit{s})$, Chapter~\ref{chapters/qpix.tex}).
+Interrogations may happen on timescales much more quickly than expected resent pulses ($\mathcal{O}(10^{1}~\unit{s})$, Chapter~\ref{chap:qpix}).
 The ability to request data only if available prevents an over abundance of packets which prevents needless data transfers, reduces remote FIFO buildup, and conserves power.
 
 \subsubsection{The Event End Packet}
@@ -414,7 +414,7 @@ The structure of this datum determines the buffer widths and depths required to 
 The minimum data which the timestamp, the relative location of the ASIC, plus the status of all channels during the timestamp.
 Each these factors require bits which must be recorded.
 
-We choose the number of bits for the timestamp ($N_{T}$) to be 32, which prevents frequency wrap-around based on a fast clock frequency (Equation~\ref{{eq:tloop}}).
+We choose the number of bits for the timestamp ($N_{T}$) to be 32, which prevents frequency wrap-around based on a fast clock frequency.
 We choose as the number of bits to assign a location ($N_{loc}$) to be 8, which provides a maximum possible number of unique positions before aggregation to be 256.
 Next, since the number of pixels (required by analog front-end design) is 16 we choose this number as the number of bits to represent a ``mask'' ($N_{bits} = 16$).
 We need to record all of the channels during each reset since it is technically possible (even if less likely) for multiple analog channels to provide a reset within the same clock window.
@@ -485,7 +485,7 @@ For comparison, the dimensions of the DUNE-FD APA in Chapter~\ref{chap:sim} use 
 
 However, as one increases the number of digital channels per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated (Section~\ref{sec:calib}).
 Additionally, since each digital channel requires extra communication time (as discussed in Section~\ref{sec:comms}) the introduction of more channels negatively affects the precision of timing calibrations and potentially increases SPF risk of digital channels.
-We consider then that an optimal number of digital channels per aggregator node is one that maximizes the number of digital channels but still maintains the required timing calibration~(Sec.~\ref{sec:background}) and transmits lossless data.
+We consider then that an optimal number of digital channels per aggregator node is one that maximizes the number of digital channels but still maintains the required timing calibration and transmits lossless data.
 
 \subsection{Tile Routing Considerations}~\label{sec:tile_sim}
 
