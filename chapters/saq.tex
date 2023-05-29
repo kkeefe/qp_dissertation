@@ -19,10 +19,6 @@ Additionally, I wrote analysis scripts used for the work done at the SAQ site at
 
 \section{Simplified Analog Q-Pix: System Design}
 
-The SAQ prototype is designed as a first physical proof-of-concept for a Q-Pix readout.
-
-\section{The SAQ Protoype Design}
-
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_setup_diagram.pdf}
@@ -30,14 +26,7 @@ The SAQ prototype is designed as a first physical proof-of-concept for a Q-Pix r
 \label{fig:saq_physical_setup_flatten}
 \end{figure}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/SAQ_16_ivc_readout_board.pdf}
-\caption{The SAQ Setup model based.}
-\label{fig:saq_readout_board}
-\end{figure}
 
-%%
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_physical_setup.jpg}
@@ -48,25 +37,31 @@ In the center is the TPC, SAQ board~(Figure~\ref{fig:saq_readout_board}), and pu
 \end{figure}
 
 
-\subsection{The TPC Design}
-%% closeup image of the TPC here
-
 \begin{figure}[]
 \centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/saq_wellesley_tpc.jpg}
-  \caption{}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/saq_wellesley_tpc_daq.jpg}
-  \caption{}
-\end{subfigure}
-\caption{Picture of the TPC and DAQ setups at Wellesley University.}
+\includegraphics[width=\textwidth]{images/saq_daq_back-end_summary.png}
+\caption{SAQ System over view connecting the front-end and back-end parts of a Q-Pix readout.
+Gaseous Argon is used for the drift medium of the TPCs at both UTA and Wellesley.
+Accumulated charge is read by the front-end which consists of 16 integrating amplifiers each connected to a comparator used as a trigger~\ref{fig:saq_circuit_kicad}.
+The back-end consists of a single prototype board, the Zybo-Z7~(Figure~\ref{fig:saq_zybo}).
+}
+\label{fig:saq_diagram}
 \end{figure}
 
 
+\subsection{The TPC Design}
+
+%%
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/saq_fieldcase_rings.jpg}
+\caption{}
+\label{fig:saq_field_case}
+\end{figure}
+
+
+An image of the experimental setup performed at Wellesley University is shown in Figure~\ref{fig:wellesley_tpc}.
+
 \begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -80,15 +75,27 @@ In the center is the TPC, SAQ board~(Figure~\ref{fig:saq_readout_board}), and pu
   \caption{}
 \end{subfigure}
 \caption{Picture of the TPC and DAQ setups at Wellesley University.}
+\label{fig:wellesley_tpc}
 \end{figure}
 
 The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
 
+\begin{figure}[]
+\centering
+\includegraphics[width=0.5\textwidth]{images/ThGem_layout.png}
+\caption{}
+\label{fig:saq_th_gem_layout}
+\end{figure}
 
 
 \subsection{The Integrator Circuit}
 
-
+The integrator circuit used in the SAQ experiment is shown in Figure~\ref{fig:saq_circuit_kicad}.
+The Integrated Circuit (IC) used is the IVC-102~\citep{ivc_datasheet}, where the selected capacitor is 10~\unit{pF}.
+We selected the lowest available capacitance of the IVC chip in order to ensure that resets are produced with the lowest amount of possible charge~\ref{eq:capacitor}.
+Further configuration of the charge required per reset uses a configurable voltage (VDD in Figure~\ref{fig:saq_circuit_kicad}) with a variable resistor.
+Charge is accumulated from the TPC as an input into the IVC chip.
+The comparator sends an output pulse with a width of $\approx 10~\unit{\mu s}$ once the voltage on the IVC exceeds four times the voltage across VDD, due to the voltage divider.
 
 \begin{figure}[]
 \centering
@@ -103,9 +110,42 @@ The main selection choice for this part is due to its low input bias current $\l
 
 \begin{figure}[]
 \centering
+\includegraphics[width=\textwidth]{images/SAQ_16_ivc_readout_board.pdf}
+\caption{The SAQ front-end board of 16 input IVC channels.
+Each of the 16 channels are based on Figure~\ref{fig:saq_circuit_kicad}.
+}
+\label{fig:saq_readout_board}
+\end{figure}
+
+
+An example of resets produced from the comparator is shown in Figure~\ref{fig:saq_resets}.
+The time difference between each reset shown is equivalent to the amount current accumulated at the IVC~(Equation~\ref{eq:irecon}).
+
+
+\begin{figure}[]
+\centering
 \includegraphics[width=\textwidth]{images/saq_reset_pulse_gem_thickBoard.jpg}
-\caption{}
+\caption{Waveform measurements of the trigger sent to the Xenon Flash lamp (yellow, bottom), and the reset pulse responses sent by the comparator.
+Each reset corresponds to a build up of $\approx 10~\unit{pC}$ of charge stored up on the IVC capacitor.
+Seen in the waveform is a decaying amount of charge buildup on the capacitor, which is reflected in the increasing time separation between successive resets.
+}
 \label{fig:saq_resets}
+\end{figure}
+
+\begin{figure}[]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/thick_board_example.jpg}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/thin_trace_board_example.jpg}
+  \caption{}
+\end{subfigure}
+\caption{Different Trace Boards used in the SAQ Experiment.}
+\label{fig:trace_boards}
 \end{figure}
 
 \section{Data Acquisition}
@@ -115,30 +155,29 @@ The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zy
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_zybo_daq.pdf}
+\includegraphics[width=\textwidth]{images/saq_zybo_io_summary.png}
 \caption{An image of the data acquisition board from Digilent, Zybo Z7-20. 
 This board was chosen for its multiple configurable input chanels, as well as the Zynq-based archiecture of the onboard FPGA.
 Additionally, the use of the ethernet provides $1~\unit{GB}$ transfer speeds, which is more than sufficient for the application.
 Packet data transfer rates have been verified with this readout at stable rates of 10~\unit{kHz}.
+This board is also used to control the Q-Pix Digital Boards (QDB), discussed in Chapter~\ref{chap:qdb}.
 }
 \label{fig:saq_zybo}
 \end{figure}
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_gui_resets.pdf}
-\caption{The SAQ GUI with real time plotting of incoming resets to the Zybo board.}
-\label{fig:saq_gui}
+\includegraphics[width=\textwidth]{images/saq_daq_firmware_summary.png}
+\caption{Firmware Description}
+\label{fig:saq_firmware}
 \end{figure}
 
-\section{Noise Measurements}
+\section{Pixel Calibration Procedure}
 
 The Q-Pix readout is dependent on the integrator, which provides the basic datum of the reset time.
 Therefore, a dominant source of noise are electrons which accumulate on the integrator which are not signal electrons.
 There are two possible sources for these noise electrons: excess electrons produced from the target volume or leakage current due to transistor effects from the integrator circuit.
 In this section we focus on the noise electrons due to the leakage current.
-
-\subsection{Integrating towards background Current}
 
 Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
 Measurements of this leakage current then are performed by measuring voltage difference across the terminals as well as directly using a pico-ammeter.
@@ -152,7 +191,26 @@ The target volume is an ultra pure Argon Gas at TODO militorr.
 % And ~3mtorr of vacuum before that
 In this case the excess electrons come from the nominal decay of Ar-39, which provide excess electrons from the natural $\beta$ decay, at a rate of $\approx 1~\unit{Bq}{Kg^{-1}}$
 
-\section{Xenon Gas Lamp Measurements}
+\section{Status and Discussion}
+
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/saq_example_reconstruction.png}
+\caption{}
+\label{fig:saq_reconstruction}
+\end{figure}
+
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/SAQ_gui_resets.pdf}
+\caption{The SAQ GUI with real time plotting of incoming resets to the Zybo board.}
+\label{fig:saq_gui}
+\end{figure}
+
+
+\subsection{Xenon Gas Lamp Measurements}
 
 We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 
@@ -163,7 +221,7 @@ We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
 \label{fig:saq_drift_gui}
 \end{figure}
 
-\section{Status and Discussion}
+\subsection{State of Diffusion Measurements}
 
 \begin{figure}[]
 \centering
