@@ -1,4 +1,4 @@
-\chapter{The First Analog Prototype: First Resets and Leakage Measurements}~\label{chap:saq}
+\chapter{The First Analog Prototype}~\label{chap:saq}
 
 In this chapter we present the first implementation of the Q-Pix front-end design using off-the-shelf electronics.
 
@@ -26,20 +26,22 @@ In the simplest case, the diffusion of electrons within a TPC is described by:
 \begin{equation}~\label{eq:diffusion}
  \sigma^{2}_{T} = 2D_{trans}L
 \end{equation}
-Where L is the drift length of the electrons, $D_{trans}$ is the (field dependent) diffusion coeffecient, and $\sigma^{2}_(T)$ is the transverse diffusion standard deviation.
-Q-Pix could perform a measurement of $\sigma_{T}$ in Equation~\ref{eq:diffusion} by either collecting a different amount of charge or current at different radii from the center.
+Where L is the drift length of the electrons, $D_{trans}$ is the (field dependent) diffusion coeffecient, and $\sigma_{T}$ is the transverse diffusion standard deviation.
+A Q-Pix readout could perform a measurement of $D_{trans}$ in Equation~\ref{eq:diffusion} by collecting charge at different radii from the center.
 
+Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500~\unit{\frac{V}{cm}} have been performed before~\citep{lar_diffusion_measurement_LI2016160}.
 A diffusion measurement is a natural starting point to verify a charge accumulation readout such as Q-Pix.
-One difference between SAQ and a "normal" Q-Pix readout is that instead of separated pixels SAQ uses a series of 16 concentric rings at the collection plane.
-Although separated pixels may be used, the effect of transverse diffusion is radially symmetric about the collection plane; the use of circular 'pixels' reduces the amount digitization channels.
+One difference between SAQ and a "normal" Q-Pix readout is that instead of an array of pixels, SAQ uses a series of 16 concentric rings to collect charge.
+Although a 2-D array of pixels may be used, since transverse diffusion is radially symmetric about the collection plane rings of different radii will collect different amounts of charge according to Equation~\ref{eq:diffusion}
+Also, the use of circular 'pixels' reduces the amount digitization channels in the prototype.
 
-SAQ has built two different TPCs: one at the University of Texas at Arlington (UTA) and the other at Wellesley College.
+SAQ has built two different TPCs: one at the University of Texas at Arlington (UTA) and the other at Wellesley College (WC).
 The experimental setup at UTA is shown in Figure~\ref{fig:saq_setup_flatten}, and the setup at Wellesley is shown in Figure~\ref{fig:wellesley_tpc}.
 Both TPCs shown are circular TPCs with a drift length of $\approx 10~\unit{cm}$.
 
 The experimental setups at both UTA and Wellesley are nearly identical except for the placement of the readout electronics.
-The SAQ readout board for UTA is placed on the outside of the TPC, whereas it is placed within a P10 argon gas, but not within the field cage of the TPC.
-The detection within the TPC at UTA is an ultra pure (99.99\%) argon gas.
+The SAQ readout board for UTA is placed on the outside of the TPC, whereas at WC it is placed within a P10 argon gas, but not within the field cage of the TPC.
+The drift medium used within the TPC at UTA is an ultra pure (99.99\%) argon gas.
 
 \begin{figure}[]
 \centering
@@ -70,10 +72,11 @@ The SAQ readout board is used at both UTA and Wellesley.
 \label{fig:wellesley_tpc}
 \end{figure}
 
-The source of the electrons is a gold foil and a Hamamatsu L13651~\citep{hamamatsu_tls1023e} Xenon Gas Lamp which removes the electrons via the photo-electric effect~\citep{https://doi.org/10.1002/andp.19053220607}.
+Electrons are produced in the TPC from gold foil and a Hamamatsu L13651~\citep{hamamatsu_tls1023e} Xenon Gas Lamp via the photo-electric effect~\citep{https://doi.org/10.1002/andp.19053220607}.
 As the electrons are removed from the gold, they enter the electric field and are drifted down to a collection plane.
 A simplified image of the working TPC, rings, and GEM placement are shown in Figure~\ref{fig:saq_physical_setup_flatten}.
 The design of the GEM PCB as well as its operating voltages is based on work presented in~\citep{THORPE2023167438}.
+The GEM is used to provide a necessary charge amplification ($\gg 10^{3}$) per channel to induce resets in rings far from the center.
 
 \begin{figure}[]
 \centering
@@ -96,14 +99,14 @@ The rings are separated by $\approx 0.84~\unit{cm}$, where they encounter an ave
 \end{figure}
 
 
-\subsection{The Integrator Circuit}
+\subsection{The Integrator Circuit}~\label{sec:saq_integrator}
 
-The integrator circuit used in the SAQ experiment is shown in Figure~\ref{fig:saq_circuit_kicad}.
+A schematic of the integrator circuit used in the SAQ experiment is shown in Figure~\ref{fig:saq_circuit_kicad}.
 The Integrated Circuit (IC) used is the IVC-102~\citep{ivc_datasheet}, where the selected capacitor is 10~\unit{pF}.
-We selected the lowest available capacitance of the IVC chip in order to ensure that resets are produced with the lowest amount of possible charge~\ref{eq:capacitor}.
+We selected the lowest available capacitance of the IVC chip in order to ensure that resets are produced with the lowest amount of possible charge~(Equation~\ref{eq:capacitor}).
 Further configuration of the charge required per reset uses a configurable voltage (VDD in Figure~\ref{fig:saq_circuit_kicad}) with a variable resistor.
 Charge is accumulated from the TPC as an input into the IVC chip.
-The comparator sends an output pulse with a width of $\approx 10~\unit{\mu s}$ once the voltage on the IVC exceeds four times the voltage across VDD, due to the voltage divider.
+The comparator (AD8561~\citep{AD8561-datasheet}) sends an output pulse with a width of $\approx 10~\unit{\mu s}$ once the voltage on the IVC exceeds four times the voltage across VDD, due to the voltage divider.
 
 \begin{figure}[]
 \centering
@@ -111,49 +114,45 @@ The comparator sends an output pulse with a width of $\approx 10~\unit{\mu s}$ o
 \caption{
 A schematic of the front-end CSA and trigger components.
 The IVC~\citep{ivc_datasheet} chip chosen as the off-the-shelf integrator for this experiment.
-The main selection choice for this part is due to its low input bias current $\ll 750~\unit{fA}$.
+This part was selected is due to its low input bias current $\ll 750~\unit{fA}$ and variable capacitance.
+A voltage divider between resistors R8 and R9 reduces the voltage reference to the comparator by a factor of four.
+VDD is a configurable voltage which can be tuned per channel.
 }
 \label{fig:saq_circuit_kicad}
 \end{figure}
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_16_ivc_readout_board.pdf}
+\includegraphics[width=0.7\textwidth]{images/SAQ_16_ivc_readout_board.pdf}
 \caption{The SAQ front-end board of 16 input IVC channels.
 Each of the 16 channels are based on Figure~\ref{fig:saq_circuit_kicad}.
 }
 \label{fig:saq_readout_board}
 \end{figure}
 
-Two different collection plane geoemtries are tested.
-The two different geometries change the amount of exposed copper and are shown in Figure~\ref{fig:trace_boards}.
-The "thin" trace (right image) board exposes 6~\unit{mm} wide copper rings around the center of the TPC
-The "thick" trace board inverts the silt-screen and exposed copper and instead separates the collection rings by 6~\unit{mm} wide silt-screen traces.
+A simplified diagram of how charge-integrate-reset behavior of SAQ is shown in Figure~\ref{fig:saq_reconstruction}.
+The voltage across the integrator increases are charge is accumulated.
+Once a specfiic charge ($Q_{o}$) as accumulated on the integrator, the comparator sends an output pulse that causes a reset and is recorded by digital back-end.
+The specfic value of charge per channel must be calibrated~(Section~\ref{sec:saq_calib}).
+Once the reset stops, charge accumulates until the next reset pulse.
 
 \begin{figure}[]
 \centering
-\begin{subfigure}{.45\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/thick_board_example.jpg}
-  \caption{}
-\end{subfigure}%
-\begin{subfigure}{.45\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/thin_trace_board_example.jpg}
-  \caption{}
-\end{subfigure}
-\caption{Different Trace Boards used in the SAQ Experiment.
-The thick trace board (left) differs from the thin trace board (right) in that most of the surface area in the field cage can collect electrons.
-The thin (right) trace board replaces the collection rings with silt-screen, and the silt-screen with collection rings.
-Because the traces are so small, vias are used to connect the thing collection rings to the input of the integrator.
+\includegraphics[width=\textwidth]{images/saq_example_reconstruction.png}
+\caption{Sample voltage waveforms of the integrator (top) and output (trigger) are shown.
+Charge accumulates on the integrator until a value, $Q_o{o}$, is reached causing a reset and output pulse sent from the comparator.
+During the reset, no charge is accumulated on the integrator so the voltage does not change.
+After the reset completes, charge builds back up on the integrator until another reset.
+A Reset-Time-Difference (RTD) is the difference between two timestamp measurements, and includes the time of the pulse-width as well as the true integration time.
 }
-\label{fig:trace_boards}
+\label{fig:saq_reconstruction}
 \end{figure}
 
 An example of resets produced from the integrator circuit is shown in Figure~\ref{fig:saq_resets}.
 Each reset corresponds to a charge accumulation of $\approx 10~\unit{pC}$.
 The time difference between each reset shown is equivalent to the amount current accumulated at the IVC~(Equation~\ref{eq:irecon}).
-A simplified diagram of how the reset time differences are recorded is shown in Figure~\ref{fig:saq_reconstruction}.
+The initial reset occurs $\approx 30~\unit{\mu s}$ after the flash lamp is triggered, which corresponds to the drift speed of electrons in gas, plus the flash lamp response measurement.
+The additional resets which occur much latter ($\simeq 100~\unit{\mu s}$) are from currently unknown sources, and are likely either disharges from the GEM or electronic cross-talk.
 
 \begin{figure}[]
 \centering
@@ -165,18 +164,25 @@ Seen in the waveform is a decaying amount of charge buildup on the capacitor, wh
 \label{fig:saq_resets}
 \end{figure}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/saq_example_reconstruction.png}
-\caption{}
-\label{fig:saq_reconstruction}
-\end{figure}
-
-
 \section{Data Acquisition}
 
-All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq-7000 based CPU archticture.
+All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Zynq-7000 System on Chip (SoC).
+The clock (30.3~\unit{MHz}) is provided by the Processing System (PS), a ARM Cortex-A9, to the Programmable Logic (PL) in the FPGA.
+The PL records a 32-bit counter (the timestamp) on the next clock cycle after the reset, connected as a latch to a single pin iput, is driven high.
 The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zybo_zy_reference}.
+
+The timestamp data and the channel mask are accumulated in a First-In-First-Out (FIFO) buffer.
+If any one (or more) of the 16 input channels transitions from low to high and the FIFO register is enabled, data are written to the FIFO.
+The input from all 16 channels are recorded at the time of the trigger, regardless of which channel caused the trigger.
+Multiple triggers from the same reset pulse are prevented by detecting the edge of the reset pulse.
+Therefore, in order for a new reset to be recorded on the same channel the reset pulse must first be driven low for at least one clock cycle (> $\approx$ 33~\unit{ns}) to reset the latch at the input channel.
+This timestamp trigger procedure is identical to the implementation of the Q-Pix digital ASIC presented in Chapter~\ref{chap:qdb}.
+
+A flow chart of control system for the Zybo is shown in Figure~\ref{fig:saq_diagram}.
+The PS connects to both a User-Datagram-Protocol (UDP) and Transmission Control Protocol (TCP) socket on a controlling computer.
+The UDP socket on the computer is only a listening socket and receives the timestamp data from the Zybo.
+The TCP socket is used to read and write to the control registers on the PL.
+Relevant control registers include channel masking, timestamp division, and a write enable to the FIFO.
 
 \begin{figure}[]
 \centering
@@ -188,6 +194,12 @@ The back-end board is a Digilent Zybo-Z7-20~(Figure~\ref{fig:saq_zybo}).
 }
 \label{fig:saq_diagram}
 \end{figure}
+
+A summary of the connection ports to the Zybo are shown in Figure~\ref{fig:saq_zybo}.
+The Zybo is connected to the PC via a 1~\unit{GBs} Ethernet link.
+The SAQ timestamp connections use two right-angle connectors.
+Also included the Figure is the connection to the Q-Pix Digital Board (QDB) presented in Chapter~\ref{chap:qdb}.
+Reference 10~\unit{\mu s} pulses at varied frequencies (2-256~\unit{Hz}) are generated in the last marked connector.
 
 \begin{figure}[]
 \centering
@@ -201,29 +213,57 @@ This board is also used to control the Q-Pix Digital Boards (QDB), discussed in 
 \label{fig:saq_zybo}
 \end{figure}
 
+A division register is used to configure the relative count rate of the timestamp compared to the local oscillator on the Zybo ($\approx$~30~\unit{MHz}).
+The charge integration period for some channels, especially in tests without the GEM, can take several minutes to produce a single reset.
+Each timestamp a 32-bits value read from a register counter and wraps-around due to the 30~\unit{MHz} oscillator every $\simeq 143$ seconds.
+A division register is used to change the count frequncy to correspond to the number of clock cycles that cause the timestamp to increment by one; for example, a division of two will wrap-around every $\simeq 286$ seconds.
+The maximum division register is also a 32-bit number, and provides a maximum of a 64-bit timestamp, which has a wrap-around of $\simeq 20~10^3 ~\unit{years}$ at 30~\unit{MHz}.
+
+A summary of the firmware and embedded software is shown in Figure~\ref{fig:saq_firmware}.
+The control of the SAQ Data-Acquisition (DAQ) is handled via a Graphical-User-Interface (GUI) which also handles the UDP and TCP sockets.
+The data collected by the DAQ are originally written as binary packets to the PC, but are eventually parsed into output ROOT files for analysis.
+
+The data are sent from the PL to the PS and finally to the PC once a (register controlled) number of timestamps are written to the FIFO.
+The AXI-Sream FIFO packages the timestamp and channel data in to a singular packet that is then written to the DDR3 memory in the PS.
+The PS receives an interrupt signal from the DMA to notify that is received a new packet of data.
+The PS then sends all timestamp and channel mask data as a single packet via UDP.
+One additional bytes are appended to the packet and include the number of timestamps included in the packet as well as a packet identification number.
+The controlling software uses the identification number to flag for any missed packets to notify the user of possible missing data.
+
 \begin{figure}[]
 \centering
 \includegraphics[width=0.5\textwidth]{images/saq_daq_firmware_summary.png}
-\caption{Firmware Description}
+\caption{A flowchart of the firmware (top, blue), and the embedded software (bottom, green), within the Z-7000 SoC.
+A FIFO is used to collect the timestamp and channel mask output from the SAQ Board~\ref{fig:saq_readout_board}.
+The AXI-FIFO and Direct-Memory-Access (DMA) send data from the FIFO once a (register controlled) number of timestamps have been written to the FIFO.
+These data are collected by the PS and sent via UDP to the PC.
+The control registers are configured via TCP within the same GUI~(Figure~\ref{fig:saq_gui}) application that collects and provides real-time plotting of the timestamp data.
+}
 \label{fig:saq_firmware}
 \end{figure}
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_gui_resets.pdf}
-\caption{The SAQ GUI with real time plotting of incoming resets to the Zybo board.}
+\includegraphics[width=0.9\textwidth]{images/SAQ_gui_resets.pdf}
+\caption{The SAQ GUI with real time plotting of incoming resets to the Zybo board.
+Every second the GUI updates the number of resets acquired by each of the channels in the previous second.
+The GUI allows channel masking features of individual channels shown by the checked boxes in the top left.
+}
 \label{fig:saq_gui}
 \end{figure}
 
 
-\section{Calibration Procedures}
+\section{Status and Calibration Procedures}~\label{sec:saq_calib}
 
 The Q-Pix readout is dependent on two factors~(Equation~~\ref{eq:irecon_freq}): the charge and frequency calibrations.
-The frequency calibration depends on the stability of the local oscillator and it's reliability to accurately record the time a timestamp occurs.
+The frequency calibration depends on the stability of the local oscillator and it's reliability to accurately record the time of reset.
 A drifting local oscillator on the digital board, the Zybo for SAQ, will cause poor reconstructions of current.
-The test for the stability of the Zybo involves sending a fixed trigger (10~\unit{kHz}) into the zybo.
+
+A clock calibration is performed by using a reference clock to provide input to the test clock.
+The test for the stability of the Zybo is performed with a fixed trigger (10~\unit{kHz}) into the zybo.
+The pulse frequency of 10~\unit{kHz} is chosen so that the pulse width is identical to that produced by the IVC chip~(Section~\ref{sec:saq_integrator}).
 The reconstructed timestamp difference gives the period of the input trigger.
-Figure~\ref{eq:frequency_reconstruction} shows an example of the Zybo measurements in response to a 10~\unit{kHZ} function generator with 1~\unit{ppm}.
+Figure~\ref{eq:frequency_reconstruction} shows the Zybo measurements in response to a 10~\unit{kHZ} function generator with 1~\unit{ppm}.
 
 \begin{figure}[]
 \centering
@@ -245,29 +285,90 @@ The expected RTD will come no faster than 90~\unit{Hz}, which is more than two o
 \label{fig:frequency_reconstruction}
 \end{figure}
 
-The charge calibration is more involved and is still an ongoing effort of SAQ.
-There are mulitple sources for these noise electrons: excess electrons produced from the target volume, leakage current due to transistor effects from the integrator circuit, or even electronic crosstalk.
+The effective charge calibration per pixel uses a constant current source as an input to each channel.
+A current source is used to deposit a known quantity of charge, which is related to the number of resets by:
+\begin{equation}
+ \Delta Q = I_{o}t = N_{resets}Q_{o}
+\end{equation}
+Where $Q_{o}$ is average charge per reset, $I_{o}$ is the input current from the source current, and $N_{reset}$ is the number of resets observed in time t.
+Then, the charge calibration is:
+\begin{equation}~\label{eq:saq_pixel_calib}
+ Q_{o} = \frac{I_{o}t}{N_{reset}}
+\end{equation}
+Equation~\ref{eq:saq_pixel_calib} is accurate in the limit that the time difference between successive resets is large compared to the pulse-width.
+Charge is not accumulated for 10~\unit{\mu s} after every reset, so if the distance between resets during calibration is $\approx$ 1~\unit{s}, the amount of charge lost during the reset is $\frac{\delta Q_{o}}{Q_{o}} \simeq 10^{-5}$.
+
+The Leakage current is measured using a pico-ammeter and a nominal estimation of the leakage in the presence of only field and gas measured to be $\approx 0.9~\unit{pA}$ per channel.
 Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
-The Leakage current is measured using a pico-ammeter and a nominal estimation of the leakage in the presence of only field and gas is $\approx 0.9~\unit{pA}$ per channel.
-Since each reset requires $\approx 10~\unit{pC}$ of charge, the leakage removes roughly 1 reset from a pixel every 11 seconds.
-Therefore, an charge introduced from the TPC to trigger a reset should deposit charge more quickly than 11 seconds to ensure minimal charge loss.
-
-%% charge calibration procedure graphics here
+The voltage difference causes a continual build-up (or removal of) electroncs from the capacitor in the integrating circuit.
+Since each reset requires $\approx 10~\unit{pC}$ of charge, the leakage removes roughly one reset from a pixel every 11 seconds.
+Therefore, any charge introduced by drift in the TPC to trigger a reset should deposit charge more quickly than 11 seconds to ensure minimal charge loss from leakage.
 
 
-\section{Status and Discussion}
+\subsection{Current Results}
 
 
 Sets of initial results from the Wellesley group are shown in Figure~\ref{fig:saq_first_diffusion_measurement}.
-
+These data represent an averaged number of resets divided by the area of the ring on the collection board.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
-\caption{First diffusion measurement in P-10 gas performed at Wellesy University.}
+\caption{First diffusion measurement in P-10 gas performed at Wellesy University.
+The "double peak" feature is thought to be due to an offer center electron source.
+Analysis is currently underway to characterize how charge collection would varry from an offset electron center.
+}
 \label{fig:saq_first_diffusion_measurement}
+\end{figure}
+
+Two different collection plane geoemtries are tested.
+The two different geometries change the amount of exposed copper and are shown in Figure~\ref{fig:trace_boards}.
+The "thin" trace (right image) board exposes 6~\unit{mm} wide copper rings around the center of the TPC
+The "thick" trace board inverts the silt-screen and exposed copper and instead separates the collection rings by 6~\unit{mm} wide silt-screen traces.
+
+\begin{figure}[]
+\centering
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/thick_board_example.jpg}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/thin_trace_board_example.jpg}
+  \caption{}
+\end{subfigure}
+\caption{Different Trace Boards used in the SAQ Experiment.
+The thick trace board (left) differs from the thin trace board (right) in that most of surface area is exposed copper target for the drift electrons.
+The thin (right) trace board replaces the collection rings with silt-screen, and the silt-screen with collection rings.
+Because the traces are so small, vias are used to connect the thin collection rings to the input of the integrator channels.
+}
+\label{fig:trace_boards}
+\end{figure}
+
+Examples of data taken with the two collection boards at UTA are shown in Figure~\ref{fig:trace_boards_current_data}.
+These data represent multiple five minute charge collection runs using the thick and thin trace boards.
+One of the current uncertainities is the large difference for the outter channel.
+
+\begin{figure}[]
+\centering
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/fullBoard_ConvertedAvgCurrentDiffusion.png}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/traceBoard_ConvertedAvgCurrentDiffusion.png}
+  \caption{}
+\end{subfigure}
+\caption{Different Trace Boards used in the SAQ Experiment.
+The thick trace board (left) differs from the thin trace board (right) in that most of the surface area in the field cage can collect electrons.
+The thin (right) trace board replaces the collection rings with silt-screen, and the silt-screen with collection rings.
+Because the traces are so small, vias are used to connect the thing collection rings to the input of the integrator.
+}
+\label{fig:trace_boards_current_data}
 \end{figure}
 
 \subsection{Planned Measurements}
 
-Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500 V/cm have been performed before~\citep{lar_diffusion_measurement_LI2016160}.
