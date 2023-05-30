@@ -4,12 +4,13 @@ In this chapter we present the first implementation of the Q-Pix front-end desig
 
 This section describes the first prototype based on the Q-Pix readout: The Simplified Analog Q-Pix (SAQ).
 First we discuss the design goals of the prototype and highlight the basic building blocks of any Q-Pix based prototype.
+We present these results as a demonstration Q-Pix timestamp procedure to perform measurements.
 Next, We describe the prototype status as well as lessons learned in characterizing noise and performing calibrations.
 
-In the final part of this section we describe the future goals of this prototype, including the calibration of the detector response with Gas Electron Multipliers (GEMs)~\citep{SAULI20162} and promising future analysis.
-We emphasize that at the time of the writing of this thesis the results of this experiment are incomplete.
-Nevertheless, the lessons learned so far, particularly in the calibration procedure, are useful to explore the abilities of the Q-Pix readout.
-The final results of SAQ are just beyond the scope of this work, but I provide SAQ's details here as a means of introducing the front-end of Q-Pix as well as highlighting my personal contributions to Q-Pix's overall development.
+In the final part of this section we briefly describe the future goals of this prototype, including the calibration of the detector response with Gas Electron Multipliers (GEMs)~\citep{SAULI20162}.
+We emphasize that at the time of the writing of this thesis the acquisition and analysis of data from this experiment are incomplete.
+Nevertheless, the lessons learned so far, particularly in calibration, are useful to explore the abilities of the Q-Pix readout.
+The final results of SAQ are just beyond the scope of this work, but we provide SAQ's details here as a means of introducing the front-end of Q-Pix as well as highlighting my personal contributions to Q-Pix's overall development.
 
 The entire data acquisition (DAQ) chain used for both SAQ experimental setups are my sole independent work.
 My contributions include the the development and deployement firmware on the Zybo-Z7 FPGA, as well as the embedded software code on the integrated SoC processing system.
@@ -19,13 +20,26 @@ Additionally, I wrote analysis scripts used for the work done at the SAQ site at
 
 \section{Simplified Analog Q-Pix: System Design}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/SAQ_setup_diagram.pdf}
-\caption{The SAQ Setup model based on~\ref{fig:saq_setup_flatten}.}
-\label{fig:saq_physical_setup_flatten}
-\end{figure}
+The Simplified Analog Q-Pix (SAQ) experiment aims to demonstrate the first physics measurement using the analog front-end of a Q-Pix based readout.
+The desired measurement is the transverse diffusion of electron in Argon gas~(Equation~\ref{eq:diffusion}).
+In the simplest case, the diffusion of electrons within a TPC is described by:
+\begin{equation}~\label{eq:diffusion}
+ \sigma^{2}_{T} = 2D_{trans}L
+\end{equation}
+Where L is the drift length of the electrons, $D_{trans}$ is the (field dependent) diffusion coeffecient, and $\sigma^{2}_(T)$ is the transverse diffusion standard deviation.
+Q-Pix could perform a measurement of $\sigma_{T}$ in Equation~\ref{eq:diffusion} by either collecting a different amount of charge or current at different radii from the center.
 
+A diffusion measurement is a natural starting point to verify a charge accumulation readout such as Q-Pix.
+One difference between SAQ and a "normal" Q-Pix readout is that instead of separated pixels SAQ uses a series of 16 concentric rings at the collection plane.
+Although separated pixels may be used, the effect of transverse diffusion is radially symmetric about the collection plane; the use of circular 'pixels' reduces the amount digitization channels.
+
+SAQ has built two different TPCs: one at the University of Texas at Arlington (UTA) and the other at Wellesley College.
+The experimental setup at UTA is shown in Figure~\ref{fig:saq_setup_flatten}, and the setup at Wellesley is shown in Figure~\ref{fig:wellesley_tpc}.
+Both TPCs shown are circular TPCs with a drift length of $\approx 10~\unit{cm}$.
+
+The experimental setups at both UTA and Wellesley are nearly identical except for the placement of the readout electronics.
+The SAQ readout board for UTA is placed on the outside of the TPC, whereas it is placed within a P10 argon gas, but not within the field cage of the TPC.
+The detection within the TPC at UTA is an ultra pure (99.99\%) argon gas.
 
 \begin{figure}[]
 \centering
@@ -35,32 +49,6 @@ In the center is the TPC, SAQ board~(Figure~\ref{fig:saq_readout_board}), and pu
 }
 \label{fig:saq_setup_flatten}
 \end{figure}
-
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/saq_daq_back-end_summary.png}
-\caption{SAQ System over view connecting the front-end and back-end parts of a Q-Pix readout.
-Gaseous Argon is used for the drift medium of the TPCs at both UTA and Wellesley.
-Accumulated charge is read by the front-end which consists of 16 integrating amplifiers each connected to a comparator used as a trigger~\ref{fig:saq_circuit_kicad}.
-The back-end consists of a single prototype board, the Zybo-Z7~(Figure~\ref{fig:saq_zybo}).
-}
-\label{fig:saq_diagram}
-\end{figure}
-
-
-\subsection{The TPC Design}
-
-%%
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/saq_fieldcase_rings.jpg}
-\caption{}
-\label{fig:saq_field_case}
-\end{figure}
-
-
-An image of the experimental setup performed at Wellesley University is shown in Figure~\ref{fig:wellesley_tpc}.
 
 \begin{figure}[]
 \centering
@@ -74,17 +62,37 @@ An image of the experimental setup performed at Wellesley University is shown in
   \includegraphics[width=\textwidth]{images/saq_wellesley_tpc_daq.jpg}
   \caption{}
 \end{subfigure}
-\caption{Picture of the TPC and DAQ setups at Wellesley University.}
+\caption{Picture of the TPC and DAQ setups at Wellesley University.
+Image of the TPC cage (left) is used to store P-10 Argon gas. P-10 Argon gas uses a 10\% mixture of methane, and prevents sparking from the high-voltage of the TPC.
+Inside of the TPC (right) shows the SAQ readout board.
+The SAQ readout board is used at both UTA and Wellesley.
+}
 \label{fig:wellesley_tpc}
 \end{figure}
 
-The GEM used is based on work presented in Ref.~\citep{THORPE2023167438}.
+The source of the electrons is a gold foil and a Hamamatsu L13651~\citep{hamamatsu_tls1023e} Xenon Gas Lamp which removes the electrons via the photo-electric effect~\citep{https://doi.org/10.1002/andp.19053220607}.
+As the electrons are removed from the gold, they enter the electric field and are drifted down to a collection plane.
+A simplified image of the working TPC, rings, and GEM placement are shown in Figure~\ref{fig:saq_physical_setup_flatten}.
+The design of the GEM PCB as well as its operating voltages is based on work presented in~\citep{THORPE2023167438}.
 
 \begin{figure}[]
 \centering
-\includegraphics[width=0.5\textwidth]{images/ThGem_layout.png}
-\caption{}
-\label{fig:saq_th_gem_layout}
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/saq_tpc_insides.png}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.38\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/saq_rings_insides.png}
+  \caption{}
+\end{subfigure}
+\caption{The SAQ model shown explicitly Figure~\ref{fig:saq_setup_flatten}.
+The TPC (left) shows that the gold foil target for the flash lamp target is at the top of the detector.
+Electrons are removed and drifted through the rings (right) of the TPC.
+The rings are separated by $\approx 0.84~\unit{cm}$, where they encounter an average drift field of 500~\unit{\frac{V}{cm}}.
+}
+\label{fig:saq_physical_setup_flatten}
 \end{figure}
 
 
@@ -117,10 +125,35 @@ Each of the 16 channels are based on Figure~\ref{fig:saq_circuit_kicad}.
 \label{fig:saq_readout_board}
 \end{figure}
 
+Two different collection plane geoemtries are tested.
+The two different geometries change the amount of exposed copper and are shown in Figure~\ref{fig:trace_boards}.
+The "thin" trace (right image) board exposes 6~\unit{mm} wide copper rings around the center of the TPC
+The "thick" trace board inverts the silt-screen and exposed copper and instead separates the collection rings by 6~\unit{mm} wide silt-screen traces.
 
-An example of resets produced from the comparator is shown in Figure~\ref{fig:saq_resets}.
+\begin{figure}[]
+\centering
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/thick_board_example.jpg}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.45\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/thin_trace_board_example.jpg}
+  \caption{}
+\end{subfigure}
+\caption{Different Trace Boards used in the SAQ Experiment.
+The thick trace board (left) differs from the thin trace board (right) in that most of the surface area in the field cage can collect electrons.
+The thin (right) trace board replaces the collection rings with silt-screen, and the silt-screen with collection rings.
+Because the traces are so small, vias are used to connect the thing collection rings to the input of the integrator.
+}
+\label{fig:trace_boards}
+\end{figure}
+
+An example of resets produced from the integrator circuit is shown in Figure~\ref{fig:saq_resets}.
+Each reset corresponds to a charge accumulation of $\approx 10~\unit{pC}$.
 The time difference between each reset shown is equivalent to the amount current accumulated at the IVC~(Equation~\ref{eq:irecon}).
-
+A simplified diagram of how the reset time differences are recorded is shown in Figure~\ref{fig:saq_reconstruction}.
 
 \begin{figure}[]
 \centering
@@ -134,24 +167,27 @@ Seen in the waveform is a decaying amount of charge buildup on the capacitor, wh
 
 \begin{figure}[]
 \centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/thick_board_example.jpg}
-  \caption{}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/thin_trace_board_example.jpg}
-  \caption{}
-\end{subfigure}
-\caption{Different Trace Boards used in the SAQ Experiment.}
-\label{fig:trace_boards}
+\includegraphics[width=\textwidth]{images/saq_example_reconstruction.png}
+\caption{}
+\label{fig:saq_reconstruction}
 \end{figure}
+
 
 \section{Data Acquisition}
 
-All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq based archticture.
+All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Artix Zynq-7000 based CPU archticture.
 The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zybo_zy_reference}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/saq_daq_back-end_summary.png}
+\caption{SAQ system over view connecting the front-end and back-end parts of a Q-Pix readout.
+Gaseous Argon is used for the drift medium of the TPCs at both UTA and Wellesley.
+Accumulated charge is read by the front-end which consists of 16 integrating amplifiers each connected to a comparator used as a trigger~\ref{fig:saq_circuit_kicad}.
+The back-end board is a Digilent Zybo-Z7-20~(Figure~\ref{fig:saq_zybo}).
+}
+\label{fig:saq_diagram}
+\end{figure}
 
 \begin{figure}[]
 \centering
@@ -167,40 +203,10 @@ This board is also used to control the Q-Pix Digital Boards (QDB), discussed in 
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/saq_daq_firmware_summary.png}
+\includegraphics[width=0.5\textwidth]{images/saq_daq_firmware_summary.png}
 \caption{Firmware Description}
 \label{fig:saq_firmware}
 \end{figure}
-
-\section{Pixel Calibration Procedure}
-
-The Q-Pix readout is dependent on the integrator, which provides the basic datum of the reset time.
-Therefore, a dominant source of noise are electrons which accumulate on the integrator which are not signal electrons.
-There are two possible sources for these noise electrons: excess electrons produced from the target volume or leakage current due to transistor effects from the integrator circuit.
-In this section we focus on the noise electrons due to the leakage current.
-
-Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
-Measurements of this leakage current then are performed by measuring voltage difference across the terminals as well as directly using a pico-ammeter.
-
-\subsection{Background Current in the GAr}
-
-%% describe setup / filling of TPC here
-The second source of noise electrons are produced from the target volume.
-The target volume is an ultra pure Argon Gas at TODO militorr.
-% 14 psi with argon (0.069 bar)
-% And ~3mtorr of vacuum before that
-In this case the excess electrons come from the nominal decay of Ar-39, which provide excess electrons from the natural $\beta$ decay, at a rate of $\approx 1~\unit{Bq}{Kg^{-1}}$
-
-\section{Status and Discussion}
-
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/saq_example_reconstruction.png}
-\caption{}
-\label{fig:saq_reconstruction}
-\end{figure}
-
 
 \begin{figure}[]
 \centering
@@ -210,18 +216,50 @@ In this case the excess electrons come from the nominal decay of Ar-39, which pr
 \end{figure}
 
 
-\subsection{Xenon Gas Lamp Measurements}
+\section{Calibration Procedures}
 
-We use a Hamamatsu L13651 Xenon Gas Lamp to strike a gold foil.
+The Q-Pix readout is dependent on two factors~(Equation~~\ref{eq:irecon_freq}): the charge and frequency calibrations.
+The frequency calibration depends on the stability of the local oscillator and it's reliability to accurately record the time a timestamp occurs.
+A drifting local oscillator on the digital board, the Zybo for SAQ, will cause poor reconstructions of current.
+The test for the stability of the Zybo involves sending a fixed trigger (10~\unit{kHz}) into the zybo.
+The reconstructed timestamp difference gives the period of the input trigger.
+Figure~\ref{eq:frequency_reconstruction} shows an example of the Zybo measurements in response to a 10~\unit{kHZ} function generator with 1~\unit{ppm}.
 
 \begin{figure}[]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_gui_resets.pdf}
-\caption{Drift Current Measurements to go here.}
-\label{fig:saq_drift_gui}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/zybo_10khz_timestamp_frequency_calibration.png}
+  \caption{}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/zybo_10khz_timestamp_graph.png}
+  \caption{}
+\end{subfigure}
+\caption{Image of caluclated RTDs (left) between successive triggers to the zybo and the running plot of the timestamp value measured (right).
+The clock period on the Zybo was reconstructed to within a single clock cycle, as shown on the left image.
+The period of a 10~\unit{kHz} signal is 100~\unit{\mu s} and does not result in an even distribution of clocks, which is why two peaks are shown.
+The expected RTD will come no faster than 90~\unit{Hz}, which is more than two orders of magnitude slower than tested here.
+}
+\label{fig:frequency_reconstruction}
 \end{figure}
 
-\subsection{State of Diffusion Measurements}
+The charge calibration is more involved and is still an ongoing effort of SAQ.
+There are mulitple sources for these noise electrons: excess electrons produced from the target volume, leakage current due to transistor effects from the integrator circuit, or even electronic crosstalk.
+Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
+The Leakage current is measured using a pico-ammeter and a nominal estimation of the leakage in the presence of only field and gas is $\approx 0.9~\unit{pA}$ per channel.
+Since each reset requires $\approx 10~\unit{pC}$ of charge, the leakage removes roughly 1 reset from a pixel every 11 seconds.
+Therefore, an charge introduced from the TPC to trigger a reset should deposit charge more quickly than 11 seconds to ensure minimal charge loss.
+
+%% charge calibration procedure graphics here
+
+
+\section{Status and Discussion}
+
+
+Sets of initial results from the Wellesley group are shown in Figure~\ref{fig:saq_first_diffusion_measurement}.
+
 
 \begin{figure}[]
 \centering
