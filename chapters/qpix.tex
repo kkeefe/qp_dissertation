@@ -139,33 +139,34 @@ The local oscillator frequency is a digital ASIC level calibration and its resul
 It's procedure and first results are described in Chapter~\ref{chap:qdb}.
 The remaining reconstruction parameter is the timestamp, which is recorded by the digital back-end.
 
-
-\subsection{Event Reconstruction}
+\subsection{Track Reconstruction}
 
 One of the important features of a TPC is the ability to precisely reconstruct full tracks of ionizing particles.
-One intended benefit of a pixelated readout on any TPC is to show that there are improvements to reconstruction of these 3-D images.
-
+An intended benefit of a pixelated readout on any TPC is to show that there are improvements to reconstruction of these 3-D images.
 Event reconstruction requires 3-spatial coordinates (x,y,z) of a track's charge as well as time, t. 
 The Q-Pix readout gives two (x,y) coordinates for "free".
 Time is intrinsic to the Q-Pix datum, and may also be provided by an external photonics system (see Section~\ref{sec:qpix_photonics}).
-The final coordinate, z, is obtained with the LAr drift velocity (Table~\ref{tab:lar_prop}) and the drift time ($T_{drift}$) by the equation:
+The first measured timestamp could also be used as The starting time of any reconstructed track.
+
+The final coordinate, z, is obtained with the LAr drift velocity (Table~\ref{tab:lar_prop}) and the drift time ($t_{drift}$) by the equation:
 \begin{equation}~\label{eq:driftDistance}
-  z_{drift} = v_{e} * T_{drift}
+  z_{drift} = v_{e} * t_{drift}
 \end{equation}
 
-
-measured current between each reset from Equation~\ref{eq:irecon_freq}:
-
-The reconstructed charge as a function of time is a piece-wise function of time based on the difference between successive $N_{rtd}(i)$:
+The current input onto a pixel calculated from Equation~\ref{eq:irecon_freq}.
+If a pixel requires a calibrated $Q_{o}$ to perform a reset, we can relate the charge and current with:
 \begin{equation}~\label{eq:piece_wise}
   Q_{i,drift}(t) = \frac{Q_{o}f_{o}}{N_{i,rtd}}t
 \end{equation}
 
+The reconstructed charge as a function of time is a piece-wise function of time based on the difference between successive $N_{rtd}(i)$
+The slopes of the i-th interval the are given by $\frac{Q_{o}f_{o}}N_{i,rtd}$ Equation~\ref{eq:piece_wise}.
+Finally, the charge as a function of position (z position of the charge), is calculated by identifying $t = t_{drift}$ between Equations~\ref{eq:driftDistance} and~\ref{eq:piece_wise}.
 
 \subsection{Comments on Uncertainties}
 
 The verification of the Q-Pix readout, in part, relies on tests to show that these timestamp data can be safely recorded and sent without loss to disc.
-Here we discuss potential uncertainties within the Q-Pix readout.
+Here we briefly discuss potential uncertainties within the Q-Pix readout.
 
 \subsubsection{Near Maximum Reset Rate}
 

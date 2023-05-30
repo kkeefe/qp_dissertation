@@ -298,7 +298,7 @@ Then, the charge calibration is:
 Equation~\ref{eq:saq_pixel_calib} is accurate in the limit that the time difference between successive resets is large compared to the pulse-width.
 Charge is not accumulated for 10~\unit{\mu s} after every reset, so if the distance between resets during calibration is $\approx$ 1~\unit{s}, the amount of charge lost during the reset is $\frac{\delta Q_{o}}{Q_{o}} \simeq 10^{-5}$.
 
-The Leakage current is measured using a pico-ammeter and a nominal estimation of the leakage in the presence of only field and gas measured to be $\approx 0.9~\unit{pA}$ per channel.
+The Leakage current is measured using a Keithley-6485~\citep{picoammeter-6485-datasheet} pico-ammeter and a nominal estimation of the leakage in the presence of only field and gas measured to be $\approx 0.9~\unit{pA}$ per channel.
 Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
 The voltage difference causes a continual build-up (or removal of) electroncs from the capacitor in the integrating circuit.
 Since each reset requires $\approx 10~\unit{pC}$ of charge, the leakage removes roughly one reset from a pixel every 11 seconds.
@@ -306,20 +306,6 @@ Therefore, any charge introduced by drift in the TPC to trigger a reset should d
 
 
 \subsection{Current Results}
-
-
-Sets of initial results from the Wellesley group are shown in Figure~\ref{fig:saq_first_diffusion_measurement}.
-These data represent an averaged number of resets divided by the area of the ring on the collection board.
-
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
-\caption{First diffusion measurement in P-10 gas performed at Wellesy University.
-The "double peak" feature is thought to be due to an offer center electron source.
-Analysis is currently underway to characterize how charge collection would varry from an offset electron center.
-}
-\label{fig:saq_first_diffusion_measurement}
-\end{figure}
 
 Two different collection plane geoemtries are tested.
 The two different geometries change the amount of exposed copper and are shown in Figure~\ref{fig:trace_boards}.
@@ -370,5 +356,30 @@ Because the traces are so small, vias are used to connect the thing collection r
 \label{fig:trace_boards_current_data}
 \end{figure}
 
-\subsection{Planned Measurements}
+A plot of initial results from the WC group are shown in Figure~\ref{fig:saq_first_diffusion_measurement}.
+These data represent an averaged number of resets divided by the area of the ring on the collection board.
+These data indicate that center channels acquire more charge (produce more resets) than outter channels.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
+\caption{First diffusion measurement in P-10 gas performed at Wellesy University.
+The "double peak" feature is thought to be due to an offer center electron source.
+Analysis is currently underway to characterize how charge collection would varry from an offset electron center.
+}
+\label{fig:saq_first_diffusion_measurement}
+\end{figure}
+
+
+\section{Summary and Future Tests}
+
+Although the diffusion measurements of SAQ are not complete at the time of the writing of this thesis, the work contributed by the author has been demonstrated.
+Timestamp data for various gas based TPCs have been collected and been shown to result from accumulated charge on an integrating circuit.
+These first tests demonstrate the Q-Pix front-end capability with off-the-shelf components.
+The work that remains for SAQ is a characterization of the TPC, GEM, and electric fields, not the front-end readout technology, which is the aim of this thesis.
+
+
+Work still remains to understand charge accumulation data presented at UTA~(Figure~\ref{fig:trace_boards_current_data}) and WC~(Figure~\ref{fig:saq_first_diffusion_measurement}).
+Simulations are being performed to understand the differences between the electric fields with the two different charge collection boards.
+Additional tests are underway to understand the behavior of the GEM, and to deduce the charge source causing the delayed resets in some channels, as seen in Figure~\ref{fig:saq_resets}.
 
