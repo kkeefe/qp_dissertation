@@ -5,7 +5,7 @@ The important parameters which must be calibrated for each pixel are the charge 
 An aim of this work is to demonstrate an additional frequency calibration method using the minimal required connections between each digital node.
 
 Any method of a frequency calibration must synchronize time measurements between all digital nodes within a tile and the aggregator.
-There are several possibile methods to achieve this, but ultimately the data that are recorded must be some time at the aggregator, $T_{a}$, and the time at any specific node, $T_{j}$.
+There are several possible methods to achieve this, but ultimately the data that are recorded must be some time at the aggregator, $T_{a}$, and the time at any specific node, $T_{j}$.
 
 %% distribute clock for calibration of time
 A direct method is one where the aggregator distributes its own clock to all nodes in the tile.
@@ -22,7 +22,7 @@ In the event that frequency calibrations of sufficient precision ($\bar{f} \appr
 %% distribute trigger for calibration of time
 Another simple scenario is one where the aggregator itself connects directly to all nodes within a tile via a single connection which can be used as a reference trigger.
 This means that some trigger from the aggregator would issue directly into each node at the same time: $T_{a} = T_{n}$.
-To calcuate the frequency in this manner, the controller would issue two triggers from the aggregator with a known time separation, $T_{o} = T_{a2} - T_{a1}$.
+To calculate the frequency in this manner, the controller would issue two triggers from the aggregator with a known time separation, $T_{o} = T_{a2} - T_{a1}$.
 The remote nodes would each record and send their timestamps back to the aggregator, where the time difference would be calculated as:
 
 \begin{equation}
@@ -43,7 +43,7 @@ In both of these scenarios, however, there is added complexity into the hardware
 In a world of perfect hardware and costless routing in terms of both time and money these routing schemes would clearly be sufficient.
 However, no hardware is perfect.
 Therefore we introduce and discuss a calibration technique which relies on no additional routing and could be optionally implemented even in the above schemes in the event of a failure.
-Therefore, even if not the primary implemented calibration technqiue, since this calibration introduces no superfluous routing it could still be used regardless of the actual future hardware implementation.
+Therefore, even if not the primary implemented calibration technique, since this calibration introduces no superfluous routing it could still be used regardless of the actual future hardware implementation.
 
 %% distribute packet for calibration of time
 \subsection{A Minimal Connection Calibration Procedure}~\label{sec:min_calib}
@@ -62,7 +62,7 @@ This ASIC receives the packet later at some time $T_{n1}$:
 
 
 %% meas1 -> wait
-Where $T_{f1}$ is the propogation time of the packet from the aggregator to the $N_{j}$ ASIC.
+Where $T_{f1}$ is the propagation time of the packet from the aggregator to the $N_{j}$ ASIC.
 This remote ASIC then sends the packet with its time ($T_{n1}$) back to the aggregator.
 The aggregator will wait some calibration time ($T_{cal}$) before issuing another calibration packet.
 This wait period $(\mathcal{O}(10^{0-2})$) can be long compared to the full transaction time to the $N_{j}$ ASIC $(\mathcal{O}(j*10^{-5})$).
@@ -80,7 +80,7 @@ Similarly to the first packet this packet will propagate to $N_{j}$ with some ne
 \end{equation}
 
 Now, we define $\Delta T_{j}$ as the difference in the two time measurements from the two packets sent from the aggregator.
-The time difference is related to the number of clocks that occured between the two different measured values of the clock, $T_{n1}$ and $T_{n2}$.
+The time difference is related to the number of clocks that occurred between the two different measured values of the clock, $T_{n1}$ and $T_{n2}$.
 
 \begin{equation}
   \Delta T_{j} = T_{n2} - T_{n1}
@@ -156,7 +156,7 @@ If we further assume that all of the clocks drift have error which drifts in the
   \Delta T_{f} \approx 2000 * 31 * 15\times 10^{-12} \approx 0.92~\unit{\mu s} 
 \end{equation}
 
-Equation~\ref{eq:calib_constraints} provides an estimatation of the timing uncertainty introduced by the calibraton scheme in a worst case 16$\times$16 tile scenario.
+Equation~\ref{eq:calib_constraints} provides an estimation of the timing uncertainty introduced by the calibration scheme in a worst case 16$\times$16 tile scenario.
 In the next section we introduce a prototype modular prototype board which was designed to test the stability of the communication protocol and the frequency calibration procedure presented here.
 
 \section{The Q-Pix Digital Board}~\label{sec:qdb_prototype}
@@ -166,7 +166,7 @@ The results presented here constructed a tile 4$\times$4 array of Lattice iCE40U
 These FPGAs were chosen because of their small form factor, availability and pin out.
 Each FPGA is programmed with the logic described in the previous sections based on the Q-Pix digital ASIC prototype.
 
-The FPGAs are used to test the cotrol logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
+The FPGAs are used to test the control logic, communication stability, buffer requirements, and calibration procedure which will be tested in the future Q-Pix digital prototype ASIC.
 The most important quantity to be calibrated for the digital nodes is the frequency of the local oscillator.
 The Q-Pix reconstruction for both time and z position are dependent on this parameter (see Chapter~\ref{chap:qpix}).
 
@@ -200,7 +200,7 @@ The PLL uses a multiply by five and divide by three circuit to achieve the desir
 The PLL is a special IP for the ice40UP5k FPGA's~\citep{latticeice40up}.
 
 FPGA's are labeled A through D on each QDB, beginning in the "top-right" of the board and proceeding counter-clock wise, as shown in Figure~\ref{fig:qdb_diagram}.
-Each FPGA has access to two right-angle connectors, which allow the QDBs to be interconnetected into a larger tile as shown in Figure~\ref{fig:qdb_test_setup}.
+Each FPGA has access to two right-angle connectors, which allow the QDBs to be inter-connected into a larger tile as shown in Figure~\ref{fig:qdb_test_setup}.
 The numerical location (x,y) of each FPGA corresponds to number of transactions "left" or "right" (x), and "up" or "down" (y) from the aggregator as viewing in Figure~\ref{fig:qdb_diagram}.
 
 We use the Zybo-Z7 prototype board from digilent as the aggregator node.
@@ -212,21 +212,21 @@ This DAQ is nearly identical to the procedure used in the SAQ experiment in Chap
 \includegraphics[width=0.8\textwidth]{./images/qdb_frequency_test_setup.jpg}
 \caption{Layout of a Zybo-Z7 aggregator node connected to a single FPGA in an interconnected 2$\times$2 QDB Tile.
 The total amount of interconnected FPGAs for the tile size is 4$\times$4.
-The FPGA that connects to the Zybo is FPGA-A as shwon in Figure~\ref{fig:qdb_diagram} on Board-A.
+The FPGA that connects to the Zybo is FPGA-A as shown in Figure~\ref{fig:qdb_diagram} on Board-A.
 Not shown is the ethernet connection from the Zybo back to the controlling PC.
-Some QDB boards are connected via jumper wires to allow easier programming of the FPGAs and for probbing pins.
+Some QDB boards are connected via jumper wires to allow easier programming of the FPGAs and for probing pins.
 }
 \label{fig:qdb_test_setup}
 \end{figure}
 
-One of the main objectives of the prototype boards is to verify the communication protcol (Section~\ref{sec:comms}).
+One of the main objectives of the prototype boards is to verify the communication protocol (Section~\ref{sec:comms}).
 An example of a broadcast transaction between the Zybo and two FPGAs on a single QDB is shown in Figure~\ref{fig:example_broadcast}.
 The transaction depicted is a broadcast register write, written to the command register (Table~\ref{table:node_registers}).
 From left to right in image A, the packets follow this pattern:
 The Zybo constructs a packet based on the protocol read from the 
 
 \begin{enumerate}
-  \item Zybo Sends Broadcast Register Write (Hard Intterrogation)
+  \item Zybo Sends Broadcast Register Write (Hard Interrogation)
   \item FPGA-A Forwards and responds to broadcast and responds
   \item FPGA-B Responds to broadcast 
   \item FPGA-A routes the remote packet to the Zybo
@@ -245,7 +245,7 @@ The Zybo constructs a packet based on the protocol read from the
   \caption{Communication Route on Prototype}
 \end{subfigure}
 \caption{Timescale is 50 $\unit{\mu s}$.
-An example of a Hard Intterrogation with two connected FPGAs is shown.
+An example of a Hard Interrogation with two connected FPGAs is shown.
 The first incoming packet is the broadcast (Register Write to command register) from the Zybo board.
 The FPGA (0,0) responds and sends the broadcast.
 The bottom waveform is FPGA (1,0) responding to the request sent from (0,0).
@@ -269,8 +269,8 @@ The fast (4~\unit{Hz}) test allows only 250~\unit{ms} for a tile readout and is 
 \includegraphics[width=0.9\textwidth]{images/(0,0).pdf}
 \caption{Example of frequency calibrations for the FPGA Adjacent to the Zybo, $T_{cal} = 250~\unit{ms}$.
 Shown is the reconstructed frequency for the base node FPGA at (0,0) within the QDB tile.
-Figure~\ref{fig:fast_example} shows the corresonding reconstructed frequency pattern that represents the five individual peaks on the left.
-A mean substraction is performed on all five histograms to produce the right image, where a gaussian fit is performed to estimate a frequnecy uncertainty ($\sigma$).
+Figure~\ref{fig:fast_example} shows the corresponding reconstructed frequency pattern that represents the five individual peaks on the left.
+A mean subtraction is performed on all five histograms to produce the right image, where a Gaussian fit is performed to estimate a frequency uncertainty ($\sigma$).
 }
 \label{fig:frq_recon_node00}
 \end{figure}
@@ -291,10 +291,10 @@ The reason for the estimated drift is due to the difference of drift in the Zybo
 The reconstruction formula (Equation~\ref{eq:frequency_reconstruction}) on the frequency of the aggregator ($f_{a}$).
 Therefore the uniform drift seen on all FPGAs can be attributed to the drift on the aggregator.
 
-We remove this drift for each of the distributions by fitting a gaussian to each of the distributions seen in Figure~\ref{fig:frq_recon_node33}.
-Five gaussians are fit to correspond to the five clusters, where the mean of the this fit are subtracted from the reconstructed points closed to this mean.
+We remove this drift for each of the distributions by fitting a Gaussian to each of the distributions seen in Figure~\ref{fig:frq_recon_node33}.
+Five Gaussian are fit to correspond to the five clusters, where the mean of the this fit are subtracted from the reconstructed points closed to this mean.
 These news points form average frequency as shown in the right of Figures~\ref{fig:frq_recon_node33} and~\ref{fig:frq_recon_node00}.
-A final gaussian is fit where we use the $\sigma$ of the fit as the estimated uncertainty ($\delta f_{j}$) of each FPGA.
+A final Gaussian is fit where we use the $\sigma$ of the fit as the estimated uncertainty ($\delta f_{j}$) of each FPGA.
 These results are shown for both the slow and fast interrogation frequencies in Tables~\ref{tab:fpga_calibration} and~\ref{tab:fpga_slow_calibration}.
 
 
@@ -304,7 +304,7 @@ These results are shown for both the slow and fast interrogation frequencies in 
 \caption{Fast calibration procedure results for two different FPGAs.
 Plotted are the reconstructed frequencies for increasing interrogation numbers.
 Each interrogation is separated by approximately 250~\unit{ms}.
-There is a repeating pattern of five distinguishable reconstructed frequencies ploted for two different FPGAs.
+There is a repeating pattern of five distinguishable reconstructed frequencies plotted for two different FPGAs.
 All 16 FPGAs follow this similar pattern, indicating that each of the reconstructed frequencies are varied by the aggregator's oscillator.
 }
 \label{fig:fast_example}
@@ -332,18 +332,18 @@ To estimate the reliability of the packet communication we calculate the number 
 During each Hard Interrogation each FPGA sends a broadcast register command plus the event end word as a response.
 Then, for every Hard Interrogation there are at least 32 successful packet transactions. 
 However, the routing used during the frequency calibration was snake routing, so the average traversal of each response packet (the number of FPGAs used to send each packet), is half of the array, plus one: 9.
-Therefore, each interrogation requries 16 correct broadcast packets plus $9\cdot 16 = 144$ successful response packets, for a toal of 160 packets.
+Therefore, each interrogation required 16 correct broadcast packets plus $9\cdot 16 = 144$ successful response packets, for a total of 160 packets.
 The total number of interrogations between both frequency tests was over 7000.
-This corresponds to at least 1,120,000 succesful packet transactions.
+This corresponds to at least 1,120,000 successful packet transactions.
 
 Also, performed was a sequence of random register writes followed by read requests perform on each FPGA to the channel mask register (See Table~\ref{table:node_registers}).
 The channel mask register is a proxy scratch register, since it allows the reading and writing of any 16 bits.
 We performed a long run ($\approx$ 10~\unit{hours}) where the Zybo would write to a random FPGA a random sequence of 16 bits, followed by a read.
 An error check was be performed on any mismatch between the two bytes read and written.
-This read and write sequence occured every 0.25 seconds, or 4~\unit{Hz}, for a total of an expected 144,000 transactions.
-Each test, on average, writes an FPGA which is four transactions from the aggergator, and requires 8 transactions to respond.
+This read and write sequence occurred every 0.25 seconds, or 4~\unit{Hz}, for a total of an expected 144,000 transactions.
+Each test, on average, writes an FPGA which is four transactions from the aggregator, and requires 8 transactions to respond.
 This requires 12 correct packets for each read and write, for a total of 24 correct packets per test.
-This test valids another $\approx 24\cdot 144,000 = 3,456,000$ packets.
+This readout successful tested another $\approx 24\cdot 144,000 = 3,456,000$ packets.
 In total, an estimated 4,576,000 variable packets have been successfully sent without a single packet loss on the QDBs.
 
 \begin{figure}[]
@@ -354,24 +354,24 @@ The x-axis represents the number of transactions required to reach the FPGA.
 These data are taken from Tables~\ref{tab:fpga_calibration} and~\ref{tab:fpga_slow_calibration}.
 Clearly indicated is the relationship between the interrogation rate: a faster interrogation leads to a sharper average time reconstruction.
 Also shown is that the further each FPGA is from the base-node, the worse the frequency reconstruction is.
-This happens since there are more average clock cycles tranversed to reach the remote ASIC (see Equation~\ref{eq:calib_constraints}).
+This happens since there are more average clock cycles to reach the remote ASIC (see Equation~\ref{eq:calib_constraints}).
 }
 \label{fig:calibration_position}
 \end{figure}
 
 Figure~\ref{fig:calibration_position} relates the calculated frequency stability of the QDB tile using the slow and fast calibration modes.
 The results show that the slow calibration mode produces a higher frequency ppm than the fast interrogation method. 
-This indicatates that the rate of the interrogation in the final system can be used to componensate for a less stable oscillator at ASICs further from the base-node.
-Also shown is that for both interrogation rates is that the result of the reconstruction dependso on the FPGA (ASIC) location within a tile.
+This indicates that the rate of the interrogation in the final system can be used to compensate for a less stable oscillator at ASICs further from the base-node.
+Also shown is that for both interrogation rates is that the result of the reconstruction depends on the FPGA (ASIC) location within a tile.
 These results (with the ASIC oscillator frequencies) indicate a limit to how large a tile can constructed.
 The distance from the base-node indicates the number of packet transactions that the interrogation must proceed through the tile before the Event End word is constructed.
 This means that fully connected tiles (FCT) will allow for largest tiles with local oscillators, since they provide the shortest path from the base-node to any remote node.
 
 \section{The Digital Back-End Summary}
 
-The Q-Pix digital back-end is expressed as a collection of interconnetected nodes as presented in Section~\ref{sec:digital_constraints}.
+The Q-Pix digital back-end is expressed as a collection of inter-connected nodes as presented in Section~\ref{sec:digital_constraints}.
 Each node represents an ASIC which connects to the front-end, which for Q-Pix is a collection of integrating CSA for each pixel in the TPC.
-The Q-Pix ASIC design is presnted in Section~\ref{sec:digital_prototype}, where we define its response to inputs by its FSM in Section~\ref{sec:digital_fsm}
+The Q-Pix ASIC design is presented in Section~\ref{sec:digital_prototype}, where we define its response to inputs by its FSM in Section~\ref{sec:digital_fsm}
 
 The full Q-Pix readout is handles the large number of connections required in a DUNE-FD ($\simeq 58,000$ per APA) by first collecting data via an aggregator node.
 The QDB prototype (described in Section~\ref{sec:qdb_prototype}) implements this first use of a Q-Pix tile and aggregator system.
@@ -381,11 +381,11 @@ Each ASIC allows a configurable routing direction which is controlled by packets
 The basic unit of the Q-Pix DAQ can be thought of as a tile and aggregator system, where one or more tiles are assigned to a single aggregator.
 Future implementations of Q-Pix can readily assign multiple tiles per aggregator.
 The number of tiles that an aggregator can be assigned to is dependent on its available pins as well as its maximum data output.
-Each aggergator will require at least two pairs of differential pins to connect to a base-node per tile, as well as provide at least $117~\unit{kB}$ of data output either to disc or another controlling node per connected tile.
+Each aggregator will require at least two pairs of differential pins to connect to a base-node per tile, as well as provide at least $117~\unit{kB}$ of data output either to disc or another controlling node per connected tile.
 
 The results of the QDBs~(Section~\ref{sec:qdb_prototype}) demonstrate the reliability of the communication protocol to more than 1 million packets.
 The calibration procedure is able to reconstruct remote FPGA frequencies in a Q-Pix 4$\times$4 tile to better than 1 ppm ($\frac{\delta f_{o}}{f_{o}}$).
-We also find that the size of a tile is limited by the oscillator frequencies of the ASICs as well as the aggergator.
+We also find that the size of a tile is limited by the oscillator frequencies of the ASICs as well as the aggregator.
 
 In Chapter~\ref{chap:sim} we explore simulations of the Q-Pix tile system and explore its ability to analyze radiogenic backgrounds and capture beam neutrino events.
 
@@ -395,11 +395,11 @@ In Chapter~\ref{chap:sim} we explore simulations of the Q-Pix tile system and ex
 % \section{Towards the Integration of the Aggregator Node}
 
 % In the studies presented with the QDB the aggregator node was the Zybo Z7-20~\citep{zybo_zy_reference}.
-% This section provides a brief discussion about an adaquate aggergator node.
+% This section provides a brief discussion about an adequate aggregator node.
 
 % \subsection{Comments on A Super-Aggregator Node}
 
 % Each APA module within a larger DUNE module must ultimately be interconnected so that the entire module can be readout.
 % As described above, a single modular tile is controlled by an individual aggregator node, where $\approx$ 3370 (Section~\ref{sec:digital_constraints}) such tiles will be used in a single DUNE-FD APA.
 % Therefore, we refer to the device that digitally multiplexes all of the DAQ node data as the "Super DAQ Node" (SDN).
-% Then, we imagine the final multiplexing stage for an entire DUNE module as an array of SDNs, each of which consistute an array of DAQ nodes, where each DAQ node is a 2-D array of Q-Pix based ASICs.
+% Then, we imagine the final multiplexing stage for an entire DUNE module as an array of SDNs, each of which constitute an array of DAQ nodes, where each DAQ node is a 2-D array of Q-Pix based ASICs.

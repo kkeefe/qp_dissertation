@@ -20,14 +20,14 @@ This result provides the first limit on the memory required for a Q-Pix ASIC, sh
 
 To test the remote FIFO depths and local oscillator frequency requirements we developed the first simulation to model the Q-Pix digital back-end response to physical events within a DUNE-FD APA.
 We find that the distribution of the ASIC frequency needs to be $\approx 0.5\%$ in order to maintain obtain reliable remote FIFO depths with the current readout protocol. 
-These results also indicate that the only reliable routing methodolgy is the "Snake" routing (Section~\ref{sec:snake_timing}), which is shown to be independent of both tile size and digital architecture (See Table~\ref{table:tile_params}).
+These results also indicate that the only reliable routing methodology is the "Snake" routing (Section~\ref{sec:snake_timing}), which is shown to be independent of both tile size and digital architecture (See Table~\ref{table:tile_params}).
 The routing ("Snake") provides a unitary relationship between the local and remote FIFO depth requirements.
 
 \subsection{The Future of Q-Pix}
 
 The Q-Pix design is a novel readout technology.
 However, "novelty does not confer automatically benefit", David Nygren.
-The full Q-Pix validation still awaits key results to demonstate its capabilities in a DUNE-FD module.
+The full Q-Pix validation still awaits key results to demonstrate its capabilities in a DUNE-FD module.
 Namely, Q-Pix still needs to test both the analog and digital prototypes at cold liquid Argon temperatures.
 
 The front-end requires a reliable replenishment circuit as well as low leakage current ($\approx 100~\unit{aA}$ or less to be below radiogenic backgrounds).
@@ -39,7 +39,7 @@ These reconstructed events will permit an analysis to estimate of Q-Pix's abilit
 
 The work presented here can accurately be viewed both as a means to understand the Q-Pix's first digital ASIC and as a guide toward the second digital design.
 The key result of this work indicates that the local and remote FIFO depths of the second prototype should both be increased to at or above 394 to capture 99\% of neutrino oscillation interactions.
-The reason the first prototype did not incorporate these larger buff sizes was due to fabrication limitiations of the ASIC.
+The reason the first prototype did not incorporate these larger buff sizes was due to fabrication limitations of the ASIC.
 If oscillator tests of the first prototype indicate that the mean drift between neighbor ASICs is reliably under 0.5\%, then the local oscillator need not be changed either.
 All other underlying logic, with perhaps the exception of FWFT FIFOs, have been verified in the first digital prototype.
 These tests need only be repeated on the first prototype ASIC.

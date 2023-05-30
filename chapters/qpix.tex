@@ -1,22 +1,22 @@
 \chapter{A Novel Readout Technique for TPCs: Q-Pix}~\label{chap:qpix}
 
 We begin this chapter in Section~\ref{sec:qpix_circuit} by introducing a novel pixel-based readout concept for TPCs.
-Pixel-based readouts offer several advantages over the traditional wire readout \citep{lartpc_recon_problems_joshi_2015}.
+Pixel-based readouts offer several advantages over the traditional wire readouts~\citep{lartpc_recon_problems_joshi_2015}.
 A key improvement offered by pixelization is true 3-D image reconstruction.
-This allows for sharper vertex reconstruction, improving the overall resolution of of a LArTPC and may reduce the time required for a NP measurement.
-Other benefits include a reduction in the amount of data storage required and there simpler data analysis.
+This allows for sharper vertex reconstruction, which improves the overall resolution of a LArTPC and can reduce the time required for a NP measurement.
+Other benefits include a reduction in the amount of data storage required and easier data analysis.
 
 Next, in Section~\ref{sec:qpix_apa} we discuss how this readout technology can be extended to a DUNE-FD 10 kT module.
 We compare the design specifications for the current wire-based readout of a DUNE-FD and discuss how the Q-Pix readout can meet similar design goals.
 We note the advantages of pixelization come at the cost of increased design complexity.
 The traditional wire-based readout of a DUNE-FD module will have hundreds to thousands of channels, while a pixel-based readout will have tens of millions of channels.
-This number of channels required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are continuously operating at liquid argon temperatures.
-A goal of this dissertation is to address the channel size problem.
+This number of channels is required to provide a stable readout over the expected lifetime of DUNE ($\approx 20$ years), where the electronics are operated continuously at liquid argon temperatures ($\simeq 87~\unit{K}$).
+This dissertation addresses the channel size problem in Chapter~\ref{chap:sim}.
 
 Two prototype ASICs have been developed to test each side of the readout shown in Figure~\ref{fig:qpix_frontandbackend}.
-We refer to the ASIC developed to test the front-end as the "analog ASIC".
+We refer to the ASIC designed to test the front-end as the "analog ASIC".
 Likewise, we refer to the ASIC developed to test the back-end as the "digital ASIC".
-The contributions to the design of digital ASIC is a major component of this thesis.
+The contributions to the design of the digital ASIC are a major part of this thesis.
 In Section~\ref{sec:digital_back-end} we discuss the design challenges of a large pixelated detector, with a special emphasis on the requirements of the digital back-end.
 Finally, in Sections~\ref{sec:qpix_photonics} and~\ref{sec:qpix_supernova} we briefly describe other work towards validating the Q-Pix design in a LArTPC.
 
@@ -24,8 +24,8 @@ Finally, in Sections~\ref{sec:qpix_photonics} and~\ref{sec:qpix_supernova} we br
 
 The fundamental Q-Pix circuit~(\ref{fig:qpixCircuit}) was first introduced by Nygren and Mei~\citep{qpix:nygren:mei}.
 The principle of the front-end circuit operates on producing a signal output from Schmitt trigger connected to a charge sensitive amplifier (CSA) circuit.
-The CSA's input is connected to the anode of a TPC where drifted electron charge accumulates.
-Voltage is then built up across the capacitor from the accumlating charge according to the equation:
+The input of the CSA is connected to the anode of a TPC, where drifted electron charge accumulates.
+Voltage is then built up across the capacitor from the accumulated charge according to the equation:
 
 \begin{equation}~\label{eq:capacitor}
 Q_{i} = C_{i}V_{i}
@@ -44,19 +44,20 @@ The front-end is a charge sensitive amplifier (CSA) whose output is connected to
 The trigger (output) occurs when enough charge as accumulated on the capacitor $C_{f}$ (currently 1~\unit{fC}).
 One of the design parameters for the Q-Pix front-end is the choice of $C_{f}$.
 This front-end circuit is designed within a single analog ASIC which has contains 16 of these circuits.
-The schematic for this ASIC is shown in Apendix~\ref{app:analog_prototype}.
+The schematic for this ASIC is shown in Appendix~\ref{app:analog_prototype}.
 Image is taken from~\citep{qpix:nygren:mei}.}
 \label{fig:qpixCircuit}
 \end{figure}
 
 The Q-Pix readout records 32-bit latch values as a response to the Schmitt trigger output; it does not measure voltage, charge, or time.
 We refer to this 32-bit measurement as a "timestamp".
-These timestamps are produced when enough charge accumlates on the capacitor to produce a reset pulse, therefore the Q-Pix readout does not depend on an external system trigger to acquire data.
+These timestamps are generated in response to the reset pulse sent from the Schmitt Trigger.
+Since these resets only occur in response to accumulated charge, the Q-Pix readout does not require an external trigger to acquire data.
 
 There are two components of the Q-Pix readout: analog and digital.
 The analog portion of the readout begins with the CSA and ends at the Schmitt trigger output.
-The digital portion of the readout begins at timestamp record.
-These two portions are shown in Figure~\ref{fig:qpix_frontandbackend}.
+The digital portion of the readout begins at the timestamp record.
+These two parts are shown in Figure~\ref{fig:qpix_frontandbackend}.
 
 \begin{figure}[]
 \centering
@@ -73,7 +74,7 @@ The back-end is responsible for providing the local oscillator as well as accura
 
 Here we describe the basic principle of reconstructing the input current from a collection of timestamp measurements.
 
-A timestamp measurement indicates that a certain amount of charge was accumlated at the CSA.
+A timestamp measurement indicates that a certain amount of charge was accumulated at the CSA.
 Since total charge is conserved we can say that the total accumulated charge ($Q_{in}(t)$) is equal total amount of charge discharged from each reset ($Q_{out}(t)$) plus any residual charge still on the pixel ($Q_{c}(t)$).
 Therefore, we can relate the total accumulated charge to the total charge discharged with the following equation:
 
@@ -81,11 +82,10 @@ Therefore, we can relate the total accumulated charge to the total charge discha
 Q_{in}(t) = Q_{out}(t) + Q_{c}(t)
 \end{equation}
 
-One of the features of the analog ASIC is the replishment circuit.
-This circuit is a constant current source which can remove a constant number of electrons from the CSA.
+One of the features of the analog front-end ASIC is a replenishment circuit.
+This circuit is a constant current source which removes a constant number of electrons from the CSA.
 This provides a major simplification to the current reconstruction.
-If we assume that each reset removes the same amount of charge ($Q_{o}$) we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t, ($N(t)$):
-
+Assuming that each reset removes the same amount of charge ($Q_{o}$), we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t, ($N(t)$):
 \begin{equation}~\label{eq:qout}
 Q_{out}(t) = Q_{o} N(t)
 \end{equation}
@@ -114,8 +114,8 @@ Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2} show the charge reconstruc
 \includegraphics[width=\textwidth]{images/qpix_rtd_reconstruction_example.jpg}
 \caption{Example reconstruction of the reset time difference (RTD) based on the Q-Pix readout design. 
 Shown is transistor-level charge integration simulation results for minimum ionizing tracks in LAr.
-The purple curve of the top pannel represents charge accumulating on the CSA, where the green curve is the reset output from the Schmitt trigger.
-The bottom pannel shows input charge (purle curve) overlayed on top of the reconstructed current signal.
+The purple curve of the top panel represents charge accumulating on the CSA, where the green curve is the reset output from the Schmitt trigger.
+The bottom panel shows input charge (purple curve) overlaid on top of the reconstructed current signal.
 The $Q_{o}$ value taken here is equal to 1~\unit{fC}.
 Image is taken from \citep{qpix:nygren:mei}.}
 \label{fig:qpixRecon1}
@@ -133,8 +133,8 @@ Image is taken from~\citep{qpix:nygren:mei}.}
 \label{fig:qpixRecon2}
 \end{figure}
 
-Of these three parameters in Equation~\ref{eq:irecon_freq}, two of them need to be calibrated.
-The validation of the charge calibration is beyond the scope of this work, but is briefly described in Chapter~\ref{chap:sim} Section~\ref{sec:radiogenic_calib}.
+Of the three parameters in Equation~\ref{eq:irecon_freq}, two of them need to be calibrated.
+Validation of the charge calibration is beyond the scope of this work, but is briefly described in Chapter~\ref{chap:sim} Section~\ref{sec:radiogenic_calib}.
 The local oscillator frequency is a digital ASIC level calibration and its results are a product of this thesis.
 It's procedure and first results are described in Chapter~\ref{chap:qdb}.
 The remaining reconstruction parameter is the timestamp, which is recorded by the digital back-end.
@@ -190,7 +190,7 @@ The reconstructed charge over time is shown in Figure~\ref{fig:reconQ}.
 The maximum amplitude is chosen to be close to $I_{max}$.
 Reset Charge is chosen to be 1 $\unit{fC}$ and digital clock frequency of 30 $\unit{MHz}$.
 The input current amplitude is close to the maximum, so that the reconstructed current can is far from the actual.
-This occurs since $N_{rtd}$ can only take integer values, the recontructed current can only take values of $\frac{30}{N}$.
+This occurs since $N_{rtd}$ can only take integer values, the reconstructed current can only take values of $\frac{30}{N}$.
 The red points indicate possible reconstructed current values, where the two highest points correspond to $\frac{30}{7}$ and $\frac{30}{8}$, respectively.
 However, an example of a savgol filter (dark blue) is performed on the resets after the fact with near agreement of the large input.
 A use case of this kind of digital filtering would be applied to large current values only (peaks of the curves), and not for low current inputs where the pure timestamp difference provides better results.}
@@ -210,7 +210,7 @@ A use case of this kind of digital filtering would be applied to large current v
   \caption{Difference}
 \end{subfigure}
 \caption{Reconstruction of Sub figures cumulative distribution function (CDF) of charge as a function of time (a) and the error (b).
-The input current for these data are showin in Figure~\ref{fig:savgol}.
+The input current for these data are shown in in Figure~\ref{fig:savgol}.
 The pause in resets are when the error is small, since the current input is near zero.
 The red line indicates the minimum charge required for a single reset.
 The right plot indicates the difference between the true and reconstructed charge distributions compared to a single reset.
@@ -220,18 +220,18 @@ The right plot indicates the difference between the true and reconstructed charg
 
 \subsubsection{Comments on Reconstruction Requirements}~\label{sec:recon_uncert}
 
-The uncertainty for the two transverse coordinates ($\hat{x}$ and $\hat{y}$) come from the pixel size.
-If we assume the electric field to be uniform, on average, across all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel size.
-Then, the pixel dimensions determine the resolution: $\frac{3 mm}{\sqrt{12}} \approx 0.87 mm$.
+The uncertainty for the two transverse coordinates ($\hat{x}$ and $\hat{y}$) comes from the pixel size.
+If we assume that the electric field is uniform, on average, over all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel size.
+Then, the pixel size determines the resolution: $\frac{3 mm}{\sqrt{12}} \approx 0.87 mm$.
 
-In order to reach the required uncertainty to measure the z-position ($\sigma_{z} \simeq 1~\unit{mm}$), the uncertainty from $f_{o}$ must be small ($\sim$ 1~\unit{ppm}).
-Other measurement uncertainties stem from Equation~\ref{eq:irecon_freq}.
+To achieve the required uncertainty for the z-position measurement ($\sigma_{z} \simeq 1~\unit{mm}$), the uncertainty from $f_{o}$ must be small ($\sim$ 1~\unit{ppm}).
+Other measurement uncertainties come from the Equation~\ref{eq:irecon_freq}.
 The precision of the local oscillator frequency and the constant charge per reset determine the current reconstruction precision.
-Variable replenishment circuits can impace $Q_{o}$, which will also affect $\sigma_{z}$.
+Variable replenishment circuits can greatly impact $Q_{o}$ from reset to reset, which will also affect $\sigma_{z}$.
 
 \section{How Q-Pix fits into a 10 kt LArTPC}~\label{sec:qpix_apa}
 
-A future target detector for the Q-Pix readout is the DUNE-FD 10 kt module.
+A future target detector for the Q-Pix readout is a DUNE-FD 10 kt module.
 To explore how Q-Pix could be used in this detector we provide a brief over-view of the DUNE-FD electronics and compare with those requirements for Q-Pix based readout.
 The simulation results presented in Chapter~\ref{chap:sim} are based on the detector volume of a single APA within a DUNE-FD module.
 
@@ -239,7 +239,7 @@ The simulation results presented in Chapter~\ref{chap:sim} are based on the dete
 
 %% section 1.8 of TDR
 The DUNE-FD is a modular assembly of Anode Plane Assemblies (APA) as shown in Figure~\ref{fig:dune_apa_tdr}.
-Each Single-Phase (SP) 10 kT module consists of 150 APAs.
+Each Single-Phase (SP) 10 kT module will consist of 100-200 APAs (depending on the drift distance).
 The APA's full description can be found at~\citep{DUNE-FD_TDRv4:Abi_2020}.
 Each APA stores its own the front-end electronics which are in the LAr and are shown in Figure~\ref{fig:dune_tpc_electronics}.
 
@@ -261,20 +261,20 @@ Image shows an overlay the the relevant charge collection wires within a DUNE-FD
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/dune_fd_tdr_apa_image.jpg}
-\caption{Cross sectional picture of a single DUNE-FD APA backet~\citep{DUNE-FD_TDRv4:Abi_2020}}
+\caption{Cross sectional picture of a single DUNE-FD APA bracket~\citep{DUNE-FD_TDRv4:Abi_2020}}
 \label{fig:dune_apa_tdr}
 \end{figure}
 
 On each FEMB are three ASICs are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
 The first ASIC is a waveform-shaping and amplification ASIC.
-The second ASIC is the ADC ASIC and is reponsible for the converting the analog signal to digital.
+The second ASIC is the ADC ASIC and is responsible for the converting the analog signal to digital.
 The final ASIC, called the COLDATA ASIC, merges the data streams from the previous ASICs and is responsible for communication between the motherboard and the outside world.
 
 Table~\ref{tab:dune_tpc_elec} summarizes the electronic requirements expected for the DUNE-FD SP module
 The maximum expected data collection is expected to not exceed more than 30 PB/year, which corresponds roughly to $\approx 1 Gb/s$ of continuous collection.
 The expected wire electron noise level is design to be $\approx$ 1000 $e^{-}$.
 Sampling frequency of 12 bit ADCs is 12 $\unit{MHz}$.
-Large signals require a linear reponse of 500 k$e^{-}$, and ensures that fewer than 10\% of beam events experience saturation.
+Large signals require a linear response of 500 k$e^{-}$, and ensures that fewer than 10\% of beam events experience saturation.
 Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead channels.
 
 \begin{table}
@@ -321,10 +321,10 @@ $N_{osc}$ represents the total number of front-end ASICs whose data must be aggr
 Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
 This also gives an order of magnitude estimate of the increase of number of ASICs compared to the MWPC readout of Single-Phase (SP) DUNE-FD.
 
-To have a comparable power draw compared to DUNE-FD, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power draw per channel.
-Too much energy disappated in the LAr creates bubbles which is a high voltage (HV) discharge risk.
-The total channel count for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
-Thus, the number of extra analog channels that QPix is required to measure, compared to the typical wire readout, increases by a factor of $915399 / 2560 \approx 357$.
+To have a comparable power consumption to DUNE-FD, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power consumption per channel.
+Too much power dissipated in the LAr creates bubbles, which is a high voltage (HV) discharge risk.
+The total number of channels for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = $384000.
+Thus, the number of additional analog channels that QPix must measure compared to a typical wire readout increases by a factor of $915399 / 2560 \approx 357$.
 
 Q-Pix will instead offer conversion from analog (charge) to digital (32 bit time) signals on a single ASIC.
 These front-end ASICs would be arrayed in modular tiles within a single APA.
@@ -336,7 +336,7 @@ Then, each DN can interface could optionally connect a single concentrator FPGA 
 This final concentrator would send the data to the Warm-Interface-Cards (WIC) out of the cold electronics (CE).
 The final concentrator FPGA we refer to as the Super-DAQ-node (SDN).
 
-The exact description and characteriziation of the WIC for a Q-Pix depends on the final implementation of the SDN.
+The exact description and characterization of the WIC for a Q-Pix depends on the final implementation of the SDN.
 
 \begin{table}
 \begin{center}
@@ -356,7 +356,7 @@ The exact description and characteriziation of the WIC for a Q-Pix depends on th
 \caption{Q-Pix based Requirements which are compared to the equivalent DUNE-FD SP module found in table~\ref{tab:dune_tpc_elec}.
 Results here are necessarily speculative, but provide an insight to the design goal.
 The system noise is a contribution of leakage current per reset, uneven electric fields in the TPC, or uncertainties in the replenishment circuit per reset.
-Signal saturation is defined as the maximum measureable current based $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$.
+Signal saturation is defined as the maximum measurable current based $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$.
 The Q-Pix readout can also be saturated by too many resets if the FIFO buffers overflow (see Chapter~\ref{chap:sim} for further discussion).
 The power consumption per channel is a direct division compared to Table~\ref{tab:dune_tpc_elec}.
 The number of channels per tile depends on the tile size as well as the number of pixels per ASIC (see Chapter~\ref{chap:qdb} for further discussion).
@@ -373,10 +373,10 @@ This sub-system must be able to record and store data, be robust against SPF, de
 In this section we introduce considerations which guided the design of the first two Q-Pix ASIC prototypes.
 These design choices for the digital prototype are enumerated in table~\ref{table:digital_design_params}.
 
-\subsection{Digital ASIC Prototype Desgin Choices}~\label{sec:design_choices}
+\subsection{Digital ASIC Prototype Design Choices}~\label{sec:design_choices}
 
 The Table~\ref{table:digital_design_params} highlights some design choices of the first digital Q-Pix ASIC prototype.
-Four neighbor connections were chosen as the design choice two allow for communiation in either direction along the x and y axes.
+Four neighbor connections were chosen as the design choice two allow for communication in either direction along the x and y axes.
 The local and remote FIFO depths determine how many resets and communication packets the ASIC may store at any one time.
 
 \begin{table}
@@ -442,9 +442,9 @@ These photons could not only provide the required event timing but also provide 
 Additional work is currently underway to demonstrate the viability.
 
 Currently there are two competing geometries to incorporate light collection within Q-Pix.
-Figure~\ref{fig:qpix_light_geometries} shows the vertical and horiztontal drift geometries.
+Figure~\ref{fig:qpix_light_geometries} shows the vertical and horizontal drift geometries.
 The vertical drift geometry is an easier design geometry, however the top electrode must not only be able to collect charge it must also be transparent. 
-On the other hand, the horizontal drift geometry solves the transparancy problem but involves a more complilcated hardware design. 
+On the other hand, the horizontal drift geometry solves the transparency problem but involves a more complicated hardware design. 
 
 \begin{figure}[]
 \centering
@@ -459,9 +459,9 @@ On the other hand, the horizontal drift geometry solves the transparancy problem
   \caption{Horizontal Drift}
 \end{subfigure}
 \caption{Images taken from~\citep{https://doi.org/10.48550/arxiv.2207.11127}.
-The vertical drift geometry (left) shows an electrode on the top layer, whereas the horiztontal (right) geometry integrates the electrodes within the aSe.
+The vertical drift geometry (left) shows an electrode on the top layer, whereas the horizontal (right) geometry integrates the electrodes within the aSe.
 The vertical geometry is an easier design, but most electrodes are not transparent to VUV scintillation light.
-The horiztontal geometry solves this problem, at the cost of a more complicated design.
+The horizontal geometry solves this problem, at the cost of a more complicated design.
 }
 \label{fig:qpix_light_geometries}
 \end{figure}
@@ -475,13 +475,13 @@ The results indicate several advantages Q-Pix readout will have over a tradition
 One advantage is the lower overall data rates (1.03$*10^{-6}$ < 2~\unit{pB} per year) compared to the traditional single-phase readout.
 This reduction in data rates could allow for a 10 kT Q-Pix module to collect timestamp data continually.
 Such a continuous readout, with no trigger, could be particularly useful in collecting supernova burst events.
-Figure~\ref{fig:qpix_shion} compares the trigger sensitivity supernova trigger burst effeciencies between the Q-Pix readout against traditional wire-readout. 
+Figure~\ref{fig:qpix_shion} compares the trigger sensitivity supernova trigger burst efficiencies between the Q-Pix readout against traditional wire-readout. 
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.6\textwidth]{images/shion_qpix_snb_trigger.jpg}
-\caption{Image is taken direclty from~\citep{qpix:shion}.
-Plotted is the supernova burst triggering effeciency as a function of $\nu_{e}$ interactions in a 10 kT DUNE-FD module.
+\caption{Image is taken directly from~\citep{qpix:shion}.
+Plotted is the supernova burst triggering efficiency as a function of $\nu_{e}$ interactions in a 10 kT DUNE-FD module.
 The points in blue indicate that a series of 60 resets are "clustered" to use as an identification of a supernova event. 
 The other curves are taken from Ref.~\citep{supernova_Abi_2021}.
 }

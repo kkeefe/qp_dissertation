@@ -7,7 +7,7 @@ An example of a pixel ring with a connected ASIC are shown in Figure~\ref{fig:qp
 
 This record happens in response any one, or more, of the pixels, which for the first ASIC prototype is up to 16.
 The timestamp is the value of a local 32-bit counter at the time the ASIC receives the reset pulse.
-When a trigger is sent from any pixel the data recorded are local counter as well as the input level of all pixels ('1' incidates high, '0' indicates low).
+When a trigger is sent from any pixel the data recorded are local counter as well as the input level of all pixels ('1' indicates high, '0' indicates low).
 
 \begin{figure}[]
 \centering
@@ -19,7 +19,7 @@ When a trigger is sent from any pixel the data recorded are local counter as wel
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.5\textwidth]{images/single_asic_dimensions_qpix.png}
-  \caption{Q-Pix ASIC connetected to 4$\times$4 pixels}
+  \caption{Q-Pix ASIC connected to 4$\times$4 pixels}
 \end{subfigure}
 \caption{Each Q-Pix ASIC (B) is expected to connect to up 16 pixels (A) within the LAr.
 The dimensions of each pixel are 4$\times$4~\unit{mm^2}, where the collection ring has a diameter of 1~\unit{mm}.
@@ -29,7 +29,7 @@ Each ASIC supports up to a maximum of 16 channels, or pixels.
 \end{figure}
 
 The full Q-Pix digital back-end is a collection of interconnected ASICs that form tiles.
-Tiles are then connetected to controlling nodes as shown in Figure~\ref{fig:qpix_tile_introduction}, indicated by the colored boxes.
+Tiles are then connected to controlling nodes as shown in Figure~\ref{fig:qpix_tile_introduction}, indicated by the colored boxes.
 In order for the system to work each ASIC must be able to send and receive data, which are routed to and from its tile via the controlling nodes.
 The sheer number of pixels required for an DUNE-FD 10 kT module require an extremely reliable means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
 
@@ -43,9 +43,9 @@ The sheer number of pixels required for an DUNE-FD 10 kT module require an extre
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.5\textwidth]{images/array_of_tiles_qpix.png}
-  \caption{An array of intereconnected tiles.}
+  \caption{An array of inter-connected tiles.}
 \end{subfigure}
-\caption{A modular tile (A) of Q-pix ASICs can be interconnetected (B) to create a larger charge collection plane. 
+\caption{A modular tile (A) of Q-pix ASICs can be inter-connected (B) to create a larger charge collection plane. 
 The highlighted nodes in (B) indicate possible locations aggregator nodes to interconnect multiple tiles from a single controlling node.
 These aggregators can connect power, clock, ground, and data out of the full detector which are represented by the four colored traces leaving the tile array.
 }
@@ -53,8 +53,8 @@ These aggregators can connect power, clock, ground, and data out of the full det
 \end{figure}
 
 The logical components of each ASIC are represented in Figure~\ref{fig:qpa_diagram}.
-These components are resonsible for controlling the basic features of the ASIC including communications, configuration, and data collection.
-Data communication between ASICs is of primary consideration, since all recorded data must be transmited between ASICs, through aggregators, and eventually to a storage disc.
+These components are responsible for controlling the basic features of the ASIC including communications, configuration, and data collection.
+Data communication between ASICs is of primary consideration, since all recorded data must be transmitted between ASICs, through aggregators, and eventually to a storage disc.
 
 \begin{figure}[]
 \centering
@@ -66,7 +66,7 @@ Data communication between ASICs is of primary consideration, since all recorded
   The QpixRegFile contains configuration information, such as routing, ASIC location, and the timestamp counter.
   QPixRoute determines the controlling state machine that, based on register configurations, determines what packets are sent to which neighboring nodes.
   The Remote and Local FIFOs determine the packet memory of the ASIC. 
-  The QpixDeubeg layer connects internal signals (such as the local oscillator) to external pins for planned futures tests of the ASIC prototype.
+  The QpixDebug layer connects internal signals (such as the local oscillator) to external pins for planned futures tests of the ASIC prototype.
   }
 \label{fig:qpa_diagram}
 \end{figure}
@@ -102,31 +102,31 @@ Four connections of two pairs of differential connections require a total of 16 
 \label{fig:example_connections}
 \end{figure}
 
-The asynchronous communiction protocol used is called an "Endeavor" protocol, which was originally developed for the Asynchronous Multi-ASIC Communication version 2 (AMACv2) ASIC.
+The asynchronous communication protocol used is called an "Endeavor" protocol, which was originally developed for the Asynchronous Multi-ASIC Communication version 2 (AMACv2) ASIC.
 The endeavor protocol was specifically designed for high-speed asynchronous data communication between neighbor ASICs.
-An example of a transmission of data using this protocl is shown in Figure~\ref{fig:endeavor}.
+An example of a transmission of data using this protocol is shown in Figure~\ref{fig:endeavor}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/endeavor_protocol.jpg}
 \caption{Diagram of the endeavor transmission (Tx) protocol.
-The primary components of the endeavor protocol involve how long the transmittor (Tx) drives the signal high.
-The receiver (Rx) counts how long each signal is driven high, then based on the count it determines whether the transmittor intended to send a '1' or a '0' bit.
+The primary components of the endeavor protocol involve how long the transmitter (Tx) drives the signal high.
+The receiver (Rx) counts how long each signal is driven high, then based on the count it determines whether the transmitter intended to send a '1' or a '0' bit.
 The convention used in the prototype ASIC sends a '1' bit for twice the number of clock cycles it will send a '0' bit.
 After a bit is sent, there is a gap period where the Tx preps the Rx for another bit.
-The conclussion of the transmission occurs after 64 bits have been sent, where the Tx holds the signal low for longer the a normal gap word indicating the packet is complete.
+The conclusion of the transmission occurs after 64 bits have been sent, where the Tx holds the signal low for longer the a normal gap word indicating the packet is complete.
 }
 \label{fig:endeavor}
 \end{figure}
 
-Data are sent one bit at a time following the procedure showin Figure~\ref{fig:endeavor}. 
-The procedure follows that a Tx drives the transmission line high for a varaible time to send either a One ('1') or a Zero ('0') bit.
+Data are sent one bit at a time following the procedure shown in Figure~\ref{fig:endeavor}. 
+The procedure follows that a Tx drives the transmission line high for a variable time to send either a One ('1') or a Zero ('0') bit.
 After each bit is sent, the Tx drives the line low for a period known as the 'Gap'.
 A transaction is complete when 64 bits have been sent, and the Tx drives the line low for a longer period known as 'Finish'.
 The range of clocks for acceptable states are described in Table~\ref{tab:endeavor_parameters}.
 
 We refer to a completed transaction of data between neighbor ASICs as a "packet".
-For simplicity, each ASIC expects that every data transaction will send (and therefore receieve) exactly 64 bits.
+For simplicity, each ASIC expects that every data transaction will send (and therefore receive) exactly 64 bits.
 A packet is constructed where the first bits that are sent are the "lowest bits" of the packet.
 
 The ASIC reads the packet by first inspecting the "type" of the packet, which are controlled by "packet header".
@@ -147,13 +147,13 @@ The packet is handled based on the bits within the header of this packet.
 How the packet is handled is determined the by the packet header~\ref{bit_reservation}.
 
 If the packet originated from the aggregator node then this packet is treated as a broadcast.
-Broadcast commands record unique numbers associated with this request and are also sent to all connected neighbornoods except from the direction that the broadcast is received.
+Broadcast commands record unique numbers associated with this request and are also sent to all connected neighbors except from the direction that the broadcast is received.
 A unique broadcast number is used to avoid registering the same request.
 
 If the packet was not from an aggregator node then this packet is treated as "remote packet" from a neighbor node.
 All data transfers of any kind are treated so that all communication happens between individual nodes and an aggregator node.
 Therefore, any packet that originates on a node that isn't the aggregator node will be sent to the aggregator node.
-The direction of that this packet is sent is deteremined by the configuration register.
+The direction of that this packet is sent is determined by the configuration register.
 
 \begin{table}
 \begin{center}
@@ -254,7 +254,7 @@ The Table~\ref{table:node_registers} describes the implemented register addresse
  \hline
   0x05 & Position & 8 Bit selection of data to determine ASIC position within tile. \\
  \hline
-  0x06 & Disable & Four bit selection of which neighboard node inputs are ignored. \\
+  0x06 & Disable & Four bit selection of which neighbor node inputs are ignored. \\
  \hline
   0x07 & Local Disable & Single bit selection to stop collecting data when sending. \\
  \hline
@@ -331,7 +331,7 @@ The composition of the data word is shown in Table~\ref{tab:packet_register}.
  \hline
   40--55 & Pixel Mask & Pixels which were issuing a reset at this time. \\
  \hline
-  56--59 & Word Header & Header value, which is commond to all packets. \\
+  56--59 & Word Header & Header value, which is common to all packets. \\
  \hline
   60--63 & Reserved & Unused bits for all packets. \\
  \hline
@@ -349,7 +349,7 @@ This request may be considered either a ``hard'' or a ``soft'' interrogation com
 
 The difference between the two types of an interrogation command is whether or not the event end packet is created.
 In the case of a ``hard''--interrogation, the event end packet is always created, regardless of the local FIFO.
-A Hard Intterrogation happens if the first bit of the data written to the command register is high.
+A Hard Interrogation happens if the first bit of the data written to the command register is high.
 In the case of a ``soft''--interrogation, the event end packet is created only if the local FIFO is not empty.
 A soft interrogation happens if the second, and not the first, bit of the data written to the command register is high.
 
@@ -384,18 +384,18 @@ The Route FSM determines how and when packets are sent from the ASIC.
 
 \begin{itemize}
     \item Idle - Normal ASIC operation.
-    \item Transmit Local - Requires soft or Hard Inttegration from aggregator.
-    \item Transmit Finish - Requires Hard Inttegration or soft integration with available timestamp data.
+    \item Transmit Local - Requires soft or Hard Integration from aggregator.
+    \item Transmit Finish - Requires Hard Integration or soft integration with available timestamp data.
     \item Transmit Remote - Entered whenever packet received from neighbor that isn't a broadcast.
 \end{itemize}~\label{fsm_state_labels}
 
 One of the contributions of this work is to demonstrate how an ASIC that sends data only on the states described in Figure~\ref{fig:digital_fsm} can be used in a large scale LArTPC.
 The scale of a DUNE-FD LArTPC requires millions of pixels to run for nearly a decade and requires precision measurements.
 To meet these goals, the Q-Pix readout is designed to avoid all potential places of SPF.
-One, always unforseeable, place of failure is correct, but not intended behavior of an ASIC.
+One, always unforeseeable, place of failure is correct, but not intended behavior of an ASIC.
 To avoid this, we limit, as much as possible, the possible behaviors of the ASIC.
 
-In the next section we discuss the design challeges this ASIC must overcome.
+In the next section we discuss the design challenges this ASIC must overcome.
 
 \section{The Digital Back-end problem}~\label{sec:digital_problem}
 
@@ -449,7 +449,7 @@ Additional concerns of long data transactions include the use of more clock cycl
 However, these risks can be mitigated if transmission and data acquisition occur at different times.
 Our choice of the endeavor protocol is tested in Section~\ref{sec:qdb_prototype}.
 
-Although Endeavor is slower than a traditional Universal Asynchronous Receive Transmittor (UART) protocol, it is stable for approximately double the frequency range: $\approx$ 20\%.
+Although Endeavor is slower than a traditional Universal Asynchronous Receive Transmitter (UART) protocol, it is stable for approximately double the frequency range: $\approx$ 20\%.
 In Chapter~\ref{chap:sim} we show that the overall average packet transaction time is much less ($\sim 0.1\%$) of the wait time between interactions for neutrino events.
 
 \subsection{Buffer Depth Requirements}~\label{sec:buffer_requirements}
@@ -554,11 +554,11 @@ With this convention we obtain the general adjacency matrix with values defined 
   M_{ij} = T_{i\rightarrow j}(\delta_{i,j=i\pm 1} + \delta_{i,j=i\pm r})
 \end{equation}
 
-An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the kroniker-deltas factors.
+An adjacency list can similarly be constructed from Equation~\ref{eq:adjacency_comp} where the non-zero connections are given by the Kronecker deltas factors.
 
-The length between the nodes represets the time it takes for a packet to transact from one node to the next.
+The length between the nodes represents the time it takes for a packet to transact from one node to the next.
 This is determined by both the number of clocks to be sent in the communication protocol ($N_{bits}$) and the period of the transmitting and receiving oscillators, $T_{i}$ and $T_{j}$, respectively.
-Unlike the transmitter, the receiver only affects the transaction time with a single clock cycle, as the protocls we test here, (UART and Endeavor), each conclude a packet transaction when the receiver records the last bit transaction from the transmitter.
+Unlike the transmitter, the receiver only affects the transaction time with a single clock cycle, as the protocols we test here, (UART and Endeavor), each conclude a packet transaction when the receiver records the last bit transaction from the transmitter.
 
 The full length between two nodes, $i$ and $j$, connected by an edge is represented by:
 \begin{equation}~\label{eq:t_packet_full}
@@ -583,7 +583,7 @@ This is equivalent to setting their transaction lengths to zero: $T_{SPF} = 0$.
 We comment that although it is possible to construct tiles where more than one node connects to the aggregator, we observe that this configuration simply produces two (or more) effective tiles.
 These distinct tiles then are the data paths which are unique to each base-node.
 In this graphical representation a packet of data can follow one, and only one path from the origin node to the base-node unless there was duplication of packets.
-We emphatically avoid designs which might depend on data duplication for reduncancy; situations with multiple base nodes produce multiple unconnected graphs.
+We emphatically avoid designs which might depend on data duplication for redundancy; situations with multiple base nodes produce multiple unconnected graphs.
 
 \subsubsection{The SPF Cost}~\label{sec:spf_cost}
 
@@ -598,8 +598,8 @@ We can then calculate a mean cost SPF, $C_{SPF}$, :
 
 \subsubsection{Minimize Occupancy}~\label{sec:min_conn}
 
-One of the goals of a succesful digital design is to ensure lossless data transfer.
-One point of failure on the digital side is an overabudance of data arriving at a single layer within the tree.
+One of the goals of a successful digital design is to ensure lossless data transfer.
+One point of failure on the digital side is an overabundance of data arriving at a single layer within the tree.
 This data loss occurs when data are sent to a node faster than the data leaves the node, and persists for long enough such that the buffers of the node overflow.
 This creates a horrible loss of data which can't be recovered.
 
@@ -623,7 +623,7 @@ We inspect the SPF risk from this routing scheme with Equation~\ref{eq:cspf}, wh
 Equation~\ref{eq:cspf_snake} tells us that the SPF risk of this routing configuration converges to half as the size of the tile grows.
 Intuitively, this makes sense, since it is equally likely to select a node close to the base-node as it is far away, which implies that the sum should converge to half the tile size for large $N$.
 
-Although this routing scheme provides the most lax constraint on the requried buffers at each digital channel, it provides the longest average path between the base node.
+Although this routing scheme provides the most lax constraint on the required buffers at each digital channel, it provides the longest average path between the base node.
 The longer the transaction delay between the base-node and other nodes increases the reconstruction time uncertainty.
 Therefore, a natural alternative routing scheme is one that minimizes the communication scheme.
 
@@ -642,7 +642,7 @@ For any node along any column this is equivalent to the sum of the row and colum
 \end{figure}
 
 We can calculate $C_{SPF}$ for this routing configuration if we identify that there are a $C$ number of rows which sum from one to $R-1$.
-Likelise, the far-left column in Figure~\ref{fig:leftroute} shows that the number of rows, $R$, sum from one to $C$.
+Likewise, the far-left column in Figure~\ref{fig:leftroute} shows that the number of rows, $R$, sum from one to $C$.
 We can rewrite the sum over all nodes in Equation~\ref{eq:cspf} as:
 
 \begin{equation}~\label{eq:cspf_left_s}
@@ -660,7 +660,7 @@ Using this result we obtain $C_{SPF}$ by identifying $N = RC$:
 \end{equation}
 
 This result informs that relative cost of losing a node tends to zero as the size of the tile grows.
-Again, this result can be obtained intuitively, since as the number of columns (or rows) grow in size, the probability of a single failure occuring on the aggregator column is increasingly less likely.
+Again, this result can be obtained intuitively, since as the number of columns (or rows) grow in size, the probability of a single failure occurring on the aggregator column is increasingly less likely.
 
 \subsubsection{Broadcasts to avoid SPF}~\label{sec:broadcast}
 
@@ -674,8 +674,8 @@ To differentiate between broadcasts an identification number is also included in
 Then, any node when receives a broadcast packet will record the identification number of the most recent broadcast, and send this packet to its connected neighbors in the direction it did not receive the broadcast.
 The node uses the identification number to discard repeated broadcast packets.
 
-In the event that a particular node becomes inactive it will ``block'' data comming from the nodes along its path.
-In this case, there must be some sort of ``broadcast'' originating from the base-node that would allow information tranverse regardless of the effective routing path.
+In the event that a particular node becomes inactive it will ``block'' data coming from the nodes along its path.
+In this case, there must be some sort of ``broadcast'' originating from the base-node that would allow information transverse regardless of the effective routing path.
 
 %% colored matrix
 \def\r{\color{red}1}
@@ -697,7 +697,7 @@ In this case, there must be some sort of ``broadcast'' originating from the base
 \caption{Minimal Routing Path of a FCT.
 This routing path ensures that the number of input connections equal the number of output paths for the node.
 The matrix image highlights the appropriate indices which correspond to the 2$\times$3 subset of the tile (right).
-The matrix represets transactions that proceed towards (red) and away from (blue) the base node.
+The matrix represents transactions that proceed towards (red) and away from (blue) the base node.
 }
 \label{fig:FCT_colored}
 \end{figure}

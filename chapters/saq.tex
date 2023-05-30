@@ -13,7 +13,7 @@ Nevertheless, the lessons learned so far, particularly in calibration, are usefu
 The final results of SAQ are just beyond the scope of this work, but we provide SAQ's details here as a means of introducing the front-end of Q-Pix as well as highlighting my personal contributions to Q-Pix's overall development.
 
 The entire data acquisition (DAQ) chain used for both SAQ experimental setups are my sole independent work.
-My contributions include the the development and deployement firmware on the Zybo-Z7 FPGA, as well as the embedded software code on the integrated SoC processing system.
+My contributions include the the development and deployment firmware on the Zybo-Z7 FPGA, as well as the embedded software code on the integrated SoC processing system.
 I developed the the Python3 software which handles packet communication as well as the GUI for data collection.
 I also developed the data storage trees, which are the original containers for all data used in the analysis. 
 Additionally, I wrote analysis scripts used for the work done at the SAQ site at the University of Texas at Arlington.
@@ -26,7 +26,7 @@ In the simplest case, the diffusion of electrons within a TPC is described by:
 \begin{equation}~\label{eq:diffusion}
  \sigma^{2}_{T} = 2D_{trans}L
 \end{equation}
-Where L is the drift length of the electrons, $D_{trans}$ is the (field dependent) diffusion coeffecient, and $\sigma_{T}$ is the transverse diffusion standard deviation.
+Where L is the drift length of the electrons, $D_{trans}$ is the (field dependent) diffusion coefficient, and $\sigma_{T}$ is the transverse diffusion standard deviation.
 A Q-Pix readout could perform a measurement of $D_{trans}$ in Equation~\ref{eq:diffusion} by collecting charge at different radii from the center.
 
 Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500~\unit{\frac{V}{cm}} have been performed before~\citep{lar_diffusion_measurement_LI2016160}.
@@ -132,8 +132,8 @@ Each of the 16 channels are based on Figure~\ref{fig:saq_circuit_kicad}.
 
 A simplified diagram of how charge-integrate-reset behavior of SAQ is shown in Figure~\ref{fig:saq_reconstruction}.
 The voltage across the integrator increases are charge is accumulated.
-Once a specfiic charge ($Q_{o}$) as accumulated on the integrator, the comparator sends an output pulse that causes a reset and is recorded by digital back-end.
-The specfic value of charge per channel must be calibrated~(Section~\ref{sec:saq_calib}).
+Once a specific charge ($Q_{o}$) as accumulated on the integrator, the comparator sends an output pulse that causes a reset and is recorded by digital back-end.
+The specific value of charge per channel must be calibrated~(Section~\ref{sec:saq_calib}).
 Once the reset stops, charge accumulates until the next reset pulse.
 
 \begin{figure}[]
@@ -152,7 +152,7 @@ An example of resets produced from the integrator circuit is shown in Figure~\re
 Each reset corresponds to a charge accumulation of $\approx 10~\unit{pC}$.
 The time difference between each reset shown is equivalent to the amount current accumulated at the IVC~(Equation~\ref{eq:irecon}).
 The initial reset occurs $\approx 30~\unit{\mu s}$ after the flash lamp is triggered, which corresponds to the drift speed of electrons in gas, plus the flash lamp response measurement.
-The additional resets which occur much latter ($\simeq 100~\unit{\mu s}$) are from currently unknown sources, and are likely either disharges from the GEM or electronic cross-talk.
+The additional resets which occur much latter ($\simeq 100~\unit{\mu s}$) are from currently unknown sources, and are likely either discharges from the GEM or electronic cross-talk.
 
 \begin{figure}[]
 \centering
@@ -205,7 +205,7 @@ Reference 10~\unit{\mu s} pulses at varied frequencies (2-256~\unit{Hz}) are gen
 \centering
 \includegraphics[width=\textwidth]{images/saq_zybo_io_summary.png}
 \caption{An image of the data acquisition board from Digilent, Zybo Z7-20. 
-This board was chosen for its multiple configurable input chanels, as well as the Zynq-based archiecture of the onboard FPGA.
+This board was chosen for its multiple configurable input channels, as well as the Zynq-based architecture of the onboard FPGA.
 Additionally, the use of the ethernet provides $1~\unit{GB}$ transfer speeds, which is more than sufficient for the application.
 Packet data transfer rates have been verified with this readout at stable rates of 10~\unit{kHz}.
 This board is also used to control the Q-Pix Digital Boards (QDB), discussed in Chapter~\ref{chap:qdb}.
@@ -216,7 +216,7 @@ This board is also used to control the Q-Pix Digital Boards (QDB), discussed in 
 A division register is used to configure the relative count rate of the timestamp compared to the local oscillator on the Zybo ($\approx$~30~\unit{MHz}).
 The charge integration period for some channels, especially in tests without the GEM, can take several minutes to produce a single reset.
 Each timestamp a 32-bits value read from a register counter and wraps-around due to the 30~\unit{MHz} oscillator every $\simeq 143$ seconds.
-A division register is used to change the count frequncy to correspond to the number of clock cycles that cause the timestamp to increment by one; for example, a division of two will wrap-around every $\simeq 286$ seconds.
+A division register is used to change the count frequency to correspond to the number of clock cycles that cause the timestamp to increment by one; for example, a division of two will wrap-around every $\simeq 286$ seconds.
 The maximum division register is also a 32-bit number, and provides a maximum of a 64-bit timestamp, which has a wrap-around of $\simeq 20~10^3 ~\unit{years}$ at 30~\unit{MHz}.
 
 A summary of the firmware and embedded software is shown in Figure~\ref{fig:saq_firmware}.
@@ -260,7 +260,7 @@ The frequency calibration depends on the stability of the local oscillator and i
 A drifting local oscillator on the digital board, the Zybo for SAQ, will cause poor reconstructions of current.
 
 A clock calibration is performed by using a reference clock to provide input to the test clock.
-The test for the stability of the Zybo is performed with a fixed trigger (10~\unit{kHz}) into the zybo.
+The test for the stability of the Zybo is performed with a fixed trigger (10~\unit{kHz}) into the Zybo.
 The pulse frequency of 10~\unit{kHz} is chosen so that the pulse width is identical to that produced by the IVC chip~(Section~\ref{sec:saq_integrator}).
 The reconstructed timestamp difference gives the period of the input trigger.
 Figure~\ref{eq:frequency_reconstruction} shows the Zybo measurements in response to a 10~\unit{kHZ} function generator with 1~\unit{ppm}.
@@ -277,7 +277,7 @@ Figure~\ref{eq:frequency_reconstruction} shows the Zybo measurements in response
   \includegraphics[width=\textwidth]{images/zybo_10khz_timestamp_graph.png}
   \caption{}
 \end{subfigure}
-\caption{Image of caluclated RTDs (left) between successive triggers to the zybo and the running plot of the timestamp value measured (right).
+\caption{Image of calculated RTDs (left) between successive triggers to the Zybo and the running plot of the timestamp value measured (right).
 The clock period on the Zybo was reconstructed to within a single clock cycle, as shown on the left image.
 The period of a 10~\unit{kHz} signal is 100~\unit{\mu s} and does not result in an even distribution of clocks, which is why two peaks are shown.
 The expected RTD will come no faster than 90~\unit{Hz}, which is more than two orders of magnitude slower than tested here.
@@ -299,15 +299,15 @@ Equation~\ref{eq:saq_pixel_calib} is accurate in the limit that the time differe
 Charge is not accumulated for 10~\unit{\mu s} after every reset, so if the distance between resets during calibration is $\approx$ 1~\unit{s}, the amount of charge lost during the reset is $\frac{\delta Q_{o}}{Q_{o}} \simeq 10^{-5}$.
 
 The Leakage current is measured using a Keithley-6485~\citep{picoammeter-6485-datasheet} pico-ammeter and a nominal estimation of the leakage in the presence of only field and gas measured to be $\approx 0.9~\unit{pA}$ per channel.
-Leakage current arrises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
-The voltage difference causes a continual build-up (or removal of) electroncs from the capacitor in the integrating circuit.
+Leakage current arises due to non-idyllic behavior of the integrator operational amplifier, where the voltage across the two input terminals is nonzero.
+The voltage difference causes a continual build-up (or removal of) electronics from the capacitor in the integrating circuit.
 Since each reset requires $\approx 10~\unit{pC}$ of charge, the leakage removes roughly one reset from a pixel every 11 seconds.
 Therefore, any charge introduced by drift in the TPC to trigger a reset should deposit charge more quickly than 11 seconds to ensure minimal charge loss from leakage.
 
 
 \subsection{Current Results}
 
-Two different collection plane geoemtries are tested.
+Two different collection plane geometries are tested.
 The two different geometries change the amount of exposed copper and are shown in Figure~\ref{fig:trace_boards}.
 The "thin" trace (right image) board exposes 6~\unit{mm} wide copper rings around the center of the TPC
 The "thick" trace board inverts the silt-screen and exposed copper and instead separates the collection rings by 6~\unit{mm} wide silt-screen traces.
@@ -334,7 +334,7 @@ Because the traces are so small, vias are used to connect the thin collection ri
 
 Examples of data taken with the two collection boards at UTA are shown in Figure~\ref{fig:trace_boards_current_data}.
 These data represent multiple five minute charge collection runs using the thick and thin trace boards.
-One of the current uncertainities is the large difference for the outter channel.
+One of the current uncertainties is the large difference for the outer channel.
 
 \begin{figure}[]
 \centering
@@ -358,14 +358,14 @@ Because the traces are so small, vias are used to connect the thing collection r
 
 A plot of initial results from the WC group are shown in Figure~\ref{fig:saq_first_diffusion_measurement}.
 These data represent an averaged number of resets divided by the area of the ring on the collection board.
-These data indicate that center channels acquire more charge (produce more resets) than outter channels.
+These data indicate that center channels acquire more charge (produce more resets) than outer channels.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
-\caption{First diffusion measurement in P-10 gas performed at Wellesy University.
+\caption{First diffusion measurement in P-10 gas performed at Wellesley University.
 The "double peak" feature is thought to be due to an offer center electron source.
-Analysis is currently underway to characterize how charge collection would varry from an offset electron center.
+Analysis is currently underway to characterize how charge collection would vary from an offset electron center.
 }
 \label{fig:saq_first_diffusion_measurement}
 \end{figure}

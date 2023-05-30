@@ -184,14 +184,14 @@ The total decrease of the packet transaction time will likely have to be an orde
 The distribution of RTDs for the example scatter event clearly indicate that most of the resets come within 1~\unit{\mu s} of each other.
 Since the current packet transaction time is, on average $\approx 50~\unit{\mu s}$, for the push architecture to transfer packets more quickly than they arrive the packet transaction time would have to decrease by about a factor of 50.
 
-A combination of changes could make this possible: a faster local oscillator, a different communication protocol, and zero-suppresion on some packet data.
+A combination of changes could make this possible: a faster local oscillator, a different communication protocol, and zero-suppression on some packet data.
 Future designers will have to ask themselves if a redesign of the digital clock, the packet communication protocol, and/or the FSM of the digital ASIC is easier than increasing two FIFO depths.
 It is the humble opinion of the author of this work that it is not.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.7\textwidth]{images/example_rtd_scatter.pdf}
-\caption{A caluclation of all of the Reset Time Differences (RTDs) for the example scatter event shown in Figure~\ref{fig:compare_integral}.
+\caption{A calculation of all of the Reset Time Differences (RTDs) for the example scatter event shown in Figure~\ref{fig:compare_integral}.
 A packet transaction takes $\approx$ 50~\unit{\mu s} to occur.
 The distribution of RTDs for a scatter event indicate that most of the resets occur separated by less than 1~\unit{\mu s}.
 }
