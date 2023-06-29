@@ -217,12 +217,12 @@ However, the number of resets from the radiogenic events are much smaller (by ab
 
 The full readout of the tile occurs based on the number of packets times the average transaction length.
 $$
-T_{readout} \approx 50 \mu s \times N_{max packets}
+T_{\mathrm{readout}} \approx 50 \mu s \times N_{\mathrm{max}}
 $$
 
-If we set $T_{readout}$ to 1 second:
+If we set $T_{\mathrm{readout}}$ to 1 second:
 $$
-N_{max packets} \approx  20000
+N_{\mathrm{max}} \approx  20000
 $$
 
 Since the simulation is run six seconds longer than the origin time of the neutrino events all reset events are be accounted for if neutrino events cause less than $\approx 120000$ resets.
@@ -255,7 +255,7 @@ Therefore, an accurate measure of timing for each node is equivalent to ensuring
 Not shown are times when an ASIC receives or responds to a broadcast.
 Broadcast packets are uniquely handled by ASICs.
 An ASIC, instead of writing the request to the remote FIFO, immediately handles a broadcast by sending this packet to all neighbor ASICs, excluding the direction from which it received the broadcast.
-This means that an ASICs state does not change during a broadcast.
+This means that an ASIC's state does not change during a broadcast.
 This is handled by the simulation by tracking packet times on the ASIC connections.
 The broadcast packet is sent starting at the soonest available time on each connection.
 The full broadcast procedure is described in Section~\ref{sec:broadcast}.

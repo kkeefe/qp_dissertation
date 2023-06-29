@@ -4,7 +4,7 @@ We begin this chapter in Section~\ref{sec:qpix_circuit} by introducing a novel p
 Pixel-based readouts offer several advantages over the traditional wire readouts~\citep{lartpc_recon_problems_joshi_2015}.
 A key improvement offered by pixelization is true 3-D image reconstruction.
 This allows for sharper vertex reconstruction, which improves the overall resolution of a LArTPC and can reduce the time required for a NP measurement.
-Other benefits include a reduction in the amount of data storage required and easier data analysis.
+Other benefits include a reduction in data storage requirements and easier data analysis.
 
 Next, in Section~\ref{sec:qpix_apa} we discuss how this readout technology can be extended to a DUNE-FD 10 kT module.
 We compare the design specifications for the current wire-based readout of a DUNE-FD and discuss how the Q-Pix readout can meet similar design goals.
@@ -24,17 +24,17 @@ Finally, in Sections~\ref{sec:qpix_photonics} and~\ref{sec:qpix_supernova} we br
 
 The fundamental Q-Pix circuit~(\ref{fig:qpixCircuit}) was first introduced by Nygren and Mei~\citep{qpix:nygren:mei}.
 The principle of the front-end circuit operates on producing a signal output from Schmitt trigger connected to a charge sensitive amplifier (CSA) circuit.
-The input of the CSA is connected to the anode of a TPC, where drifted electron charge accumulates.
+The input of the CSA is connected to the anode of a TPC, where drifted ionization charge accumulates.
 Voltage is then built up across the capacitor from the accumulated charge according to the equation:
 
 \begin{equation}~\label{eq:capacitor}
 Q_{i} = C_{i}V_{i}
 \end{equation}
 
-After the capacitor voltage exceeds a set threshold ($V_{i}$) the schmitt trigger activates.
-The Schmitt trigger output is sent as a signal input to the digital logic to be recorded.
+When the capacitor voltage exceeds a set threshold ($V_{i}$), the Schmitt trigger is activated.
+The Schmitt trigger output is sent as a signal input to the digital logic and recorded.
 This signal is shown as the output in Figure~\ref{fig:qpixCircuit}.
-The Schmitt trigger input to the digital back-end is recorded against a free running local oscillator ($f_{o} = 30~\unit{MHz}$ ).
+The Schmitt trigger input to the digital back-end is recorded using a latch and a 32-bit counter incremented by a free running local oscillator ($f_{o} = 30~\unit{MHz}$).
 
 \begin{figure}[]
 \centering
@@ -51,12 +51,12 @@ Image is taken from~\citep{qpix:nygren:mei}.}
 
 The Q-Pix readout records 32-bit latch values as a response to the Schmitt trigger output; it does not measure voltage, charge, or time.
 We refer to this 32-bit measurement as a "timestamp".
-These timestamps are generated in response to the reset pulse sent from the Schmitt Trigger.
-Since these resets only occur in response to accumulated charge, the Q-Pix readout does not require an external trigger to acquire data.
+These timestamps are generated in response to the reset pulse sent from the Schmitt trigger.
+Since these resets occur only in response to accumulated charge, the Q-Pix readout does not require an external trigger to acquire data.
 
 There are two components of the Q-Pix readout: analog and digital.
-The analog portion of the readout begins with the CSA and ends at the Schmitt trigger output.
-The digital portion of the readout begins at the timestamp record.
+The analog portion of the readout includes the CSA and the Schmitt trigger.
+The digital portion of the readout is responsible for the timestamp record.
 These two parts are shown in Figure~\ref{fig:qpix_frontandbackend}.
 
 \begin{figure}[]
@@ -65,7 +65,7 @@ These two parts are shown in Figure~\ref{fig:qpix_frontandbackend}.
 \caption{A modified image from~\citep{qpix:nygren:mei} is shown.
 The blue box is the Q-Pix circuit~(Figure~\ref{fig:qpixCircuit}), which we refer to as the Q-Pix "analog front-end".
 The right side of the image, encompassed in orange box, we refer to as the "digital back-end".
-The back-end is responsible for providing the local oscillator as well as accurately recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
+The back-end is responsible for providing the local oscillator as well as recording a reference counter to correspond to the time when the Schmitt trigger signal is received.
 }
 \label{fig:qpix_frontandbackend}
 \end{figure}
@@ -74,7 +74,7 @@ The back-end is responsible for providing the local oscillator as well as accura
 
 Here we describe the basic principle of reconstructing the input current from a collection of timestamp measurements.
 
-A timestamp measurement indicates that a certain amount of charge was accumulated at the CSA.
+A timestamp measurement indicates that a certain amount of charge has accumulated on the CSA.
 Since total charge is conserved we can say that the total accumulated charge ($Q_{in}(t)$) is equal total amount of charge discharged from each reset ($Q_{out}(t)$) plus any residual charge still on the pixel ($Q_{c}(t)$).
 Therefore, we can relate the total accumulated charge to the total charge discharged with the following equation:
 
@@ -82,9 +82,9 @@ Therefore, we can relate the total accumulated charge to the total charge discha
 Q_{in}(t) = Q_{out}(t) + Q_{c}(t)
 \end{equation}
 
-One of the features of the analog front-end ASIC is a replenishment circuit.
-This circuit is a constant current source which removes a constant number of electrons from the CSA.
-This provides a major simplification to the current reconstruction.
+One important feature of the analog front-end is a replenishment circuit.
+This circuit provides a constant current source which is used to remove a constant charge from the capacitor.
+This constant charge removal greatly simplifies current reconstruction.
 Assuming that each reset removes the same amount of charge ($Q_{o}$), we can rewrite the total charge out ($Q_{out}$) in terms of the integer number of resets at time t, ($N(t)$):
 \begin{equation}~\label{eq:qout}
 Q_{out}(t) = Q_{o} N(t)
@@ -95,9 +95,9 @@ Equation~\ref{eq:qout} then gives us the measured current by definition ($I_{out
 I_{out} = \frac{d}{dt}(Q_{o}N(t)) = Q_{o}\frac{dN}{dt}
 \end{equation}
 
-We identify $\frac{dN}{dt}$ at the number of resets per unit time.
+We identify $\frac{dN}{dt}$ as the number of resets per unit time.
 We can calculate the average current between two resets, or $\frac{dN}{dt} = \frac{1}{dT}$.
-Then, $dT$ is the time difference between two resets and is measured at the local oscillator: $dT = \frac{f_{o}}{N_{rtd}}$, where $N_{rtd}$ is the difference between the two timestamps.
+Then, $dT$ is the time difference between two resets and is measured by the local oscillator: $dT = \frac{N_{rtd}}{f_{o}}$, where $N_{rtd}$ is the difference between the two timestamps.
 Equation~\ref{eq:irecon} becomes:
 
 \begin{equation}~\label{eq:irecon_freq}
@@ -105,8 +105,8 @@ Equation~\ref{eq:irecon} becomes:
 \end{equation}
 
 Equation~\ref{eq:irecon_freq} shows the fundamental equation for the Q-Pix readout reconstruction.
-There are three important parameters: the charge per reset ($Q_{o}$), the frequency of each local oscillator ($f_{o}$), and $N_{rtd}$ which is the difference between two timestamp measurements.
-Figures which demonstrate the transistor level effects of this reconstruction are shown in Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2}.
+There are three important parameters: the charge per reset, $Q_{o}$, the frequency of each local oscillator, $f_{o}$, and $N_{rtd}$ which is the difference between two timestamp measurements.
+Examples of the transistor level simulations which use this current reconstruction are shown in Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2}.
 Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2} show the charge reconstructions with a $Q_{o}$ value of 1~\unit{fC} and 0.3~\unit{fC}, respectively.
 
 \begin{figure}[]
@@ -133,61 +133,53 @@ Image is taken from~\citep{qpix:nygren:mei}.}
 \label{fig:qpixRecon2}
 \end{figure}
 
-Of the three parameters in Equation~\ref{eq:irecon_freq}, two of them need to be calibrated.
+Of the three parameters in Equation~\ref{eq:irecon_freq}, two of them need to be calibrated ($Q_{o}, f_{o}$).
 Validation of the charge calibration is beyond the scope of this work, but is briefly described in Chapter~\ref{chap:sim} Section~\ref{sec:radiogenic_calib}.
 The local oscillator frequency is a digital ASIC level calibration and its results are a product of this thesis.
 It's procedure and first results are described in Chapter~\ref{chap:qdb}.
-The remaining reconstruction parameter is the timestamp, which is recorded by the digital back-end.
+The remaining current reconstruction parameter is the timestamp, which is recorded by the digital back-end.
 
 \subsection{Track Reconstruction}
 
-One of the important features of a TPC is the ability to precisely reconstruct full tracks of ionizing particles.
-An intended benefit of a pixelated readout on any TPC is to show that there are improvements to reconstruction of these 3-D images.
-Event reconstruction requires 3-spatial coordinates (x,y,z) of a track's charge as well as time, t. 
-The Q-Pix readout gives two (x,y) coordinates for "free".
-Time is intrinsic to the Q-Pix datum, and may also be provided by an external photonics system (see Section~\ref{sec:qpix_photonics}).
-The first measured timestamp could also be used as The starting time of any reconstructed track.
+One of the most important features of a TPC is the ability to accurately reconstruct the tracks of ionizing particles.
+An intended use of a pixelated readout on any TPC is to show that there are improvements in the reconstruction of these 3-D track images.
+Event reconstruction requires the three spatial coordinates (x,y,z) of the charge of a track as well as the time, t. 
 
-The final coordinate, z, is obtained with the LAr drift velocity (Table~\ref{tab:lar_prop}) and the drift time ($t_{drift}$) by the equation:
+The Q-Pix readout provides two (x and y) coordinates for "free".
+Time is intrinsic to the Q-Pix datum and can also be provided by an external photonics system (see Section~\ref{sec:qpix_photonics}).
+The first timestamp could also be used as the start time of any reconstructed track.
+The final coordinate, z, is obtained with the LAr drift velocity (Table~\ref{tab:lar_prop}) and the drift time ($t_{\mathrm{drift}}$) by the equation:
 \begin{equation}~\label{eq:driftDistance}
-  z_{drift} = v_{e} * t_{drift}
+  z_{\mathrm{drift}} = v_{e}t_{\mathrm{drift}}
 \end{equation}
-
-The current input onto a pixel calculated from Equation~\ref{eq:irecon_freq}.
-If a pixel requires a calibrated $Q_{o}$ to perform a reset, we can relate the charge and current with:
-\begin{equation}~\label{eq:piece_wise}
-  Q_{i,drift}(t) = \frac{Q_{o}f_{o}}{N_{i,rtd}}t
-\end{equation}
-
-The reconstructed charge as a function of time is a piece-wise function of time based on the difference between successive $N_{rtd}(i)$
-The slopes of the i-th interval the are given by $\frac{Q_{o}f_{o}}N_{i,rtd}$ Equation~\ref{eq:piece_wise}.
-Finally, the charge as a function of position (z position of the charge), is calculated by identifying $t = t_{drift}$ between Equations~\ref{eq:driftDistance} and~\ref{eq:piece_wise}.
+The drift speed ($v_{e}$) is approximately constant whose value depends operating conditions of the TPC.
+Equations~\ref{eq:irecon_freq} and~\ref{eq:driftDistance} together give the reconstructed average current and z-position values of the accumulated ionization charge on the pixel.
 
 \subsection{Comments on Uncertainties}
 
-The verification of the Q-Pix readout, in part, relies on tests to show that these timestamp data can be safely recorded and sent without loss to disc.
+Verification of the Q-Pix readout relies in part on tests to show that this timestamp data can be safely recorded and sent to disk without loss.
 Here we briefly discuss potential uncertainties within the Q-Pix readout.
 
 \subsubsection{Near Maximum Reset Rate}
 
 Equation~\ref{eq:irecon_freq} relates the maximum current ($I_{max}$) in a Q-Pix readout at the limiting case of $N_{rtd} = 1$.
-For $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$, $I_{max} = 30~\unit{nA}$.
+For $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$, $I_{\mathrm{max}} = 30~\unit{nA}$.
 However, since $N_{rtd}$ is a difference between two 32-bit timestamps, it can only take positive integer values.
 This means that each current measurement can only take the form, for N integer: 
-$$
-I_{max} \sim \frac{30~\unit{nA}}{N}
-$$
+\begin{equation}~\label{eq:i_max}
+I_{o} = \frac{I_{\mathrm{max}}}{N} \sim \frac{30~\unit{nA}}{N}
+\end{equation}
 
-Therefore, there can be large uncertainty in the measured currents for RTDs near the frequency of the oscillator.
-However, if there is sufficient total charge these discrete uncertainties can be accounted for after digital processing.
-An example of a periodic artificial input current of with $I \approx I_{max}/10$ is shown below in Figure~\ref{fig:savgol}.
+Therefore, there can be large uncertainties in the measured currents with RTDs calculated with timestamps at frequencies near the frequency of the oscillator.
+However, if there is sufficient total charge, these discrete uncertainties can be accounted for after digital processing.
+An example of a periodic artificial input current of $I \approx I_{\mathrm{max}}/10$ is shown in Figure~\ref{fig:savgol} below.
 The reconstructed charge over time is shown in Figure~\ref{fig:reconQ}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/savgol.pdf}
 \caption{Arbitrary sine wave based current input.
-The maximum amplitude is chosen to be close to $I_{max}$.
+The maximum amplitude is chosen to be close to $I_{\mathrm{max}}$.
 Reset Charge is chosen to be 1 $\unit{fC}$ and digital clock frequency of 30 $\unit{MHz}$.
 The input current amplitude is close to the maximum, so that the reconstructed current can is far from the actual.
 This occurs since $N_{rtd}$ can only take integer values, the reconstructed current can only take values of $\frac{30}{N}$.
@@ -220,9 +212,9 @@ The right plot indicates the difference between the true and reconstructed charg
 
 \subsubsection{Comments on Reconstruction Requirements}~\label{sec:recon_uncert}
 
-The uncertainty for the two transverse coordinates ($\hat{x}$ and $\hat{y}$) comes from the pixel size.
-If we assume that the electric field is uniform, on average, over all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel size.
-Then, the pixel size determines the resolution: $\frac{3 mm}{\sqrt{12}} \approx 0.87 mm$.
+The uncertainties for the two transverse coordinates ($\hat{x}$ and $\hat{y}$) are related to the pixel's area.
+If we assume that the electric field is uniform on average over all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel size.
+The pixel size then determines the resolution: $\frac{4 mm}{\sqrt{12}} \approx 1.15 mm$.
 
 To achieve the required uncertainty for the z-position measurement ($\sigma_{z} \simeq 1~\unit{mm}$), the uncertainty from $f_{o}$ must be small ($\sim$ 1~\unit{ppm}).
 Other measurement uncertainties come from the Equation~\ref{eq:irecon_freq}.
@@ -239,11 +231,11 @@ The simulation results presented in Chapter~\ref{chap:sim} are based on the dete
 
 %% section 1.8 of TDR
 The DUNE-FD is a modular assembly of Anode Plane Assemblies (APA) as shown in Figure~\ref{fig:dune_apa_tdr}.
-Each Single-Phase (SP) 10 kT module will consist of 100-200 APAs (depending on the drift distance).
+Each Single-Phase (SP) 10 kT module will consist of 100-200 APAs (depending on the allowable drift distance).
 The APA's full description can be found at~\citep{DUNE-FD_TDRv4:Abi_2020}.
-Each APA stores its own the front-end electronics which are in the LAr and are shown in Figure~\ref{fig:dune_tpc_electronics}.
+Each APA stores its own the front-end electronics which are placed within the LAr and are shown in Figure~\ref{fig:dune_tpc_electronics}.
 
-Figure~\ref{fig:dune_tpc_electronics} shows that each APA uses 20 FEMBs to digitize 128 of the 2560 channels.
+Figure~\ref{fig:dune_tpc_electronics} shows that each APA uses 20 FEMBs, each of which digitizes 128 of the total 2560 channels.
 Of the 128 channels 40 are each taken from the U and V (induction) layers, and 48 wires are taken from the X (conduction) layer.
 Each FEMB also houses a total of 18 ASICs which smooth, digitize, and aggregate data before being sent to the Warm Interface CRATE (WIC).
 The total number of ASICs per APA is $18\times 20 = 360$.
@@ -265,7 +257,7 @@ Image shows an overlay the the relevant charge collection wires within a DUNE-FD
 \label{fig:dune_apa_tdr}
 \end{figure}
 
-On each FEMB are three ASICs are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
+Each FEMB contains three different ASICs which are responsible for collecting the charge as it passes between the wires and sending it out of the cryostat.
 The first ASIC is a waveform-shaping and amplification ASIC.
 The second ASIC is the ADC ASIC and is responsible for the converting the analog signal to digital.
 The final ASIC, called the COLDATA ASIC, merges the data streams from the previous ASICs and is responsible for communication between the motherboard and the outside world.
@@ -307,7 +299,7 @@ Due to the different charge sensitive geometries between a wire and pixel-based 
 \subsection{Q-Pix Comparison to DUNE-FD Electronics}
 
 Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
-From these dimensions the expected channel count of the QPix readout on the DUNE-FD APA is
+From these dimensions the expected channel count of the Q-Pix readout on the DUNE-FD APA is
 \begin{equation}
   N_{pix} = 14.646 m^{2} * \frac{1 pixel}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
 \end{equation}
@@ -334,9 +326,6 @@ To connect the entire APA the Q-Pix readout will design modular tiles which will
 Each tile will interface with a single FPGA (or other ASIC) chip which would concentrate the digital data for each tile; we refer to this FPGA as the DAQ-Node (DN).
 Then, each DN can interface could optionally connect a single concentrator FPGA for the entire APA.
 This final concentrator would send the data to the Warm-Interface-Cards (WIC) out of the cold electronics (CE).
-The final concentrator FPGA we refer to as the Super-DAQ-node (SDN).
-
-The exact description and characterization of the WIC for a Q-Pix depends on the final implementation of the SDN.
 
 \begin{table}
 \begin{center}
