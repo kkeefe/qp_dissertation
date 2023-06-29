@@ -135,14 +135,14 @@ For this simple calculation, we simply take the total number of pixels (4096) an
 
 A very rough expectation of background current is $I_o \approx$ 100~\unit{aA}.
 We can then use the following equation to calculate:
-$$
+\begin{equation}
 I_{o} = \frac{Q_{o}}{\tau_{rtd}}
-$$
+\end{equation}
 
 solving for $Q_{o}$ with $\tau_{rtd} = 9.96$ and $I_{o} \approx 100$~\unit{aA}, we obtain:
-$$
+\begin{equation}
 Q_{o} \approx 100*10^{-18} * 9.96 / 1.6*10^{-19} \approx 6225
-$$
+\end{equation}
 
 Calibration results from the first analog prototype and a more sophisticated analysis will be needed for pixel level charge calibration.
 The contrived derivation above assumes equal capacitance and charge replenishment on all pixels, which in practice is not necessarily true.
@@ -173,7 +173,7 @@ What may prove difficult in the auto-calibration procedure of the Q-Pix readout 
   \caption{Contribution of electrons by percentage.}
 \end{subfigure}
 \caption{Both figures indicate a comparison of the amount of electrons deposited on all pixels in the tile shown in Figure~\ref{fig:reference_input_noise}.
-Plot (A) represents the total number of electrons on a log scale.
+Plot (a) represents the total number of electrons on a log scale.
 As expected, $^{39}$Ar contributes the majority of background charge.
 The leakage current used is 10~\unit{aA}, and represents about 10\% of the total contribution of electrons.
 This implies that leakage currents from the front circuit which are $\approx 100$~\unit{aA} will contribute nearly as much electrons to the steady-state RTDs as the radiogenic backgrounds.
@@ -280,8 +280,8 @@ These two momentum directions, though nonphysical for beam interactions, still p
   \caption{$\theta_{z} = 0$\unit{\degree}}
 \end{subfigure}
 \caption{Same $\nu_{e}$ interaction at Z-position $= 180 cm$, which is in the middle of the drift length of the APA.
-Image (A) has the incident $\nu_{e}$ momentum rotated upwards ($\theta_{z} = +90$\unit{\degree}).
-Image (B) has the incident $\nu_{e}$ had momentum along the beam direction ($\theta_{z} = 0$\unit{\degree})y.
+Image (a) has the incident $\nu_{e}$ momentum rotated upwards ($\theta_{z} = +90$\unit{\degree}).
+Image (b) has the incident $\nu_{e}$ had momentum along the beam direction ($\theta_{z} = 0$\unit{\degree})y.
 Since there are five different z-positions, and five different $\theta_{z}$ values, each of the 3900 $\nu_{l}$ interactions are repeated 25 times.
 These two plots show two of those 25 examples.
 }
@@ -291,7 +291,7 @@ These two plots show two of those 25 examples.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/electron_fhc_23708_event.pdf}
-\caption{The same $\nu_{e}$ event as the one shown in Figure~\ref{fig:compare_integral}-(A).
+\caption{The same $\nu_{e}$ event as the one shown in Figure~\ref{fig:compare_integral}-(a).
 The plot is zoomed into to the region of interest where the bin widths represent the pixels dimensions in the collection plane.
 The energy of this $\nu_{e}$ was 546.1~\unit{MeV}, and considering that each reset requires 0.1475~\unit{MeV}, the maximum number of resets this event could produce is $\approx 4368$.
 The histogram records 3733 total resets.
@@ -306,9 +306,9 @@ Every simulated neutrino interaction generates some number of resets which are c
 The purpose of the study explored by the parameters described in Table~\ref{table:neutrino_params} is to investigate the charge resets these interactions produce; we pay particularly close attention to ASICs where the number of resets (energy deposited) is the largest in a given event.
 
 We bin the maximum number of resets in a 4$\times$4 pixel array, or ASIC, for every neutrino event.
-The plot Figure~\ref{fig:example_asic_integral_value_constTheta}-(A) shows a $\nu_{e}$ event and Figure~\ref{fig:asic_th2i_electron_fhc_event} shows these resets binned into pixels.
+The plot Figure~\ref{fig:example_asic_integral_value_constTheta}-(a) shows a $\nu_{e}$ event and Figure~\ref{fig:asic_th2i_electron_fhc_event} shows these resets binned into pixels.
 For every event we take the maximum ASIC value and use that as an entry into a histogram.
-Next, we take the integral of each histogram as shown in (B) of Figure~\ref{fig:example_asic_integral_value_constTheta} and (B) of Figure~\ref{fig:example_asic_integral_value_constZpos}.
+Next, we take the integral of each histogram as shown in (b) of Figure~\ref{fig:example_asic_integral_value_constTheta} and (b) of Figure~\ref{fig:example_asic_integral_value_constZpos}.
 The value of this integral gives the percentage of fully events a function of local FIFO depth.
 
 %% example integral of ASIC buffer depths with constant theta
@@ -325,8 +325,8 @@ The value of this integral gives the percentage of fully events a function of lo
   \caption{Integral of FIFO depths}
 \end{subfigure}
 \caption{Example $\nu_{e}$ events for different z-position of the vertex with $\theta_{z} = 0$ held constant.
-Plot (A) bins the maximum value of local FIFO depth for all 3900 events ($\nu_{l}$ energies between 250~\unit{MeV} - 10~\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
-Plot (B) shows the running integral for each histogram shown in plot (A).
+Plot (a) bins the maximum value of local FIFO depth for all 3900 events ($\nu_{l}$ energies between 250~\unit{MeV} - 10~\unit{GeV}) for variable z-position and $\theta_{z} = 0$.
+Plot (b) shows the running integral for each histogram shown in plot (a).
 The integral continues until 99\% of all events are counted.
 This process is repeated for all 200 possible parameter choices as discussed in Table~\ref{table:neutrino_params}.
 }
@@ -380,8 +380,8 @@ Figure~\ref{fig:compare_energy_deposit} shows the same relationships instead as 
 \caption{Comparison of buffer depths as a function of energy for different parameters of $\theta_{z}$ and z-position.
 There is a large variance between the true $\nu_{l}$ incident energy and the actual energy deposited in the LAr.
 This is the reason why only the means are plotted for each energy bin.
-Plot-(A) shows that the average z-position has a minor affect on the overall local FIFO depth, where the furthest position has the lowest average reset count.
-Plot-(B) shows average FIFO depth for varied $\theta_{z}$.
+Plot-(a) shows that the average z-position has a minor affect on the overall local FIFO depth, where the furthest position has the lowest average reset count.
+Plot-(b) shows average FIFO depth for varied $\theta_{z}$.
 The two curves represented by $\theta_{z} = \pm 90\unit{\degree}$ are similar because they use the same seeded events only pointed up or down, and should have the symmetrical effect since vertex is located in the center of the APA.
 }
 \label{fig:example_asic_energy_comparison}
@@ -401,7 +401,7 @@ The two curves represented by $\theta_{z} = \pm 90\unit{\degree}$ are similar be
   \caption{}
 \end{subfigure}
 \caption{A comparison of ASIC resets vs the energy deposited into the LAr.
-Plot-(B) shows for Z-position=10~\unit{cm} ends at $\approx$ 2~\unit{GeV} since no $\nu_{e}$ events deposit this much energy into the LAr.
+Plot-(b) shows for Z-position=10~\unit{cm} ends at $\approx$ 2~\unit{GeV} since no $\nu_{e}$ events deposit this much energy into the LAr.
 Both plots indicate that the 
 }
 \label{fig:compare_energy_deposit}
@@ -424,12 +424,12 @@ Therefore, one limit on its bandwidth is the total amount of resets it can measu
   \includegraphics[width=\textwidth]{images/electron_nu_energy_deposit_slice.pdf}
   \caption{Constant Z-position = 180~\unit{cm}}
 \end{subfigure}
-\caption{Plot-(A) shows a comparison of the energy deposited into the LAr as a function of the input neutrino ($\nu_{e}$).
-Plot-(B) shows a projection against the y-axis for a single bin.
+\caption{Plot-(a) shows a comparison of the energy deposited into the LAr as a function of the input neutrino ($\nu_{e}$).
+Plot-(b) shows a projection against the y-axis for a single bin.
 The maximum allowed total energy deposited is limited to the total energy of the input neutrino.
 However, the lower bound for all energies is still, obviously, zero.
 Therefore, as the input neutrino energy increases the upper bound also increases.
-The mean value of Plot-(B) indicates that even for a maximum allowed total energy of 5~\unit{GeV} the mean (average) energy deposited per event is 1479~\unit{MeV}.
+The mean value of Plot-(b) indicates that even for a maximum allowed total energy of 5~\unit{GeV} the mean (average) energy deposited per event is 1479~\unit{MeV}.
 Most interactions deposit less than 2~\unit{GeV} into the LAr, as shown in Figure~\ref{fig:example_energy_deposit}.
 Some pileup events are removed, see Figure~\ref{fig:energy_deposit_vs_resets}.
 }
@@ -486,10 +486,10 @@ Should the pixel's capacitance or voltage change, the x-axis of this plot would 
   \caption{Colored by Z-position}
 \end{subfigure}
 \caption{Comparison of buffer depths integrated over energy colored by different parameters of $\theta_{z}$ and z-position.
-The most important result is shown in Plot-(A), which clearly indicates that only two different parameters account for the distribution of larger local FIFO depths.
+The most important result is shown in Plot-(a), which clearly indicates that only two different parameters account for the distribution of larger local FIFO depths.
 As expected, $\theta_{z}$ affects the localization of charge over individual ASICs which affect the local FIFO depth.
-Plot-(B) shows the distribution of resets indicated by different z-positions.
-Plot-(B) differs in that the second distribution of resets contains elements from each of the different z-positions.
+Plot-(b) shows the distribution of resets indicated by different z-positions.
+Plot-(b) differs in that the second distribution of resets contains elements from each of the different z-positions.
 }
 \label{fig:compare_integral_zpos_theta}
 \end{figure}
@@ -507,9 +507,9 @@ Plot-(B) differs in that the second distribution of resets contains elements fro
   \caption{Colored by Z-position}
 \end{subfigure}
 \caption{Comparison of buffer depths as in incoming prototype and horn current direction from neutrino beam.
-Plot-(A) indicates that there is not a large average difference between the different neutrino flavors and local FIFO depth.
-Plot-(B) indicates that the different flux from the two horn currents also do not measurably affect the two different distributions.
-Plot-(A) however does show a slight difference between $\nu_{e}$ and $\bar{\nu_{\mu}}$.
+Plot-(a) indicates that there is not a large average difference between the different neutrino flavors and local FIFO depth.
+Plot-(b) indicates that the different flux from the two horn currents also do not measurably affect the two different distributions.
+Plot-(a) however does show a slight difference between $\nu_{e}$ and $\bar{\nu_{\mu}}$.
 $\nu_{e}$ has an average local FIFO depth of 394 in the small distribution, where $\bar{\nu_{\mu}}$ has an average of 313.
 Most ($\geq $ 65\%) of this difference is accounted for the fact that the selected $\nu_{e}$ near-beam ($\theta_{z} = \pm 2\unit{\degree}, 0\unit{\degree}$) events deposited more energy, 1894~\unit{MeV} than the $\bar{\nu_{\mu}}$ events 1219~\unit{MeV}, causing more resets.
 After the energy correction the mean FIFO depths differ by less than one standard deviation.

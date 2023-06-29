@@ -24,12 +24,12 @@ The Simplified Analog Q-Pix (SAQ) experiment aims to demonstrate the first physi
 The desired measurement is the transverse diffusion of electron in Argon gas~(Equation~\ref{eq:diffusion}).
 In the simplest case, the diffusion of electrons within a TPC is described by:
 \begin{equation}~\label{eq:diffusion}
- \sigma^{2}_{T} = 2D_{trans}L
+ \sigma^{2}_{T} = 2D_{\mathrm{trans}}L
 \end{equation}
-Where L is the drift length of the electrons, $D_{trans}$ is the (field dependent) diffusion coefficient, and $\sigma_{T}$ is the transverse diffusion standard deviation.
-A Q-Pix readout could perform a measurement of $D_{trans}$ in Equation~\ref{eq:diffusion} by collecting charge at different radii from the center.
+Where L is the drift length of the electrons, $D_{\mathrm{trans}}$ is the (field dependent) diffusion coefficient, and $\sigma_{T}$ is the transverse diffusion standard deviation.
+A Q-Pix readout could perform a measurement of $D_{\mathrm{trans}}$ in Equation~\ref{eq:diffusion} by collecting charge at different radii from the center.
 
-Measurements of Transverse and Longitudinal diffusion of electrons within electric fields of strength 500~\unit{\frac{V}{cm}} have been performed before~\citep{lar_diffusion_measurement_LI2016160}.
+Measurements of transverse and longitudinal diffusion of electrons within electric fields of strength 50~\unit{\frac{V}{cm}} have been performed before~\citep{lar_diffusion_measurement_LI2016160}.
 A diffusion measurement is a natural starting point to verify a charge accumulation readout such as Q-Pix.
 One difference between SAQ and a "normal" Q-Pix readout is that instead of an array of pixels, SAQ uses a series of 16 concentric rings to collect charge.
 Although a 2-D array of pixels may be used, since transverse diffusion is radially symmetric about the collection plane rings of different radii will collect different amounts of charge according to Equation~\ref{eq:diffusion}
@@ -76,7 +76,7 @@ Electrons are produced in the TPC from gold foil and a Hamamatsu L13651~\citep{h
 As the electrons are removed from the gold, they enter the electric field and are drifted down to a collection plane.
 A simplified image of the working TPC, rings, and GEM placement are shown in Figure~\ref{fig:saq_physical_setup_flatten}.
 The design of the GEM PCB as well as its operating voltages is based on work presented in~\citep{THORPE2023167438}.
-The GEM is used to provide a necessary charge amplification ($\gg 10^{3}$) per channel to induce resets in rings far from the center.
+The GEM is used to provide a necessary charge amplification ($\sim 10^{3}$) per channel to induce resets in rings far from the center.
 
 \begin{figure}[]
 \centering
@@ -98,11 +98,10 @@ The rings are separated by $\approx 0.84~\unit{cm}$, where they encounter an ave
 \label{fig:saq_physical_setup_flatten}
 \end{figure}
 
-
 \subsection{The Integrator Circuit}~\label{sec:saq_integrator}
 
 A schematic of the integrator circuit used in the SAQ experiment is shown in Figure~\ref{fig:saq_circuit_kicad}.
-The Integrated Circuit (IC) used is the IVC-102~\citep{ivc_datasheet}, where the selected capacitor is 10~\unit{pF}.
+The Integrated Circuit (IC) used is the IVC-102~\citep{ivc_datasheet}, where the selected capacitance is 10~\unit{pF}.
 We selected the lowest available capacitance of the IVC chip in order to ensure that resets are produced with the lowest amount of possible charge~(Equation~\ref{eq:capacitor}).
 Further configuration of the charge required per reset uses a configurable voltage (VDD in Figure~\ref{fig:saq_circuit_kicad}) with a variable resistor.
 Charge is accumulated from the TPC as an input into the IVC chip.
@@ -139,16 +138,16 @@ Once the reset stops, charge accumulates until the next reset pulse.
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/saq_example_reconstruction.png}
-\caption{Sample voltage waveforms of the integrator (top) and output (trigger) are shown.
-Charge accumulates on the integrator until a value, $Q_o{o}$, is reached causing a reset and output pulse sent from the comparator.
+\caption{Sample voltage waveforms of the integrator (top, yellow) and output (bottom, blue) are shown.
+Charge accumulates on the integrator until a value, $Q_{o}$, is reached which causes an output pulse to be sent by the comparator.
 During the reset, no charge is accumulated on the integrator so the voltage does not change.
-After the reset completes, charge builds back up on the integrator until another reset.
-A Reset-Time-Difference (RTD) is the difference between two timestamp measurements, and includes the time of the pulse-width as well as the true integration time.
+After the reset completes, charge can build back up on the integrator until another reset.
+A Reset-Time-Difference (RTD) is the calculated time difference between two timestamp measurements, and includes the time of the pulse-width as well as the true integration time.
 }
 \label{fig:saq_reconstruction}
 \end{figure}
 
-An example of resets produced from the integrator circuit is shown in Figure~\ref{fig:saq_resets}.
+An example of the charge-integrate-reset procedure of the integrator circuit is shown in Figure~\ref{fig:saq_resets}.
 Each reset corresponds to a charge accumulation of $\approx 10~\unit{pC}$.
 The time difference between each reset shown is equivalent to the amount current accumulated at the IVC~(Equation~\ref{eq:irecon}).
 The initial reset occurs $\approx 30~\unit{\mu s}$ after the flash lamp is triggered, which corresponds to the drift speed of electrons in gas, plus the flash lamp response measurement.
@@ -168,13 +167,13 @@ Seen in the waveform is a decaying amount of charge buildup on the capacitor, wh
 
 All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Zynq-7000 System on Chip (SoC).
 The clock (30.3~\unit{MHz}) is provided by the Processing System (PS), a ARM Cortex-A9, to the Programmable Logic (PL) in the FPGA.
-The PL records a 32-bit counter (the timestamp) on the next clock cycle after the reset, connected as a latch to a single pin iput, is driven high.
+The PL records a 32-bit counter (the timestamp) on the next clock cycle after the reset, connected as a latch to a single pin input, is driven high.
 The reference manual for the Zybo Z7 board used in SAQ can be found at~\citep{zybo_zy_reference}.
 
 The timestamp data and the channel mask are accumulated in a First-In-First-Out (FIFO) buffer.
 If any one (or more) of the 16 input channels transitions from low to high and the FIFO register is enabled, data are written to the FIFO.
 The input from all 16 channels are recorded at the time of the trigger, regardless of which channel caused the trigger.
-Multiple triggers from the same reset pulse are prevented by detecting the edge of the reset pulse.
+Multiple triggers from the same reset pulse are prevented by detecting the rising edge of the reset pulse.
 Therefore, in order for a new reset to be recorded on the same channel the reset pulse must first be driven low for at least one clock cycle (> $\approx$ 33~\unit{ns}) to reset the latch at the input channel.
 This timestamp trigger procedure is identical to the implementation of the Q-Pix digital ASIC presented in Chapter~\ref{chap:qdb}.
 
@@ -196,9 +195,9 @@ The back-end board is a Digilent Zybo-Z7-20~(Figure~\ref{fig:saq_zybo}).
 \end{figure}
 
 A summary of the connection ports to the Zybo are shown in Figure~\ref{fig:saq_zybo}.
-The Zybo is connected to the PC via a 1~\unit{GBs} Ethernet link.
+The Zybo is connected to a desktop computer (PC) via a 1~\unit{GBs} Ethernet link.
 The SAQ timestamp connections use two right-angle connectors.
-Also included the Figure is the connection to the Q-Pix Digital Board (QDB) presented in Chapter~\ref{chap:qdb}.
+Also shown the Figure is the connection to the Q-Pix Digital Board (QDB) presented in Chapter~\ref{chap:qdb}.
 Reference 10~\unit{\mu s} pulses at varied frequencies (2-256~\unit{Hz}) are generated in the last marked connector.
 
 \begin{figure}[]
@@ -224,7 +223,7 @@ The control of the SAQ Data-Acquisition (DAQ) is handled via a Graphical-User-In
 The data collected by the DAQ are originally written as binary packets to the PC, but are eventually parsed into output ROOT files for analysis.
 
 The data are sent from the PL to the PS and finally to the PC once a (register controlled) number of timestamps are written to the FIFO.
-The AXI-Sream FIFO packages the timestamp and channel data in to a singular packet that is then written to the DDR3 memory in the PS.
+The AXI-Stream FIFO packages the timestamp and channel data in to a singular packet that is then written to the DDR3 memory in the PS.
 The PS receives an interrupt signal from the DMA to notify that is received a new packet of data.
 The PS then sends all timestamp and channel mask data as a single packet via UDP.
 One additional bytes are appended to the packet and include the number of timestamps included in the packet as well as a packet identification number.
@@ -288,12 +287,12 @@ The expected RTD will come no faster than 90~\unit{Hz}, which is more than two o
 The effective charge calibration per pixel uses a constant current source as an input to each channel.
 A current source is used to deposit a known quantity of charge, which is related to the number of resets by:
 \begin{equation}
- \Delta Q = I_{o}t = N_{resets}Q_{o}
+ \Delta Q = I_{o}t = N_{\mathrm{resets}}Q_{o}
 \end{equation}
-Where $Q_{o}$ is average charge per reset, $I_{o}$ is the input current from the source current, and $N_{reset}$ is the number of resets observed in time t.
+Where $Q_{o}$ is average charge per reset, $I_{o}$ is the input current from the source current, and $N_{\mathrm{reset}}$ is the number of resets observed in time t.
 Then, the charge calibration is:
 \begin{equation}~\label{eq:saq_pixel_calib}
- Q_{o} = \frac{I_{o}t}{N_{reset}}
+ Q_{o} = \frac{I_{o}t}{N_{\mathrm{reset}}}
 \end{equation}
 Equation~\ref{eq:saq_pixel_calib} is accurate in the limit that the time difference between successive resets is large compared to the pulse-width.
 Charge is not accumulated for 10~\unit{\mu s} after every reset, so if the distance between resets during calibration is $\approx$ 1~\unit{s}, the amount of charge lost during the reset is $\frac{\delta Q_{o}}{Q_{o}} \simeq 10^{-5}$.
@@ -378,8 +377,6 @@ Timestamp data for various gas based TPCs have been collected and been shown to 
 These first tests demonstrate the Q-Pix front-end capability with off-the-shelf components.
 The work that remains for SAQ is a characterization of the TPC, GEM, and electric fields, not the front-end readout technology, which is the aim of this thesis.
 
-
 Work still remains to understand charge accumulation data presented at UTA~(Figure~\ref{fig:trace_boards_current_data}) and WC~(Figure~\ref{fig:saq_first_diffusion_measurement}).
 Simulations are being performed to understand the differences between the electric fields with the two different charge collection boards.
 Additional tests are underway to understand the behavior of the GEM, and to deduce the charge source causing the delayed resets in some channels, as seen in Figure~\ref{fig:saq_resets}.
-

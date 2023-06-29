@@ -22,7 +22,7 @@ The remote transactions for both the left and trunk routings are much smaller on
 
 The Table~\ref{tab:transact} contains the results for the effect the different routings have on the average number of transactions.
 
-The Table~\ref{tab:buffers} summarizes the results of Plot-(B) in Figure~\ref{fig:mp60_slow_plots_for_digital_sim} for the parameters described in Table~\ref{table:tile_params}.
+The Table~\ref{tab:buffers} summarizes the results of Plot-(b) in Figure~\ref{fig:mp60_slow_plots_for_digital_sim} for the parameters described in Table~\ref{table:tile_params}.
 
 The Table~\ref{tab:fit} summarizes the linear fit results of Plot-(D) in Figure~\ref{fig:mp60_slow_plots_for_digital_sim} for the parameters described in Table~\ref{table:tile_params}.
 The final column of this table indicates the relative fit from the push-based architecture, for which only the snake routing was tested.
@@ -59,8 +59,8 @@ The final column of this table indicates the relative fit from the push-based ar
   \end{subfigure}
   \caption[]
   {\small The results for a pull-based 4$\times$4 tile with 0.5\% frequency drift is shown. 
-  Plot-(A) shows the cumulative integral of the number of events that are fully captured as a function of the local buffer depth.
-  Plot-(B) includes the three tested routings against the local buffer depth. 
+  Plot-(a) shows the cumulative integral of the number of events that are fully captured as a function of the local buffer depth.
+  Plot-(b) includes the three tested routings against the local buffer depth. 
   The "Snake" routing is the only routing which limits the the remote FIFO depth near the local FIFO depth.
   Plot-(C) shows the relationship of the average number of transactions for all ASICs in each of the events.
   Plot-(D) is a scatter plot of the remote depth as a function of the local depth.
@@ -102,7 +102,7 @@ The final column of this table indicates the relative fit from the push-based ar
   \caption[]
   {\small A comparison of the remote vs local FIFO depths for different tile sizes is shown.
   Each plot corresponds to a different tile size with a frequency distribution of 0.5\%.
-  Plot-(A) shows that even at small tile sizes (4$\times$4) the remote buffer depths do not predictability scale with the local depths
+  Plot-(a) shows that even at small tile sizes (4$\times$4) the remote buffer depths do not predictability scale with the local depths
   Both the "Left" and "Trunk" routings slope's increase with the tile size to a maximum value over 3.
   Only the "Snake" routing maintains a predictable relationship between local and remote depths, as well as unit slope.
   These data indicate that any future routing for a Q-Pix tile, regardless of size, would need to dynamically route itself into a "Snake" routing in the event of SPF.

@@ -9,24 +9,25 @@ This record happens in response any one, or more, of the pixels, which for the f
 The timestamp is the value of a local 32-bit counter at the time the ASIC receives the reset pulse.
 When a trigger is sent from any pixel the data recorded are local counter as well as the input level of all pixels ('1' indicates high, '0' indicates low).
 
-\begin{figure}[]
+\begin{figure*}[t!]
 \centering
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}[t]{.5\textwidth}
   \centering
   \includegraphics[width=0.5\textwidth]{images/single_pixel_dimensions_qpix.png}
-  \caption{Single Charge Collection Pixel}
+  \caption{Charge Collection Pixel}
 \end{subfigure}%
-\begin{subfigure}{.5\textwidth}
+~
+\begin{subfigure}[t]{.5\textwidth}
   \centering
   \includegraphics[width=0.5\textwidth]{images/single_asic_dimensions_qpix.png}
   \caption{Q-Pix ASIC connected to 4$\times$4 pixels}
 \end{subfigure}
-\caption{Each Q-Pix ASIC (B) is expected to connect to up 16 pixels (A) within the LAr.
+\caption{Each Q-Pix ASIC (b) is expected to connect to up 16 pixels (a) within the LAr.
 The dimensions of each pixel are 4$\times$4~\unit{mm^2}, where the collection ring has a diameter of 1~\unit{mm}.
 Each ASIC supports up to a maximum of 16 channels, or pixels.
 }
 \label{fig:qpix_asic_introduction}
-\end{figure}
+\end{figure*}
 
 The full Q-Pix digital back-end is a collection of interconnected ASICs that form tiles.
 Tiles are then connected to controlling nodes as shown in Figure~\ref{fig:qpix_tile_introduction}, indicated by the colored boxes.
@@ -35,18 +36,18 @@ The sheer number of pixels required for an DUNE-FD 10 kT module require an extre
 
 \begin{figure}[]
 \centering
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}[t]{.5\textwidth}
   \centering
-  \includegraphics[width=0.5\textwidth]{images/single_tile_qpix.png}
+  \includegraphics[width=0.6\textwidth]{images/single_tile_qpix.png}
   \caption{A single tile of 10$\times$14 Q-Pix ASICs}
 \end{subfigure}%
-\begin{subfigure}{.5\textwidth}
+\begin{subfigure}[t]{.5\textwidth}
   \centering
-  \includegraphics[width=0.5\textwidth]{images/array_of_tiles_qpix.png}
+  \includegraphics[width=0.85\textwidth]{images/array_of_tiles_qpix.png}
   \caption{An array of inter-connected tiles.}
 \end{subfigure}
-\caption{A modular tile (A) of Q-pix ASICs can be inter-connected (B) to create a larger charge collection plane. 
-The highlighted nodes in (B) indicate possible locations aggregator nodes to interconnect multiple tiles from a single controlling node.
+\caption{A modular tile (a) of Q-pix ASICs can be inter-connected (b) to create a larger charge collection plane. 
+The highlighted nodes in (b) indicate possible locations aggregator nodes to interconnect multiple tiles from a single controlling node.
 These aggregators can connect power, clock, ground, and data out of the full detector which are represented by the four colored traces leaving the tile array.
 }
 \label{fig:qpix_tile_introduction}
@@ -276,9 +277,9 @@ Each of the registers in Table~\ref{table:node_registers} are accessed by settin
  \hline
  Bit Location & Name & Function \\ [0.5ex]
  \hline\hline
-  0--15 & Data & Excess bits  \\
+  0--15 & Data & Excess bits \\
  \hline
-  16--31 & Address & Excess bits  \\
+  16--31 & Address & Excess bits \\
  \hline
   40--43 & Y Position Transfers & Next Y position in tile. \\
  \hline
@@ -468,12 +469,12 @@ This allows for a local and remote FIFO depth each of 1024 packets.
 
 Section~\ref{sec:qpix_apa} describes how a Q-Pix based hardware readout architecture could fit within a single DUNE-APA.
 Here we extend this discussion and use those constraints as the starting point for a search to a solution to the digital back-end architecture.
-The first problem to solve is how to aggregate the all timestamp data supplied by the large number of channels within a DUNE-FD APA.
+The first problem to solve is how to aggregate the timestamp data supplied by the large number of pixels ($(\mathcal{O}(10^{6})$) within a DUNE-FD APA.
 
-A Q-Pix architecture will likely use either a high-performance FPGA or a custom ASIC to aggregate the large number of $(\mathcal{O}(10^{7})$ channels.
-The number of aggregated digital channels determines the required capabilities of the aggregator node and the selection of an FPGA or ASIC.
+A Q-Pix architecture will likely use either a high-performance FPGA or a custom ASIC to aggregate data supplied by digital nodes each connected to some number of pixels.
+The number of aggregated digital nodes determines the required capabilities of the aggregator node and the selection of an FPGA or ASIC.
 Since each additional aggregator node represents an additional SPF risk, our design goal suggests that the optimal configuration is one that produces the least number of aggregator nodes.
-Therefore, the goal is to design a routing architecture which is responsible for as many digital channels as possible for each data aggregator node while still accounting for accurate timing calibration and lossless data acquisition.
+Therefore, the goal is to design a routing architecture which is responsible for as many digital nodes as possible for each data aggregator node while still accounting for accurate timing calibration and lossless data acquisition.
 
 In a fully realized design an aggregator might in fact be responsible for multiple tiles, which need not necessarily be the same size.
 The requirements of an aggregator node require that it be capable of sending packets faster than it can receive it.
@@ -483,9 +484,9 @@ The Q-Pix ASIC data rates (8 bytes per $\sim$ 60~\unit{\mu s} = $\sim$ 117~\unit
 If a Q-Pix ASIC sent data at a rate of 117~\unit{kBs}, and the aggregator sent data via 5~\unit{GBs} ethernet, a single aggregator could connect to over 40000 tiles without data loss.
 For comparison, the dimensions of the DUNE-FD APA in Chapter~\ref{chap:sim} use 862,500 pixels, which would take only 3370 16$\times$16 tiles.
 
-However, as one increases the number of digital channels per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated (Section~\ref{sec:calib}).
-Additionally, since each digital channel requires extra communication time (as discussed in Section~\ref{sec:comms}) the introduction of more channels negatively affects the precision of timing calibrations and potentially increases SPF risk of digital channels.
-We consider then that an optimal number of digital channels per aggregator node is one that maximizes the number of digital channels but still maintains the required timing calibration and transmits lossless data.
+However, as one increases the number of digital nodes per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated (Section~\ref{sec:calib}).
+Additionally, since each digital node requires extra communication time (as discussed in Section~\ref{sec:comms}) the introduction of more channels negatively affects the precision of timing calibrations and potentially increases SPF risk of digital channels.
+We consider then that an optimal number of digital nodes per aggregator is one that maximizes the number of digital nodes in a tile but still maintains the required timing calibration and transmits lossless data.
 
 \subsection{Tile Routing Considerations}~\label{sec:tile_sim}
 

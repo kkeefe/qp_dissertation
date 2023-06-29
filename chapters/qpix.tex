@@ -213,10 +213,11 @@ The right plot indicates the difference between the true and reconstructed charg
 \subsubsection{Comments on Reconstruction Requirements}~\label{sec:recon_uncert}
 
 The uncertainties for the two transverse coordinates ($\hat{x}$ and $\hat{y}$) are related to the pixel's area.
-If we assume that the electric field is uniform on average over all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel size.
+If we assume that the electric field is uniform on average over all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel.
 The pixel size then determines the resolution: $\frac{4 mm}{\sqrt{12}} \approx 1.15 mm$.
 
 To achieve the required uncertainty for the z-position measurement ($\sigma_{z} \simeq 1~\unit{mm}$), the uncertainty from $f_{o}$ must be small ($\sim$ 1~\unit{ppm}).
+The 1~\unit{ppm} oscillator requirement is related to a time resolution of 1~\unit{\mu s} in Equation~\ref{eq:driftDistance}.
 Other measurement uncertainties come from the Equation~\ref{eq:irecon_freq}.
 The precision of the local oscillator frequency and the constant charge per reset determine the current reconstruction precision.
 Variable replenishment circuits can greatly impact $Q_{o}$ from reset to reset, which will also affect $\sigma_{z}$.
@@ -281,14 +282,14 @@ Dune expects to draw less than 50 mW per channel, and incur less than 1\% dead c
  \hline
   Cold Electronics Power Consumption & < 50~\unit{mW} per channel & No bubbles in LAr to reduce HV discharge risk\\
  \hline
-  Number of Channels per front-end motherboard & 128 &  The total number of wires on one side of an APA, 1,280, must be an integer multiple of the number of channels on the FEMBs. \\
+  Number of Channels per front-end motherboard & 128 & The total number of wires on one side of an APA, 1,280, must be an integer multiple of the number of channels on the FEMBs. \\
  \hline
   Dead Channels & < 1\% & Minimize the degradation in physics performance over the > 20-year detector operation. \\
  \hline
   Maximum diameter of conduit enclosing the cold cables while they are routed through the APA frame. & 6.35 cm (2.5") & Avoid the need for further changes to the APA frame and for routing the cables along the cryostat walls \\
  \hline
 \end{tabular}
-\caption{Selected Requirements of DUNE-FD TPC electronics and Expected QPix Design goals of first generation ASIC development for comparison.
+\caption{Selected Requirements of DUNE-FD TPC electronics and expected Q-Pix Design goals of first generation ASIC development for comparison.
 The table information is taken from the inner three columns of Table 4.1 in~\citep{DUNE-FD_TDRv4:Abi_2020}.
 Due to the different charge sensitive geometries between a wire and pixel-based readout, the required noise and number of channels are not easily comparable.
 }
@@ -313,10 +314,10 @@ $N_{osc}$ represents the total number of front-end ASICs whose data must be aggr
 Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
 This also gives an order of magnitude estimate of the increase of number of ASICs compared to the MWPC readout of Single-Phase (SP) DUNE-FD.
 
-To have a comparable power consumption to DUNE-FD, which has 2560 channels, then QPix would need less than $\approx 140 \mu W$ of power consumption per channel.
+To have a comparable power consumption to DUNE-FD, which has 2560 channels, then Q-Pix would need less than $\approx 140 \mu W$ of power consumption per channel.
 Too much power dissipated in the LAr creates bubbles, which is a high voltage (HV) discharge risk.
 The total number of channels for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = $384000.
-Thus, the number of additional analog channels that QPix must measure compared to a typical wire readout increases by a factor of $915399 / 2560 \approx 357$.
+Thus, the number of additional analog channels that Q-Pix must measure compared to a typical wire readout increases by a factor of $915399 / 2560 \approx 357$.
 
 Q-Pix will instead offer conversion from analog (charge) to digital (32 bit time) signals on a single ASIC.
 These front-end ASICs would be arrayed in modular tiles within a single APA.
@@ -337,9 +338,9 @@ This final concentrator would send the data to the Warm-Interface-Cards (WIC) ou
  \hline
   Signal Saturation & 30~\unit{nA} per pixel & Upper limit from local oscillator frequency and integrator reset. \\
  \hline
-  Cold Electronics Power Consumption &  $< 100 \unit{\mu W}$ per channel & Equivalent power consumption for heating found in DUNE-FD. \\
+  Cold Electronics Power Consumption & $< 100 \unit{\mu W}$ per channel & Equivalent power consumption for heating found in DUNE-FD. \\
  \hline
-  Number of Channels per Tile & 4096 &  Design parameter to be calculated. \\
+  Number of Channels per Tile & 4096 & Design parameter to be calculated. \\
  \hline
 \end{tabular}
 \caption{Q-Pix based Requirements which are compared to the equivalent DUNE-FD SP module found in table~\ref{tab:dune_tpc_elec}.
@@ -400,7 +401,7 @@ The values of the local and remote FIFO depth were selected due to fabrication r
 
 \subsection{Single Point Failures}
 
-Q-Pix digital design should provide  ``robust resilience'' against single point failure (SPF).
+Q-Pix digital design should provide ``robust resilience'' against single point failure (SPF).
 The readout technology presented here relies on huge numbers of readout channels ($10^{8}$) compared to current MWPC designs ($10^{5}$).
 As such, extra care must be made in designing new technology to improve over established, seemingly simpler means.
 

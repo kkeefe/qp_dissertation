@@ -7,12 +7,12 @@
 \usepackage{color}
 % \usepackage{amsmath}
 % \usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{longtable}
 \usepackage{siunitx}
 \usepackage{enumerate}
 \usepackage{braket}
-\usepackage{caption}
-\usepackage{subcaption}
 % \usepackage{tikz}
 % \usepackage{pgf}
 % \usetikzlibrary{arrows, automata, positioning}
@@ -30,23 +30,6 @@
     % IMPORTANT: load a style suitable for your discipline
     style=phys
 ]{biblatex}
-
-\newsubfloat{figure}
-
-% Reference a bus.
-%
-% Usage:
-%
-%     \busref[3::0]{C/BE}    ->   C/BE[3::0]
-%     \busref*{AD}           ->   AD#
-%     \busref*[3::0]{C/BE}   ->   C/BE[3::0]#
-%
-\NewDocumentCommand{\busref}{som}{\texttt{%
-#3%
-\IfValueTF{#2}{[#2]}{}%
-\IfBooleanTF{#1}{\#}{}%
-}}
-
 
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=red,urlcolor=blue]{hyperref}
 \usepackage{cleveref}

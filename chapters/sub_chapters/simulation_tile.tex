@@ -216,14 +216,14 @@ In practice, there would be additional resets from backgrounds which occur in th
 However, the number of resets from the radiogenic events are much smaller (by about two orders of magnitude) than the neutrino events.
 
 The full readout of the tile occurs based on the number of packets times the average transaction length.
-$$
+\begin{equation}
 T_{\mathrm{readout}} \approx 50 \mu s \times N_{\mathrm{max}}
-$$
+\end{equation}
 
 If we set $T_{\mathrm{readout}}$ to 1 second:
-$$
-N_{\mathrm{max}} \approx  20000
-$$
+\begin{equation}
+N_{\mathrm{max}} \approx 20000
+\end{equation}
 
 Since the simulation is run six seconds longer than the origin time of the neutrino events all reset events are be accounted for if neutrino events cause less than $\approx 120000$ resets.
 There are no simulated neutrino events which create these number of resets since this would require an energy of $\approx$ 15\unit{GeV} deposited into the LAr.
