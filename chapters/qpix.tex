@@ -111,7 +111,7 @@ Figures~\ref{fig:qpixRecon1} and~\ref{fig:qpixRecon2} show the charge reconstruc
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/qpix_rtd_reconstruction_example.jpg}
-\caption{Example reconstruction of the reset time difference (RTD) based on the Q-Pix readout design. 
+\caption{Example current reconstruction using the Reset Time Difference (RTD) based on the Q-Pix readout design. 
 Shown is transistor-level charge integration simulation results for minimum ionizing tracks in LAr.
 The purple curve of the top panel represents charge accumulating on the CSA, where the green curve is the reset output from the Schmitt trigger.
 The bottom panel shows input charge (purple curve) overlaid on top of the reconstructed current signal.
@@ -123,7 +123,7 @@ Image is taken from \citep{qpix:nygren:mei}.}
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/qpix_rtd_reconstruction_example_03fc.jpg}
-\caption{Example reconstruction of the reset time difference (RTD) based on the Q-Pix readout design.
+\caption{Example current reconstruction using the Reset Time Difference (RTD) based on the Q-Pix readout design.
 Shown is transistor-level charge integration simulation results for minimum ionizing tracks in LAr.
 $Q_{o}$ was chosen to be $0.3 fC$.
 The bottom panel in this image shows a better match of the reconstructed signal with a smaller $Q_{o}$. 
@@ -295,21 +295,21 @@ Due to the different charge sensitive geometries between a wire and pixel-based 
 Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
 From these dimensions the expected channel count of the Q-Pix readout on the DUNE-FD APA is
 \begin{equation}
-  N_{pix} = 14.646 m^{2} * \frac{1 pixel}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
+  N_{\mathrm{pix}} = 14.646 m^{2} * \frac{1 \mathrm{pixel}}{4 mm^{2}} * \frac{ 1000^{2} mm^{2} }{m^{2}} = 915399
 \end{equation}
 
 The total number of free running oscillators ($N_{osc}$) per DUNE-APA for a given pixel pixel of $4~mm^{2}$ is:
 \begin{equation}~\label{eq:nosc}
-N_{osc} = \frac{915399}{16} \approx 57213
+N_{\mathrm{osc}} = \frac{915399}{16} \approx 57213
 \end{equation}
 
-$N_{osc}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
+$N_{\mathrm{osc}}$ represents the total number of front-end ASICs whose data must be aggregated and sent outside of the cold electronics to a warm interface.
 Therefore we expect the order of the number of free running oscillators per DUNE-APA $\mathcal{O}$($10^5$).
 This also gives an order of magnitude estimate of the increase of number of ASICs compared to the MWPC readout of Single-Phase (SP) DUNE-FD.
 
 To have a comparable power consumption to DUNE-FD, which has 2560 channels, then Q-Pix would need less than $\approx 140 \mu W$ of power consumption per channel.
 Too much power dissipated in the LAr creates bubbles, which is a high voltage (HV) discharge risk.
-The total number of channels for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = $384000.
+The total number of channels for a 10 kT module is based on 150 DUNE-APAs or $2560\times 150 = 384000$.
 Thus, the number of additional analog channels that Q-Pix must measure compared to a typical wire readout increases by a factor of $915399 / 2560 \approx 357$.
 
 Q-Pix will instead offer conversion from analog (charge) to digital (32 bit time) signals on a single ASIC.
