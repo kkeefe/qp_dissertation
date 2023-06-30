@@ -1,9 +1,7 @@
 \section{Physical Simulation Studies}
-
 We now discuss the methodologies of the physical simulations used as input to the digital tile simulation described in the previous section.
 
 \subsection{Radiogenic Backgrounds as a Calibration Source}~\label{sec:radiogenic_calib}
-
 In this section we comment on the ability to perform auto-calibration of the reset loss per charge.
 The full charge calibration procedure is beyond the scope of the work presented here, due to intricacies that depend on the final implementation of the reset circuit as well as the replenishment circuit of the final Q-Pix ASIC.
 This analog front-end ASIC currently exists and these features are currently being explored.
@@ -150,7 +148,6 @@ As shown in both Figure~\ref{fig:radiogenic_rtd_timescales_comparing_no_noise} a
 Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awaits studies of both the leakage current and replenishment circuits of the analog front-end.
 
 \subsection{Reset Contribution of Radiogenic Sources and Leakage Current}
-
 Figure~\ref{fig:compare_electron_contribution} compares the total (plot-a) and percentage (plot-b) electrons contributed from noise and radiogenic sources.
 These results highlight the importance of understanding and mitigating any leakage current for every pixel.
 A leakage current of 10~\unit{aA} contributes $\approx$ 10\% to the total background current.
@@ -181,12 +178,22 @@ This implies that leakage currents from the front circuit which are $\approx 100
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   Part 2   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Neutrino Interaction Studies}~\label{sec:neutrino_studies}
-
+\section{Neutrino Interaction Studies}
+\label{sec:neutrino_studies}
 Here we discuss the implementation of the digital framework within the high energy regime.
 For this we use as an input neutrino events from the Long-Baseline Neutrino Facility (LBNF)~\citep{dune_cdr_2016_arxiv} and take the unoscillated flux of neutrinos which were used in~\citep{dune_2021_near_detector_cdr}.
 These neutrino flux are simulated using GENIE~\citep{Andreopoulos:2009rq}, v2.12.10.
 The interaction distributions for both the forward and reverse horn current directions are shown in Figure~\ref{fig:neutrino_interaction_flux}.
+
+\begin{figure}[]
+\centering
+\includegraphics[width=\textwidth]{images/dune_cdr_2021_neutrino_flux.pdf}
+\caption{Rate of CC neutrino interactions based on flavor as a function of true neutrino energy.
+Figure is taken directly from~\citep{dune_2021_near_detector_cdr}.
+Right is shown the neutrino interaction distribution for the forward horn current.
+The left image is for the reverse horn current.
+Both images assume an average exposure rate of 1.2 MW from LBNF beam.}
+\end{figure}~\label{fig:neutrino_interaction_flux}
 
 We do not perform any calculation involving the oscillation on the input neutrino flux.
 The reason for this is that the digital back-end should be able to fully record data from all possible $\nu_{l}$ events regardless of interaction type, not only the intended $\nu_{e}$ appearance spectra.
@@ -205,19 +212,7 @@ The use of high energy helps in establishing what we will show as the upper-boun
 Highlighted in blue is the reconstructed energy range of neutrinos that are used to seed the interaction with the APA LAr's volume.}
 \end{figure}~\label{fig:neutrino_flux}
 
-\begin{figure}[]
-\centering
-\includegraphics[width=\textwidth]{images/dune_cdr_2021_neutrino_flux.pdf}
-\caption{Rate of CC neutrino interactions based on flavor as a function of true neutrino energy.
-Figure is taken directly from~\citep{dune_2021_near_detector_cdr}.
-Right is shown the neutrino interaction distribution for the forward horn current.
-The left image is for the reverse horn current.
-Both images assume an average exposure rate of 1.2 MW from LBNF beam.}
-\end{figure}~\label{fig:neutrino_interaction_flux}
-
-
 \subsection{Neutrino Event Parameters}
-
 Table~\ref{table:neutrino_params} describes the parameters of each input for the simulation.
 The parameters used to vary the tiles for these neutrino input energies are shown on Table~\ref{table:tile_params}.
 
@@ -298,7 +293,6 @@ When the pixels are binned into ASICs (4$\times$4 pixels) the maximum number res
 \end{figure}~\label{fig:asic_th2i_electron_fhc_event}
 
 \subsection{Neutrino Event Results}
-
 Every simulated neutrino interaction generates some number of resets which are collected onto the pixel plane.
 The purpose of the study explored by the parameters described in Table~\ref{table:neutrino_params} is to investigate the charge resets these interactions produce; we pay particularly close attention to ASICs where the number of resets (energy deposited) is the largest in a given event.
 
@@ -352,8 +346,8 @@ As more charge is localized within an ASIC's area, it will record more timestamp
 \label{fig:example_asic_integral_value_constZpos}
 \end{figure}
 
-\subsection{Neutrino Energy Deposit}~\label{sec:neutrino_energy_analysis}
-
+\subsection{Neutrino Energy Deposit}
+\label{sec:neutrino_energy_analysis}
 The true neutrino interaction energy is notoriously difficult to reconstruct.
 The neutrino itself carries no charge and its track is not directly reconstructed in the LAr.
 Other effects such as long neutron drift make perfect energy reconstruction of the neutrino interaction impossible by principle.
@@ -448,7 +442,6 @@ These events are also removed from Figure~\ref{fig:example_energy_deposit}.
 \end{figure}~\label{fig:energy_deposit_vs_resets}
 
 \subsection{Local FIFO Depth Results}
-
 To predict the required local FIFO depth for the Q-pix ASIC, we perform the integral as shown in Figure~\ref{fig:example_asic_integral_value_constTheta} for each of the parameters described in Table~\ref{table:neutrino_params}. 
 Since there are 200 different parameters, there are 200 different integral values.
 
@@ -520,7 +513,6 @@ Therefore, a Q-Pix ASIC with a local FIFO depth of 454 would be able to fully ca
 In order for Q-Pix to record all resets of the same energy average energy but with momentum near the azimuthal ($\theta_{z} \approx \pm 90$\unit{\degree}) it would require a buffer depth of 1670.
 
 \section{Q-Pix for Neutrino Oscillation Measurements}
-
 The LBNF beam flux, neutrino oscillations, and neutrino cross-sections all affect the predicted neutrino event rate at the DUNE-FD.
 Instead of applying these factors the previous analysis tested neutrino interactions from a uniform distribution of true incident energy.
 We discuss Q-Pix's back-end requirements and extend our back-end analysis to the expected neutrino (dis)appearance spectra as presented in~\citep{DUNE_FD_TDRv2_2020}

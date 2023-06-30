@@ -1,5 +1,4 @@
-\section{Frequency Calibration of Local Oscillators}~\label{sec:calib}
-
+\section{Frequency Calibration of Local Oscillators}\label{sec:calib}
 The Q-Pix calibration requirements are described in detail in Section~\ref{sec:qpix_circuit}.
 The important parameters which must be calibrated for each pixel are the charge per reset and the frequency of the local oscillator.
 An aim of this work is to demonstrate an additional frequency calibration method using the minimal required connections between each digital node.
@@ -46,8 +45,7 @@ Therefore we introduce and discuss a calibration technique which relies on no ad
 Therefore, even if not the primary implemented calibration technique, since this calibration introduces no superfluous routing it could still be used regardless of the actual future hardware implementation.
 
 %% distribute packet for calibration of time
-\subsection{A Minimal Connection Calibration Procedure}~\label{sec:min_calib}
-
+\subsection{A Minimal Connection Calibration Procedure}\label{sec:min_calib}
 As stated previously, any frequency calibration records a reference time at the aggregator ($T_{a}$) and an event time ($T_{n}$) at an ASIC within a tile.
 The time calibration procedure presented here requires only the minimal routing required in any Q-Pix readout system, where we assume time-dependent free-running local oscillators at each ASIC within the tile.
 
@@ -119,7 +117,6 @@ Where $\Delta N_{j}$ and $\Delta N_{a}$ are the differences in the timestamps of
 
 
 \subsubsection{Packet Transaction Time}
-
 We next examine the approximation that $\Delta T_{f} \ll T_{cal}$ and consider its contribution to the error in the reconstruction of $T_{j}$ in Equation~\ref{eq:frequency_reconstruction}.
 This analysis also provides a constraint on the duration of $T_{cal}$ (Equation~\ref{eq:calibration_wait_time}) to ensure an accurate measurement of each $T_{j}$ in a tile.
 We begin by discussing how long it takes for a packet to traverse a tile.
@@ -159,8 +156,8 @@ If we further assume that all of the clocks drift have error which drifts in the
 Equation~\ref{eq:calib_constraints} provides an estimation of the timing uncertainty introduced by the calibration scheme in a worst case 16$\times$16 tile scenario.
 In the next section we introduce a prototype modular prototype board which was designed to test the stability of the communication protocol and the frequency calibration procedure presented here.
 
-\section{The Q-Pix Digital Board}~\label{sec:qdb_prototype}
-
+\section{The Q-Pix Digital Board}
+\label{sec:qdb_prototype}
 We describe the design of a modular digital back-end prototype board and discuss first results of the Q-Pix digital logic in an Field Programmable Gate Array (FPGA).
 The results presented here constructed a tile 4$\times$4 array of Lattice iCE40UP5K-UWG30ITR FPGAs.
 These FPGAs were chosen because of their small form factor, availability and pin out.
@@ -254,8 +251,8 @@ The right image shows the direction of the packets as viewed on the QDB tile.
 \label{fig:example_broadcast}
 \end{figure}
 
-\section{Prototype Frequency Calibration Results}~\label{sec:freq_calib_results}
-
+\section{Prototype Frequency Calibration Results}
+\label{sec:freq_calib_results}
 We describe here the methods of measuring a stable oscillator frequency for the prototype PCB based on the frequency calibration scheme developed in Section~\ref{sec:calib}.
 
 The interrogation procedure involves using a Hard Interrogation on the FPGA to ensure that each FPGA responds with an Event End packet (packets defined in Section~\ref{sec:local_data_packet}).
@@ -326,8 +323,8 @@ The drift of the three observable frequency drifts for the Zybo are clearly visi
 %% 0.1 Hz interrogation calibration 
 \input{chapters/tables/fpga_slow_fit.tex}
 
-\subsection{Timing Stability and Communication Verification}~\label{sec:timing_test_results}
-
+\subsection{Timing Stability and Communication Verification}
+\label{sec:timing_test_results}
 To estimate the reliability of the packet communication we calculate the number of total successful transactions.
 During each Hard Interrogation each FPGA sends a broadcast register command plus the event end word as a response.
 Then, for every Hard Interrogation there are at least 32 successful packet transactions. 
@@ -368,7 +365,6 @@ The distance from the base-node indicates the number of packet transactions that
 This means that fully connected tiles (FCT) will allow for largest tiles with local oscillators, since they provide the shortest path from the base-node to any remote node.
 
 \section{The Digital Back-End Summary}
-
 The Q-Pix digital back-end is expressed as a collection of inter-connected nodes as presented in Section~\ref{sec:digital_constraints}.
 Each node represents an ASIC which connects to the front-end, which for Q-Pix is a collection of integrating CSA for each pixel in the TPC.
 The Q-Pix ASIC design is presented in Section~\ref{sec:digital_prototype}, where we define its response to inputs by its FSM in Section~\ref{sec:digital_fsm}
@@ -388,18 +384,3 @@ The calibration procedure is able to reconstruct remote FPGA frequencies in a Q-
 We also find that the size of a tile is limited by the oscillator frequencies of the ASICs as well as the aggregator.
 
 In Chapter~\ref{chap:sim} we explore simulations of the Q-Pix tile system and explore its ability to analyze radiogenic backgrounds and capture beam neutrino events.
-
-
-
-
-% \section{Towards the Integration of the Aggregator Node}
-
-% In the studies presented with the QDB the aggregator node was the Zybo Z7-20~\citep{zybo_zy_reference}.
-% This section provides a brief discussion about an adequate aggregator node.
-
-% \subsection{Comments on A Super-Aggregator Node}
-
-% Each APA module within a larger DUNE module must ultimately be interconnected so that the entire module can be readout.
-% As described above, a single modular tile is controlled by an individual aggregator node, where $\approx$ 3370 (Section~\ref{sec:digital_constraints}) such tiles will be used in a single DUNE-FD APA.
-% Therefore, we refer to the device that digitally multiplexes all of the DAQ node data as the "Super DAQ Node" (SDN).
-% Then, we imagine the final multiplexing stage for an entire DUNE module as an array of SDNs, each of which constitute an array of DAQ nodes, where each DAQ node is a 2-D array of Q-Pix based ASICs.

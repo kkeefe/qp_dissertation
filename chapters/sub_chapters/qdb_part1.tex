@@ -1,5 +1,4 @@
-\section{The Digital Back-end and The First Digital Prototype}~\label{sec:digital_prototype}
-
+\section{The Digital Back-end and The First Digital Prototype}\label{sec:digital_prototype}
 The digital system of the Q-Pix readout begins when the first digital data are recorded.
 This occurs during the collection of a recorded timestamp in response to the logic reset pulse sent from the Schmitt Trigger from analog front-end.
 These triggers are a sent as the response from a build up of charge on a pixel in a LArTPC (Section~\ref{sec:lartpcs}).
@@ -86,12 +85,10 @@ Finally, the data collection module, QPixDataProc, controls how the ASIC records
 We describe the ASIC's response to pixel triggers in Section~\ref{sec:data_collection}
 
 
-\subsection{Inter-ASIC communication via endeavor protocol}~\label{sec:endeavor}
-
+\subsection{Inter-ASIC communication via endeavor protocol}\label{sec:endeavor}
 The data must be transmitted between ASICs.
 Since one design feature of the Q-Pix readout require that the ASICs have independent oscillators, the communication between neighbors is necessarily asynchronous.
 Each ASIC permits up to four neighbor connections as shown in Figure~\ref{fig:example_connections}.
-
 
 \begin{figure}[]
 \centering
@@ -204,8 +201,7 @@ If we assume the average packet has equal high bits and low bits, $N_{0} = 30 + 
 \end{equation}
 
 
-\subsection{Types of Packets}~\label{sec:digi_packets}
-
+\subsection{Types of Packets}\label{sec:digi_packets}
 How each digital node responds to a successful packet transaction depends on the packet header.
 One primary development goal for the Q-Pix digital ASIC is to make the simplest design possible that achieves its goals.
 To this end, there are only four different types of packets words used, as shown in Figure~\ref{fig:datum}.
@@ -232,8 +228,7 @@ If this packet is configured as a broadcast (See Section~\ref{sec:local_data_pac
 The Register Response packet is created by an ASIC to send to an aggregator node upon a register read request from an aggregator.
 When an ASIC receives a packet that isn't a register request, it knows that this packet did not originate from the aggregator node, and therefore handles these packets identically, described in Section~\ref{sec:digital_fsm}.
 
-\subsection{Configuration Registers}~\label{sec:registers}
-
+\subsection{Configuration Registers}\label{sec:registers}
 The configuration of the digital node is handled through local registers.
 These registers can only be updated when an ASIC receives a Register Request from an aggregator node.
 
@@ -267,7 +262,6 @@ The Routing controls either dynamic or manual routing.
 \label{table:node_registers}
 \end{center}
 \end{table}
-
 
 The composition of any register word is shown in Table~\ref{tab:packet_register}.
 Each of the registers in Table~\ref{table:node_registers} are accessed by setting the correct address value in the register request packet.
@@ -306,8 +300,7 @@ The routing register allows the ASIC to be configured in either a manual or a dy
 The dynamic routing state allows an ASIC to send its data in the direction it receives a broadcast (Section~\ref{sec:local_data_packet}) from, whereas a manual routing allows the aggregator to predetermine the path of the data words.
 The Command register controls both ASIC system resets as well as broadcast types.
 
-\subsection{Local Data Collection}~\label{sec:data_collection}
-
+\subsection{Local Data Collection}\label{sec:data_collection}
 The digital node is responsible for collecting and storing local timestamps in response to pixel resets as well as being able to communicate these data with neighbor nodes.
 The node must be able to buffer data so as to prevent packet loss during transactions.
 The separation of the remote and local packets are contained within two different FIFOs, as shown in Figure.~\ref{fig:qpa_diagram}.
@@ -342,8 +335,8 @@ The composition of the data word is shown in Table~\ref{tab:packet_register}.
 \end{center}
 \end{table}
 
-\subsubsection{The Local Data Packet and Broadcasts}~\label{sec:local_data_packet}
-
+\subsubsection{The Local Data Packet and Broadcasts}
+\label{sec:local_data_packet}
 The transmission of the reset data from the local FIFO to adjacent neighbor nodes begins when an incoming register request from the aggregator is received.
 This request is supplied as register request to the command register (Table~\ref{table:node_registers}).
 This request may be considered either a ``hard'' or a ``soft'' interrogation command.
@@ -359,15 +352,13 @@ Interrogations may happen on timescales much more quickly than expected resent p
 The ability to request data only if available prevents an over abundance of packets which prevents needless data transfers, reduces remote FIFO buildup, and conserves power.
 
 \subsubsection{The Event End Packet}
-
 The event end words perform multiple functions.
 First, they may used as checksums to indicate at the aggregator node, or on disk, that this node has successfully transmitted all of its data.
 Secondly, the event end word, since it is necessarily 64 bits long, also transmits its own timestamp with the excess bits.
 The timestamp that the event end word carries is the time that the time that the node received the broadcast.
 This timestamp is used in the frequency calibration of the node; the method for calibration is described in greater detail in Section~\ref{sec:calib}.
 
-\section{The Digital Finite State Machine}~\label{sec:digital_fsm}
-
+\section{The Digital Finite State Machine}\label{sec:digital_fsm}
 The Finite State Machine (FSM) of the digital ASIC controls the ASIC's response to packets.
 Possible inputs that the ASIC can respond to are timestamps from pixels or communication packets from neighbor ASICs.
 Figure~\ref{fig:digital_fsm} shows a representation of the different states as well as the conditions to enter or leave each state.
@@ -398,8 +389,7 @@ To avoid this, we limit, as much as possible, the possible behaviors of the ASIC
 
 In the next section we discuss the design challenges this ASIC must overcome.
 
-\section{The Digital Back-end problem}~\label{sec:digital_problem}
-
+\section{The Digital Back-end problem}\label{sec:digital_problem}
 The main objectives of the digital back-end are to correctly measure the data presented to it by the analog front-end and ensure lossless transport of that data to disk.
 More simply, the goals of the digital portion of the Q-Pix readout are to record and send data.
 We note that the successful completion of these two objectives to be goal of these simulation studies.
@@ -408,7 +398,6 @@ Previous sections (\cref{sec:digital_prototype,sec:digital_fsm}) described the d
 This section presents and defends the motivation for this design.
 
 \subsection{The Basic Datum}
-
 We begin with a discussion of the basic datum and mention initial design choices at the physical connection interface.
 The structure of this datum determines the buffer widths and depths required to store the data at the local ASIC level as well as the protocol used to transfer this data between ASICs and eventually out of the detector.
 
@@ -428,8 +417,7 @@ We calculate the minimum number of bits per datum to be:
 Since buffer memory addresses and widths are normally characterized by powers of two, we can construct the basic datum size above the minimum number of bits provided by~\ref{eq:nbits_datum} to get $N_{datum} = 64$.
 The remaining bits are useful for constructing different types of packets to be used by the digital ASICs for additional uses such as register configuration or to provide packet identification.
 
-\subsection{Communication of the Datum}~\label{sec:comms}
-
+\subsection{Communication of the Datum}\label{sec:comms}
 There exist several asynchronous protocols of communication of digital information.
 Some of the differences between protocols exist based on the number of connections between devices and whether or not one pin is allocated to share a clock, etc.
 The design of the Q-Pix ASIC limits the number of connections between neighbors to only two.
@@ -453,8 +441,7 @@ Our choice of the endeavor protocol is tested in Section~\ref{sec:qdb_prototype}
 Although Endeavor is slower than a traditional Universal Asynchronous Receive Transmitter (UART) protocol, it is stable for approximately double the frequency range: $\approx$ 20\%.
 In Chapter~\ref{chap:sim} we show that the overall average packet transaction time is much less ($\sim 0.1\%$) than the wait time between interactions for neutrino events.
 
-\subsection{Buffer Depth Requirements}~\label{sec:buffer_requirements}
-
+\subsection{Buffer Depth Requirements}\label{sec:buffer_requirements}
 One feature of a Q-Pix readout is that the amount of memory associated with an event depends on the amount of charge deposited.
 The more charge that is deposited, the more resets that are produced.
 Each reset corresponds to a new packet to be recorded by the ASIC.
@@ -465,8 +452,7 @@ The major contribution from Chapter~\ref{chap:sim} is to test the required buffe
 The ice40 FPGAs tested in Section~\ref{sec:qdb_prototype} have a total of 30 Embedded Block Ram models (EBRs).
 This allows for a local and remote FIFO depth each of 1024 packets.
 
-\section{Constraining the Digital Back-end Design}~\label{sec:digital_constraints}
-
+\section{Constraining the Digital Back-end Design}\label{sec:digital_constraints}
 Section~\ref{sec:qpix_apa} describes how a Q-Pix based hardware readout architecture could fit within a single DUNE-APA.
 Here we extend this discussion and use those constraints as the starting point for a search to a solution to the digital back-end architecture.
 The first problem to solve is how to aggregate the timestamp data supplied by the large number of pixels ($(\mathcal{O}(10^{6})$) within a DUNE-FD APA.
@@ -488,8 +474,7 @@ However, as one increases the number of digital nodes per aggregator node one al
 Additionally, since each digital node requires extra communication time (as discussed in Section~\ref{sec:comms}) the introduction of more channels negatively affects the precision of timing calibrations and potentially increases SPF risk of digital channels.
 We consider then that an optimal number of digital nodes per aggregator is one that maximizes the number of digital nodes in a tile but still maintains the required timing calibration and transmits lossless data.
 
-\subsection{Tile Routing Considerations}~\label{sec:tile_sim}
-
+\subsection{Tile Routing Considerations}\label{sec:tile_sim}
 A tile is a rectangular array of digital ASICs (nodes) which must provide a path for data from all ASICs (nodes) to the aggregator.
 There is one special node within the tile that connects to the aggregator.
 This special node we refer to as the ``base-node'' as all data and instruction commands, regardless of routing, must pass through this node.
@@ -586,8 +571,7 @@ These distinct tiles then are the data paths which are unique to each base-node.
 In this graphical representation a packet of data can follow one, and only one path from the origin node to the base-node unless there was duplication of packets.
 We emphatically avoid designs which might depend on data duplication for redundancy; situations with multiple base nodes produce multiple unconnected graphs.
 
-\subsubsection{The SPF Cost}~\label{sec:spf_cost}
-
+\subsubsection{The SPF Cost}\label{sec:spf_cost}
 We define the average SPF cost as the amount of nodes that will be lost during a transaction as the number of digital channels at a height below the failed digital channel.
 For example, the number of nodes which are lost if a leaf-node fails is one since no other channels are between it and the data node.
 Likewise, the number of nodes which are lost in the event of a base-node failure is the total tile, $N$.
@@ -597,8 +581,7 @@ We can then calculate a mean cost SPF, $C_{SPF}$, :
   C_{SPF} = \frac{1}{N}\sum_{node} \frac{n_{i}}{N} = \frac{1}{N^{2}}\sum_{node} n_{i}
 \end{equation}
 
-\subsubsection{Minimize Occupancy}~\label{sec:min_conn}
-
+\subsubsection{Minimize Occupancy}\label{sec:min_conn}
 One of the goals of a successful digital design is to ensure lossless data transfer.
 One point of failure on the digital side is an overabundance of data arriving at a single layer within the tree.
 This data loss occurs when data are sent to a node faster than the data leaves the node, and persists for long enough such that the buffers of the node overflow.
@@ -628,8 +611,8 @@ Although this routing scheme provides the most lax constraint on the required bu
 The longer the transaction delay between the base-node and other nodes increases the reconstruction time uncertainty.
 Therefore, a natural alternative routing scheme is one that minimizes the communication scheme.
 
-\subsubsection{Minimize Delay}~\label{sec:min_comm}
-
+\subsubsection{Minimize Delay}
+\label{sec:min_comm}
 For any given node in an edge FCT with location $(R_{i},C_{i}$), the shortest path to the base-node is simply the sum of its coordinates: $R_{i}+C_{i}$.
 An example of such a routing configuration for a tile is shown in Figure~\ref{fig:leftroute}.
 
@@ -663,8 +646,7 @@ Using this result we obtain $C_{SPF}$ by identifying $N = RC$:
 This result informs that relative cost of losing a node tends to zero as the size of the tile grows.
 Again, this result can be obtained intuitively, since as the number of columns (or rows) grow in size, the probability of a single failure occurring on the aggregator column is increasingly less likely.
 
-\subsubsection{Broadcasts to avoid SPF}~\label{sec:broadcast}
-
+\subsubsection{Broadcasts to avoid SPF}\label{sec:broadcast}
 In order to protect against SPF we consider a design which implements the FCT.
 A FCT allows searches to probe all possible paths to any node via a ``broadcast'' produced from packets sent by the aggregator to the base-node.
 Therefore the broadcast algorithm can be represented by a complete circuit which begins at the base-node and proceeds to a target node with no repeated nodes until the target node is reached.
@@ -703,8 +685,7 @@ The matrix represents transactions that proceed towards (red) and away from (blu
 \label{fig:FCT_colored}
 \end{figure}
 
-\subsection{Comments on the Edge Base-node and Other Routings}~\label{sec:base_node}
-
+\subsection{Comments on the Edge Base-node and Other Routings}\label{sec:base_node}
 We discuss here the case of a FCT with an edge base node.
 An edge base node (EBN) is a node which connects to the aggregator and to three other digital channels within a tile.
 An example of an EBN is shown in Figure~\ref{fig:ebn}.

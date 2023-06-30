@@ -19,7 +19,6 @@ I also developed the data storage trees, which are the original containers for a
 Additionally, I wrote analysis scripts used for the work done at the SAQ site at the University of Texas at Arlington.
 
 \section{Simplified Analog Q-Pix: System Design}
-
 The Simplified Analog Q-Pix (SAQ) experiment aims to demonstrate the first physics measurement using the analog front-end of a Q-Pix based readout.
 The desired measurement is the transverse diffusion of electron in Argon gas~(Equation~\ref{eq:diffusion}).
 In the simplest case, the diffusion of electrons within a TPC is described by:
@@ -98,8 +97,8 @@ The rings are separated by $\approx 0.84~\unit{cm}$, where they encounter an ave
 \label{fig:saq_physical_setup_flatten}
 \end{figure}
 
-\subsection{The Integrator Circuit}~\label{sec:saq_integrator}
-
+\subsection{The Integrator Circuit}
+\label{sec:saq_integrator}
 A schematic of the integrator circuit used in the SAQ experiment is shown in Figure~\ref{fig:saq_circuit_kicad}.
 The Integrated Circuit (IC) used is the IVC-102~\citep{ivc_datasheet}, where the selected capacitance is 10~\unit{pF}.
 We selected the lowest available capacitance of the IVC chip in order to ensure that resets are produced with the lowest amount of possible charge~(Equation~\ref{eq:capacitor}).
@@ -164,7 +163,6 @@ Seen in the waveform is a decaying amount of charge buildup on the capacitor, wh
 \end{figure}
 
 \section{Data Acquisition}
-
 All resets are recorded via a Zybo-Z7-20 Digilent FPGA prototype board, which uses an Zynq-7000 System on Chip (SoC).
 The clock (30.3~\unit{MHz}) is provided by the Processing System (PS), a ARM Cortex-A9, to the Programmable Logic (PL) in the FPGA.
 The PL records a 32-bit counter (the timestamp) on the next clock cycle after the reset, connected as a latch to a single pin input, is driven high.
@@ -251,9 +249,8 @@ The GUI allows channel masking features of individual channels shown by the chec
 \label{fig:saq_gui}
 \end{figure}
 
-
-\section{Status and Calibration Procedures}~\label{sec:saq_calib}
-
+\section{Status and Calibration Procedures}
+\label{sec:saq_calib}
 The Q-Pix readout is dependent on two factors~(Equation~~\ref{eq:irecon_freq}): the charge and frequency calibrations.
 The frequency calibration depends on the stability of the local oscillator and it's reliability to accurately record the time of reset.
 A drifting local oscillator on the digital board, the Zybo for SAQ, will cause poor reconstructions of current.
@@ -305,7 +302,6 @@ Therefore, any charge introduced by drift in the TPC to trigger a reset should d
 
 
 \subsection{Current Results}
-
 Two different collection plane geometries are tested.
 The two different geometries change the amount of exposed copper and are shown in Figure~\ref{fig:trace_boards}.
 The "thin" trace (right image) board exposes 6~\unit{mm} wide copper rings around the center of the TPC
@@ -359,9 +355,9 @@ A plot of initial results from the WC group are shown in Figure~\ref{fig:saq_fir
 These data represent an averaged number of resets divided by the area of the ring on the collection board.
 These data indicate that center channels acquire more charge (produce more resets) than outer channels.
 
-\begin{figure}[]
+\begin{figure}[t!]
 \centering
-\includegraphics[width=\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
+\includegraphics[width=0.95\textwidth]{images/SAQ_first_diffusion_measurement.pdf}
 \caption{First diffusion measurement in P-10 gas performed at Wellesley University.
 The "double peak" feature is thought to be due to an offer center electron source.
 Analysis is currently underway to characterize how charge collection would vary from an offset electron center.
@@ -371,7 +367,6 @@ Analysis is currently underway to characterize how charge collection would vary 
 
 
 \section{Summary and Future Tests}
-
 Although the diffusion measurements of SAQ are not complete at the time of the writing of this thesis, the work contributed by the author has been demonstrated.
 Timestamp data for various gas based TPCs have been collected and been shown to result from accumulated charge on an integrating circuit.
 These first tests demonstrate the Q-Pix front-end capability with off-the-shelf components.

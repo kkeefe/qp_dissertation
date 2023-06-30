@@ -20,8 +20,8 @@ The contributions to the design of the digital ASIC are a major part of this the
 In Section~\ref{sec:digital_back-end} we discuss the design challenges of a large pixelated detector, with a special emphasis on the requirements of the digital back-end.
 Finally, in Sections~\ref{sec:qpix_photonics} and~\ref{sec:qpix_supernova} we briefly describe other work towards validating the Q-Pix design in a LArTPC.
 
-\section{Q-Pix: The Circuit Level Design}~\label{sec:qpix_circuit}
-
+\section{Q-Pix: The Circuit Level Design}
+\label{sec:qpix_circuit}
 The fundamental Q-Pix circuit~(\ref{fig:qpixCircuit}) was first introduced by Nygren and Mei~\citep{qpix:nygren:mei}.
 The principle of the front-end circuit operates on producing a signal output from Schmitt trigger connected to a charge sensitive amplifier (CSA) circuit.
 The input of the CSA is connected to the anode of a TPC, where drifted ionization charge accumulates.
@@ -44,7 +44,6 @@ The front-end is a charge sensitive amplifier (CSA) whose output is connected to
 The trigger (output) occurs when enough charge as accumulated on the capacitor $C_{f}$ (currently 1~\unit{fC}).
 One of the design parameters for the Q-Pix front-end is the choice of $C_{f}$.
 This front-end circuit is designed within a single analog ASIC which has contains 16 of these circuits.
-The schematic for this ASIC is shown in Appendix~\ref{app:analog_prototype}.
 Image is taken from~\citep{qpix:nygren:mei}.}
 \label{fig:qpixCircuit}
 \end{figure}
@@ -70,8 +69,8 @@ The back-end is responsible for providing the local oscillator as well as record
 \label{fig:qpix_frontandbackend}
 \end{figure}
 
-\subsection{Current Reconstruction}~\label{sec:rtds_and_waveforms}
-
+\subsection{Current Reconstruction}
+\label{sec:rtds_and_waveforms}
 Here we describe the basic principle of reconstructing the input current from a collection of timestamp measurements.
 
 A timestamp measurement indicates that a certain amount of charge has accumulated on the CSA.
@@ -140,7 +139,6 @@ It's procedure and first results are described in Chapter~\ref{chap:qdb}.
 The remaining current reconstruction parameter is the timestamp, which is recorded by the digital back-end.
 
 \subsection{Track Reconstruction}
-
 One of the most important features of a TPC is the ability to accurately reconstruct the tracks of ionizing particles.
 An intended use of a pixelated readout on any TPC is to show that there are improvements in the reconstruction of these 3-D track images.
 Event reconstruction requires the three spatial coordinates (x,y,z) of the charge of a track as well as the time, t. 
@@ -156,12 +154,10 @@ The drift speed ($v_{e}$) is approximately constant whose value depends operatin
 Equations~\ref{eq:irecon_freq} and~\ref{eq:driftDistance} together give the reconstructed average current and z-position values of the accumulated ionization charge on the pixel.
 
 \subsection{Comments on Uncertainties}
-
 Verification of the Q-Pix readout relies in part on tests to show that this timestamp data can be safely recorded and sent to disk without loss.
 Here we briefly discuss potential uncertainties within the Q-Pix readout.
 
 \subsubsection{Near Maximum Reset Rate}
-
 Equation~\ref{eq:irecon_freq} relates the maximum current ($I_{max}$) in a Q-Pix readout at the limiting case of $N_{rtd} = 1$.
 For $Q_{o} = 1~\unit{fC}$ and $f_{o} = 30~\unit{MHz}$, $I_{\mathrm{max}} = 30~\unit{nA}$.
 However, since $N_{rtd}$ is a difference between two 32-bit timestamps, it can only take positive integer values.
@@ -210,8 +206,8 @@ The right plot indicates the difference between the true and reconstructed charg
 \label{fig:reconQ}
 \end{figure}
 
-\subsubsection{Comments on Reconstruction Requirements}~\label{sec:recon_uncert}
-
+\subsubsection{Comments on Reconstruction Requirements}
+\label{sec:recon_uncert}
 The uncertainties for the two transverse coordinates ($\hat{x}$ and $\hat{y}$) are related to the pixel's area.
 If we assume that the electric field is uniform on average over all $\mathcal{O}(10^{7})$ pixels in an APA, then the charge drift will be uniformly distributed over the pixel.
 The pixel size then determines the resolution: $\frac{4 mm}{\sqrt{12}} \approx 1.15 mm$.
@@ -222,15 +218,13 @@ Other measurement uncertainties come from the Equation~\ref{eq:irecon_freq}.
 The precision of the local oscillator frequency and the constant charge per reset determine the current reconstruction precision.
 Variable replenishment circuits can greatly impact $Q_{o}$ from reset to reset, which will also affect $\sigma_{z}$.
 
-\section{How Q-Pix fits into a 10 kt LArTPC}~\label{sec:qpix_apa}
-
+\section{How Q-Pix fits into a 10 kt LArTPC}
+\label{sec:qpix_apa}
 A future target detector for the Q-Pix readout is a DUNE-FD 10 kt module.
 To explore how Q-Pix could be used in this detector we provide a brief over-view of the DUNE-FD electronics and compare with those requirements for Q-Pix based readout.
 The simulation results presented in Chapter~\ref{chap:sim} are based on the detector volume of a single APA within a DUNE-FD module.
 
 \subsection{The DUNE Far Detector Electronics}
-
-%% section 1.8 of TDR
 The DUNE-FD is a modular assembly of Anode Plane Assemblies (APA) as shown in Figure~\ref{fig:dune_apa_tdr}.
 Each Single-Phase (SP) 10 kT module will consist of 100-200 APAs (depending on the allowable drift distance).
 The APA's full description can be found at~\citep{DUNE-FD_TDRv4:Abi_2020}.
@@ -298,7 +292,6 @@ Due to the different charge sensitive geometries between a wire and pixel-based 
 \end{table}
 
 \subsection{Q-Pix Comparison to DUNE-FD Electronics}
-
 Each APA is 6.324 $\unit{m}$ $\times$ 2.316 $\unit{m}$, for a total area of 14.646 $\unit{m^{2}}$.
 From these dimensions the expected channel count of the Q-Pix readout on the DUNE-FD APA is
 \begin{equation}
@@ -355,16 +348,16 @@ The number of channels per tile depends on the tile size as well as the number o
 \end{center}
 \end{table}
 
-\section{The Digital Back-end}~\label{sec:digital_back-end}
-
+\section{The Digital Back-end}
+\label{sec:digital_back-end}
 We define the digital back-end as the part of the larger Q-Pix readout system that is responsible for handling the timestamp data once it is recorded.
 This sub-system must be able to record and store data, be robust against SPF, define error states, and more.
 
 In this section we introduce considerations which guided the design of the first two Q-Pix ASIC prototypes.
 These design choices for the digital prototype are enumerated in table~\ref{table:digital_design_params}.
 
-\subsection{Digital ASIC Prototype Design Choices}~\label{sec:design_choices}
-
+\subsection{Digital ASIC Prototype Design Choices}
+\label{sec:design_choices}
 The Table~\ref{table:digital_design_params} highlights some design choices of the first digital Q-Pix ASIC prototype.
 Four neighbor connections were chosen as the design choice two allow for communication in either direction along the x and y axes.
 The local and remote FIFO depths determine how many resets and communication packets the ASIC may store at any one time.
@@ -383,9 +376,9 @@ Communication Protocol & Endeavor & Protocol determines packet stability based o
  \hline
 Timestamp Bits & 32 & Determines the total number of unique counts each timestamp value can take. Also determines the "wrap-around" time based on the local oscillator.  \\
  \hline
-Local FIFO Depth & 64 & Total number of timestamps the ASIC can store before running out of memory. ASIC will not record additional resets until emptied. \\
+Local\newline FIFO Depth & 64 & Total number of timestamps the ASIC can store before running out of memory. ASIC will not record additional resets until emptied. \\
  \hline
-Remote FIFO Depth & 128 & Total number of remote packets ASIC can store before running out of memory. ASIC will not write additional packets from neighbors. \\
+Remote\newline FIFO Depth & 128 & Total number of remote packets ASIC can store before running out of memory. ASIC will not write additional packets from neighbors. \\
  \hline
  \hline
 \end{tabular}
@@ -400,7 +393,6 @@ The values of the local and remote FIFO depth were selected due to fabrication r
 \end{table}
 
 \subsection{Single Point Failures}
-
 Q-Pix digital design should provide ``robust resilience'' against single point failure (SPF).
 The readout technology presented here relies on huge numbers of readout channels ($10^{8}$) compared to current MWPC designs ($10^{5}$).
 As such, extra care must be made in designing new technology to improve over established, seemingly simpler means.
@@ -411,8 +403,8 @@ This design choice, in particular, is discussed at length in Chapter~\ref{chap:q
 The design which avoids SPF and handles the digital requirements presented here, namely: the continual time calibration of each local oscillator ($N_{osc} \approx 10^{5}$) is a product of this thesis.
 However, the amount of data produced depends on the charge collected in each event, therefore the amount of data collected can not be known before recording.
 
-\section{Q-Pix and Light Detection}~\label{sec:qpix_photonics}
-
+\section{Q-Pix and Light Detection}
+\label{sec:qpix_photonics}
 The results of this thesis analyze the response of the Q-Pix digital readout without any analysis paid towards photon collection.
 However, recent progress regarding amorphous selenium (aSe)~\citep{https://doi.org/10.48550/arxiv.2207.11127} has been made towards inclusion of an optical system.
 
@@ -456,8 +448,8 @@ The horizontal geometry solves this problem, at the cost of a more complicated d
 \label{fig:qpix_light_geometries}
 \end{figure}
 
-\section{Q-Pix at Low Energy: Supernova Studies}~\label{sec:qpix_supernova}
-
+\section{Q-Pix at Low Energy: Supernova Studies}
+\label{sec:qpix_supernova}
 Work has been done to characterize a Q-Pix readout ability measure core collapse supernovae~\citep{qpix:shion} events within a DUNE-FD module.
 These studies involved particle Geant4-based(~\citep{geant4:AGOSTINELLI2003250}) simulations for low energy ($\simeq$ 10~\unit{MeV}) neutrino events.
 The results indicate several advantages Q-Pix readout will have over a traditional wire-based readout.

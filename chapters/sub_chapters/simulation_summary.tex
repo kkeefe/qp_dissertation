@@ -1,11 +1,9 @@
 \section{Neutrinos, Backgrounds, and Routing}
-
 A valid full reconstruction requires all packets to be collected regardless of neutrino type, energy within the valid range, interaction vertex, and should also be able to accept a range of incoming momentum angles.
 In this final section of the chapter we combine the results of the neutrino interactions as well as the radiogenic and leakage backgrounds into the simulation framework described in Section~\ref{sec:tile_simulation}, which is based on the graph developed in Chapter~\ref{chap:qdb}.
 This back-end simulation framework is also my sole and independent work.
 
 \subsection{Combining the Digital and Physical Simulations}
-
 To synthesize the results of the neutrino events and the background sources we take a reference 10 second window slice from a 1000 second simulation of backgrounds as described in Section~\ref{sec:simulating_tile}.
 We then select a single $\nu_{e}$ interaction from the forward horn current direction, where we accept any incoming $\theta_{z}$, z-position, and energy.
 This event is offset to occur at time: $\tau_{int} = $5.1 seconds.
@@ -16,7 +14,6 @@ This ensures that the entire $\nu_{e}$ interaction is buffered onto all local FI
 We note that this time offset is the same for the push architecture, even though the neutrino reset packets will be sent when they are acquired.
 
 \subsection{Remote FIFO Depth Results}
-
 Figure~\ref{fig:mp60_slow_plots_for_digital_sim} shows combined results for the remote transactions, remote FIFO depth, and 99\% capture requirements.
 The remote transactions for both the left and trunk routings are much smaller on average than the snake routing for the reasons described in Section~\ref{sec:simulating_tile}.
 
@@ -160,8 +157,7 @@ The final column of this table indicates the relative fit from the push-based ar
 %% table information
 \input{chapters/tables/fit_data.tex}
 
-\section{Summary and Further Studies}~\label{sec:further_studies}
-
+\section{Summary and Further Studies}\label{sec:further_studies}
 The results presented in this section provide first physical analysis of the Q-Pix digital readout.
 Included in the analysis are long exposure to radiogenic background sources, leakage current, neutrino beam events, and the response of the digital back-end ASICs.
 All events occur in a 2.3$\times$6.0~\unit{m^{2}} LAr container, with a maximum drift distance of 3.6~\unit{m}.

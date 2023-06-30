@@ -1,5 +1,4 @@
-\section{The Tile Simulation Framework}~\label{sec:tile_simulation}
-
+\section{The Tile Simulation Framework}\label{sec:tile_simulation}
 The previous chapter introduced the digital back-end as well as discussed different design choices, namely tile size, routing configurations, and the effects of the aggregator position.
 Here we describe how we simulate events of interest for these different configurations.
 
@@ -11,7 +10,6 @@ We note that while it may be shown in the future that some resets may in fact no
 For this reason we demand that no data be lost for any reason due to the digital back-end design.
 
 \subsection{The Tile Representation}
-
 We model a tile (a group of digital nodes, or ASICs) based on the description given in Chapter~\ref{chap:qdb}.
 A tile is then represented in software (Python 3) as a linked list of nodes which store pointers to the adjacent nodes or neighbors.
 
@@ -66,8 +64,7 @@ This architecture changes the condition for a node to leave its idle state and s
 For this reason the push architecture is also more time consuming to simulate since each node can send a packet at any time, provided that it will inject a hit into its local FIFO following the procedure described in the next section.
 Nodes which require an interrogation in order to send local data we refer to as the "pull" architecture.
 
-\subsection{Injected Resets}~\label{sec:hits}
-
+\subsection{Injected Resets}\label{sec:hits}
 In order to speed up the execution of the python simulation reset events are precalculated and loaded into separate list containers for each node.
 At the beginning of every simulation time step every node checks its injected resets list against the new simulation step time.
 If the new time step is larger than any of the timestamps in its resets list, the resets are then removed from this list and are written to the node's local FIFO.
@@ -95,8 +92,8 @@ An example of this procedure is shown in Figure~\ref{fig:push_arch_verification}
 }
 \end{figure}~\label{fig:simulation_step_procedure}
 
-\subsection{The Simulation Procedure}~\label{sec:process}
-
+\subsection{The Simulation Procedure}
+\label{sec:process}
 Upcoming sections will discuss values derived from simulating the readout of the tile. 
 Here we briefly describe the simulation procedure and how the results are obtained.
 The procedure is also graphically demonstrated in Figure~\ref{fig:simulation_process_procedure}.
@@ -133,7 +130,6 @@ In the results presented here we process the tile for one second longer than any
 
 
 \section{The Tile Parameters}
-
 One goal of the simulations presented here is to parameterize different design choices in constructing both the digital nodes and the tiles.
 The different parameters which we test are described in Table~\ref{table:tile_params}.
 
@@ -184,7 +180,6 @@ The reason for this is simply that is likely that some digital nodes will fail (
 Therefore, future tiles that contain hybrid routing we suggest to those users to individually analyze the sub tiles with appropriating routing and frequency distribution and determine if the buffer depths are appropriate.
 
 \subsection{Oscillator Frequency and Drift}
-
 Two different oscillator frequencies are tested, as shown in Table~\ref{table:tile_params}.
 These different frequency variances indicate mean differences in oscillator frequency between adjacent nodes.
 An example of the 5\% oscillator variance is shown in Figure~\ref{fig:asic_frequency_example}.
@@ -205,8 +200,8 @@ The numbers plotted above each ASIC row and column indicate the relative frequen
 For example, a number of 112 indicates an ASIC which is 12\% faster than 30MHz, a frequency of $\approx 33.6 MHz$.}
 \end{figure}~\label{fig:asic_frequency_example}
 
-\section{Simulating The Tile Readout}~\label{sec:simulating_tile}
-
+\section{Simulating The Tile Readout}
+\label{sec:simulating_tile}
 The tile simulation is performed by injecting hits from two known sources: radiogenic backgrounds and beam neutrinos.
 All results presented in this chapter are based on 11 seconds of simulated run time.
 Radiogenic data are collected and used to occupy 10 seconds of background noise resets.
@@ -232,7 +227,6 @@ The configuration of each node and the tile happens before the beginning of the 
 The frequency and the routing directions are configured for each node during its creation.
 
 \subsection{Simulation Timing}
-
 The purpose of the simulation is the examine the communication behavior of digital nodes at different frequencies which communicate via packets of variable time width.
 For this reason special care is taken to ensure that the timing of packet transactions in the simulation are accurate.
 The behavior of each node is determined by its state machine properties, as described in Fig.~\ref{fig:digital_fsm}.
@@ -262,8 +256,8 @@ The broadcast packet is sent starting at the soonest available time on each conn
 The full broadcast procedure is described in Section~\ref{sec:broadcast}.
 
 
-\subsubsection{Snake Timing Example}~\label{sec:snake_timing}
-
+\subsubsection{Snake Timing Example}
+\label{sec:snake_timing}
 Here we refer to the "snake" routing as the maximal path routing.
 This routing is one that minimizes the number of input edges for all nodes within a tile.
 An example of a packet transfer which uses this routing is shown in Figure~\ref{fig:snake_packet_drift}.
@@ -292,7 +286,6 @@ Each packet traverses through all nodes in the tile where remote packets are sen
 
 %% example left route
 \subsubsection{Left Timing Example}
-
 The naming convention for the "left" routing is arbitrary since the tile can be viewed from the opposite direction and the routing would appear "right".
 By "left" routing we mean a routing configuration in which the routed direction for all ASICs in all rows are in the same direction, except for the nodes which have no neighbor in that direction.
 These nodes then are routed "up" towards the aggregator.
@@ -321,7 +314,6 @@ The packets appear to separate in the base-node during the final transaction sin
 
 
 \subsubsection{Trunk Timing Example}
-
 The final routing scheme we simulate we call the "trunk" routing.
 We name this routing the "trunk" because all data are sent to a central column within the tile and then up towards the edge base node.
 An example of a simple data transfer is shown in Figure~\ref{fig:trunk_packet_drift}.
@@ -351,7 +343,6 @@ In this 3$\times$3 example shown, the base node is at (1,0), or in the middle.}
 
 
 \subsection{The Pull Architecture and FIFO Depths}
-
 The "pull" architecture describes a tile configuration where data are only sent by ASICs within the tile when they receive a broadcast packet.
 We describe an example simulation event in this section with the pull architecture and the three routing methods to demonstrate which variables are recorded.
 The example presented in Figure~\ref{fig:local_buffer_hit_example} stores resets accumulated over ten seconds from both radiogenic backgrounds and a 3$\unit{GeV}~\nu_{e}$ event.
@@ -462,7 +453,6 @@ In all three routing examples shown it was not the base node which experienced t
 
 
 \subsection{The Push Architecture}
-
 The final simulated parameter to describe is the push architecture.
 Since the push architecture allows individual nodes to determine when packets can be sent all nodes must be inspected at each time step to check if a reset occurs before this new time window.
 If a reset occurs at a time before the next simulation timestep, then the reset is removed from this node's hit list and is written to the node's local FIFO.
