@@ -209,6 +209,17 @@
 
 % The abstract and acknowledgments are treated as unnumbered chapters
 % with Table of Contents entries.
+\newenvironment{dedication}
+  {%\clearpage           % we want a new page          %% I commented this
+  %  \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top
+   \itshape             % the text is in italics
+   \center          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
 \renewenvironment{abstract}
   {\extrachapter{Abstract}}
   {\clearpage}

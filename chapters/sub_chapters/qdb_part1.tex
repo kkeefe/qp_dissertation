@@ -431,27 +431,27 @@ The remaining bits are useful for constructing different types of packets to be 
 \subsection{Communication of the Datum}~\label{sec:comms}
 
 There exist several asynchronous protocols of communication of digital information.
-Most of the differences between protocols exist based on the number of connections between devices and whether or not one pin is allocated to share a clock, etc.
-The design of the Q-Pix ASIC limits the number of connections to only two.
+Some of the differences between protocols exist based on the number of connections between devices and whether or not one pin is allocated to share a clock, etc.
+The design of the Q-Pix ASIC limits the number of connections between neighbors to only two.
 
 Our design considerations for this readout include reduction of SPF risk, low power, and minimal electrical routing.
 Partly for these reasons, the design choice for communication relies on only two connections between ASICs.
 One connection is defined as a data receiver (Rx) and the other as a data transmitter (Tx).
 This choice of interface dramatically limits a choice of possible protocols.
 
-The importance of choosing a valid protocol is to ensure lossless data transmission.
-Since there are free running clocks, an asynchronous communication protocol is required.
+The importance of choosing a protocol is to ensure lossless data transmission.
+Since every ASIC has its own free running clock, an asynchronous communication protocol is required.
 One way to ensure that data can be moved between clocks of different speeds is to stretch the signal or to repeat bits (Figure~\ref{fig:endeavor}).
 The more the word is stretched in time, the larger the allowable difference in frequency between the two devices.
-However, this lengthening can't proceed forever, obviously, otherwise data transmission time could exceed data capture rates.
+However, this lengthening can't proceed indefinitely, otherwise data transmission time would exceed data capture rates.
 
 It is another important design consideration to ensure that transactions proceed as quickly as possibly without data loss.
-Additional concerns of long data transactions include the use of more clock cycles which use more power and increase the risk noise to leak to the analog front-end.
+Additional concerns of long data transactions include the use of more clock cycles which could use more power and increase the risk of electronic noise to leak to the analog front-end during charge collection.
 However, these risks can be mitigated if transmission and data acquisition occur at different times.
 Our choice of the endeavor protocol is tested in Section~\ref{sec:qdb_prototype}.
 
 Although Endeavor is slower than a traditional Universal Asynchronous Receive Transmitter (UART) protocol, it is stable for approximately double the frequency range: $\approx$ 20\%.
-In Chapter~\ref{chap:sim} we show that the overall average packet transaction time is much less ($\sim 0.1\%$) of the wait time between interactions for neutrino events.
+In Chapter~\ref{chap:sim} we show that the overall average packet transaction time is much less ($\sim 0.1\%$) than the wait time between interactions for neutrino events.
 
 \subsection{Buffer Depth Requirements}~\label{sec:buffer_requirements}
 
@@ -477,11 +477,11 @@ Since each additional aggregator node represents an additional SPF risk, our des
 Therefore, the goal is to design a routing architecture which is responsible for as many digital nodes as possible for each data aggregator node while still accounting for accurate timing calibration and lossless data acquisition.
 
 In a fully realized design an aggregator might in fact be responsible for multiple tiles, which need not necessarily be the same size.
-The requirements of an aggregator node require that it be capable of sending packets faster than it can receive it.
+An aggregator node is required to be capable of sending packets faster than it can receive it so that no data is lost during transmission.
 If an aggregator node connects to one ASIC per tile, the average incoming data rate is the number of tiles times the average packet transaction in Equation~\ref{eq:avg_packet}.
 
-The Q-Pix ASIC data rates (8 bytes per $\sim$ 60~\unit{\mu s} = $\sim$ 117~\unit{kB}) are incredibly slow compared to the ethernet protocol of the aggregator presented in Section~\ref{sec:qdb_prototype}.
-If a Q-Pix ASIC sent data at a rate of 117~\unit{kBs}, and the aggregator sent data via 5~\unit{GBs} ethernet, a single aggregator could connect to over 40000 tiles without data loss.
+The Q-Pix ASIC data rates (8 bytes per $\sim$ 60~\unit{\mu s} = $\sim$ 117~\unit{kBs}) are more than three orders of magnitude slower than the ethernet protocol of the aggregator presented in Section~\ref{sec:qdb_prototype}.
+If a Q-Pix ASIC sent data at a rate of 117~\unit{kBs}, and the aggregator can send data via 5~\unit{GBs} ethernet, a single aggregator could connect to over 40000 tiles without data loss.
 For comparison, the dimensions of the DUNE-FD APA in Chapter~\ref{chap:sim} use 862,500 pixels, which would take only 3370 16$\times$16 tiles.
 
 However, as one increases the number of digital nodes per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated (Section~\ref{sec:calib}).
@@ -490,7 +490,7 @@ We consider then that an optimal number of digital nodes per aggregator is one t
 
 \subsection{Tile Routing Considerations}~\label{sec:tile_sim}
 
-A tile is a rectangular array of digital ASICs which must provide a path for data from all ASICs to the aggregator.
+A tile is a rectangular array of digital ASICs (nodes) which must provide a path for data from all ASICs (nodes) to the aggregator.
 There is one special node within the tile that connects to the aggregator.
 This special node we refer to as the ``base-node'' as all data and instruction commands, regardless of routing, must pass through this node.
 The symmetry of the rectangular tile allows any corner node to be the base node, and we choose the upper-left to define a convention.
@@ -511,7 +511,7 @@ The most robust protection a tile can have is to be fully connected, which allow
 Each path (Tx or Rx connection) is as an edge between nodes.
 
 Here we introduce a particular representation for a tile which is useful for simplifying simulations and for analyzing particular routing configurations.
-The most general tile configuration occurs when we assume that all adjacent nodes within the tile are connected; this creates what we refer to as a ``fully connected tile'' (FCT).
+The most general tile configuration occurs when all adjacent nodes are connected; this creates what we refer to as a ``fully connected tile'' (FCT).
 An example of a FCT is shown in Figure~\ref{fig:fc_tile}.
 Any particular choice of an effective routing must then be a subset of this fully connected version.
 
@@ -519,7 +519,7 @@ Any particular choice of an effective routing must then be a subset of this full
 \centering
 \includegraphics[width=0.9\textwidth]{images/Broadcast.pdf}
 \caption{Example of the fully connected routing configuration for a tile (FCT).
-Each Node represents a digital ASIC which must be aggregated, and the red and blue connections distinguish directions of communication.
+Each node represents a digital ASIC which must be aggregated, and the red and blue connections distinguish directions of communication.
 The red connection lines indicate pathways away from the base node, whereas the blue lines represent connection paths towards the base-node in the upper-left.
 The FCT can be viewed as a directional, weighted graph where the edges are the Tx and Rx connections between ASICs (nodes).
 }
@@ -566,7 +566,7 @@ The full length between two nodes, $i$ and $j$, connected by an edge is represen
 T_{i\rightarrow j} = N_{bits}T_{i} + T_{j}(t)
 \end{equation}
 
-where $T_{j}(t)$ represents the time dependent fractional part of one nominal clock period of the receiving node.
+Where $T_{j}(t)$ represents the time dependent fractional part of one nominal clock period of the receiving node.
 The expectation value of $T_{j}(t)$ is half of the nominal window so that mean Equation~\ref{eq:t_packet_full} is:
 \begin{equation}~\label{eq:t_packet_avg}
 \bar{T}_{i\rightarrow j} \simeq N_{bits}T_{i} + \frac{T_{j}}{2}
@@ -665,7 +665,7 @@ Again, this result can be obtained intuitively, since as the number of columns (
 
 \subsubsection{Broadcasts to avoid SPF}~\label{sec:broadcast}
 
-In order to protect against SPF we only consider a designs which implement the FCT.
+In order to protect against SPF we consider a design which implements the FCT.
 A FCT allows searches to probe all possible paths to any node via a ``broadcast'' produced from packets sent by the aggregator to the base-node.
 Therefore the broadcast algorithm can be represented by a complete circuit which begins at the base-node and proceeds to a target node with no repeated nodes until the target node is reached.
 The backward path is then completed in reverse by following the edges (Tx and Rx connections) between each node until arriving finally again at the base-node.

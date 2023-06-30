@@ -2,47 +2,49 @@
 
 \section{Conclusions}
 
-The results presented in this work provide the first tests and verification of the digital back-end for novel pixel readout technology targeted at liquid Argon Time-Project-Chambers.
+The results presented in this work provide the first tests and verification of the digital back-end for novel pixel readout technology targeting liquid Argon Time-Project-Chambers.
 
-The first Q-Pix analog prototype using Off-The-Shelf analog components has been built and is currently taking measurements.
-This prototype promises to provide gaseous Argon diffusion measurements, which will likely be the first true physics measurement using a Q-Pix based readout.
+The first Q-Pix analog prototype using off-the-shelf analog components has been built and is currently taking measurements.
+This prototype promises to provide gaseous argon diffusion measurements, which will likely be the first true physics measurement using a Q-Pix based readout.
 
 We have built and verified the first digital prototype boards which have verified communication reliability to protect against potential data loss.
 We developed a frequency calibration method for remote nodes to demonstrate Q-Pix's ability to have independent oscillators.
 We used this prototype and verified the ability to reconstruct remote oscillator frequencies with a precision more than an order of magnitude required (0.1~\unit{ppm} < 1~\unit{ppm}).
-These results are verified between two different interrogation frequencies.
+These results are verified between two different interrogation frequencies of 0.1 Hz and 4 Hz.
 
-We developed multiple simulations to model the detector's response to long ($1000 second$) run time exposure of radiogenic backgrounds as well as tested the ability to readout beam neutrino events at LBNF.
-Our simulations show that the current ASIC's local (64) and remote (128) FIFO depths of the digital ASIC prototype are too small to \unit{GeV} scale neutrino events in a DUNE-FD.
-We estimate that the local FIFO depth should be at least be able to record 426 unique resets in order to fully capture 99\% of neutrino events with energy up to 10~\unit{GeV}.
+We have developed several simulations to model the detector's response to long ($1000 second$) run time exposure of radiogenic backgrounds as well as tested the ability to measure beam neutrino events at LBNF.
+Our simulations show that the local (64) and remote (128) FIFO depths of the first prototype ASIC are too small to detect \unit{GeV}-scale neutrino events in a DUNE FD.
+We estimate that the local FIFO depth should be at least be able to record 454 unique resets in order to fully capture 99\% of neutrino events with energy up to 10~\unit{GeV}.
 These results are modified to a required 394 when accounted for expected (dis)appearance spectra given in~\citep{DUNE_FD_TDRv2_2020}
-This result provides the first limit on the memory required for a Q-Pix ASIC, should it be used in a DUNE-FD module to measure neutrino oscillations.
+These results provide the first limit on the memory required for a Q-Pix ASIC if it is to be used in a DUNE-FD module to measure neutrino oscillations.
 
 To test the remote FIFO depths and local oscillator frequency requirements we developed the first simulation to model the Q-Pix digital back-end response to physical events within a DUNE-FD APA.
-We find that the distribution of the ASIC frequency needs to be $\approx 0.5\%$ in order to maintain obtain reliable remote FIFO depths with the current readout protocol. 
+We find that the distribution of the mean of the local oscillator frequencies needs to be $\approx 0.5\%$ in order to maintain obtain reliable remote FIFO depths with the current readout protocol. 
 These results also indicate that the only reliable routing methodology is the "Snake" routing (Section~\ref{sec:snake_timing}), which is shown to be independent of both tile size and digital architecture (See Table~\ref{table:tile_params}).
 The routing ("Snake") provides a unitary relationship between the local and remote FIFO depth requirements.
 
 \subsection{The Future of Q-Pix}
 
 The Q-Pix design is a novel readout technology.
-However, "novelty does not confer automatically benefit", David Nygren.
-The full Q-Pix validation still awaits key results to demonstrate its capabilities in a DUNE-FD module.
+Is has been said, however, "novelty does not confer automatically benefit", David Nygren.
+The full Q-Pix validation still awaits results to demonstrate its capabilities in a DUNE-FD module.
 Namely, Q-Pix still needs to test both the analog and digital prototypes at cold liquid Argon temperatures.
+Other tests are currently underway to verify the front-end analog capabilities of the Q-Pix readout.
 
-The front-end requires a reliable replenishment circuit as well as low leakage current ($\approx 100~\unit{aA}$ or less to be below radiogenic backgrounds).
-Also, when known, the timing response of the replenishment circuit should be applied to the RTD results presented in this work.
+The front-end requires a reliable replenishment circuit as well as low leakage current ($\approx 100~\unit{aA}$ or less) to be below radiogenic backgrounds.
+The timing response of the replenishment circuit should be applied to the RTD results presented in this work.
 Knowledge of the timing response of the analog front-end can be combined with the neutrino simulation events shown here to allow for accurate event reconstruction.
-These reconstructed events will permit an analysis to estimate of Q-Pix's ability to perform neutrino oscillation measurements.
+These reconstructed events will permit a complete analysis to estimate of Q-Pix's ability to perform neutrino oscillation measurements.
 
 \subsection{Q-Pix's First and Second Digital Prototypes}
 
-The work presented here can accurately be viewed both as a means to understand the Q-Pix's first digital ASIC and as a guide toward the second digital design.
-The key result of this work indicates that the local and remote FIFO depths of the second prototype should both be increased to at or above 394 to capture 99\% of neutrino oscillation interactions.
-The reason the first prototype did not incorporate these larger buff sizes was due to fabrication limitations of the ASIC.
-If oscillator tests of the first prototype indicate that the mean drift between neighbor ASICs is reliably under 0.5\%, then the local oscillator need not be changed either.
-All other underlying logic, with perhaps the exception of FWFT FIFOs, have been verified in the first digital prototype.
-These tests need only be repeated on the first prototype ASIC.
+The work presented here can be accurately viewed as a means to understand the Q-Pix's first digital ASIC and as a guide toward the second digital design.
+A key result of this work indicates that the local and remote FIFO depths of the second prototype should both be increased to at or above 394 to capture 99\% of neutrino oscillation interactions.
+The reason the first prototype did not incorporate these larger buffer sizes was due to fabrication limitations of the ASIC.
+If oscillator tests of the first prototype indicate that the mean drift between neighbor ASICs is reliably under 0.5\%, then the local oscillator would not need to be changed.
+All other underlying logic, perhaps with the exception of First-Word-Fall-Through FIFOs, have been verified in the first digital prototype.
+The packet communication tests presented here will be repeated on the ASIC prototypes to verify the control logic.
 
 Eventually the Q-Pix front and back-end ASICs will likely be combined into a single chip.
-Still, the motivation provided by the results presented here for the second prototype (applied only to the digital portion) remain unchanged.
+Whether or not the Q-Pix prototypes will be combined during the second iteration remains to be seen.
+Still, the motivation provided by the results presented here for the requirements of the digital portion of the second prototype remain unchanged.

@@ -242,11 +242,12 @@ Therefore, an accurate measure of timing for each node is equivalent to ensuring
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/snake_timer.pdf}
-\caption{Example of timing ASIC state transitions in the simulation framework.
+\caption{Example of timing ASIC state transitions in the simulation framework of hits injected into a single ASIC.
   The x-axis represents time in $\mu s$, and the different y-axis labels represent different ASICs within a 3$\times$3 tile shown.
   The y-axis also indicates the relative frequencies of the ASICs in the tile, where the node at (0,0) has the fastest frequency, which is 12\% faster than 30 MHz.
   The blue regions indicate that the ASIC is in the idle state.
   The first orange state indicates that this ASIC (2,2) received a register request from the aggregator node and is now sending its local data, concluding in the purple state, which is sending the event end word.
+  This example event injected hits in only ASIC-(2,2) for visual simplicity.
   The Packets drift apart in time as they are sent from slower to faster ASICs.
   Shown here is the possibility of packet drift due to asynchronous packet transfers that depends on the magnitude of the frequency drift between neighbor ASICs.
 }
@@ -256,7 +257,7 @@ Not shown are times when an ASIC receives or responds to a broadcast.
 Broadcast packets are uniquely handled by ASICs.
 An ASIC, instead of writing the request to the remote FIFO, immediately handles a broadcast by sending this packet to all neighbor ASICs, excluding the direction from which it received the broadcast.
 This means that an ASIC's state does not change during a broadcast.
-This is handled by the simulation by tracking packet times on the ASIC connections.
+A broadcast is handled within the simulation by tracking packet completion times on the ASIC connections and preventing multiple packets to be sent on the same connection at the same time.
 The broadcast packet is sent starting at the soonest available time on each connection.
 The full broadcast procedure is described in Section~\ref{sec:broadcast}.
 
@@ -284,7 +285,7 @@ This demonstrated by the amount of time ASICs are in the transmit remote state s
   \includegraphics[width=\textwidth]{images/snake_ex_read.pdf}
   \caption{Data Path in Snake Readout}
 \end{subfigure}
-\caption{A snake packet transaction example is shown. The broadcast is received by the further node (2,2) and 10 data words are sent, followed by a event end word.
+\caption{A snake packet transaction example is shown. The broadcast is received by the furthest node (2,2) and 10 data words are sent, followed by a event end word.
 Each packet traverses through all nodes in the tile where remote packets are sent immediately.}
 \label{fig:snake_timer}
 \end{figure}
@@ -311,8 +312,10 @@ This routing configuration minimizes the path length for all nodes in the tile w
   \includegraphics[width=\textwidth]{images/left_ex_read.pdf}
   \caption{Data Path in Left Readout}
 \end{subfigure}
-\caption{A left packet transaction example is shown. The packet transfers begin with the furthest node (2,2) receives a broadcast from the aggregator. 
-The data are then sent to the "left" and then "up" towards the base node, and finally to the aggregator node.}
+\caption{A left packet transaction example is shown. The packet transfers begin when the furthest node (2,2) receives a broadcast from the aggregator. 
+The data are then sent to the "left" and then "up" towards the base node, and finally to the aggregator node.
+The packets appear to separate in the base-node during the final transaction since ASIC-(1,0) is nearly 20\% slower than ASIC-(0,0).
+}
 \label{fig:left_packet_drift}
 \end{figure}
 
@@ -341,7 +344,7 @@ In the 4$\times$4 case we choose the second column and in the 8$\times$8 case, w
   \caption{Data Path in Trunk Readout}
 \end{subfigure}
 \caption{A trunk packet transaction example of two data words and a single event end word is shown. 
-This routing method allows for the fastest possible transaction time since it minimizes the edge lengths between the base node and all other nodes within the tile.
+This routing method allows for the fastest possible transaction time since it minimizes the number of edges between the base node and all other nodes within the tile.
 In this 3$\times$3 example shown, the base node is at (1,0), or in the middle.}
 \label{fig:trunk_packet_drift}
 \end{figure}
@@ -363,7 +366,8 @@ The figures shown in~\cref{fig:snake_example_neutrino,fig:left_example_neutrino,
 \caption{Example local FIFO distribution of a $\approx 3\unit{GeV}~\nu_{e}$ event.
 The numbers over each tile represent the total number of writes which occurred to each local FIFO in the array.
 Even with the lowered resolution (each ASIC accounts for 16 pixels), different tracks are noticeable based on the FIFO depths.
-The maximum scale for the heatmap is chosen to be 512 resets.
+This event requires maximum local FIFO depth of 153, which corresponds to the vertex of the neutrino interaction.
+Since this interaction can occur above any pixel within the TPC, all ASICs have the same memory requirements.
 }
 \end{figure}~\label{fig:local_buffer_hit_example}
 
@@ -381,7 +385,7 @@ The maximum scale for the heatmap is chosen to be 512 resets.
   \includegraphics[width=\textwidth]{images/snake_asic_remote.pdf}
   \caption{Remote FIFO Depths}
 \end{subfigure}
-\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing. 
+\caption{Example of local (a) and Remote (b) FIFO depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing. 
 The color bar to highlight the maximum number of transactions is used to indicate remote transactions which were happening for 2\% of the total readout time of 10 seconds.
 The node which has the largest remote buffer depth corresponds to the ASIC with the slowest frequency as shown in Figure~\ref{fig:asic_frequency_example}.
 The reason for this excess of buffer depth is due to packet buildup on the slow ASIC.
@@ -403,7 +407,7 @@ The reason for this excess of buffer depth is due to packet buildup on the slow 
   \includegraphics[width=\textwidth]{images/left_asic_remote.pdf}
   \caption{Remote FIFO Depths}
 \end{subfigure}
-\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing.
+\caption{Example of local (a) and Remote (b) FIFO depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing.
  The ASIC which has the largest remote buffer depth also corresponds to the ASIC with the lowest frequency as shown in Figure~\ref{fig:asic_frequency_example}.}
 \label{fig:left_example_neutrino}
 \end{figure}
@@ -421,7 +425,7 @@ The reason for this excess of buffer depth is due to packet buildup on the slow 
   \includegraphics[width=\textwidth]{images/trunk_asic_remote.pdf}
   \caption{Remote FIFO Depths}
 \end{subfigure}
-\caption{Example of local (a) and Remote (b) fifo depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing.
+\caption{Example of local (a) and Remote (b) FIFO depths of the example neutrino event from~\ref{fig:local_buffer_hit_example} after processing.
 The ASIC which has the largest packet buildup occurs at (4,1).
 This ASIC also corresponds to the ASIC which has the lowest frequency along the trunk column as shown in Figure~\ref{fig:asic_frequency_example}.
 }
@@ -446,6 +450,7 @@ This ASIC also corresponds to the ASIC which has the lowest frequency along the 
 \caption{Example results obtained from the three simulation examples for the pull architectures shown in the previous figures.
 The value of interest in determining the required remote FIFO depths for each ASIC is the maximum depth that occurred on any node.
 A memory optimized routing configuration is one that would introduce the least strain on the remote buffer depths for a given local buffer depth input.
+This is shown in the final column, where a lower ratio of remote to local memory corresponds to less required memory for the ASIC.
 }
 \label{table:example_analysis}
 \end{center}
@@ -453,7 +458,7 @@ A memory optimized routing configuration is one that would introduce the least s
 
 The following figures demonstrate why it is important to design all ASICs within a tile to meet the same specifications.
 Future Q-Pix ASICs within a tile will be exposed to events at or above these energy scales, and there is no guarantee (until the ASIC is in hand) what the frequency of its oscillator will be, or its location within a tile. 
-In all three routing examples shown it was not the base node which experienced the most strain on its buffer depth, but the ASIC along the route path which had the lowest frequency.
+In all three routing examples shown it was not the base node which experienced the most strain on its buffer depth, but the ASIC along the data path which had the lowest frequency.
 
 
 \subsection{The Push Architecture}

@@ -4,7 +4,7 @@ We now discuss the methodologies of the physical simulations used as input to th
 
 \subsection{Radiogenic Backgrounds as a Calibration Source}~\label{sec:radiogenic_calib}
 
-In this section we comment on the ability to the auto-calibration of the reset loss per charge.
+In this section we comment on the ability to perform auto-calibration of the reset loss per charge.
 The full charge calibration procedure is beyond the scope of the work presented here, due to intricacies that depend on the final implementation of the reset circuit as well as the replenishment circuit of the final Q-Pix ASIC.
 This analog front-end ASIC currently exists and these features are currently being explored.
 Nevertheless, we describe the relevant portions to the problem here since the charge calibration along with the frequency calibration and timestamp measurements determine Q-Pix's z-position reconstruction.
@@ -46,24 +46,23 @@ Due to this source alone, it is likely that precise auto-calibration for charges
 \end{table}
 
 The well-known C++ based Geant4~\citep{geant4:AGOSTINELLI2003250} simulation toolkit is used to simulate particle decay and ionizing particle interactions within the LAr volume.
-We use the energy deposited along the track from each ionizing particle with the W-value for liquid argon (23.6 eV) to determine the number of electrons deposited in the LAr.
-The resulting number of electrons are then uniformly deposited over the individual track.
+We use the energy deposited along the track from each ionizing particle with the W-value for liquid argon (23.6 eV) to determine the number of ionization electrons in the LAr.
+The resulting number of electrons are then uniformly deposited over the track length.
 Then we calculate the probability of recombination for each electron following the "modified box" model~\citep{2013JInst...8P8005A}.
 
 The time and location of drift for each electron is calculated with an applied transverse and longitudinal diffusion with values taken from Table~\ref{tab:lar_prop}.
 The simulations for all particle interactions are run individually with a uniform random sampling of the initial decay time interval within the 1000 second window.
-All of the hits are then sorted by increasing time, so that the first hits read are the hits which occur the earliest.
+All of the particle hits are then sorted by increasing time.
 Sorting the hits by time before accumulating charge ensures that the resets are recorded at the correct time.
 
-This simulation produces $\mathcal{O}(10^{11})$ hit interactions which produce $\mathcal{O}(10^{14})$ electrons, which in turn produces $\mathcal{O}(10^{9})$ resets.
-To reduce the memory utilization of the simulation the electrons are accumulated on a hit-by-hit bases and are subdivided into a pre-determined 4$\times$4 cross-sectional area of the detector.
-Each cross-sectional area defines a pixel.
-The dimension of the LArTPC volume is 2.3~$\unit{m}$ $\times$ 6.0~$\unit{m}$ which divides into 575 pixels in the x-direction and 1500 pixels in the y-direction.
-There are then a total of 862,500 pixels, which store location and reset information.
+The simulation produces $\mathcal{O}(10^{11})$ hit interactions which produce $\mathcal{O}(10^{14})$ electrons, which in turn produces $\mathcal{O}(10^{9})$ resets per 1000~\unit{s}.
+To reduce the memory utilization of the simulation the electrons are accumulated on a hit-by-hit bases and are subdivided into a pre-determined 4$\times$4~\unit{mm^2} (pixels) cross-sectional area of the detector.
+The dimension of the LArTPC volume is 2.3~$\unit{m}$ $\times$ 6.0~$\unit{m}$ is divided into 575 pixels in the x-direction and 1500 pixels in the y-direction.
+There are then a total of 862,500 pixels, which store the position and reset time information.
 
 As an example, the total resets from 1000 seconds of the simulation are shown in Figure~\ref{fig:background_simulation}.
-The most active pixel receives $\approx 220$ resets during this simulation time.
-The bins for the histogram are at the pixel level and represent the 4$\times$4$~\unit{mm^{2}}$ of each pixel.
+The most active pixel receives $\approx 220$ resets during the 1000~\unit{s} simulation time.
+The bins for the histogram are at the pixel level and represent the 4$\times$4$~\unit{mm^{2}}$ area of each pixel.
 
 \begin{figure}[]
 \centering
@@ -74,17 +73,15 @@ The majority of the uneven distribution of resets occur at the location of the A
 }
 \end{figure}~\label{fig:background_simulation}
 
-Additional information is tracked for each reset to identify the contribution of each radiogenic background for each reset.
-A reset occurs when 6250 $e^{-}$ have accumulated on a pixel.
-The time recorded for the reset is the same as the time the simulation calculates the last of the required 6250 electrons to arrive at the designated pixel region.
+The reset time is the time the simulation calculates the last of the required 6250 electrons to arrive at the designated pixel region.
 This optimization was added to the existing simulation framework to separate the unknown analog contribution to the timing uncertainty from the physical simulation.
+Additional parent particle information is tracked for each reset to identify the contribution of each radiogenic background for each reset.
 
 In practice the analog front-end reset circuit obviously takes time to respond to added charge and to issue a replenishment and reset commands.
 There will always be some delay between the final electron's arrival, the time of the analog reset, the replenishment circuit, and the time recorded on the digital back-end.
-However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the average local oscillator of the digital back-end. 
-Therefore this analysis assumes the best timing measurement based on the digital back-end.
-The time measurement is then limited only by the clock frequency of each local oscillator.
-Finally, we comment that this optimization of the timing of the analog front-end affects only the time values, and by extension, the reconstruction of the particle tracks.
+However, for the purposes of this analysis, we assume that this reset and replenishment circuit activity can happen more quickly than the period average local oscillator ($\sim 30~\unit{ns}$) of the digital back-end. 
+Therefore, this analysis assumes timing measurement on the digital back-end to be within a single clock cycle.
+This optimization of the timing from the analog front-end affects only the time values, and by extension, the reconstruction of the particle tracks, not the total number of resets produced.
 It does not affect the total amount of charge, and therefore the total number of resets recorded by each pixel.
 
 Any combination of the backgrounds can contribute some or all of the electrons required to produce a reset.
@@ -154,7 +151,7 @@ Therefore, any true analysis of the charge auto-calibration ability of Q-Pix awa
 
 \subsection{Reset Contribution of Radiogenic Sources and Leakage Current}
 
-Figure~\ref{fig:compare_electron_contribution} compares the total (Plot-A) and percentage (Plot-B) electrons contributed from noise and radiogenic sources.
+Figure~\ref{fig:compare_electron_contribution} compares the total (plot-a) and percentage (plot-b) electrons contributed from noise and radiogenic sources.
 These results highlight the importance of understanding and mitigating any leakage current for every pixel.
 A leakage current of 10~\unit{aA} contributes $\approx$ 10\% to the total background current.
 What may prove difficult in the auto-calibration procedure of the Q-Pix readout is that while the contribution from radiogenic sources shown in Figure~\ref{fig:compare_electron_contribution} may be the same, the leakage contributions may not be.
@@ -518,8 +515,8 @@ After the energy correction the mean FIFO depths differ by less than one standar
 \end{figure}
 
 The two different distributions indicate that there are at least two different design specifications for future Q-Pix prototypes.
-The first capture distribution has a maximum value of 426.
-Therefore, a Q-Pix ASIC with a local FIFO depth of 426 would be able to fully capture resets for 99\% of all neutrino interactions under 10~\unit{GeV} and momentum within $\pm 2\unit{\degree}$ of the beam axis.
+The first capture distribution has a maximum value of 454.
+Therefore, a Q-Pix ASIC with a local FIFO depth of 454 would be able to fully capture resets for 99\% of all neutrino interactions under 10~\unit{GeV} and momentum within $\pm 2\unit{\degree}$ of the beam axis.
 In order for Q-Pix to record all resets of the same energy average energy but with momentum near the azimuthal ($\theta_{z} \approx \pm 90$\unit{\degree}) it would require a buffer depth of 1670.
 
 \section{Q-Pix for Neutrino Oscillation Measurements}
@@ -559,6 +556,6 @@ The weight of disappearance spectra decreases with increasing energy beyond $\ap
 \includegraphics[width=\textwidth]{images/df_weight_pdg_cut.pdf}
 \caption{Weighted integrals for all neutrino event parameters, with weights drawn from the expected signal curves from Figure~\ref{fig:electron_interaction} and Figure~\ref{fig:muon_interaction}.
 This plot is similar to Figure~\ref{fig:compare_integral_prototype}, with the exception that the interaction weights are drawn for the (dis)appearance spectra expected at the DUNE-FD module.
-The buffer for the oscillation measurements require 394 compared to the uniform interaction energy of 426. 
+The buffer for the oscillation measurements require 394 compared to the uniform interaction energy of 454. 
 }
 \end{figure}~\label{fig:weighted_integrals}
