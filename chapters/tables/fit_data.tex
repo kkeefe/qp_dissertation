@@ -1,27 +1,26 @@
 \begin{table}
 	\begin{center}
-		\begin{tabular}{|l|l|c|c|c|c|}
+		\begin{tabular}{|c c|c|c|c|c|}
 			\hline
-			Freq. & Tile Size & Snake Fit & Left Fit & Trunk Fit & Push Fit \\
+			Tile Size & Frequency & Snake & Left & Trunk & Push \\
 			\hline
-			5\% & 16 & 1.041 & 1.823 & 2.082 & 1.031 \\
+			16 & 0.5\% & 0.948 & 1.879 & 2.039 & 0.979 \\
+			& 5\% & 1.041 & 1.823 & 2.082 & 1.031 \\
 			\hline
-			0.5\% & 16 & 0.948 & 1.879 & 2.039 & 0.979 \\
+			64 & 0.5\% & 1.006 & 2.514 & 2.727 & 0.999 \\
+			& 5\% & 1.623 & 3.176 & 2.969 & 1.11 \\
 			\hline
-			5\% & 64 & 1.623 & 3.176 & 2.969 & 1.11 \\
+			140 & 0.5\% & 1.021 & 3.033 & 3.131 & na \\
+			& 5\% & 1.966 & 3.506 & 3.481 & na \\
 			\hline
-			0.5\% & 64 & 1.006 & 2.514 & 2.727 & 0.999 \\
-			\hline
-			5\% & 140 & 1.966 & 3.506 & 3.481 & na \\
-			\hline
-			0.5\% & 140 & 1.021 & 3.033 & 3.131 & na \\
-			\hline
-			5\% & 256 & 1.981 & 3.616 & 3.913 & na \\
-			\hline
-			0.5\% & 256 & 1.027 & 3.243 & 3.336 & na \\
+			256 & 0.5\% & 1.027 & 3.243 & 3.336 & na \\
+			& 5\% & 1.981 & 3.616 & 3.913 & na \\
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{Transaction Fit Results}
+	\caption{Transaction fit summary results.
+	The values shown from the fits indicate the linear fit to the results to predict the relationship between the local and remote FIFO depth requirements.
+	Push fit data is not available for larger tiles (140 and 256) due to simulation time constraints.
+	}
 	\label{tab:fit}
 \end{table}

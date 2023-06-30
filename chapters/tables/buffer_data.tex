@@ -1,27 +1,32 @@
 \begin{table}
 	\begin{center}
-		\begin{tabular}{|c|c|c|l|r|l|r|l|r|}
+		\begin{tabular}{|c c c |c c|c c|c c|}
 			\hline
-			Freq. & Tile Size & Local Hits & 95-S & 99-S & 95-L & 99-L & 95-T & 99-T \\
+			\multicolumn{3}{|c}{Routings} & \multicolumn{2}{c}{Snake} & \multicolumn{2}{c}{Left} & \multicolumn{2}{c|}{Trunk} \\
 			\hline
-			5\% & 16 & 939 & 320 & 1014 & 535 & 1736 & 607 & 1971 \\
+			Tile Size & Frequency & Local Hits & 95\% & 99\% & 95\% & 99\% & 95\% & 99\% \\
 			\hline
-			0.5\% & 16 & 1014 & 322 & 975 & 603 & 1949 & 652 & 2125 \\
+			16 & 5\% & 939 & 320 & 1014 & 535 & 1736 & 607 & 1971 \\
+			 & 0.5\% & 1014 & 322 & 975 & 603 & 1949 & 652 & 2125 \\
 			\hline
-			5\% & 64 & 1200 & 598 & 2191 & 1098 & 4394 & 975 & 4295 \\
+			64 & 5\% & 1200 & 598 & 2191 & 1098 & 4394 & 975 & 4295 \\
+			& 0.5\% & 1307 & 403 & 1328 & 970 & 4298 & 974 & 4521 \\
 			\hline
-			0.5\% & 64 & 1307 & 403 & 1328 & 970 & 4298 & 974 & 4521 \\
+			140 & 5\% & 1182 & 852 & 3486 & 1455 & 6558 & 1343 & 6309 \\
+			 & 0.5\% & 1393 & 440 & 1464 & 1327 & 6616 & 1382 & 6757 \\
 			\hline
-			5\% & 140 & 1182 & 852 & 3486 & 1455 & 6558 & 1343 & 6309 \\
-			\hline
-			0.5\% & 140 & 1393 & 440 & 1464 & 1327 & 6616 & 1382 & 6757 \\
-			\hline
-			5\% & 256 & 1456 & 1039 & 3637 & 2026 & 7679 & 2008 & 8250 \\
-			\hline
-			0.5\% & 256 & 1670 & 527 & 1668 & 1773 & 7460 & 1784 & 7368 \\
+			256 & 5\% & 1456 & 1039 & 3637 & 2026 & 7679 & 2008 & 8250 \\
+			 & 0.5\% & 1670 & 527 & 1668 & 1773 & 7460 & 1784 & 7368 \\
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{Buffer Data}
+	\caption{Remote buffer data summary.
+	The tile sizes correspond to a square tile size except for 140, which corresponds to a 10$\times$14 tile.
+	The frequency column represents the mean frequency distribution of each of the nodes within the tile.
+	The values shown correspond to the amount of remote buffer depths required to fully transmit either 95\% or 99\% of events.
+	Each column of data used more than 3000 electron neutrino events in the forward horn current direction.
+	The local hits column indicates the average number of resets injected into the tile due to the electron neutrino event.
+	The results also include the background radiogenic noise.
+	}
 	\label{tab:buffers}
 \end{table}

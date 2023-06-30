@@ -2,7 +2,7 @@
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
-			Freq. & Tile Size & Avg. Local Hits & Snake & Left & Trunk \\
+			Freq. & Tile Size & Mean Local Hits & Snake & Left & Trunk \\
 			\hline
 			5\% & 16 & 48.250 & 423.293 & 166.403 & 138.380 \\
 			\hline
@@ -22,6 +22,14 @@
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{Transaction Data}
+	\caption{Transaction summary data is shown.
+	The mean local hits column indicates the mean average of resets injected into the ASICs within the tile from an electron neutrino events.
+	The Snake, Left, and Trunk, columns indicate the mean number of remote packet transactions which occured during the full 10 second simulation run.
+	As expected, the amount of packet transactions in the snake routing scales with the tile size, whereas the Left and Trunk routings do not.
+	The frequency distribution of the tiles does not affect the total number of transactions in the simulated event.
+	These results can be used to indicate the amount of power and active time required for a tile to fully readout an electron neutrino event. 
+	For example, if a tile size of 256 with a snake routing takes 4020 packets on average to digitize the event, then there are a total of slightly more than one million packets sent.
+	If the amount of power used during single packet transaction is known, this ratio could be used to estimate the dissipated power during the back-end readout. 
+	}
 	\label{tab:transact}
 \end{table}
