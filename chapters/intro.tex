@@ -1,12 +1,12 @@
 \chapter{Introduction}~\label{chap:intro}
 
-The aim of this thesis is to demonstrate the viability of the digital back-end novel of a novel pixelated readout to be used in Time Projection Chambers (TPCs). 
+The aim of this thesis is to demonstrate the viability of the digital back-end novel of a pixelated readout to be used in Time Projection Chambers (TPCs). 
 We begin this chapter with an introduction to the Standard Model (SM) in Section~\ref{sec:standard_model}.
 We pay special attention to the experimental work that has been done to lay the foundation of the knowledge of physics that we have today.
 
-In Section~\ref{sec:tpcs} we briefly discuss the history and development TPCs. 
+In Section~\ref{sec:tpcs} we briefly discuss the history and development of TPCs. 
 The novel readout presented in this thesis is in Chapter~\ref{chap:qpix} is designed specifically for use in TPC detectors.
-Chapter~\ref{chap:saq} provides the first measurements Q-Pix front-end readout in gas-based TPCs.
+Chapter~\ref{chap:saq} provides the first measurements with a Q-Pix front-end readout in gas-based TPCs.
 
 We continue in Section~\ref{sec:dune} to describe the future Deep Underground Neutrino Experiment (DUNE).
 The studies of Chapters~\ref{chap:qdb} and~\ref{chap:sim} demonstrate how this novel charge readout could be scaled to a DUNE Far Detector (DUNE-FD).
@@ -25,7 +25,7 @@ Throughout history thinkers have questioned the nature of the universe and wonde
 Answering these fundamental questions is the motivation for particle physics.
 
 In the history of science, it is easy to argue that the most successful of all models is the Standard Model of Physics.
-The Standard Model (SM)~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model} was originally developed in the mid to late 1970's and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
+The Standard Model (SM), e.g.~\citep{GLASHOW1961579, salam1964electromagnetic, weinberg1967model}, was originally developed in the mid to late 1970's and is the model responsible for unifying the weak, strong, and electromagnetic forces together.
 It has made remarkable predictions about the existence of elusive neutrinos, quarks and vector bosons before they were discovered, and more.
 
 A comprehensive and extensive list of known particles, as well as various cross-sections, lifetimes, and other known information can be found from the bi-annually published Particle Data Group (PDG)~\citep{Workman:2022ynf}.
@@ -91,17 +91,17 @@ Unlike the quarks, the leptonic particles do not have a color quantum number and
  \hline
  Particle & Charge & Mass (MeV) & Year Discovered & Ref.\\ [0.5ex]
  \hline\hline
- e$^{-}$ & -1 & 0.511 & 1896 & \citep{doi:10.1080/14786449708621070} \\
+ e$^{-}$ & -1 & 0.511 & 1896 & Thomson~\citep{doi:10.1080/14786449708621070} \\
  \hline
- $\mu$ & -1 & 105.7 & 1936 & \citep{muon_discovery_PhysRev.51.884} \\
+ $\mu$ & -1 & 105.7 & 1936 & Anderson and Neddermeyer~\citep{muon_discovery_PhysRev.51.884} \\
  \hline
- $\tau$ & -1 & 1,776.9 & 1975 & \citep{tau_discovery_PhysRevLett.35.1489} \\
+ $\tau$ & -1 & 1,776.9 & 1975 & Fermilab~\citep{tau_discovery_PhysRevLett.35.1489} \\
  \hline
- $\nu_{e}$ & 0 & unknown & 1956 & \citep{first_neutrino_measurement} \\
+ $\nu_{e}$ & 0 & unknown & 1956 & Cowan-Reines experiment~\citep{first_neutrino_measurement} \\
  \hline
- $\nu_{\mu}$ & 0 & unknown & 1977 & \citep{PhysRevLett.9.36} \\
+ $\nu_{\mu}$ & 0 & unknown & 1977 & Brookhaven National Lab~\citep{PhysRevLett.9.36} \\
  \hline
- $\nu_{\tau}$ & 0 & unknown & 1995 & \citep{tau_neutrino_discovery_KODAMA2001218} \\
+ $\nu_{\tau}$ & 0 & unknown & 1995 & DONUT~\citep{tau_neutrino_discovery_KODAMA2001218} \\
  \hline
 \end{tabular}
 \caption{Description of the discovery of the leptons.
@@ -118,7 +118,7 @@ The strong-nuclear force is governed by the exchange of the gluon ($g$), and is 
 This force is responsible for the color quantum numbers of matter and describes why nuclei are held together.
 The electromagnetic force is governed by particle exchanges of a photon, and is described by Quantum-Electrodynamics (QED).
 The neutrinos are the only particles within the quarks and leptons which do not interact at all with the electromagnetic force.
-The weak-nuclear force is governed by particles exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$.
+The weak-nuclear force is governed by particle exchanges of one of the three particles in the center: $W^{\pm}$ and $Z$.
 This force involves a change in flavor of a particle, and affects both quarks and leptons.
 It is also responsible for all nuclear decay processes.
 
@@ -151,8 +151,8 @@ This particle is important to describe how mass is given to the elementary parti
 The Higgs was discovered in 2012 at the Large Hadron Collider (LHC)~\citep{higgs_discovery_20121}.
 
 \subsection{Physics Beyond the Standard Model}
-Despite the SMs many successes there is still much about the universe remains unexplained.
-SM does not incorporate gravity, it does not account for the matter-antimatter asymmetry of the universe, nor does it account for sources of dark energy and dark matter.
+Despite the SMs many successes there is still much about the universe which remains unexplained.
+SM does not incorporate gravity, it does not fully account for the matter-antimatter asymmetry of the universe, nor does it account for sources of dark energy and dark matter.
 SM also doesn't explain some of its fundamental properties, such as: why are there only three generations of leptonic particles (e, $\mu$, and $\tau$)?
 
 The search for answers to these questions motivates the search for physics beyond the SM.
@@ -170,7 +170,7 @@ The basic operating principle of a TPC is that a charged, moving particle ionize
 The ionized electrons are then drifted by an external electric field down towards a collection plane (the anode) and are then readout by the electronics.
 The electric field also prevents recombination of the ionized electrons in the medium. 
 A diagram of this process is shown in Figure~\ref{fig:dune_apa}.
-The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa}) can used to determine the time of the interaction.
+The detected scintillation photons (not shown in Figure~\ref{fig:dune_apa}) can be used to determine the time of the interaction.
 The track of the ionizing particle can then be reconstructed using the 2-D information from the wires, the timing collected from the photons, and the drift time of the electrons.
 
 \begin{figure}[]
@@ -208,7 +208,7 @@ TPCs are so useful because provide high resolution in both temporal and spatial 
 \subsection{Liquid Argon Time Projection Chambers}
 \label{sec:lartpcs}
 Alternatives to gaseous TPCs are liquid TPCs, which (as the name implies) uses a liquid detection medium.
-A specific type of liquid based TCP is a Liquid Argon Time Projection Chamber (LArTPC)~\citep{rubbia1977liquid}.
+A specific type of liquid based TPC is a Liquid Argon Time Projection Chamber (LArTPC)~\citep{rubbia1977liquid}.
 Liquid was originally proposed as an alternative to the gaseous TPCs to provide a denser active volume.
 Experiments such as neutrino or dark matter measurements have low interaction cross sections, and thus greatly benefit from a dense active detector medium.
 Recently, much progress has been made in the implementation of LArTPCs for neutrino experiments (\citep{ArgoNeuT_PhysRevD.99.012002, MicroBooNE_Acciarri_2017, LArIAT_Acciarri_2020}).
@@ -288,7 +288,7 @@ The FD will be located underground at Sanford Underground Research Facility (SUR
 The FD will consist of four separate 10 kiloton LArTPC modules (DUNE-FD SP), an example of a single module is shown in Figure~\ref{fig:dune_10kt}.
 This detector represents an enormous engineering challenge to place such a large, cold, and complicated detector.
 
-At least two of these four modules at least will use a known wire-based readout technology.
+At least two of these four modules will use a known wire-based readout technology.
 The remaining two modules are considered modules of opportunity and their readout technology is yet unknown.
 A purpose of this dissertation is demonstrate the viability of a novel readout technology targeted at a large 10~\unit{kT} LArTPC Single-Phase (SP) module, which is discussed in Chapter~\ref{chap:qpix}.
 
@@ -312,9 +312,9 @@ DUNE has three main science goals, all of which are geared towards pushing beyon
 \label{item:dune_props}
 \end{itemize}
 
-DUNE plans to offer an incredibly rich search in the areas listed above~\ref{item:dune_props}.
+DUNE plans to offer an incredibly rich searches in the areas listed above.
 We will discuss the relevance of each of the first two items in the next two sections.
-We provide a more complete discussion of neutrino oscillations in section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in Chapter~\ref{chap:sim}.
+We provide a more complete discussion of neutrino oscillations in Section~\ref{sec:neutrino_oscillation} because of its relevance to the results presented in Chapter~\ref{chap:sim}.
 
 
 \subsection{Hadron Decay}
@@ -353,7 +353,7 @@ This is interesting because the Super-Kamiokande experiment, itself a Cherenkov-
 These searches are interesting, though difficult, in part because of the rarity of such an event.
 If any detector could unambiguously measure even a single proton decay, it would provide direct evidence for physics beyond the SM.
 Future detectors that will continue to search for nucleon decay are DUNE, Hyper-Kamiokande, and JUNO~\citep{DUNE_TDR_V1_Abi_2020, https://doi.org/10.48550/arxiv.1805.04163, Juno:2022103927}.
-These searches are interesting, if albeit difficult, both due to the rareness of such an eventJUNO~\citep{DUNE_TDR_V1_Abi_2020, https://doi.org/10.48550/arxiv.1805.04163, Juno:2022103927}.
+These searches are interesting, albeit difficult, due to the rareness of such an event~\citep{DUNE_TDR_V1_Abi_2020, https://doi.org/10.48550/arxiv.1805.04163, Juno:2022103927}.
 
 \subsection{Supernova Studies}
 \label{sec:intro_supernova}
@@ -402,7 +402,7 @@ doubleChooz_2012_neutrino_PhysRevLett.108.131801}
 % Super-K / SNO / KamLand / NOvA / daya bay / RENO / double chooz / t2k / minos
 
 Neutrino oscillation describes the behavior that a neutrino can undergo a flavor transition as it moves through space.
-The flavor transition relevant to DUNE is the transition of $\nu{\mu}\rightarrow \nu_{e}$ and its associated antiparticles. 
+The flavor transition relevant to DUNE is the transition of $\nu_{\mu}\rightarrow \nu_{e}$ and its associated antiparticles. 
 The flavor transition occurs because the mass and flavor eigenstates are not the same.
 Here we give a general description of a model to describe neutrino oscillation.
 We elucidate the measurable parameters that govern this oscillation and describe how these values are currently measured in experiments.
@@ -431,9 +431,9 @@ U_{\tau1}, U_{\tau2}, U_{\tau3}
 \end{pmatrix}
 \end{equation}
 
-The matrix elements within $U_{li}$ represent the mixing coeffecients and are used to calculate the probability that a certain neutrino will oscillate from one family to another.
+The matrix elements within $U_{li}$ represent the mixing coeffecients and are used to calculate the probability that a certain neutrino will oscillate from one flavor to another.
 We identify $U_{ij}$ as the commonly known $U_{PMNS}$ matrix, where PMNS stands for: Pontecorvo–Maki–Nakagawa–Sakata, or the four theorists who helped developed this convention.
-Luckily, there are not a total of nine free parameters within the SM that determine this.
+The PMNS matrix is described by six phase parameters and three mixing angles.
 The $U_{PMNS}$ matrix can be additionally rewritten following~\citep{Pontecorvo:1957qd, 1962PThPh..28..870M} as:
 
 \begin{equation}~\label{eq:uij_matrix_simp}
@@ -485,7 +485,7 @@ Then, the six parameters of the $U_{PMNS}$ are identified as:
 \end{itemize}
 
 The Majorana phases ($\alpha_{i}$) are sensitive in experiments that can detect the Majorana nature of neutrinos such as neutrinoless double beta decay.
-In neutrino oscillation measurements, these phases cancel out and not not measurable.
+In neutrino oscillation measurements, these phases cancel out and are not measurable.
 Therefore, we can safely ignore these two phases for the work presented here.
 
 Next we demonstrate the calculation of the probability of oscillation from one mass eigenstate to another.
@@ -517,7 +517,7 @@ Then, the Equation~\ref{eq:prob_calc2} represents the probability of a $\nu_{\mu
 
 Finally, the last parameters which govern the neutrino oscillations are identified as the mass differences between the three mass states ($\Delta_{ij}$).
 These two mass-squared differences are represented in Figure~\ref{fig:mass_hierarchy}.
-We note that the though there are three combinations of $\Delta_{ij}$ there are only two independent parameters, which are conventionally known as $\Delta_{12}$ and $\Delta_{23}$.
+We note that though there are three combinations of $\Delta_{ij}$ there are only two independent parameters, which are conventionally known as $\Delta_{12}$ and $\Delta_{23}$.
 $\Delta_{12}$ is the term which governs the oscillation from the neutrinos in the sun, which are mostly originally $\nu_{e}$ and flavor change to $\nu_{\mu}$.
 By the similar reasoning, $\Delta_{13}$, is referred to as atmospheric, since it describes the neutrino oscillations normally observed from atmospheric neutrinos, which flavor change into a $\nu_{\tau}$.
 Unfortunately, since the value of the squared mass-difference is measured ($\Delta_{12}^{2}$ and $\Delta_{13}^{2}$), it is not known which mass eigenstate of the neutrinos is the heaviest.
