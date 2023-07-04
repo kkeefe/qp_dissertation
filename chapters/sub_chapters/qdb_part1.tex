@@ -467,7 +467,7 @@ An aggregator node is required to be capable of sending packets faster than it c
 If an aggregator node connects to one ASIC per tile, the average incoming data rate is the number of tiles times the average packet transaction in Equation~\ref{eq:avg_packet}.
 
 The Q-Pix ASIC data rates (8 bytes per $\sim$ 60~\unit{\mu s} = $\sim$ 117~\unit{kBs}) are more than three orders of magnitude slower than the ethernet protocol of the aggregator presented in Section~\ref{sec:qdb_prototype}.
-If a Q-Pix ASIC sent data at a rate of 117~\unit{kBs}, and the aggregator can send data via 5~\unit{GBs} ethernet, a single aggregator could connect to over 40000 tiles without data loss.
+If a Q-Pix ASIC sent data at a rate of 117~\unit{kBs}, and the aggregator can send data via 5~\unit{GB/s} ethernet, a single aggregator could connect to over 40000 tiles without data loss.
 For comparison, the dimensions of the DUNE-FD APA in Chapter~\ref{chap:sim} use 862,500 pixels, which would take only 3370 16$\times$16 tiles.
 
 However, as one increases the number of digital nodes per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated (Section~\ref{sec:calib}).
