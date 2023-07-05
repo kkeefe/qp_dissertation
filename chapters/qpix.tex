@@ -50,7 +50,7 @@ Image is taken from~\citep{qpix:nygren:mei}.}
 
 The Q-Pix readout records 32-bit latch values as a response to the Schmitt trigger output; it does not measure voltage, charge, or time.
 We refer to this 32-bit measurement as a "timestamp".
-These timestamps are generated in response to the reset pulse sent from the Schmitt trigger.
+These timestamps are generated in response to the reset pulse sent from the analog front-end.
 Since these resets occur only in response to accumulated charge, the Q-Pix readout does not require an external trigger to acquire data.
 
 There are two components of the Q-Pix readout: analog and digital.
@@ -384,7 +384,7 @@ Remote\newline FIFO Depth & 128 & Total number of remote packets ASIC can store 
 \caption{Summary of design parameters for the first Q-Pix digital ASIC.
 The local oscillator is a ring oscillator with a targeted mean of 30~\unit{MHz}.
 Each ASIC will be able to communicate with up to four neighbor nodes via a custom "Endeavor" protocol.
-The testing and verification of the endeavor protocol is found in Chapter~\ref{chap:qdb}.
+The testing and verification of the Endeavor protocol is found in Chapter~\ref{chap:qdb}.
 The values of the local and remote FIFO depth were selected due to fabrication requirements, whose future values are discussion of Chapter~\ref{chap:sim}.
 }
 \label{table:digital_design_params}

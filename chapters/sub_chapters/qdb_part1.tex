@@ -1,10 +1,10 @@
 \section{The Digital Back-end and The First Digital Prototype}\label{sec:digital_prototype}
 The digital system of the Q-Pix readout begins when the first digital data are recorded.
-This occurs during the collection of a recorded timestamp in response to the logic reset pulse sent from the Schmitt Trigger from analog front-end.
+This occurs during the collection of a recorded timestamp in response to the logic reset pulse from analog front-end.
 These triggers are a sent as the response from a build up of charge on a pixel in a LArTPC (Section~\ref{sec:lartpcs}).
 An example of a pixel ring with a connected ASIC are shown in Figure~\ref{fig:qpix_asic_introduction}.
 
-This record happens in response any one, or more, of the pixels, which for the first ASIC prototype is up to 16.
+This record happens in response to any one or more of the pixels, which for the first ASIC prototype is up to 16.
 The timestamp is the value of a local 32-bit counter at the time the ASIC receives the reset pulse.
 When a trigger is sent from any pixel the data recorded are local counter as well as the input level of all pixels ('1' indicates high, '0' indicates low).
 
@@ -31,7 +31,7 @@ Each ASIC supports up to a maximum of 16 channels, or pixels.
 The full Q-Pix digital back-end is a collection of interconnected ASICs that form tiles.
 Tiles are then connected to controlling nodes as shown in Figure~\ref{fig:qpix_tile_introduction}, indicated by the colored boxes.
 In order for the system to work each ASIC must be able to send and receive data, which are routed to and from its tile via the controlling nodes.
-The sheer number of pixels required for an DUNE-FD 10 kT module require an extremely reliable means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
+The sheer number of pixels required for one DUNE-FD 10 kT module requires an extremely reliable means of charge and time calibration, stable buffer depths, and protection against single-point failure (SPF).
 
 \begin{figure}[]
 \centering
@@ -75,7 +75,7 @@ The QPixComm module describes the communication layer of the ASIC, and determine
 To allow flexible communications, each transaction is capable of being encoded to serve different functions within the ASIC.
 Each ASIC is able to determine its appropriate response to a packet based on its contents; this procedure is described in Section~\ref{sec:digi_packets}.
 
-Dynamic programming of remote routing is a key feature of the Q-Pix back-end design.
+Dynamic programming of remote routing was a key feature of the original Q-Pix back-end concept.
 Although each ASIC currently supports the ability to route itself, the results of Chapter~\ref{chap:sim} indicate that routing updates of a tile are better suited to the aggregator.
 The controlling node can update a register within any ASIC to purposefully direct it's routing.
 Each ASIC is also capable of determining its location within a tile, as well as controlling its routing via register information, described by the QpixRegFile block.
@@ -85,9 +85,9 @@ Finally, the data collection module, QPixDataProc, controls how the ASIC records
 We describe the ASIC's response to pixel triggers in Section~\ref{sec:data_collection}
 
 
-\subsection{Inter-ASIC communication via endeavor protocol}\label{sec:endeavor}
+\subsection{Inter-ASIC communication via Endeavor protocol}\label{sec:endeavor}
 The data must be transmitted between ASICs.
-Since one design feature of the Q-Pix readout require that the ASICs have independent oscillators, the communication between neighbors is necessarily asynchronous.
+Since one design feature of the Q-Pix readout requires that the ASICs have independent oscillators, the communication between neighbors is necessarily asynchronous.
 Each ASIC permits up to four neighbor connections as shown in Figure~\ref{fig:example_connections}.
 
 \begin{figure}[]
@@ -101,14 +101,14 @@ Four connections of two pairs of differential connections require a total of 16 
 \end{figure}
 
 The asynchronous communication protocol used is called an "Endeavor" protocol, which was originally developed for the Asynchronous Multi-ASIC Communication version 2 (AMACv2) ASIC.
-The endeavor protocol was specifically designed for high-speed asynchronous data communication between neighbor ASICs.
+The Endeavor protocol was specifically designed for high-speed asynchronous data communication between neighbor ASICs.
 An example of a transmission of data using this protocol is shown in Figure~\ref{fig:endeavor}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/endeavor_protocol.jpg}
-\caption{Diagram of the endeavor transmission (Tx) protocol.
-The primary components of the endeavor protocol involve how long the transmitter (Tx) drives the signal high.
+\caption{Diagram of the Endeavor transmission (Tx) protocol.
+The primary components of the Endeavor protocol involve how long the transmitter (Tx) drives the signal high.
 The receiver (Rx) counts how long each signal is driven high, then based on the count it determines whether the transmitter intended to send a '1' or a '0' bit.
 The convention used in the prototype ASIC sends a '1' bit for twice the number of clock cycles it will send a '0' bit.
 After a bit is sent, there is a gap period where the Tx preps the Rx for another bit.
@@ -142,7 +142,7 @@ There are four bit locations shared by all packets:
 
 When an ASIC receives a valid packet, the ASIC enables a valid signal.
 The packet is handled based on the bits within the header of this packet.
-How the packet is handled is determined the by the packet header~\ref{bit_reservation}.
+How the packet is handled is determined the by the packet header.
 
 If the packet originated from the aggregator node then this packet is treated as a broadcast.
 Broadcast commands record unique numbers associated with this request and are also sent to all connected neighbors except from the direction that the broadcast is received.
@@ -342,13 +342,13 @@ This request is supplied as register request to the command register (Table~\ref
 This request may be considered either a ``hard'' or a ``soft'' interrogation command.
 
 The difference between the two types of an interrogation command is whether or not the event end packet is created.
-In the case of a ``hard''--interrogation, the event end packet is always created, regardless of the local FIFO.
-A Hard Interrogation happens if the first bit of the data written to the command register is high.
-In the case of a ``soft''--interrogation, the event end packet is created only if the local FIFO is not empty.
+In the case of a ``hard'' interrogation, the event end packet is always created, regardless of the local FIFO.
+A hard interrogation happens if the first bit of the data written to the command register is high.
+In the case of a ``soft'' interrogation, the event end packet is created only if the local FIFO is not empty.
 A soft interrogation happens if the second, and not the first, bit of the data written to the command register is high.
 
 The use of two different types of interrogations allows the aggregator control flexibility in how many packets are created during an interrogation.
-Interrogations may happen on timescales much more quickly than expected resent pulses ($\mathcal{O}(10^{1}~\unit{s})$, Chapter~\ref{chap:qpix}).
+Interrogations may happen on timescales much more quickly than expected reset pulses ($\mathcal{O}(10^{1}~\unit{s})$, Chapter~\ref{chap:qpix}).
 The ability to request data only if available prevents an over abundance of packets which prevents needless data transfers, reduces remote FIFO buildup, and conserves power.
 
 \subsubsection{The Event End Packet}
@@ -376,16 +376,16 @@ The Route FSM determines how and when packets are sent from the ASIC.
 
 \begin{itemize}
     \item Idle - Normal ASIC operation.
-    \item Transmit Local - Requires soft or Hard Integration from aggregator.
-    \item Transmit Finish - Requires Hard Integration or soft integration with available timestamp data.
+    \item Transmit Local - Requires soft or hard interrogation from aggregator.
+    \item Transmit Finish - Requires hard interrogation or soft interrogation with available timestamp data.
     \item Transmit Remote - Entered whenever packet received from neighbor that isn't a broadcast.
 \end{itemize}~\label{fsm_state_labels}
 
 One of the contributions of this work is to demonstrate how an ASIC that sends data only on the states described in Figure~\ref{fig:digital_fsm} can be used in a large scale LArTPC.
 The scale of a DUNE-FD LArTPC requires millions of pixels to run for nearly a decade and requires precision measurements.
 To meet these goals, the Q-Pix readout is designed to avoid all potential places of SPF.
-One, always unforeseeable, place of failure is correct, but not intended behavior of an ASIC.
-To avoid this, we limit, as much as possible, the possible behaviors of the ASIC.
+One common failure is correct, but not intended behavior of an ASIC.
+To avoid this, we limit, to the extent practical, the possible behaviors of the ASIC.
 
 In the next section we discuss the design challenges this ASIC must overcome.
 
@@ -401,11 +401,11 @@ This section presents and defends the motivation for this design.
 We begin with a discussion of the basic datum and mention initial design choices at the physical connection interface.
 The structure of this datum determines the buffer widths and depths required to store the data at the local ASIC level as well as the protocol used to transfer this data between ASICs and eventually out of the detector.
 
-The minimum data which the timestamp, the relative location of the ASIC, plus the status of all channels during the timestamp.
+The minimum data required to reconstruct events includes the timestamp, the relative location of the ASIC, plus the status of all channels during the timestamp.
 Each these factors require bits which must be recorded.
 
 We choose the number of bits for the timestamp ($N_{T}$) to be 32, which prevents frequency wrap-around based on a fast clock frequency.
-We choose as the number of bits to assign a location ($N_{loc}$) to be 8, which provides a maximum possible number of unique positions before aggregation to be 256.
+We choose as the number of bits to assign a location ($N_{loc}$) to be 8, which provides a maximum number of unique positions before aggregation to be 256.
 Next, since the number of pixels (required by analog front-end design) is 16 we choose this number as the number of bits to represent a ``mask'' ($N_{bits} = 16$).
 We need to record all of the channels during each reset since it is technically possible (even if less likely) for multiple analog channels to provide a reset within the same clock window.
 
@@ -436,7 +436,7 @@ However, this lengthening can't proceed indefinitely, otherwise data transmissio
 It is another important design consideration to ensure that transactions proceed as quickly as possibly without data loss.
 Additional concerns of long data transactions include the use of more clock cycles which could use more power and increase the risk of electronic noise to leak to the analog front-end during charge collection.
 However, these risks can be mitigated if transmission and data acquisition occur at different times.
-Our choice of the endeavor protocol is tested in Section~\ref{sec:qdb_prototype}.
+Our choice of the Endeavor protocol is tested in Section~\ref{sec:qdb_prototype}.
 
 Although Endeavor is slower than a traditional Universal Asynchronous Receive Transmitter (UART) protocol, it is stable for approximately double the frequency range: $\approx$ 20\%.
 In Chapter~\ref{chap:sim} we show that the overall average packet transaction time is much less ($\sim 0.1\%$) than the wait time between interactions for neutrino events.
@@ -449,7 +449,7 @@ Therefore, the amount of memory than an ASIC has provides a limit to how much ch
 The memory for each ASIC is stored in the local and remote FIFOs within the QPixRoute module shown in Figure~\ref{fig:qpa_diagram}.
 
 The major contribution from Chapter~\ref{chap:sim} is to test the required buffer depths for high energy ($\sim$ 10~\unit{GeV}) events in a DUNE-FD LArTPC.
-The ice40 FPGAs tested in Section~\ref{sec:qdb_prototype} have a total of 30 Embedded Block Ram models (EBRs).
+The iCE40 FPGAs tested in Section~\ref{sec:qdb_prototype} have a total of 30 Embedded Block Ram models (EBRs).
 This allows for a local and remote FIFO depth each of 1024 packets.
 
 \section{Constraining the Digital Back-end Design}\label{sec:digital_constraints}
@@ -466,8 +466,8 @@ In a fully realized design an aggregator might in fact be responsible for multip
 An aggregator node is required to be capable of sending packets faster than it can receive it so that no data is lost during transmission.
 If an aggregator node connects to one ASIC per tile, the average incoming data rate is the number of tiles times the average packet transaction in Equation~\ref{eq:avg_packet}.
 
-The Q-Pix ASIC data rates (8 bytes per $\sim$ 60~\unit{\mu s} = $\sim$ 117~\unit{kBs}) are more than three orders of magnitude slower than the ethernet protocol of the aggregator presented in Section~\ref{sec:qdb_prototype}.
-If a Q-Pix ASIC sent data at a rate of 117~\unit{kBs}, and the aggregator can send data via 5~\unit{GB/s} ethernet, a single aggregator could connect to over 40000 tiles without data loss.
+The Q-Pix ASIC data rates (8 bytes per $\sim$ 60~\unit{\mu s} = $\sim$ 117~\unit{kB/s}) are more than three orders of magnitude slower than the Ethernet protocol of the aggregator presented in Section~\ref{sec:qdb_prototype}.
+If a Q-Pix ASIC sent data at a rate of 117~\unit{kB/s}, and the aggregator can send data via 5~\unit{GB/s} Ethernet, a single aggregator could connect to over 40000 tiles without data loss.
 For comparison, the dimensions of the DUNE-FD APA in Chapter~\ref{chap:sim} use 862,500 pixels, which would take only 3370 16$\times$16 tiles.
 
 However, as one increases the number of digital nodes per aggregator node one also increases the amount of local oscillators per aggregator, each of which must be calibrated (Section~\ref{sec:calib}).
@@ -479,14 +479,14 @@ A tile is a rectangular array of digital ASICs (nodes) which must provide a path
 There is one special node within the tile that connects to the aggregator.
 This special node we refer to as the ``base-node'' as all data and instruction commands, regardless of routing, must pass through this node.
 The symmetry of the rectangular tile allows any corner node to be the base node, and we choose the upper-left to define a convention.
-An example of a tile with a corner base-node is shown in Figure~\ref{fig:cbn}.
+An example of a tile with a cornerbase node is shown in Figure~\ref{fig:cbn}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.8\textwidth]{images/CBN.pdf}
-\caption{Example of an Corner Base-Node configuration.
-The base-node is colored and highlighted in red.
-The base-node (ASIC) is the special node which is the only ASIC that connects to the aggregator. 
+\caption{Example of an corner base node configuration.
+The base node is colored and highlighted in red.
+The base node (ASIC) is the special node which is the only ASIC that connects to the aggregator. 
 All data paths, regardless of routing must pass through this node.
 }
 \label{fig:cbn}
@@ -505,7 +505,7 @@ Any particular choice of an effective routing must then be a subset of this full
 \includegraphics[width=0.9\textwidth]{images/Broadcast.pdf}
 \caption{Example of the fully connected routing configuration for a tile (FCT).
 Each node represents a digital ASIC which must be aggregated, and the red and blue connections distinguish directions of communication.
-The red connection lines indicate pathways away from the base node, whereas the blue lines represent connection paths towards the base-node in the upper-left.
+The red connection lines indicate pathways away from the base node, whereas the blue lines represent connection paths towards the base node in the upper-left.
 The FCT can be viewed as a directional, weighted graph where the edges are the Tx and Rx connections between ASICs (nodes).
 }
 \label{fig:fc_tile}
@@ -531,7 +531,7 @@ As an unweighted, undirected graph this is a symmetric matrix.
 
 In practice each digital channel within a tile is actually controlled by a unique, free-running oscillator.
 Therefore, we can define the length of each edge between nodes as the length of time to send of a packet of data between two nodes ($T_{i\rightarrow j}$).
-With this we can extend the model the adjacency matrix to a weighted and directed graph if we recognize that the non-zero elements of $M_{ij}$ become $T_{i\rightarrow j}$, or the length of time it takes for the $i^{th}$ local oscillator to transmit a packet to node $j$.
+With this we can extend the model of the adjacency matrix to a weighted and directed graph if we recognize that the non-zero elements of $M_{ij}$ become $T_{i\rightarrow j}$, or the length of time it takes for the $i^{th}$ local oscillator to transmit a packet to node $j$.
 
 We can generalize this matrix in terms of an arbitrary number of rows ($r$) and columns ($c$).
 We define a convention of numbering nodes within the tile in terms of increasing column number followed by increasing row number.
@@ -567,14 +567,14 @@ Dead or inactive nodes are ones in which all of their connections are effectivel
 This is equivalent to setting their transaction lengths to zero: $T_{SPF} = 0$.
 
 We comment that although it is possible to construct tiles where more than one node connects to the aggregator, we observe that this configuration simply produces two (or more) effective tiles.
-These distinct tiles then are the data paths which are unique to each base-node.
-In this graphical representation a packet of data can follow one, and only one path from the origin node to the base-node unless there was duplication of packets.
+These distinct tiles then are the data paths which are unique to eachbase node.
+In this graphical representation a packet of data can follow one, and only one path from the origin node to the base node unless there was duplication of packets.
 We emphatically avoid designs which might depend on data duplication for redundancy; situations with multiple base nodes produce multiple unconnected graphs.
 
 \subsubsection{The SPF Cost}\label{sec:spf_cost}
 We define the average SPF cost as the amount of nodes that will be lost during a transaction as the number of digital channels at a height below the failed digital channel.
 For example, the number of nodes which are lost if a leaf-node fails is one since no other channels are between it and the data node.
-Likewise, the number of nodes which are lost in the event of a base-node failure is the total tile, $N$.
+Likewise, the number of nodes which are lost in the event of abase node failure is the total tile, $N$.
 
 We can then calculate a mean cost SPF, $C_{SPF}$, :
 \begin{equation}~\label{eq:cspf}
@@ -605,22 +605,22 @@ We inspect the SPF risk from this routing scheme with Equation~\ref{eq:cspf}, wh
 \end{equation}
 
 Equation~\ref{eq:cspf_snake} tells us that the SPF risk of this routing configuration converges to half as the size of the tile grows.
-Intuitively, this makes sense, since it is equally likely to select a node close to the base-node as it is far away, which implies that the sum should converge to half the tile size for large $N$.
+Intuitively, this makes sense, since it is equally likely to select a node close to the base node as it is far away, which implies that the sum should converge to half the tile size for large $N$.
 
 Although this routing scheme provides the most lax constraint on the required buffers at each digital channel, it provides the longest average path between the base node.
-The longer the transaction delay between the base-node and other nodes increases the reconstruction time uncertainty.
+The longer the transaction delay between the base node and other nodes increases the reconstruction time uncertainty.
 Therefore, a natural alternative routing scheme is one that minimizes the communication scheme.
 
 \subsubsection{Minimize Delay}
 \label{sec:min_comm}
-For any given node in an edge FCT with location $(R_{i},C_{i}$), the shortest path to the base-node is simply the sum of its coordinates: $R_{i}+C_{i}$.
+For any given node in an edge FCT with location $(R_{i},C_{i}$), the shortest path to the base node is simply the sum of its coordinates: $R_{i}+C_{i}$.
 An example of such a routing configuration for a tile is shown in Figure~\ref{fig:leftroute}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=\textwidth]{images/leftroute.pdf}
 \caption{Minimal Delay Path of a FCT, or "Left" routing.
-This routing path ensures that the minimum number of transactions occur from every node in the FCT to reach the base-node.
+This routing path ensures that the minimum number of transactions occur from every node in the FCT to reach the base node.
 For any node along any column this is equivalent to the sum of the row and column of that node.}
 \label{fig:leftroute}
 \end{figure}
@@ -648,17 +648,17 @@ Again, this result can be obtained intuitively, since as the number of columns (
 
 \subsubsection{Broadcasts to avoid SPF}\label{sec:broadcast}
 In order to protect against SPF we consider a design which implements the FCT.
-A FCT allows searches to probe all possible paths to any node via a ``broadcast'' produced from packets sent by the aggregator to the base-node.
-Therefore the broadcast algorithm can be represented by a complete circuit which begins at the base-node and proceeds to a target node with no repeated nodes until the target node is reached.
-The backward path is then completed in reverse by following the edges (Tx and Rx connections) between each node until arriving finally again at the base-node.
+A FCT allows searches to probe all possible paths to any node via a ``broadcast'' produced from packets sent by the aggregator to the base node.
+Therefore the broadcast algorithm can be represented by a complete circuit which begins at the base node and proceeds to a target node with no repeated nodes until the target node is reached.
+The backward path is then completed in reverse by following the edges (Tx and Rx connections) between each node until arriving finally again at the base node.
 
-In practice, broadcasts are encoded as a register request~(Table~\ref{table:node_registers}) created at the aggregator node where Bit 53 (~\ref{fig:datum}) is set to '1'. 
+In practice, broadcasts are encoded as a register request~(Table~\ref{table:node_registers}) created at the aggregator node where bit 53 (Figure~\ref{fig:datum}) is set to '1'. 
 To differentiate between broadcasts an identification number is also included in the packet.
 Then, any node when receives a broadcast packet will record the identification number of the most recent broadcast, and send this packet to its connected neighbors in the direction it did not receive the broadcast.
 The node uses the identification number to discard repeated broadcast packets.
 
 In the event that a particular node becomes inactive it will ``block'' data coming from the nodes along its path.
-In this case, there must be some sort of ``broadcast'' originating from the base-node that would allow information transverse regardless of the effective routing path.
+In this case, there must be some sort of ``broadcast'' originating from the base node that would allow information transverse regardless of the effective routing path.
 
 %% colored matrix
 \def\r{\color{red}1}
@@ -685,19 +685,19 @@ The matrix represents transactions that proceed towards (red) and away from (blu
 \label{fig:FCT_colored}
 \end{figure}
 
-\subsection{Comments on the Edge Base-node and Other Routings}\label{sec:base_node}
+\subsection{Comments on the edge base node and Other Routings}\label{sec:base_node}
 We discuss here the case of a FCT with an edge base node.
 An edge base node (EBN) is a node which connects to the aggregator and to three other digital channels within a tile.
 An example of an EBN is shown in Figure~\ref{fig:ebn}.
-Like before, this base-node must provide a unique path during data transmission to all digital channels within the tile.
+Like before, thisbase node must provide a unique path during data transmission to all digital channels within the tile.
 In this configuration the adjacency matrix is still the same as given in Equation~\ref{eq:adjacency_comp}.
 
 \begin{figure}[]
 \centering
 \includegraphics[width=0.8\textwidth]{images/EBN_superposition.pdf}
-\caption{Example of an Edge base-node configuration.
-The base-node is colored and highlighted in red.
-Image shows how the EBN can be thought of as a super-position of two corner base-nodes, represented by the purple (left "tile") and blue (right "tile") connections.
+\caption{Example of an edge base node configuration.
+The base node is colored and highlighted in red.
+Image shows how the EBN can be thought of as a super-position of two cornerbase nodes, represented by the purple (left "tile") and blue (right "tile") connections.
 Instead of a 3$\times$3 tile, there are two 2$\times$3 "tiles".
 }
 \label{fig:ebn}

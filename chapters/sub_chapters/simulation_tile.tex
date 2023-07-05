@@ -24,7 +24,7 @@ Similarly, the remote FIFO's transaction count is increased when a write occurs 
 In the current Q-Pix digital ASIC design (see Sect.~\ref{sec:digital_fsm}) all packets sent between neighbor nodes, with the exception of broadcasts, are written on the remote FIFO.
 At the beginning of a simulation step each node first checks to see if its received an interrogation request.
 If the node has received a soft interrogation request (see Sect.~\ref{sec:broadcast}), and has data in its local FIFO, it will first send its data in the local FIFO, followed by the event-end packet.
-If the node receives a Hard Interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
+If the node receives a hard interrogation request, the node will send local data, if any, and will send an event-end packet regardless of whether or not the local FIFO had any data.
 If the node's local FIFO is empty, and it has not received an interrogation, it will check the empty status of the remote FIFO.
 If the remote FIFO is not empty, this packet will be read and transmitted to its neighbors accordingly, otherwise the node remains in its idle state.
 
@@ -100,7 +100,7 @@ The procedure is also graphically demonstrated in Figure~\ref{fig:simulation_pro
 
 The simulation loop iteratively processes a single transaction from a queue of transactions and then processes all nodes in the tile at incremental timestamps.
 The timesteps used in the simulation results used here are steps 1~\unit{\mu s}.
-It is not necessary to perform smaller time steps than this, as packet transactions themselves are on the order of $\approx 50 \unit{\mu s}$, based on the endeavor protocol.
+It is not necessary to perform smaller time steps than this, as packet transactions themselves are on the order of $\approx 50 \unit{\mu s}$, based on the Endeavor protocol.
 If any processed node generates a new transaction(s), this transaction(s) is added to the transaction queue.
 
 \begin{figure}[]
@@ -291,7 +291,7 @@ By "left" routing we mean a routing configuration in which the routed direction 
 These nodes then are routed "up" towards the aggregator.
 An example of a packet transfer with this routing configuration is shown in Figure~\ref{fig:left_packet_drift}.
 
-This routing configuration minimizes the path length for all nodes in the tile when the base-node is at the corner.
+This routing configuration minimizes the path length for all nodes in the tile when the base node is at the corner.
 
 \begin{figure}
 \centering
@@ -307,7 +307,7 @@ This routing configuration minimizes the path length for all nodes in the tile w
 \end{subfigure}
 \caption{A left packet transaction example is shown. The packet transfers begin when the furthest node (2,2) receives a broadcast from the aggregator. 
 The data are then sent to the "left" and then "up" towards the base node, and finally to the aggregator node.
-The packets appear to separate in the base-node during the final transaction since ASIC-(1,0) is nearly 20\% slower than ASIC-(0,0).
+The packets appear to separate in the base node during the final transaction since ASIC-(1,0) is nearly 20\% slower than ASIC-(0,0).
 }
 \label{fig:left_packet_drift}
 \end{figure}
