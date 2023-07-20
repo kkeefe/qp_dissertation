@@ -4,10 +4,10 @@
 
 ## Relevant Thesis and My Project Links
 
-[Full Thesis](https://github.com/kkeefe/qp_dissertation/blob/main/keefe_qpix_thesis_2023_final.pdf)__
-[Thesis neutrino and QDB Analysis](https://github.com/kkeefe/neutAna)__
-[SAQ's DAQ](https://github.com/kkeefe/qpix-digital/tree/master)__
-[DUNE APA Particle Simulation](https://github.com/kkeefe/qpixg4)__
+[Full Thesis](https://github.com/kkeefe/qp_dissertation/blob/main/keefe_qpix_thesis_2023_final.pdf)\
+[Thesis neutrino and QDB Analysis](https://github.com/kkeefe/neutAna)\
+[SAQ's DAQ](https://github.com/kkeefe/qpix-digital/tree/master)\
+[DUNE APA Particle Simulation](https://github.com/kkeefe/qpixg4)\
 [Q-Pix Front-end Simulation](https://github.com/kkeefe/qpixrtd)
 
 ## Summary of Q-Pix
