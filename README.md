@@ -2,11 +2,21 @@
 
 [![Build status](https://github.com/dcroote/stanford-thesis-example/workflows/CI/badge.svg?branch=master)](https://github.com/dcroote/stanford-thesis-example/actions?query=workflow%3ACI+branch%3Amaster)
 
-## Thesis Link
+## Relevant Thesis and My Project Links
 
-[Click Here](https://github.com/kkeefe/qp_dissertation/blob/main/keefe_qpix_thesis_2023_final.pdf)
+[Full Thesis](https://github.com/kkeefe/qp_dissertation/blob/main/keefe_qpix_thesis_2023_final.pdf)
+[Thesis neutrino and QDB Analysis](https://github.com/kkeefe/neutAna)
+[SAQ's DAQ](https://github.com/kkeefe/qpix-digital/tree/master)
+[DUNE APA Particle Simulation](https://github.com/kkeefe/qpixg4)
+[Q-Pix Front-end Simulation](https://github.com/kkeefe/qpixrtd)
 
-## Abstract
+## Summary of Q-Pix
+
+Q-Pix (short for charge pixel) is a novel readout scheme which aims to provide detailed 3 dimensional image reconstruction in particle detectors.
+This technology continuously integrates ionization charge from a detector as well as the ability to scale to large detectors, such as the Deep Underground Neutrino Experiment (DUNE) far detector.
+Further reading of the consortia's work can be found at: [Q-Pix Consortia](https://www.qpix.work/).
+
+## Thesis Abstract
 
 The Standard Model (SM) of physics has proven successful over the past decades, despite several measurements that indicate its incomplete description of nature.
 The search for New Physics (NP) continues at higher energies with larger detectors.
@@ -27,39 +37,40 @@ We discuss the back-end system requirements for a Q-Pix based readout technology
 Simulations were performed based on radiogenic backgrounds and high-energy neutrino beam line events, providing first constraints on digital back-end requirements in both the quiescent and active states.
 Finally, based on these results from the simulations and prototypes presented here, we discuss the digital back-end readout of a fully realized Q-Pix implementation within a 10 kT DUNE-FD module.
 
-## Layman Summary
 
-## Key Results
+# Key Results (My Contributions)
 
 Below are sections which briefly describe a key figure or result from the three main chapters presented in my thesis.
 
-
-### Simplified Analog Q-Pix (SAQ)
+## Simplified Analog Q-Pix (SAQ)
 
 The SAQ experiment used commercial off the shelf (COTS) components to instrument the Q-Pix readout technology in two different liquid Argon time projection chambers (TPCs).
 I developed the data acquisition software and analysis software for this experiment, which collected first results indicating a new method of measurements for transverse diffusion of electrons.
 The controlling DAQ software (written in C, Python, and VHDL) can be found at: [qpix-digital](https://github.com/kkeefe/qpix-digital/tree/master)
 
 ![DAQ Summary](https://github.com/kkeefe/qp_dissertation/blob/main/images/saq_daq_firmware_summary.png)
-*Summary of the Data Acquisition of the embedded software and firmware I wrote, which is implemented onto a Zybo-Z7 Digilent board*
+*Summary of the Data Acquisition of the embedded software and firmware I wrote, which is implemented onto a Zybo-Z7 Digilent board. Resets are recorded via a latch on the Artix Zynq-7000 FPGA, and are controlled via register commands from a PyQT5 based GUI.*
 
 ![First Diffusion Hints](https://github.com/kkeefe/qp_dissertation/blob/main/images/SAQ_first_diffusion_measurement.png)
-*First measurement indicating diffusion which was taken at Wellesley college, courtesy of Nora Hoch.*
+*First measurement indicating diffusion which was taken at Wellesley college, courtesy of Nora Hoch. The non-linear decrease of the amount of recorded resets corresponds to less detected electrons at the edge of the detector, i.e. diffusion.*
 
-### Q-Pix Digital Boards
+## Q-Pix Digital Boards
 
+I designed high density printed circuit boards (PCBs) using Altium to verify the Register Transfer Level (RTL) of the Q-Pix digital ASIC, as well as to verify a timing calibration procedure of the clocks on the free running ASICs.
 The high level digital ASIC verification and analysis software can be found at: [neutrino analysis](https://github.com/kkeefe/neutAna)
 
 ![Frequency Stability](https://github.com/kkeefe/qp_dissertation/blob/main/images/interrogation_ppm_diff.png)
-*Frequency Stability measurements, which are much better than the 1 part per million requirement*
+*Frequency Stability measurements, which are much better than the 1 part per million requirement. This figure verifies the digital Q-Pix's ability to calibrate its local clock via neighbor packet communication alone*
 
 ![QDB Design](https://github.com/kkeefe/qp_dissertation/blob/main/images/qdb_closeup.jpg)
-*Design of the Q-Pix Digital Boards, which used 4 Lattice iCE40up5k FPGAs to verify timing calibration and digital ASIC logic*
+*Design of the Q-Pix Digital Boards. Shown are the 4 Lattice iCE40up5k FPGAs per PCB used to verify timing calibration and digital ASIC logic.*
 
 
-### Q-Pix Towards kiloton liquid argon TPCs in DUNE
+## Q-Pix Towards kiloton liquid argon TPCs in DUNE
 
+I helped developed a particle simulation framework using C++ (Geant4+ROOT) to simulation radiological backgrounds as well as beam events from the Fermi National Accelerator Lab (FNAL).
+I also improved algorithms of the front-end simulation for the detector which allowed for faster data processing (100x increase run speed), as well as increased exposed particle energy by a factor of more than 1000 (~10 MeV to 100 GeV).
 The particle simulation can be found at [Neutrino Simulation](https://github.com/kkeefe/qpixg4) and the front-end simulation can be found at [RTDs](https://github.com/kkeefe/qpixrtd)
 
 ![DF No Label](https://github.com/kkeefe/qp_dissertation/blob/main/images/df_nolabel_line.png)
-*Comparison of memory requirements for digital ASIC compared to that used in the first chip*
+*Comparison of memory requirements for digital ASIC compared to that used in the first digital ASIC prototype. These results indicate that the current memory is not adequate for capturing neutrino events from the FNAL neutrino beam.*
