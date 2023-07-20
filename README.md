@@ -26,3 +26,35 @@ This prototype is based on the first Q-Pix digital ASIC design also presented in
 We discuss the back-end system requirements for a Q-Pix based readout technology to provide neutrino oscillation measurements up to 10~\unit{GeV}, and present the first demonstration of local oscillator calibrations ($\sim$~0.1~\unit{ppm}).
 Simulations were performed based on radiogenic backgrounds and high-energy neutrino beam line events, providing first constraints on digital back-end requirements in both the quiescent and active states.
 Finally, based on these results from the simulations and prototypes presented here, we discuss the digital back-end readout of a fully realized Q-Pix implementation within a 10~\unit{kT} DUNE-FD module.
+
+## Layman Summary
+
+## Key Results
+
+Below are sections which briefly describe a key figure or result from the three main chapters presented in my thesis.
+
+
+### Simplified Analog Q-Pix (SAQ)
+
+The SAQ experiment used commercial off the shelf (COTS) components to instrument the Q-Pix readout technology in two different liquid Argon time projection chambers (TPCs).
+I developed the data acquisition software and analysis software for this experiment, which collected first results indicating a new method of measurements for transverse diffusion of electrons.
+The controlling DAQ software (written in C, Python, and VHDL) can be found at: [qpix-digital](https://github.com/kkeefe/qpix-digital/tree/master)
+
+[DAQ Summary](https://github.com/kkeefe/qp_dissertation/blob/main/images/saq_daq_firmware_summary.png)
+
+[First Diffusion Hints](https://github.com/kkeefe/qp_dissertation/blob/main/images/SAQ_first_diffusion_measurement.pdf)
+
+### Q-Pix Digital Boards
+
+The high level digital ASIC verification and analysis software can be found at: [neutrino analysis](https://github.com/kkeefe/neutAna)
+
+[Frequency Stability](https://github.com/kkeefe/qp_dissertation/blob/main/images/interrogation_ppm_diff.pdf)
+*Frequency Stability measurements, which are much better than the 1 part per million requirement*
+
+![QDB Design](https://github.com/kkeefe/qp_dissertation/blob/main/images/qdb_closeup.jpg)
+*Design of the Q-Pix Digital Boards*
+
+
+### Q-Pix Towards kiloton liquid argon TPCs in DUNE
+
+The particle simulation can be found at [Neutrino Simulation](https://github.com/kkeefe/qpixg4) and the front-end simulation can be found at [RTDs](https://github.com/kkeefe/qpixrtd)
