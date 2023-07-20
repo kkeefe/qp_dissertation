@@ -43,14 +43,14 @@ The controlling DAQ software (written in C, Python, and VHDL) can be found at: [
 ![DAQ Summary](https://github.com/kkeefe/qp_dissertation/blob/main/images/saq_daq_firmware_summary.png)
 *Summary of the Data Acquisition of the embedded software and firmware I wrote, which is implemented onto a Zybo-Z7 Digilent board*
 
-![First Diffusion Hints](https://github.com/kkeefe/qp_dissertation/blob/main/images/SAQ_first_diffusion_measurement.pdf)
+![First Diffusion Hints](https://github.com/kkeefe/qp_dissertation/blob/main/images/SAQ_first_diffusion_measurement.png)
 *First measurement indicating diffusion which was taken at Wellesley college, courtesy of Nora Hoch.*
 
 ### Q-Pix Digital Boards
 
 The high level digital ASIC verification and analysis software can be found at: [neutrino analysis](https://github.com/kkeefe/neutAna)
 
-![Frequency Stability](https://github.com/kkeefe/qp_dissertation/blob/main/images/interrogation_ppm_diff.pdf)
+![Frequency Stability](https://github.com/kkeefe/qp_dissertation/blob/main/images/interrogation_ppm_diff.png)
 *Frequency Stability measurements, which are much better than the 1 part per million requirement*
 
 ![QDB Design](https://github.com/kkeefe/qp_dissertation/blob/main/images/qdb_closeup.jpg)
@@ -61,5 +61,5 @@ The high level digital ASIC verification and analysis software can be found at: 
 
 The particle simulation can be found at [Neutrino Simulation](https://github.com/kkeefe/qpixg4) and the front-end simulation can be found at [RTDs](https://github.com/kkeefe/qpixrtd)
 
-![DF No Label](https://github.com/kkeefe/qp_dissertation/blob/main/images/df_nolabel_line.pdf)
+![DF No Label](https://github.com/kkeefe/qp_dissertation/blob/main/images/df_nolabel_line.png)
 *Comparison of memory requirements for digital ASIC compared to that used in the first chip*
